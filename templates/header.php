@@ -9,12 +9,13 @@
         <link href="css/styles.css" rel="stylesheet"/>
 
         <?php if (isset($title)): ?>
-            <title>C$50 Finance: <?= htmlspecialchars($title) ?></title>
+            <title>SCAS i4: <?= htmlspecialchars($title) ?></title>
         <?php else: ?>
-            <title>C$50 Finance</title>
+            <title>SCAS i4</title>
         <?php endif ?>
 
-        <script src="js/jquery-1.8.2.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+		<!-- script src="js/jquery.js"></script -->
         <script src="js/bootstrap.js"></script>
         <script src="js/scripts.js"></script>
 

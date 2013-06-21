@@ -1,7 +1,17 @@
 <form action="login.php" method="post">
     <fieldset>
         <div class="control-group">
-            <input autofocus name="username" placeholder="Username" type="text"/>
+			<select autofocus name="userid">
+				<?php 
+					
+					foreach($users as $user)
+					{
+						echo "<option value='" 
+							.$user['UserID'] . "'>"
+							.$user['UserName'] . "</option>"; 
+					}
+				?>
+			</select>
         </div>
         <div class="control-group">
             <input name="password" placeholder="Password" type="password"/>
