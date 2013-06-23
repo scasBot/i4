@@ -160,6 +160,9 @@ textarea {
 
 body {
   margin: 0;
+  width: 940px; 
+  margin-left: auto; 
+  margin-right: auto; 
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
@@ -553,7 +556,6 @@ a:hover {
 .container {
   margin-right: auto;
   margin-left: auto;
-  *zoom: 1;
 }
 
 .container:before,

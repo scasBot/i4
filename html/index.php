@@ -4,6 +4,6 @@
     require("../includes/config.php"); 
 
     // render portfolio
-    render("portfolio.php", array("title" => "Portfolio"));
+    render("main.php", array("title" => "Main Menu"));
 
 ?>

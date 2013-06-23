@@ -33,7 +33,7 @@
                 $_SESSION["id"] = $row["UserID"];
 
                 // redirect to portfolio
-                redirect("/i4/html");
+                redirect("../html");
             }
         }
 

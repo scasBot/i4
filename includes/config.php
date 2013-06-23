@@ -3,7 +3,7 @@
     /***********************************************************************
      * config.php
      *
-     * Computer Science 50
+     * SCAS i4
      * Problem Set 7
      *
      * Configures pages.
