@@ -50,56 +50,6 @@
     }
 
     /**
-     * Returns a stock by symbol (case-insensitively) else false if not found.
-     */
-    function lookup($symbol)
-    {
-        // reject symbols that start with ^
-        if (preg_match("/^\^/", $symbol))
-        {
-            return false;
-        }
-
-        // reject symbols that contain commas
-        if (preg_match("/,/", $symbol))
-        {
-            return false;
-        }
-
-        // open connection to Yahoo
-        $handle = @fopen("http://download.finance.yahoo.com/d/quotes.csv?f=snl1&s=$symbol", "r");
-        if ($handle === false)
-        {
-            // trigger (big, orange) error
-            trigger_error("Could not connect to Yahoo!", E_USER_ERROR);
-            exit;
-        }
-
-        // download first line of CSV file
-        $data = fgetcsv($handle);
-        if ($data === false || count($data) == 1)
-        {
-            return false;
-        }
-
-        // close connection to Yahoo
-        fclose($handle);
-
-        // ensure symbol was found
-        if ($data[2] === "0.00")
-        {
-            return false;
-        }
-
-        // return stock as an associative array
-        return array (
-            "symbol" => $data[0],
-            "name" => $data[1],
-            "price" => $data[2],
-        );
-    }
-
-    /**
      * Executes SQL statement, possibly with parameters, returning
      * an array of all rows in result set or false on (non-fatal) error.
      */
@@ -157,6 +107,122 @@
         }
     }
 
+	// converts an array to a string with the function $kv_fun passed in a $key => $value pair 
+	// and then adding either the $concat or the $end string to the end of each pair from $arr
+	function arr_to_str($kv_fun, $concat, $end, $arr)
+	{
+		$str = ""; 
+		
+		$i = 0; 
+		$total = count($arr); 
+		
+		foreach($arr as $key => $val)
+		{
+			$str .= $kv_fun($key, $val); 
+			$str .= ($i == $total - 1 ? $end : $concat); 
+			$i++; 
+		}
+		
+		return $str; 
+	}
+	
+	/** 
+	* Select items from q_arr with items : "TABLE,", "UPDATE", "WHERE"
+	*
+	* e.g. $q_arr = ["TABLE" => "db_Clients", "UPDATE" => ["FirstName" => "Tom", "LastName" => "Bobbert"], 
+	*					"WHERE" => ["ClientID" => ["=", 1000]]]
+	****/
+	function query_update($q_arr)
+	{
+		// UPDATE clause
+		$query = "UPDATE " . $q_arr["TABLE"]; 
+		
+		if(isset($q_arr["UPDATE"]))
+		{
+			$update_maker = function($k, $v)
+			{
+				return "`" . $k . "`='" . $v . "'"; 
+			}; 
+
+			$query .= "SET " . arr_to_str($update_maker, ", ", " ", $q_arr["UPDATE"]); 
+		}
+		else
+		{
+			return false; 
+		}
+		
+		if(isset($q_arr["WHERE"]))
+		{
+			$where_maker = function($k, $v) 
+			{
+				return "`" . $k . "`" . $v[0] . "'" . $v[1] . "'"; 
+			}; 
+			
+			$query .= "WHERE " . arr_to_str($where_maker, "AND ", " ", $q_arr["WHERE"]); 
+		}			
+		else
+		{
+			return false; 
+		}
+		
+		return query($query); 
+	}
+
+
+	/** 
+	* Select items from q_arr with items : "TABLE," "TO_SELECT," "WHERE," AND "ORDER"
+	*
+	* e.g. $q_arr = ["TABLE" => "db_Clients", "TO_SE$LECT" => ["ClientID", "FirstName", "LastName"], 
+	*					"WHERE" => ["FirstName" => ["=", "Willy"]], ["ClientID" => [">", "1000"]]], "ORDER" => ["LastName" => "ASC", "FirstName" => "DESC"]
+	****/
+	function query_select($q_arr)
+	{		
+		// SELECT clause
+		$query = "SELECT "; 
+
+		if (isset($q_arr["TO_SELECT"]))
+		{
+			$select_maker = function($k, $v)
+			{
+				return "`" . $v . "`"; 
+			}; 
+
+			$query .= arr_to_str($select_maker, ", ", " ", $q_arr["TO_SELECT"]); 
+		}
+		else
+		{
+			$query .= "* "; 
+		}
+		
+		// FROM clause
+		$query .= "FROM " . $q_arr["TABLE"] . " "; 
+		
+		// WHERE clause
+		if (isset($q_arr["WHERE"]))
+		{
+			$where_maker = function($k, $v) 
+			{
+				return "`" . $k . "`" . $v[0] . "'" . $v[1] . "'"; 
+			}; 
+			
+			$query .= "WHERE " . arr_to_str($where_maker, "AND ", " ", $q_arr["WHERE"]); 
+		}
+		
+		// ORDER BY clause
+		if (isset($q_arr["ORDER"]))
+		{
+			$order_maker = function($k, $v)
+			{
+				return "`" . $k . "` " . $v; 
+			}; 
+
+			$query .= "ORDER BY " . arr_to_str($order_maker, ", ", " ", $q_arr["ORDER"]); 
+		}
+		
+		return query($query); 
+	}
+	
+	
     /**
      * Redirects user to destination, which can be
      * a URL or a relative path on the local host.
