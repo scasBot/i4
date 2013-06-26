@@ -4,10 +4,18 @@
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
 		$table = "db_Clients"; 
-		$to_select = array("ClientID", "LastName", "FirstName", "Email", "Phone1AreaCode", "Phone1Number"); 
-		$where = array("FirstName" => array("=", "Michael")); 
-		$order = array("LastName" => "ASC"); 	
-		$rows = query_select(array("TABLE" => $table, "TO_SELECT" => $to_select, "WHERE" => $where, "ORDER" => $order)); 
+		$select = array("FirstName", "LastName", "Phone1AreaCode", "Phone1Number", "Email"); 
+		$rows = array(); 
+		
+		foreach($_POST as $key => $value)
+		{
+			if($key != "PhoneNumber" && $value != "")
+			{
+				$rows = array_merge($rows, query_select(array("TABLE" => $table, "SELECT" => $select, 
+					"WHERE" => array($key => array("=", $value)))));
+			}
+		}
+		
 		
 		if(count($rows) > 0)
 		{

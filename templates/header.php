@@ -73,7 +73,7 @@
         <div class="container">
             <div id="top" class="row">
 				<div class="span12">
-				<a href="/"><img alt="SCAS i4: The Next Generation" src="img/logo.gif"/></a>
+				<a href="/"><img alt="SCAS i4: The Next Generation" src="img/logo.png" style="padding: 10px"/></a>
             </div></div>
 
             <div id="middle" class="row">
