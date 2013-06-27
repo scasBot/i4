@@ -21,7 +21,8 @@
 				<input type="email" id="Email" name="Email" placeholder="president@harvard.edu" />
 			</div>
 			<div class="control-group">
-				<input type="submit" value="Submit" /> 
+				<button class="btn" type="submit">Submit</button>
+				<!-- input type="submit" value="Submit" / --> 
 			</div>
 		</form>
 	</div>

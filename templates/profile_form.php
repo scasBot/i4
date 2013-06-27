@@ -29,7 +29,8 @@
 				</select>
 			</div>
 			<div class="control-group">
-				<input type="submit" value="Edit User" />
+				<button class="btn" type="submit">Edit User</button>
+				<!-- input type="submit" value="Edit User" / -->
 			</div>
 		</form>
 	</div>
