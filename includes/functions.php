@@ -14,12 +14,47 @@
     /**
      * Apologizes to user with message.
      */
-    function apologize($message)
-    {
+    function apologize($message) {
         render("apology.php", array("message" => $message));
         exit;
     }
 
+	// converts an array to a string with the function $kv_fun passed in a $key => $value pair 
+	// and then adding either the $concat or the $end string to the end of each pair from $arr
+	function arr_to_str($kv_fun, $concat, $end, $arr) {
+		$str = ""; 
+		$i = 0; 
+		$total = count($arr); 
+		
+		foreach($arr as $key => $val) {
+			$str .= $kv_fun($key, $val); 
+			$str .= ($i == $total - 1 ? $end : $concat); 
+			$i++; 
+		}
+		
+		return $str; 
+	}
+	
+	// assert that all variables inside $var_array isset, if not, apologize
+	function assert_isset($var_array) {
+		$missing = 0; 
+		$apologize = "Following variables are unset : "; 
+		
+		foreach($var_array as $var_name) {
+			if(!isset(${$var_name})){
+				$missing++; 
+				$apologize .= " " . $var_name; 
+			}
+		}
+		
+		$apologize .= ($missing > 1 ? " are unset." : " is unset."); 
+		
+		if($missing > 0)
+			apologize($apologize); 
+		else
+			return true; 
+	}
+	
     /**
      * Facilitates debugging by dumping contents of variable
      * to browser.
@@ -106,25 +141,6 @@
             return false;
         }
     }
-
-	// converts an array to a string with the function $kv_fun passed in a $key => $value pair 
-	// and then adding either the $concat or the $end string to the end of each pair from $arr
-	function arr_to_str($kv_fun, $concat, $end, $arr)
-	{
-		$str = ""; 
-		
-		$i = 0; 
-		$total = count($arr); 
-		
-		foreach($arr as $key => $val)
-		{
-			$str .= $kv_fun($key, $val); 
-			$str .= ($i == $total - 1 ? $end : $concat); 
-			$i++; 
-		}
-		
-		return $str; 
-	}
 	
 	/** 
 	* Select items from q_arr with items : "TABLE,", "UPDATE", "WHERE"
@@ -175,22 +191,18 @@
 	* e.g. $q_arr = ["TABLE" => "db_Clients", "TO_SE$LECT" => ["ClientID", "FirstName", "LastName"], 
 	*					"WHERE" => ["FirstName" => ["=", "Willy"]], ["ClientID" => [">", "1000"]]], "ORDER" => ["LastName" => "ASC", "FirstName" => "DESC"]
 	****/
-	function query_select($q_arr)
-	{		
+	function query_select($q_arr) {		
 		// SELECT clause
 		$query = "SELECT "; 
 
-		if (isset($q_arr["TO_SELECT"]))
-		{
-			$select_maker = function($k, $v)
-			{
+		if (isset($q_arr["TO_SELECT"])) {
+			$select_maker = function($k, $v) {
 				return "`" . $v . "`"; 
 			}; 
 
 			$query .= arr_to_str($select_maker, ", ", " ", $q_arr["TO_SELECT"]); 
 		}
-		else
-		{
+		else {
 			$query .= "* "; 
 		}
 		
@@ -198,10 +210,8 @@
 		$query .= "FROM " . $q_arr["TABLE"] . " "; 
 		
 		// WHERE clause
-		if (isset($q_arr["WHERE"]))
-		{
-			$where_maker = function($k, $v) 
-			{
+		if (isset($q_arr["WHERE"])) {
+			$where_maker = function($k, $v) {
 				return "`" . $k . "`" . $v[0] . "'" . $v[1] . "'"; 
 			}; 
 			
@@ -209,17 +219,15 @@
 		}
 		
 		// ORDER BY clause
-		if (isset($q_arr["ORDER"]))
-		{
-			$order_maker = function($k, $v)
-			{
+		if (isset($q_arr["ORDER"])) {
+			$order_maker = function($k, $v) {
 				return "`" . $k . "` " . $v; 
 			}; 
 
 			$query .= "ORDER BY " . arr_to_str($order_maker, ", ", " ", $q_arr["ORDER"]); 
 		}
 		
-		return query($query); 
+		return $query; 
 	}
 	
 	

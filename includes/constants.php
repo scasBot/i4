@@ -3,12 +3,12 @@
     /***********************************************************************
      * constants.php
      *
-     * Computer Science 50
-     * Problem Set 7
+     * SCASi4
      *
      * Global constants.
      **********************************************************************/
 
+	//** MYSQL DATABASE ITEMS **//
     // your database's name
     define("DATABASE", "scas");
 
@@ -21,4 +21,11 @@
     // your database's username
     define("USERNAME", "scas");
 
+	//** OTHER CONSTANTS **//
+	define("ROOT", "/i4/html"); 
+	/*
+	define("ROOT", realpath(
+					dirname(
+						dirname(__FILE__))) . "/html"
+			); */
 ?>

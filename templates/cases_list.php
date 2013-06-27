@@ -11,8 +11,7 @@
 			</thead>
 			<tbody>
 				<?php
-					foreach($cases as $case)
-					{
+					foreach($cases as $case) {
 						echo "<tr name='client' id='" . $case["ClientID"] . "' style='cursor : pointer'>"; 
 						echo "<td/>"; 
 						echo "<td>" . $case["LastName"]. ", " . $case["FirstName"] . "</td>"; 
@@ -21,8 +20,7 @@
 						echo "</tr>"; 
 					}
 					
-					if(!empty($addnew))
-					{
+					if(!empty($addnew)) {
 						echo "<tr name='newclient' style='cursor : pointer'>"; 
 						echo "<td><b>Add New: </b></td>"; 
 						echo "<td>" . $addnew["LastName"] . ", " . $addnew["FirstName"] . "</td>";
@@ -39,18 +37,12 @@
 </div>
 <script>
 	// for the clients now
-	$("tr[name='client']").click(function ()
-	{		
-		$("#javascript-form").attr("action", "show_client.php"); 
-
-		var inputHTML = "<input type='hidden' name='ClientID' value='" + $(this).attr('id') + "' />";
-		$("#javascript-form").append(inputHTML);
-		$("#javascript-form").submit(); 
+	$("tr[name='client']").click(function () {		
+		window.location.href = "client.php?ClientID=" + $(this).attr('id')
 	}); 
 	
 	// for adding a new client
-	$("tr[name='newclient']").click(function ()
-	{
+	$("tr[name='newclient']").click(function () {
 		$("#javascript-form").attr("action", "newclient.php"); 
 		
 		var lastName = "<input type='hidden' name='LastName' value'<?php echo $addnew["LastName"] ?>' />"; 
@@ -62,5 +54,3 @@
 		$("#javascript-form").submit(); 
 	}); 
 </script>
-<?php
-?>

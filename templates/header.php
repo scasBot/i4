@@ -26,6 +26,7 @@
 		<!-- script src="js/jquery.js"></script -->
         <script src="js/bootstrap.js"></script>
         <script src="js/scripts.js"></script>
+		<script src="js/js_constants.php"></script>
 
     </head>
 
@@ -74,8 +75,8 @@
             <div id="top" class="row">
 				<div class="span12">
 				<a href="/"><img alt="SCAS i4: The Next Generation" src="img/logo.png" style="padding: 10px"/></a>
-            </div></div>
+				</div>
+			</div>
 
-            <div id="middle" class="row">
-			<div class="span12">
+            <div id="middle">
 

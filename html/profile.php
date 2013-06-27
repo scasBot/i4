@@ -7,7 +7,7 @@
 		$table = "i3_Users"; 
 		$where = array("UserID" => array("=", $_SESSION["id"])); 
 		
-		$rows = query_select(array("TABLE" => $table, "WHERE" => $where)); 
+		$rows = query(query_select(array("TABLE" => $table, "WHERE" => $where))); 
 		 
 		if(count($rows) == 1)
 		{
@@ -18,9 +18,9 @@
 			apologize("Sorry, something's wrong with the database."); 
 		}
 	}
-	else
+	else if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
-		
+		render("profile_form.php", array("title" => "Profile", "user" => $rows[0])); 
 	}
 		
 ?>

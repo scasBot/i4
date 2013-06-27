@@ -11,8 +11,8 @@
 		{
 			if($key != "PhoneNumber" && $value != "")
 			{
-				$rows = array_merge($rows, query_select(array("TABLE" => $table, "SELECT" => $select, 
-					"WHERE" => array($key => array("=", $value)))));
+				$rows = array_merge($rows, query(query_select(array("TABLE" => $table, "SELECT" => $select, 
+					"WHERE" => array($key => array("=", $value))))));
 			}
 		}
 		
