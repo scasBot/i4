@@ -76,9 +76,9 @@
 					); 
 		
 		// sort contacts by date
-		$compare = function($a, $b) {
-			return $b["ContactDate"] - $a["ContactDate"]; 
-		}; 
+		$compare = create_function("\$a,\$b", 
+			"return \$b['ContactDate'] - \$a['ContactDate'];"); 
+
 		usort($contacts, $compare); 
 		
 		render("client_form.php", array("title" => "Client", "client" => $client, "contacts" => $contacts)); 
