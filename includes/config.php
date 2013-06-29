@@ -4,7 +4,6 @@
      * config.php
      *
      * SCAS i4
-     * Problem Set 7
      *
      * Configures pages.
      **********************************************************************/
@@ -16,6 +15,7 @@
     // requirements
     require("constants.php");
     require("functions.php");
+	require("libraries/ALL.php"); 
 
     // enable sessions
     session_start();

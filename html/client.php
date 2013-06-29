@@ -37,8 +37,45 @@
 					)
 			)
 		)); 
+
+		$client = array("ClientID" => 32794, 
+						"FirstName" => "Willy", 
+						"LastName" => "Xiao", 
+						"Phone1Number" => 6785514386, 
+						"Phone2Number" => 6785840345,
+						"Email" => "willy@chenxiao.us", 
+						"Address" => "201 Southern Hill Dr", 
+						"City" => "Johns Creek", 
+						"State" => "GA", 
+						"Zip" => 30097, 
+						"InUSA" => true, 
+						"Language" => "English", 
+						"ClientNotes" => "This client is a baus.", 
+						"Category" => "Auto Law", 
+						"CaseType" => "Assisted"); 
 		
-		render("client_form.php", array("title" => "Client", "client" => $client[0], "contacts" => $contacts)); 
+		$contacts = array(
+						array(
+							"ContactID" => 57,
+							"UserName" => "Willy Xiao", 
+							"ContactDate" => "05-11-13, 15:00",  
+							"ContactEditDate" =>"05-11-13, 15:00", 
+							"ContactType" => "Called, helped by phone", 
+							"ContactSummary" => "This is a big deal that willy is in our database" . 
+												"OMG he should like totes be in our database \n" . 
+												"nomsayin' nomsayin'?"), 
+						array(
+							"ContactID" => 40,
+							"UserName" => "Willy Xiao", 
+							"ContactDate" => "03-11-13, 15:00", 
+							"ContactEditDate" => "05-11-13, 15:03", 
+							"ContactType" => "Added Client", 
+							"ContactSummary" => "This is a big deal that willy is in our database" . 
+												"OMG he should like totes be in our database \n" . 
+												"nomsayin' nomsayin'?")							
+					); 
+		
+		render("client_form.php", array("title" => "Client", "client" => $client, "contacts" => $contacts)); 
 	}
 	else if($_SERVER["REQUEST_METHOD"] == "POST")
 	{

@@ -18,13 +18,10 @@
 			<div class="control-group">
 				<label for="YOG" class="control-label">Graduation Year</label>
 				<select id="YOG" name="YOG">
-					<option value="<?php echo $user["YOG"] ?>"><?php echo $user["YOG"] ?></option>
 					<?php 
-						for($i = 2012; $i < (date("Y") + 5); $i++)
-						{
-							if($i != $user["YOG"])							
-								echo "<option value='$i'>$i</option>"; 
-						}
+						for($i = 2012; $i < (date("Y") + 5); $i++) {
+							echo htmlOption($i, $i, $i == $user["YOG"]); 
+						}						
 					?>
 				</select>
 			</div>

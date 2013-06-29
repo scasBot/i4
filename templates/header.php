@@ -26,7 +26,7 @@
 		<!-- script src="js/jquery.js"></script -->
         <script src="js/bootstrap.js"></script>
         <script src="js/scripts.js"></script>
-		<script src="js/js_constants.php"></script>
+		<script src="js/validate.js"></script>
 
     </head>
 
@@ -79,4 +79,4 @@
 			</div>
 
             <div id="middle">
-
+			<br/>
