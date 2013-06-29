@@ -11,7 +11,7 @@ function isValidEmail(email) {
 	return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)); 
 }  
 
-// checks if a phone number has 10 digits
+// phone validator 10 digits
 function isValidPhone(phonenumber) {
 	return /^[0-9]{10}$/.test(toNumbers(phonenumber)); 
 }

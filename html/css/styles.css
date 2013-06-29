@@ -37,3 +37,50 @@
     /* center contents */
     text-align: center;
 }
+
+.contact-form-header
+{
+	padding-bottom: 10px; 
+	font-size: 20px; 
+	font-family: inherit;
+}
+.contact-form-row
+{
+	padding-top: 10px; 
+	padding-bottom: 10px; 
+	min-height: 50px; 
+	font-family: inherit; 
+}
+
+.contact-form-row:hover
+{
+	background-color: #DDDDDD; 
+	cursor: pointer; 
+}
+
+.contact-form-row .contact-form-summary
+{
+	text-align: left; 
+}
+
+.contact-form-new
+{
+	background-color: #DDDDEE; 
+	height: 20px; 
+	padding-bottom: 10px;
+	padding-top: 10px; 
+}
+
+.contact-form-new:hover
+{
+	background-color: #FFDDFF;
+	cursor: pointer; 
+}
+
+.contact-edit-row
+{
+	padding-top: 10px; 
+	padding-bottom: 10px; 
+	min-height: 70px; 
+	border: 2px solid black; 
+}

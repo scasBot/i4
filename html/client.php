@@ -57,23 +57,29 @@
 		$contacts = array(
 						array(
 							"ContactID" => 57,
-							"UserName" => "Willy Xiao", 
-							"ContactDate" => "05-11-13, 15:00",  
-							"ContactEditDate" =>"05-11-13, 15:00", 
+							"UserName" => array("Edit" => "Willy Xiao", "Added" => "Vignesh Shivishanmugam the Third"), 
+							"ContactDate" => "2013-05-11 15:00:12",  
+							"ContactEditDate" =>"2013-03-3 15:12:13", 
 							"ContactType" => "Called, helped by phone", 
 							"ContactSummary" => "This is a big deal that willy is in our database" . 
 												"OMG he should like totes be in our database \n" . 
 												"nomsayin' nomsayin'?"), 
 						array(
 							"ContactID" => 40,
-							"UserName" => "Willy Xiao", 
-							"ContactDate" => "03-11-13, 15:00", 
-							"ContactEditDate" => "05-11-13, 15:03", 
+							"UserName" => array("Edit" => "Willy Xiao", "Added" => "Bitch ass Bomb"), 
+							"ContactDate" => "2013-06-12 15:00:22", 
+							"ContactEditDate" => "2013-05-11 15:03:12", 
 							"ContactType" => "Added Client", 
-							"ContactSummary" => "This is a big deal that willy is in our database" . 
+							"ContactSummary" => "AA This is a big deal that willy is in our database" . 
 												"OMG he should like totes be in our database \n" . 
 												"nomsayin' nomsayin'?")							
 					); 
+		
+		// sort contacts by date
+		$compare = function($a, $b) {
+			return $b["ContactDate"] - $a["ContactDate"]; 
+		}; 
+		usort($contacts, $compare); 
 		
 		render("client_form.php", array("title" => "Client", "client" => $client, "contacts" => $contacts)); 
 	}

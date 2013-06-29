@@ -1,4 +1,5 @@
-<form class="form-horizontal" action="client.php" method="post">
+<form id="clientForm" class="form-horizontal" action="client.php" method="post">
+<legend>Client Info</legend>
 <div class="row">
 	<div class="span6">
 		<div class="control-group">
@@ -91,11 +92,10 @@
 	</div>
 </div>
 </form>
-<button id="updateClient" class="btn" >Update Client</button>
+<button id="updateClient" class="btn" >Update Client Info</button>
 <script>
 	// stuff here that allows editing / updating
 </script>
 <br />
-<?php
-	require("contact_form.php"); 
-?>
+<br />
+<?php require("contact_form.php"); ?>

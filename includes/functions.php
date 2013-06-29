@@ -102,6 +102,24 @@
         exit;
     }
 
+	/**
+	* Returns a random quote
+	*/
+	function random_quote($seed_number = NULL) {
+		$quotes = array(
+			"Freedom lies in being bold - Robert Frost", 
+			"Not all who wonder are lost - J.R.R. Tolkein", 
+			"Waddup - Willy Xiao", 
+			"Everything has beauty but not everyone sees it - Confucius", 
+			"Be a yardstick of quality. Some people aren't used to an environment where excellence is expected - Steve Jobs"); 
+			
+		if(!$seed_number) {
+			$seed_number = rand(1, count($quotes)); 
+		}
+		
+		return $quotes[$seed_number - 1]; 
+	}
+	
     /**
      * Renders template, passing in values.
      */
