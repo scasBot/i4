@@ -45,3 +45,13 @@ function toSqlDate(now) {
 function currentSqlDate() { 
 	return toSqlDate(new Date()); 	
 }
+
+// selectOption in dropdown
+function selectOption(selectObject, key) {
+	selectObject.find("option").each(function () {
+		var text = $(this).text(); 
+		if (text == key) {
+			$(this).prop('selected', true); 
+		}
+	}); 
+}

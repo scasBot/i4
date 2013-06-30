@@ -18,6 +18,8 @@
 
         // query database for user
         $rows = query("SELECT * FROM i3_Passwords WHERE `UserId`=?", $_POST["userid"]);
+		$user = query("SELECT `UserName` FROM i3_Users WHERE `UserID`=?", $_POST['userid']); 
+	
 
 		
         // if we found user, check password
@@ -31,6 +33,7 @@
             {
                 // remember that user's now logged in by storing user's ID in session
                 $_SESSION["id"] = $row["UserID"];
+				$_SESSION["username"] = $user[0]["UserName"]; 
 
                 // redirect to portfolio
                 redirect("../html");
