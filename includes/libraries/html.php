@@ -20,7 +20,7 @@ function htmlLis($arr) {
 
 // <option value=val>key</option>
 function htmlOption($text, $val, $selected = false) {
-	$html = "<option value=\"" . $val . "\" " . ($selected ? "selected" : "")
+	$html = "<option value='" . $val . "' " . ($selected ? "selected" : "")
 		. " >" . $text . "</option>"; 
 	
 	return $html; 
