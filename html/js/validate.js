@@ -1,5 +1,5 @@
 /***********************************************************************
- * scripts.js
+ * validate.js
  *
  * SCASi4
  *
@@ -19,4 +19,20 @@ function isValidPhone(phonenumber) {
 // returns all the digits in string
 function toNumbers(phonenumber) {
 	return phonenumber.replace(/[^0-9]/g,"");  
+}
+
+// checks if a number is valid mysql syntax
+function isValidMysqlSyntax(date) {
+	return /^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/.test(date); 
+}
+
+// checks if a date is valid
+function isValidDate(date) {
+	var dateObject = new Date(date); 	
+	return dateObject.toString() != "Invalid Date"; 
+}
+
+// checks both mysql date and date object
+function isValidMysqlDate(date) {
+	return isValidMysqlSyntax(date) && isValidDate(date); 
 }

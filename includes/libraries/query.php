@@ -57,8 +57,9 @@ function query(/* $sql [, ... ] */) {
 	}
 }
 
-// converts an array to a string with the function $kv_fun passed in a $key => $value pair 
-// and then adding either the $concat or the $end string to the end of each pair from $arr
+/** converts an array to a string with the function $kv_fun passed in a $key => $value pair 
+ * and then adding either the $concat or the $end string to the end of each pair from $arr
+ **/
 function arr_to_str($kv_fun, $concat, $end, $arr) {
 	$str = ""; 
 	$i = 0; 
@@ -110,7 +111,6 @@ function query_update($q_arr) {
 		return query($query); 
 	}
 
-
 /** 
 * Return query string from q_arr with items : "TABLE," "TO_SELECT," "WHERE," AND "ORDER"
 *
@@ -147,7 +147,7 @@ function query_select($q_arr) {
 			$order_maker = create_function("\$k, \$v", 
 				"return \"`\" . \$k . \"` \" . \$v; "); 
 
-			$query .= "ORDER BY " . arr_to_str(order_maker, ", ", " ", $q_arr["ORDER"]); 
+			$query .= "ORDER BY " . arr_to_str($order_maker, ", ", " ", $q_arr["ORDER"]); 
 		}
 		
 		return $query; 

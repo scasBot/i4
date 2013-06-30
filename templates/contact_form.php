@@ -8,36 +8,55 @@
 		<div class="span2">Added by</div>
 	</div>
 	<?php
-		function contact_form_edit_html ($contact) {
+		function contact_form_edit_html ($contact = NULL) {
+			global $contact_types; 
+		
+			$id = ($contact ? $contact["ContactID"] : 0); 
+			$date = ($contact ? $contact["ContactDate"] : 0); 
+			$options = ($contact ? htmlOptions($contact_types, $contact["ContactType"]) : 
+				htmlOptions($contact_types));  
+			$summary = ($contact ? $contact["ContactSummary"] : ""); 
+			
 			return 
 				"
-				<form id='EditContact".$contact['ContactID']."' class='contact-edit-form form-horizontal' hidden>
+				<form id='EditContact".$id."' class='contact-edit-form form-horizontal' hidden>
 					<div class='row contact-edit-row'>
 						<div class='row'>
 							<div class='span6'>
 								<div class='control-group'>
 									<label class='control-label'>Date: </label>
 									<div class='controls'>
-										<input type='text' name='ContactDate' value='" . $contact["ContactDate"] ."' />
+										<input type='text' name='ContactDate' value='" . $date ."' data-title='Invalid' />
 									</div>
 								</div>
 								<div class='control-group'>
 									<label class='control-label'>Type: </label>
 									<div class='controls'>
 										<select name='ContactType' >
-											". htmlOptions(array("Called, helped by phone", "Added Client"), $contact["ContactType"]) ."
+											". $options ."
 										</select>
 									</div>
 								</div>
 							</div>
 							<div class='span6'>
-								<textarea class='field span5' rows='6' name='ContactSummary'>".$contact["ContactSummary"]."</textarea>
+								<textarea class='field span5' rows='6' name='ContactSummary'>".$summary."</textarea>
 							</div>
 						</div>
 						<br />
 						<div class='row'>
-							<button type='button' id='contact-edit-row-update". $contact["ContactID"] ."' class='btn' onclick='updateContact(".$contact['ContactID'].")'>Update</button>
-							<button type='button' id='contact-edit-row-undo" .$contact["ContactID"] ."' class='btn' onclick='undoContact(".$contact['ContactID'].")'>Undo</button>
+							<div class='span2'></div>
+							<div class='span3'>
+								<button type='button' id='contact-edit-row-update". $id ."' class='btn' onclick='updateContact(".$id.")'>Save</button>
+							</div>
+							<div class='span2'>
+								<button type='button' id='contact-edit-row-undo" .$id ."' class='btn' onclick='undoContact(".$id.")'>Undo</button>
+							</div>
+							<div class='span3'>
+								<button type='button' id='contact-edit-row-delete". $id ."' class='btn' ".
+									($contact ? "onclick='deleteContact(".$id.")'" : "disabled").
+									">Delete</button>
+							</div>
+							<div class='span2'></div>
 						</div> 			
 					</div>
 				</form>
@@ -45,11 +64,13 @@
 		}
 	?>
 	<div class='row contact-form-new' onclick="newContact()" data-title="Add New Contact" data-content="<?php echo random_quote()?>">Add New</div>
+	<?php echo contact_form_edit_html() ?>
 	<?php
 		foreach($contacts as $contact) {
 			echo 
-			"<div id='Contact".$contact['ContactID']."' class='row contact-form-row'" . 
-					"data-title='Last Edit' 
+			"<div id='Contact".$contact['ContactID']."' class='row contact-form-row' 
+					onclick='showEdit(".$contact['ContactID'].")' 
+					data-title='Last Edit' 
 					data-content='". $contact["UserName"]["Edit"] 
 					." on " .$contact["ContactEditDate"] ."'> 
 				<div class='span2'>
@@ -85,24 +106,57 @@
 	/* EDIT ROW */
 	$(".contact-edit-form").hide(); 
 	
-	function toggle_edit() {
-		$(this).hide(); 
-		var id = $(this).attr("id"); 
-		var selector = "#Edit" + id; 
-		$(selector).show(); 
+	function showEdit(id) {
+		$("#Contact" + id).hide(); 
+		$("#EditContact" + id).show(); 
 	}
 
-	$(".contact-form-row").bind("click", toggle_edit); 	
-	
-	// ================================ //
+	function myReset (id) {
+		$("#EditContact" + id).find("[name='ContactDate']").popover('hide'); 
+	}
+
 	function undoContact (id) {
 		document.getElementById("EditContact" + id).reset(); 
+		myReset(id); 
 		$("#EditContact" + id).hide(); 		
-		$("#Contact" + id).show(); 
+		
+		if(id != 0) {
+			$("#Contact" + id).show(); 
+		}
 	}
 
-	function updateContact() {
-	}	
+	function newContact() {
+		$("#EditContact0").show();
+		var now = currentSqlDate(); 
+		$("#EditContact0").find("input[name='ContactDate']").val(now); 
+	}
+
+	function updateContact(id) {
+		if(checkDateInput(id)) {
+			
+		}
+	}
+	
+	function checkDateInput(id) {
+		var dateInput = $("#EditContact" + id).find("[name='ContactDate']");		
+		
+		if(isValidDate(dateInput.val())) {
+			var date_inputted = new Date(dateInput.val()); 
+			dateInput.val(toSqlDate(date_inputted)); 
+			return true; 
+		}
+		else {
+			var msg = (isValidMysqlSyntax(dateInput.val()) ? 
+					"the date you entered is invalid...please consult a calendar" : 
+					"Format in the following way:  YYYY-MM-DD hh:mm:ss"); 					
+			dateInput.popover({content : msg}); 
+			dateInput.popover('show')
+			dateInput.bind('click', function () {dateInput.popover('hide')}); 
+			return false; 		
+		}
+	}
+	
+	
 </script>
 <br />
 <br />

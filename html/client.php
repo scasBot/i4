@@ -38,6 +38,28 @@
 			)
 		)); 
 
+		// contact_types 
+		$contact_type_rows = query(query_select(
+			array(
+				"TABLE" => "db_ContactTypes", 
+				"WHERE" => 
+					array("Visible" => 
+						array(
+							"=", 
+							1
+						)
+					), 
+				"ORDER" => 
+					array("Description" => "ASC"
+					)		
+			)			
+		)); 
+
+		$contact_types = array(); 		
+		foreach($contact_type_rows as $row) {
+				$contact_types[$row['ContactTypeID']] = $row['Description']; 
+		}
+		
 		$client = array("ClientID" => 32794, 
 						"FirstName" => "Willy", 
 						"LastName" => "Xiao", 
@@ -69,7 +91,7 @@
 							"UserName" => array("Edit" => "Willy Xiao", "Added" => "Bitch ass Bomb"), 
 							"ContactDate" => "2013-06-12 15:00:22", 
 							"ContactEditDate" => "2013-05-11 15:03:12", 
-							"ContactType" => "Added Client", 
+							"ContactType" => "Create client record", 
 							"ContactSummary" => "AA This is a big deal that willy is in our database" . 
 												"OMG he should like totes be in our database \n" . 
 												"nomsayin' nomsayin'?")							
@@ -78,10 +100,9 @@
 		// sort contacts by date
 		$compare = create_function("\$a,\$b", 
 			"return \$b['ContactDate'] - \$a['ContactDate'];"); 
-
 		usort($contacts, $compare); 
 		
-		render("client_form.php", array("title" => "Client", "client" => $client, "contacts" => $contacts)); 
+		render("client_form.php", array("title" => "Client", "client" => $client, "contacts" => $contacts, "contact_types" => $contact_types)); 
 	}
 	else if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
