@@ -53,7 +53,7 @@ function query(/* $sql [, ... ] */) {
 	}
 	else
 	{
-		return false;
+		return "FAIL";
 	}
 }
 
@@ -82,11 +82,11 @@ function arr_to_str($kv_fun, $concat, $end, $arr) {
 ****/
 function query_update($q_arr) {
 		// UPDATE clause
-		$query = "UPDATE " . $q_arr["TABLE"]; 
+		$query = "UPDATE " . $q_arr["TABLE"] . " "; 
 		
 		if(isset($q_arr["UPDATE"]))
 		{
-			$update_maker = create_function("$k,$v", "
+			$update_maker = create_function("\$k,\$v", "
 				return \"`\" . \$k . \"`='\" . \$v . \"'\";"); 
 
 			$query .= "SET " . arr_to_str($update_maker, ", ", " ", $q_arr["UPDATE"]); 
@@ -98,7 +98,7 @@ function query_update($q_arr) {
 		
 		if(isset($q_arr["WHERE"]))
 		{
-			$where_maker = create_function("$k,$v", " 
+			$where_maker = create_function("\$k,\$v", " 
 				return \"`\" . \$k . \"`\" . \$v[0] . \"'\" . \$v[1] . \"'\";"); 
 			
 			$query .= "WHERE " . arr_to_str($where_maker, "AND ", " ", $q_arr["WHERE"]); 
@@ -108,7 +108,7 @@ function query_update($q_arr) {
 			return false; 
 		}
 		
-		return query($query); 
+		return $query; 
 	}
 
 /** 

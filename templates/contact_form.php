@@ -133,7 +133,27 @@
 
 	function updateContact(id) {
 		if(checkDateInput(id)) {
-			
+			var editDiv = $("#EditContact" + id); 
+		
+			var data = {}; 
+			data.REQ = "contact"; 
+			data.ContactID = id; 
+			data.UserEditID = <?php echo $_SESSION["id"] ?>; 
+			data.ContactEditDate = currentSqlDate(); 
+			data.ContactDate = editDiv.find("[name='ContactDate']").val(); 
+			data.ContactTypeID = editDiv.find("[name='ContactType']").val(); 
+			data.ContactSummary = editDiv.find("[name='ContactSummary']").val(); 
+		
+		
+			$.ajax({
+				url : "ajax.php",
+				type: "POST",
+				data : data,
+				success : function(r, s, t) {
+					alert(r); 
+				}
+			}); 
+			return; 
 		}
 	}
 	
@@ -154,9 +174,7 @@
 			dateInput.bind('click', function () {dateInput.popover('hide')}); 
 			return false; 		
 		}
-	}
-	
-	
+	}	
 </script>
 <br />
 <br />
