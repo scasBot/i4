@@ -98,4 +98,7 @@
 </script>
 <br />
 <br />
-<?php require("contact_form.php"); ?>
+<?php 
+	require("contact_form.php"); 
+	require("old_contact_form.php"); 
+?>

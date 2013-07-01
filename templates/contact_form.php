@@ -10,9 +10,17 @@
 <div class='row contact-form-new' onclick="newContact()" data-title="Add New Contact" data-content="<?php echo random_quote()?>">Add New</div>
 <div id="PutContactsHere">
 </div>
+<br />
+<br />
 <script>
+	// contacts as JSON from server
 	var contacts = <?php echo json_encode($contacts) ?>; 
 
+	// global variables needed to run
+	var state = {
+		newContactShown : false,  
+	}
+	
 	// given a contactID, get the contact
 	function getContact(id) {
 		for(n in contacts) {
@@ -22,7 +30,8 @@
 		}		
 		return null; 
 	}
-	
+
+	// displays the html for each contact
 	function contactDisplayHTML(contact) {
 		var id = contact.ContactID; 
 
@@ -54,9 +63,11 @@
 	
 	/* NOTE: you must manually select ContactType */
 	function contactEditHTML(contact) {
-		var id = contact.ContactID; 
-		var ContactDate = (id == 0 ? currentSqlDate() : contact.ContactDate); 
-		var ContactSummary = (id == 0 ? "" : contact.ContactSummary); 
+		var isNew = (arguments.length < 1);
+		
+		var id = (isNew ? 0 : contact.ContactID); 
+		var ContactDate = (isNew ? currentSqlDate() : contact.ContactDate); 
+		var ContactSummary = (isNew ? "" : contact.ContactSummary); 
 		
 		var html =  
 		"<form id='EditContact" + id + "' class='contact-edit-form form-horizontal' hidden>" 
@@ -122,7 +133,8 @@
 	function undoContact (id) {
 		document.getElementById("EditContact" + id).reset(); 
 		myReset(id); 
-		$("#EditContact" + id).hide(); 		
+		$("#EditContact" + id).hide(); 
+		state.newContactShown = false; 
 		
 		if(id != 0) {
 			$("#Contact" + id).show(); 
@@ -130,8 +142,11 @@
 	}
 
 	function newContact() {
-		$("#PutContactsHere").prepend(contactEditHTML({ContactID : 0})); 
-		$("#EditContact0").show(); 
+		if(!state.newContactShown) {
+			$("#PutContactsHere").prepend(contactEditHTML()); 
+			state.newContactShown = true; 
+			$("#EditContact0").show(); 
+		}
 	}
 
 	function updateContact(id) {
@@ -198,13 +213,29 @@
 			return false; 		
 		}
 	}	
-</script>
-<script>	
-	$(document).ready(function() {
+	
+	function display() {
+		$("#PutContactsHere").html(""); 
+		
+		contacts.sort(function(a, b) {
+			return (new Date(b.ContactDate)) - (new Date(a.ContactDate)); 
+		}); 
+		
 		for(n in contacts) {
 			var html = contactDisplayHTML(contacts[n]); 
 			$("#PutContactsHere").append(html); 
 		}
+	}
+</script>
+
+<!-- MAIN SCRIPT FOR THIS PAGE HERE -->
+<script>	
+	$(document).ready(function() {
+		/*for(n in contacts) {
+			var html = contactDisplayHTML(contacts[n]); 
+			$("#PutContactsHere").append(html); 
+		}*/
+		display(); 
 
 		$(function() {
 			$(".contact-form-row").popover({trigger: 'hover'}); 
@@ -215,7 +246,3 @@
 		}); 		
 	}); 
 </script>
-<br />
-<br />
-<?php
-?>	

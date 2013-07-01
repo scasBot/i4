@@ -18,6 +18,7 @@
         exit;
     }
 	
+/* IF NO FAILURES, DELETE BY 7/2/2013 
 	// assert that all variables inside $var_array isset, if not, apologize
 	function assert_isset($var_array) {
 		$missing = 0; 
@@ -37,6 +38,7 @@
 		else
 			return true; 
 	}
+*/
 	
     /**
      * Facilitates debugging by dumping contents of variable

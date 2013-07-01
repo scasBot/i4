@@ -23,32 +23,14 @@ define("QUERY_SERVER", SERVER);
 define("QUERY_USERNAME", USERNAME);
 // << END EDIT HERE >> //
 
-
-function reduce_kv($callback, $initial, $arr) {
-	$return = $initial; 
-
-	foreach($arr as $key => $value) {
-		$return = $callback($key, $value, $return); 
-	}
-	
-	return $return; 
-}
-
-function map_kv($callback, $arr) {
-	$return = array(); 
-
-	foreach($arr as $key => $value) {
-		$return = array_merge($return, (array) $callback($key, $value)); 
-	}
-	
-	return $return; 
-}
-
 require("check.php"); 
 	/* functions that check code is valid (e.g. assert statements) */
 
 require("html.php"); 
 	/* all functions begin with html and are written in camelCase */
+
+require("manipulations.php"); 
+	/* helper functions to manipulate arrays, strings, etc., */
 
 require("query.php"); 
 	/* all functions begin with query and are written in php_case */	
