@@ -50,6 +50,31 @@
         exit;
     }
 
+	/**
+	* Returns values as a function fo keys from the database
+	*
+	**/
+	function unique_lookup($table, $key, $key_field, $val_field) {
+		$results = query(query_select(array(
+			"TABLE" => $table, 
+			"WHERE" => array($key_field => 
+				array("=", $key)))
+		));
+		
+		assert2(count($results) == 1, $key_field .": ". $key . " did not return 1 match"); 
+		
+		$result = $results[0]; 
+		return $result[$val_field]; 		
+	}
+
+	function get_username($user_id) {
+		return unique_lookup("i3_Users", $user_id, "UserID", "UserName"); 
+	}
+	
+	function get_contacttype($contacttype_id) {
+		return unique_lookup("db_ContactTypes", $contacttype_id, "ContactTypeID", "Description"); 
+	}
+	
     /**
      * Logs out current user, if any.  Based on Example #1 at
      * http://us.php.net/manual/en/function.session-destroy.php.
