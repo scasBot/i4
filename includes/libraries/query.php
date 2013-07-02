@@ -57,6 +57,48 @@ function query(/* $sql [, ... ] */) {
 	}
 }
 
+/****
+* Return query string from q_arr with items : "TABLE", "WHERE"
+*
+*********/
+function query_delete($q_arr) {
+	$query = "DELETE FROM `" . $q_arr["TABLE"] . "` "; 
+	
+	if(!isset($q_arr["WHERE"])) {
+		return Null; 
+	}
+	
+	$where_maker = create_function("\$k,\$v", 
+		"return \"`\" . \$k . \"`\" . \$v[0] . \"'\" . \$v[1] . \"'\";"); 
+			
+	$query .= "WHERE " . arr_to_str($where_maker, "AND ", " ", $q_arr["WHERE"]);	
+	
+	return $query; 
+}
+
+/**
+* Return query string from q_arr with items : "TABLE", "INSERT",
+*
+*
+******/
+function query_insert($q_arr) {
+	// INSERT clause
+	$query = "INSERT INTO `" . $q_arr["TABLE"] . "` SET "; 
+	
+	$elements = count($q_arr["INSERT"]); 
+	
+	if($elements < 1) {
+		return NULL; 
+	}	
+
+	$insert_maker = create_function("\$k,\$v", " 
+		return \"`\" . \$k . \"`='\" . \$v .\"'\";"); 
+			
+	$query .= arr_to_str($insert_maker, ", ", " ", $q_arr["INSERT"]);
+
+	return $query; 
+}
+
 /** 
 * Return query string from q_arr with items : "TABLE,", "UPDATE", "WHERE"
 *

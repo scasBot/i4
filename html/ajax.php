@@ -12,9 +12,9 @@
 			die(); 
 		}
 		
-		$data = $_POST; 
+		$data = $_POST["data"]; 
 		
-		switch($data["REQ"]) {
+		switch($_POST["REQ"]) {
 			case "contact" : 
 				require("../ajax/ajax_contact.php"); 
 			break;

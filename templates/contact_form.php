@@ -22,13 +22,17 @@
 	}
 	
 	// given a contactID, get the contact
-	function getContact(id) {
+	function getContactIndex(id) {
 		for(n in contacts) {
 			if(contacts[n].ContactID == id) {
-				return contacts[n]
+				return n; 
 			}
 		}		
 		return null; 
+	}
+
+	function getContact(id) {
+		return contacts[getContactIndex(id)]; 
 	}
 
 	// displays the html for each contact
@@ -149,21 +153,74 @@
 		}
 	}
 
+	function deleteContact(id) {
+		var shouldDelete = confirm("Are you sure you want to wipe " + 
+			getContact(id).UserName.Added + "'s masterpiece?"); 
+		
+		if(!shouldDelete) {
+			return; 
+		}
+		else {
+			data = {}; 
+			data.REQ = "contact"; 
+			data.data = {}; 
+			data.data.Action = "Delete"; 
+			data.data.Contact = {}; 
+			data.data.Contact.ContactID = id; 
+		
+			$.ajax({
+				url : "ajax.php", 
+				type : "POST", 
+				data : data, 
+				success : function(r) {
+					try {
+						console.log(r); 
+						var response = $.parseJSON(r); 
+					}
+					catch (e) {
+						throw "Error : Server response invalid."; 
+					}
+					
+					if(response.Success) {
+						contacts.splice(getContactIndex(id), 1); 
+						display(); 
+					}
+				}
+			}); 
+			console.log("gone!"); 
+		}
+	}
+
 	function updateContact(id) {
 		if(checkDateInput(id)) {
 			var editDiv = $("#EditContact" + id); 
+			var index = getContactIndex(id); 
 		
 			var data = {}; 
-			data.REQ = "contact"; 
-			data.ContactID = id; 
-			data.UserEditID = <?php echo $_SESSION["id"] ?>; 
-			data.ContactEditDate = currentSqlDate(); 
-			data.ContactDate = editDiv.find("[name='ContactDate']").val(); 
-			data.ContactTypeID = editDiv.find("[name='ContactType']").val(); 
-			data.ContactSummary = editDiv.find("[name='ContactSummary']").val(); 
+			var newContact = {}; 
+			newContact.UserName = {}; 
+
+			if(id ==0) {
+				newContact.ContactID = 0; 
+				newContact.UserName.Added = "<?php echo $_SESSION["username"] ?>"; 
+				newContact.ClientID = "<?php echo $client["ClientID"] ?>"; 
+			}
+			else {
+				newContact = contacts[index]; 
+			}
+			
+			newContact.UserName.Edit = "<?php echo $_SESSION["username"] ?>"; 
+			newContact.ContactEditDate = currentSqlDate(); 
+			newContact.ContactDate = editDiv.find("[name='ContactDate']").val(); 
+			newContact.ContactTypeID = editDiv.find("[name='ContactType']").val(); 
+			newContact.ContactSummary = editDiv.find("[name='ContactSummary']").val(); 
+
+			data.data = {}; 
 		
-			displayContactType = editDiv.find("[name='ContactType']")
-				.find("[value='" + data.ContactTypeID + "']").text(); 
+			data.data.ID = <?php echo $_SESSION["id"] ?>; 
+			data.data.Contact = newContact; 
+			data.data.Action = (id == 0 ? "Insert" : "Update"); 
+			data.REQ = "contact"; 
 			
 			$.ajax({
 				url : "ajax.php",
@@ -171,6 +228,7 @@
 				data : data,
 				success : function(r) {
 					try {
+						console.log(r); 
 						var response = $.parseJSON(r); 
 					}
 					catch (e) {
@@ -178,10 +236,17 @@
 					}
 					
 					if(response.Success) {
-						$("#Contact" + id).attr('data-content', "<?php echo $_SESSION["username"] ?> on " + data.ContactEditDate); 
-						$("#Contact" + id + "Type").html(displayContactType); 
-						$("#Contact" + id + "Summary").html(data.ContactSummary); 
-						undoContact(id); 
+						newContact.ContactType = response.data.ContactType; 
+
+						if(id == 0) {
+							newContact.ContactID = response.data.ContactID; 
+							contacts.push(newContact); 
+						}
+						else {
+							contacts[index] = newContact; 
+						}
+						
+						display(); 
 					}
 					else {
 						throw "Error: server response unsuccessful"; 
@@ -225,6 +290,15 @@
 			var html = contactDisplayHTML(contacts[n]); 
 			$("#PutContactsHere").append(html); 
 		}
+		
+		$(function() {
+			$(".contact-form-row").popover({trigger: 'hover'}); 
+		}); 
+		
+		$(function() {
+			$(".contact-form-new").popover({trigger: 'hover'}); 
+		});
+		
 	}
 </script>
 
@@ -235,14 +309,6 @@
 			var html = contactDisplayHTML(contacts[n]); 
 			$("#PutContactsHere").append(html); 
 		}*/
-		display(); 
-
-		$(function() {
-			$(".contact-form-row").popover({trigger: 'hover'}); 
-		}); 
-		
-		$(function() {
-			$(".contact-form-new").popover({trigger: 'hover'}); 
-		}); 		
+		display();  		
 	}); 
 </script>

@@ -96,7 +96,9 @@ class Client{
 				
 				$contacts[$key]["UserName"]["Edit"] = get_username($value["UserEditID"]); 
 				$contacts[$key]["UserName"]["Added"] = get_username($value["UserAddedID"]); 
-				$contacts[$key]["ContactType"] = get_contacttype($value["ContactTypeID"]); 
+				$contacts[$key]["ContactType"] = get_contacttype($value["ContactTypeID"]);
+				$contacts[$key]["ContactTypeID"] = $value["ContactTypeID"]; 
+				$contacts[$key]["ClientID"] = $this->id; 
 			}
 			
 			$this->contacts = $contacts; 
@@ -149,5 +151,4 @@ class Client{
 		}
 	}
 }
-
 ?>
