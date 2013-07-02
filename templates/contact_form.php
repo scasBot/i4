@@ -39,6 +39,12 @@
 	function contactDisplayHTML(contact) {
 		var id = contact.ContactID; 
 
+		var contactSummaryArray = contact.ContactSummary.split("\n"); 
+		var contactSummary = ""; 
+		for(n in contactSummaryArray) {
+			contactSummary += "<p>" + contactSummaryArray[n] + "</p>"; 
+		}
+		
 		var html =  
 			"<div id='Contact"+ id +"' class='row contact-form-row'"
 					+ "onclick='showEdit("+id+")' " 
@@ -55,7 +61,7 @@
 				+ "</div>"
 				+ "<div class='span6 contact-form-summary divContactSummary'>" 
 					+ "<span id='Contact" +id+"Summary'>"
-						+ contact.ContactSummary + "</span>" 
+						+  contactSummary + "</span>" 
 				+ "</div>"
 				+ "<div class='span2'>"
 					+ contact.UserName.Added
@@ -279,6 +285,11 @@
 		}
 	}	
 	
+
+</script>
+
+<!-- MAIN SCRIPT FOR THIS PAGE HERE -->
+<script>	
 	function display() {
 		$("#PutContactsHere").html(""); 
 		
@@ -300,15 +311,8 @@
 		});
 		
 	}
-</script>
-
-<!-- MAIN SCRIPT FOR THIS PAGE HERE -->
-<script>	
+	
 	$(document).ready(function() {
-		/*for(n in contacts) {
-			var html = contactDisplayHTML(contacts[n]); 
-			$("#PutContactsHere").append(html); 
-		}*/
 		display();  		
 	}); 
 </script>

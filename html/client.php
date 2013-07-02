@@ -13,7 +13,7 @@
 
 		$client = new Client(); 
 		assert2($client->initialize($_GET["ClientID"]), "Client object problem"); 
-		$client_info = $client->info; 
+		$client_info = $client->info->get_array(); 
 		$contacts = $client->contacts; 
 		$i3_contact = $client->old_contacts; 		
 		$contact_types = get_contact_types();
@@ -28,7 +28,10 @@
 	}
 	else if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
-		apologize("Must use a GET request for client.php"); 
+		$client_info = new ClientInfo(); 
+		$client_info->from_array($_POST); 
+		// $client_info->update_database(); 
+		echo "done!"; 
 	}
 	
 // returns all the contact types as an array with ID => Description

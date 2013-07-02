@@ -18,7 +18,13 @@
 		<div class="span1" >
 		</div>
 		<div class="span5" >
-			<?php echo $i3_contact["notes"] ?>
+			<?php 
+				$paragraphs = explode("\n", $i3_contact["notes"]); 
+				
+				foreach($paragraphs as $paragraph) {
+					echo "<p>" . $paragraph . "</p>"; 
+				}
+			?>
 		</div>
 	</div>
 </div>
