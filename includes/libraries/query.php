@@ -1,5 +1,12 @@
 <?php
 
+function escape_all_strings($arr) {
+	foreach($arr as $key => $val) {
+		$arr[$key] = mysqli_real_escape_string($val); 
+	}
+	return $arr; 
+}
+
 /**
  * Executes SQL statement, possibly with parameters, returning
  * an array of all rows in result set or false on (non-fatal) error.

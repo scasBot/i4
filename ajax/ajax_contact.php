@@ -1,7 +1,7 @@
 <?php
 	if($data["Contact"]["ContactID"] == 0) {
 		$contact = $data["Contact"]; 
-
+		
 		$insert = query_insert(array(
 			"TABLE" => "dbi4_Contacts", 
 			"INSERT" => 

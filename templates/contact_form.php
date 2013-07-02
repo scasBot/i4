@@ -143,7 +143,7 @@
 	function undoContact (id) {
 		document.getElementById("EditContact" + id).reset(); 
 		myReset(id); 
-		$("#EditContact" + id).hide(); 
+		$("#EditContact" + id).remove(); 
 		state.newContactShown = false; 
 		
 		if(id != 0) {
