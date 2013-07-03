@@ -1,12 +1,5 @@
 <?php
 
-function escape_all_strings($arr) {
-	foreach($arr as $key => $val) {
-		$arr[$key] = mysqli_real_escape_string($val); 
-	}
-	return $arr; 
-}
-
 /**
  * Executes SQL statement, possibly with parameters, returning
  * an array of all rows in result set or false on (non-fatal) error.
@@ -67,12 +60,13 @@ function query(/* $sql [, ... ] */) {
 /****
 * Return query string from q_arr with items : "TABLE", "WHERE"
 *
+** e.g. $q_arr = ["TABLE" => "db_Clients", "WHERE" => ["ClientID" => ["=", 1000]]]
 *********/
 function query_delete($q_arr) {
 	$query = "DELETE FROM `" . $q_arr["TABLE"] . "` "; 
 	
 	if(!isset($q_arr["WHERE"])) {
-		return Null; 
+		return null; 
 	}
 	
 	$where_maker = create_function("\$k,\$v", 
@@ -86,7 +80,7 @@ function query_delete($q_arr) {
 /**
 * Return query string from q_arr with items : "TABLE", "INSERT",
 *
-*
+* e.g. $q_arr = ["TABLE" => "db_Clients", "INSERT" => ["FirstName" => "Tom", "LastName" => "Bobbert"]]
 ******/
 function query_insert($q_arr) {
 	// INSERT clause

@@ -74,14 +74,13 @@ class ClientInfo {
 		}
 	}
 
-	public function from_array($arr) {		
+	public function from_array($arr) {			
 		foreach($arr as $key => $value) {
 			if(in_array($key, $this->elements)) {
 				$this->$key = $value; 
 			}
 		}
-		$this->exists = true; 
-		return true; 
+		return($this->exists = true); 
 	}
 	
 	public function get_array() {
@@ -101,6 +100,23 @@ class ClientInfo {
 	
 	public function get_elements() {
 		return $this->elements; 
+	}
+
+	public function delete() {
+		if($this->exists) {
+			query(query_delete(array(
+				"TABLE" => "db_Clients", 
+				"WHERE" => array("ClientID" => 
+					array("=", $this->ClientID))
+			))); 
+			
+			$this->exists = false; 
+			$this->ClientID = null; 
+			return true; 
+		}
+		else {
+			return false; 
+		}
 	}
 	
 	public function update_database() {

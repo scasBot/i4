@@ -13,10 +13,12 @@
     error_reporting(E_ALL);
 
     // requirements
+	require("trolling.php");
     require("constants.php");
     require("functions.php");
 	require("libraries/ALL.php"); 
 	require("magic_quotes_emulate.php"); 
+ 
 	
     // enable sessions
     session_start();

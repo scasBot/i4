@@ -3,35 +3,80 @@
 	require("../includes/config.php"); 
 	require("../includes/client_class.php"); 
 	
+	// is the correct request method used
+	$correct_req_method = false; 
+	$client_id = null; 
+	
 	// accessing by a GET request means display contact
 	if($_SERVER["REQUEST_METHOD"] == "GET") {
 		
 		// usage checking
 		if(!isset($_GET["ClientID"])) {
-			apologize("Missing items in GET request"); 
+			apologize("Missing ID item in GET request"); 
+		}
+	
+		// if asking to delete, assert the correct code and delete the client
+		if(isset($_GET["DELETE"])) {
+			assert2($_GET["DELETE"] == hash($_GET["ClientID"]), "Sorry, delete request is bad"); 
+			$client = new Client(); 
+			assert2($client->initialize($_GET["ClientID"]));  
+			assert2($client->delete());  
+			redirect("index.php"); 
+		}
+		else {
+			$correct_req_method = true;
+			$client_id = $_GET["ClientID"];		
+		}
+	}
+
+	// accessing by POST request means the client needs to be updated
+	else if($_SERVER["REQUEST_METHOD"] == "POST")
+	{
+		// usage checking
+		if(!isset($_POST["ClientID"])) {
+			apoologize("Missing ID item in POST request"); 
 		}
 
-		$client = new Client(); 
-		assert2($client->initialize($_GET["ClientID"]), "Client object problem"); 
-		$client_info = $client->info->get_array(); 
-		$contacts = $client->contacts; 
-		$i3_contact = $client->old_contacts; 		
-		$contact_types = get_contact_types();
+		$correct_req_method = true; 
+
+		// create new client info object and update it
+		$client_info_obj = new ClientInfo(); 
+		assert2($client_info_obj->from_array($_POST), "Updating client failed...fields in $_POST are incorrect"); 
+		assert2($client_info_obj->update_database(), "Updating the database failed on client : " . $client_info_obj->ClientID);
+		$client_id = $client_info_obj->ClientID; 
+		unset($client_info_obj); 
+	}
+	
+	// if the methods were correct
+	if($correct_req_method) {
 		
-		// sort contacts by date
+		// create a new client and initialize it
+		$client = new Client(); 
+		assert2($client->initialize($client_id), "Client object problem"); 
+		
+		// grab the client's necessary items
+		$client_info = $client->info->get_array(); 		
+		$contacts = $client->contacts; 
+		$i3_contact = $client->old_contacts; 	
+		
+		// sort old contacts by date
 		$compare = create_function("\$a,\$b", 
 			"return \$b['ContactDate'] - \$a['ContactDate'];"); 
 		usort($i3_contact["contacts"], $compare);
 
+		// grab the contact types
+		$contact_types = get_contact_types();
+
+		// remove variables
+		unset($correct_req_method); 
+		unset($client_id); 
+		
+		// display it!
 		render("client_form.php", array("title" => "Client", "client" => $client_info, "contacts" => $contacts,
-			"contact_types" => $contact_types, "i3_contact" => $i3_contact)); 
+			"contact_types" => $contact_types, "i3_contact" => $i3_contact, "random_quote" => $filler->random_quote())); 		
 	}
-	else if($_SERVER["REQUEST_METHOD"] == "POST")
-	{
-		$client_info = new ClientInfo(); 
-		$client_info->from_array($_POST); 
-		// $client_info->update_database(); 
-		echo "done!"; 
+	else {
+		apologize("Wrong request type for the page"); 
 	}
 	
 // returns all the contact types as an array with ID => Description
