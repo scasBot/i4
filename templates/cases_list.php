@@ -23,9 +23,9 @@
 					if(!empty($addnew)) {
 						echo "<tr name='newclient' style='cursor : pointer'>"; 
 						echo "<td><b>Add New: </b></td>"; 
-						echo "<td>" . $addnew["LastName"] . ", " . $addnew["FirstName"] . "</td>";
-						echo "<td>" . $addnew["PhoneNumber"] . "</td>"; 
-						echo "<td>" . $addnew["Email"] . "</td>"; 
+						echo "<td id='NewLastName'>" . $addnew["LastName"] . ", " . $addnew["FirstName"] . "</td>";
+						echo "<td id='NewPhoneNumber'>" . $addnew["PhoneNumber"] . "</td>"; 
+						echo "<td id='NewEmail' >" . $addnew["Email"] . "</td>"; 
 						echo "</tr>"; 
 					}
 				?>
@@ -47,7 +47,7 @@
 		
 		var lastName = "<input type='hidden' name='LastName' value'<?php echo $addnew["LastName"] ?>' />"; 
 		var firstName = "<input type='hidden' name='FirstName' value'<?php echo $addnew["FirstName"] ?>' />"; 
-		var phoneNumber = "<input type='hidden' name='PhoneNumber' value='<?php echo $addnew["PhoneNumber"] ?>' />"; 
+		var phoneNumber = "<input type='hidden' name='Phone1Number' value='<?php echo $addnew["PhoneNumber"] ?>' />"; 
 		var email = "<input type='hidden' name='Email' value='<?php echo $addnew["Email"] ?>' />"; 
 		
 		$("#javascript-form").append(lastName + firstName + phoneNumber + email); 

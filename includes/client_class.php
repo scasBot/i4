@@ -1,5 +1,198 @@
 <?php
 
+interface iDataObject {
+	// revealing to the world
+	public function get_id(); 
+	public function get_elements(); 
+	public function get_synced(); 
+	public function get_exists(); 
+	public function get_database_name();
+	
+	// initializing the object
+	public function set_by_id($id); 
+	
+	// database actions
+	public function pull(); 
+	public function push(); 
+	public function delete(); 
+	
+	// getting and setting local elements
+	public function get($element); 
+	public function set($element, $value);
+	
+	// setting all items based on the arrays
+	public function from_array($arr); 
+	public function get_array(); 
+}
+
+abstract class aDataObject implements iDataObject {
+	// id of object in database
+	private $id; 
+	// name of primary key (where id comes from)
+	private $primary_key; 
+
+	private $database_name; 
+
+	// booleans that tell if current local data is synced and
+	// if the object already exists in the database
+	private $exists = false; 
+	private $synced; 
+	
+	// an array of the element names of this object
+	private $elements = array(); 
+	// local copy of all values
+	private $local = array(); 
+
+	public function __constructor($id = null) {
+		if(isset($id)) {
+			if(!$this->set_by_id($id)) {
+				throw new Exception("Failure to set dataobject by id : " . $id); 
+			}
+		}
+	}
+	
+	// helper functions to give items based on existence of object
+	private function give_mutable($item) {
+		if($this->exists) {
+			return $this->$item; 
+		}
+		else {
+			return null; 
+		}
+	}
+	
+	// giving elements back based on existence
+	public function get_id() {
+		return give_mutable("id"); 
+	}
+	public function get_synced() {
+		return give_mutable("synced"); 
+	}
+	public function get_elements() {
+		return $this->elements; 
+	}
+	public function get_exists() {
+		return $this->exists; 
+	}
+	public function get_database_name() {
+		return $this->database_name; 
+	}
+	
+	// getter
+	public function get($element) {
+		if(in_array($element, $this->elements)) {
+			return $this->local[$element]; 
+		}
+		else {
+			return null; 
+		}
+	}	
+	// setter
+	public function set($element, $value) {
+		if(in_array($element, $this->elements)) {
+			$this->synced = false; 
+			$this->local[$element] = $value; 
+			return true; 
+		}
+		else {
+			return false; 
+		}
+	}
+	
+	// set the object by its id
+	public function set_by_id($id) {
+		// these two must be set before a call to pull()
+		$this->id = $id; 
+		$this->exists = true; 
+		
+		if(!$this->pull()) {
+			$this->exists = false;
+			$this->id = null;
+			$this->wipe_all(); 
+			return false; 
+		} 
+		else {
+			return true; 
+		}
+	}
+	
+	// clears all items
+	private function wipe_all() {
+		foreach($this->elements as $element) {
+			$this->local[$element] = null; 
+		}
+	}
+
+	// specific function for each class to update the items, must return a bool
+	abstract protected function pull_specific(); 
+	abstract protected function push_update_specific(); 
+	abstract protected function push_insert_specific(); 
+	abstract protected function delete_specific(); 
+	
+	// updates the object from the server
+	public function pull() {
+		if($this->exists) {
+			$this->wipe_all(); 
+				
+			if(!$this->pull_specific()) {
+				return false; 
+			}			
+			
+			$this->synced = true; 
+			return true; 
+		}
+		else {
+			return false; 
+		}
+	}
+	
+	// push to server $this->local
+	public function push() {
+		if($this->exists) {
+			if(!$this->push_update_specific()) {
+				return false; 
+			};  
+		}
+		else {
+			if(!$this->push_insert_specific()) {
+				return false; 
+			}; 			
+		}
+		$this->synced = true; 
+		return($this->exists = true); 
+	}
+	
+	// deletes the object from the server
+	public function delete() {
+		if($this->exists) {
+			$this->exists = false; 
+			$this->wipe_all(); 
+			$this->synced = null; 			
+			return $this->delete_specific(); 
+		}
+		else {
+			return false; 
+		}
+	}
+
+	// updating self from array
+	public function from_array($arr) {
+		foreach($arr as $key => $val) {
+			$this->set($key, $val); 
+		}
+		return($this->synced = false);  
+	}
+	
+	// giving back array of elements
+	public function get_array() {
+		$return = array(); 
+		foreach($this->elements as $val) {
+			$return[$val] = $this->get($val); 
+		}
+		return $return; 
+	}
+}
+
 class ClientInfo {
 	private $exists = false; 
 	private $elements = array(
@@ -150,6 +343,43 @@ class ClientInfo {
 		else {
 			return false; 
 		}
+	}
+}
+
+class Contact {
+	private $exists = false; 
+	private $elements = array(
+		"ContactID", "ContactTypeID", 
+		"ContactDate", "ContactEditDate", 
+		"UserAddedID", "UserEditID", 
+		"ContactSummary", "ClientID"); 
+	
+	public $ContactID;  
+	public $ContactTypeID; 
+	public $ContactDate; 
+	public $ContactEditDate; 
+	public $UserAddedID; 
+	public $UserEditID; 
+	public $ContactSummary; 
+	public $ClientID; 
+	
+	public $displayed = array(); 
+	
+	public function set_contact($contact_id) {
+		$response = query(query_select(
+			array("TABLE" => "dbi4_Contacts", 
+					"WHERE" => array("ContactID" => 
+						array("=", $contact_id))))
+		); 
+		
+		if(count($response) > 1) {
+			apologize("Too many contacts match id : " . $contact_id); 
+		}
+		
+		$this->exists = count($response) == 1; 
+		$this->ContactID = $contact_id;
+		
+		return $this->exists; 
 	}
 }
 

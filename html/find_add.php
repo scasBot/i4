@@ -18,17 +18,10 @@
 			}
 		}
 		
-		// if the search matches anything in the database, render the list
-		if(count($rows) > 0) {
-			render("cases_list.php", array("title" => "Find", 
-											"cases" => $rows, 
-											"addnew"=> $_POST)); 
-		}
-		
-		// otherwise give user option to add new client to the database
-		else {
-			render("add_new_client.php", array("title" => "No Matches", 
-															"info" => $_POST)); 
-		}
+		// render the list
+		render("cases_list.php", 
+			array("title" => "Find", 
+					"cases" => $rows, 
+					"addnew"=> $_POST)); 
 	}
 ?>

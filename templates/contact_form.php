@@ -7,7 +7,7 @@
 	<div class="span6">Summary</div>
 	<div class="span2">Added by</div>
 </div>
-<div class='row contact-form-new' onclick="newContact()" data-title="Add New Contact" data-content="<?php echo $random_quote ?>">Add New</div>
+<div class='row contact-form-new' onclick="newContact()" data-title="Add New Contact" data-content="<?php echo $random_quote ?>">Click here to add new contact</div>
 <div id="PutContactsHere">
 </div>
 <br />
