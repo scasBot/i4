@@ -1,7 +1,5 @@
 <?php
-	require("../includes/constants.php"); 
-	require("../includes/functions.php"); 
-	require("../includes/libraries/ALL.php"); 
+	require("../includes/config.php"); 
 
 	if($_SERVER["REQUEST_METHOD"] == "GET") {
 	}

@@ -6,8 +6,8 @@
     // if form was submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        // validate submission
-        if (empty($_POST["userid"]))
+		// validate submission
+        if (empty($_POST['userid']))
         {
             apologize("You must provide your username.");
         }
@@ -19,8 +19,6 @@
         // query database for user
         $rows = query("SELECT * FROM i3_Passwords WHERE `UserId`=?", $_POST["userid"]);
 		$user = query("SELECT `UserName` FROM i3_Users WHERE `UserID`=?", $_POST['userid']); 
-	
-
 		
         // if we found user, check password
         if (count($rows) == 1)

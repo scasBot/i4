@@ -7,7 +7,7 @@
      *
      * Global constants.
      **********************************************************************/
-
+	
 	//** MYSQL DATABASE ITEMS **//
     // your database's name
     define("DATABASE", "scas");
