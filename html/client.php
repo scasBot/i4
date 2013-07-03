@@ -40,10 +40,10 @@
 		$correct_req_method = true; 
 
 		// create new client info object and update it
-		$client_info_obj = new ClientInfo(); 
+		$client_info_obj = new ClientInfo($_POST["ClientID"]); 
 		assert2($client_info_obj->from_array($_POST), "Updating client failed...fields in $_POST are incorrect"); 
-		assert2($client_info_obj->update_database(), "Updating the database failed on client : " . $client_info_obj->ClientID);
-		$client_id = $client_info_obj->ClientID; 
+		assert2($client_info_obj->push(), "Updating the database failed on client : " . $client_info_obj->get("ClientID"));
+		$client_id = $client_info_obj->get("ClientID"); 
 		unset($client_info_obj); 
 	}
 	

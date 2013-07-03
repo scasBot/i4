@@ -27,23 +27,23 @@ interface iDataObject {
 
 abstract class aDataObject implements iDataObject {
 	// id of object in database
-	private $id; 
+	protected $id; 
 	// name of primary key (where id comes from)
-	private $primary_key; 
+	protected $primary_key; 
 
-	private $database_name; 
+	protected $database_name; 
 
 	// booleans that tell if current local data is synced and
 	// if the object already exists in the database
-	private $exists = false; 
-	private $synced; 
+	protected $exists = false; 
+	protected $synced; 
 	
 	// an array of the element names of this object
-	private $elements = array(); 
+	protected $elements = array(); 
 	// local copy of all values
-	private $local = array(); 
+	protected $local = array(); 
 
-	public function __constructor($id = null) {
+	public function __construct($id = null) {
 		if(isset($id)) {
 			if(!$this->set_by_id($id)) {
 				throw new Exception("Failure to set dataobject by id : " . $id); 
@@ -125,9 +125,11 @@ abstract class aDataObject implements iDataObject {
 
 	// specific function for each class to update the items, must return a bool
 	abstract protected function pull_specific(); 
-	abstract protected function push_update_specific(); 
-	abstract protected function push_insert_specific(); 
+	abstract protected function push_update_specific();  
 	abstract protected function delete_specific(); 
+	
+	// inserting a new element returns an id
+	abstract protected function push_insert_specific();
 	
 	// updates the object from the server
 	public function pull() {
@@ -154,8 +156,13 @@ abstract class aDataObject implements iDataObject {
 			};  
 		}
 		else {
-			if(!$this->push_insert_specific()) {
+			$id = $this->push_insert_specific(); 
+			
+			if(!$id) {
 				return false; 
+			}
+			else {
+				return ($this->set_by_id($id)); 
 			}; 			
 		}
 		$this->synced = true; 
@@ -180,7 +187,7 @@ abstract class aDataObject implements iDataObject {
 		foreach($arr as $key => $val) {
 			$this->set($key, $val); 
 		}
-		return($this->synced = false);  
+		return true;  
 	}
 	
 	// giving back array of elements
@@ -193,6 +200,105 @@ abstract class aDataObject implements iDataObject {
 	}
 }
 
+class ClientInfo extends aDataObject implements iDataObject {
+	protected $database_name = "db_Clients"; 
+	protected $elements = array(
+		"ClientID", "FirstName", "LastName", "Phone1Number", 
+		"Phone2Number", "Email", "Address", "City", "State", 
+		"Zip", "Language", "ClientNotes"); 
+	protected $primary_key = "ClientID"; 
+
+	// query the database, edit it and then update the client
+	protected function pull_specific() {
+		$client_queried = query(query_select(
+			array(
+				"TABLE" => $this->database_name, 
+				"WHERE" => 
+					array("ClientID" => 
+						array(
+							"=", 
+							$this->id
+						)
+					)
+			)
+		)); 
+		$cq = $client_queried[0]; 
+
+		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language"); 
+
+		$client = array(); 
+		foreach($cq as $key => $value) {
+			if(in_array($key, $to_copy)) {
+				$client[$key] = $value; 
+			}
+		}
+		$client["Phone1Number"] = only_numbers($cq["Phone1AreaCode"] . $cq["Phone1Number"]); 
+		$client["Phone2Number"] = only_numbers($cq["Phone2AreaCode"] . $cq["Phone2Number"]); 
+		$client["Address"] = $cq["Address1"]; 		
+		$client["Zip"] = $cq["ZIP"]; 
+		$client["ClientNotes"] = $cq["Notes"]; 
+		
+		return $this->from_array($client);
+	}
+
+	// query the database for a delete
+	protected function delete_specific() {
+		query(query_delete(array(
+			"TABLE" => $this->database_name, 
+			"WHERE" => array($this->primary_key => 
+				array("=", $this->id))
+		))); 
+		
+		return true; 
+	}
+	
+	// array needed to update
+	private function to_update_array() {
+		$dif = array("Phone1Number", "Phone2Number", "Zip", "Address", "ClientNotes");
+		$to_update = array();
+		$current = $this->get_array(); 
+		
+		foreach($this->elements as $val) {
+			if(!in_array($val, $dif)) {
+				$to_update[$val] = $current[$val]; 
+			}
+		}
+		
+		$to_update["Phone1AreaCode"] = substr($current["Phone1Number"], 0, 3); 
+		$to_update["Phone1Number"] = substr($current["Phone1Number"], 3, 3) . "-" . substr($current["Phone1Number"], 6); 
+		$to_update["Phone2AreaCode"] = substr($current["Phone2Number"], 0, 3); 
+		$to_update["Phone2Number"] = substr($current["Phone2Number"], 3, 3) . "-" . substr($current["Phone2Number"], 6); 
+		$to_update["ZIP"] = $current["Zip"]; 
+		$to_update["Address1"] = $current["Address"]; 
+		$to_update["Notes"] = $current["ClientNotes"];
+		
+		return $to_update; 
+	}
+
+	protected function push_update_specific() {
+ 
+		$to_update = $this->to_update_array(); 
+		
+		if(!$to_update) {
+			return false; 
+		}
+		else {
+			query(query_update(array(
+				"TABLE" => $this->database_name, 
+				"UPDATE" => $to_update, 
+				"WHERE" => array($this->primary_key => array("=", $this->id))
+			))); 
+		
+			return true; 
+		}
+	} 
+	
+	protected function push_insert_specific() {
+		return true;
+	} 
+}
+
+/*
 class ClientInfo {
 	private $exists = false; 
 	private $elements = array(
@@ -345,7 +451,7 @@ class ClientInfo {
 		}
 	}
 }
-
+*/
 class Contact {
 	private $exists = false; 
 	private $elements = array(
@@ -411,7 +517,7 @@ class Client{
 		
 		$this->exists = count($response) == 1; 
 		$this->id = $client_id;
-		$this->info->set_client($client_id); 
+		$this->info->set_by_id($client_id); 
 		
 		return $this->exists; 
 	}
@@ -430,7 +536,7 @@ class Client{
 	
 	public function refresh_info() {
 		if($this->exists) {
-			return $this->info->refresh();
+			return $this->info->pull();
 		}
 		else {
 			return false; 
