@@ -1,6 +1,5 @@
 <div id="TESTING">
-    <img alt="Under Construction" src="img/construction.gif"/>
-	<?php echo ROOT ?>
+    <h1>BETA-VERSION : Hi Catherine and Julianna!</h1>
 </div>
 <div>
     <a href="logout.php">Log Out</a>

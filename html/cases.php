@@ -7,11 +7,11 @@
 		$rows1 = query(query_select(array(
 			"TABLE" => "dbi4_Contacts", 
 			"ORDER" => array("ContactDate" => "DESC"), 
-			"LIMIT" => 100))); 
+			"LIMIT" => 300))); 
 		$rows2 = query(query_select(array(
 			"TABLE" => "db_Contact", 
 			"ORDER" => array("Date" => "DESC"), 
-			"LIMIT" => 200))); 
+			"LIMIT" => 300))); 
 
 		$rows = array_merge($rows1, $rows2); 
 		
