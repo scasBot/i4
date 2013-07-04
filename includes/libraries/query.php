@@ -138,9 +138,9 @@ function query_update($q_arr) {
 	}
 
 /** 
-* Return query string from q_arr with items : "TABLE," "TO_SELECT," "WHERE," AND "ORDER"
+* Return query string from q_arr with items : "TABLE" "TO_SELECT" "WHERE" "ORDER" and "LIMIT"
 *
-* e.g. $q_arr = ["TABLE" => "db_Clients", "TO_SE$LECT" => ["ClientID", "FirstName", "LastName"], 
+* e.g. $q_arr = ["TABLE" => "db_Clients", "TO_SELECT" => ["ClientID", "FirstName", "LastName"], 
 *					"WHERE" => ["FirstName" => ["=", "Willy"]], ["ClientID" => [">", "1000"]]], "ORDER" => ["LastName" => "ASC", "FirstName" => "DESC"]
 ****/
 function query_select($q_arr) {		
@@ -174,6 +174,11 @@ function query_select($q_arr) {
 				"return \"`\" . \$k . \"` \" . \$v; "); 
 
 			$query .= "ORDER BY " . arr_to_str($order_maker, ", ", " ", $q_arr["ORDER"]); 
+		}
+		
+		// LIMIT clause
+		if (isset($q_arr["LIMIT"])) {
+			$query .= "LIMIT " . $q_arr["LIMIT"] . " "; 
 		}
 		
 		return $query; 

@@ -16,8 +16,9 @@
 		}
 	
 		// if asking to delete, assert the correct code and delete the client
-		if(isset($_GET["DELETE"])) {
-			assert2($_GET["DELETE"] == hash($_GET["ClientID"]), "Sorry, delete request is bad"); 
+		if(isset($_GET["DELETE"])) { 
+			$client = new Client(); 
+			
 			$client = new Client(); 
 			assert2($client->initialize($_GET["ClientID"]));  
 			assert2($client->delete());  
@@ -59,10 +60,12 @@
 		$contacts = $client->contacts; 
 		$i3_contact = $client->old_contacts; 	
 		
-		// sort old contacts by date
-		$compare = create_function("\$a,\$b", 
-			"return \$b['ContactDate'] - \$a['ContactDate'];"); 
-		usort($i3_contact["contacts"], $compare);
+		if(isset($i3_contact["contacts"])) {
+			// sort old contacts by date
+			$compare = create_function("\$a,\$b", 
+				"return \$b['ContactDate'] - \$a['ContactDate'];"); 
+			usort($i3_contact["contacts"], $compare);
+		}; 
 
 		// grab the contact types
 		$contact_types = get_contact_types();

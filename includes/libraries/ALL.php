@@ -35,4 +35,6 @@ require("manipulations.php");
 require("query.php"); 
 	/* all functions begin with query and are written in php_case */	
 
+require("data_class.php"); 
+	/* defines a class for a generic data object */
 ?>
