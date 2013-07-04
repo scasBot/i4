@@ -6,6 +6,7 @@ interface iDataObject {
 	public function get_synced(); 
 	public function get_exists(); 
 	public function get_database_name();
+	public function get_primary_key(); 
 	
 	// initializing the object
 	public function set_by_id($id); 
@@ -84,6 +85,9 @@ abstract class aDataObject implements iDataObject {
 	}
 	public function get_database_name() {
 		return $this->database_name; 
+	}
+	public function get_primary_key() {
+		return $this->primary_key; 
 	}
 	
 	// getter

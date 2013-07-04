@@ -163,7 +163,7 @@ function query_select($q_arr) {
 		// WHERE clause
 		if (isset($q_arr["WHERE"])) {
 			$where_maker = create_function("\$k,\$v", 
-				"return \"`\" . \$k . \"`\" . \$v[0] . \"'\" . \$v[1] . \"'\";"); 
+				"return \"`\" . \$k . \"` \" . \$v[0] . \" '\" . \$v[1] . \"'\";"); 
 			
 			$query .= "WHERE " . arr_to_str($where_maker, "AND ", " ", $q_arr["WHERE"]); 
 		}

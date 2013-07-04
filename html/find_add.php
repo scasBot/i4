@@ -16,6 +16,17 @@
 				$rows = array_merge($rows, query(query_select(array("TABLE" => $table, "SELECT" => $select, 
 					"WHERE" => array($key => array("=", $value))))));
 			}
+			else if ($key == "PhoneNumber") {
+				$numbers = str_split(substr($value, 3)); 
+				$string = ""; 
+				foreach($numbers as $number) {
+					$string .= "%" . $number; 
+				}
+			
+				$rows = array_merge($rows, query(query_select(array("TABLE" => $table, "SELECT" => $select, 
+					"WHERE" => array("Phone1AreaCode" => array("=", substr($value, 0, 3)), 
+						"Phone1Number" => array("LIKE", $string)))))); 
+			}
 		}
 		
 		// render the list

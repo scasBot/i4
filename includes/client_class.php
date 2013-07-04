@@ -133,12 +133,14 @@ class ClientInfo extends aDataObject implements iDataObject {
 class Contact extends aPureDataObject implements iDataObject {
 	protected $elements = array(
 		"ContactID", "ContactTypeID", 
-		"ContactDate", "ContactEditDate", 
-		"UserAddedID", "UserEditID", 
-		"ContactSummary", "ClientID"); 
+		"ContactDate", "UserAddedID", 
+		"UserEditID", "ContactSummary", 
+		"ClientID"); 
 	protected $database_name = "dbi4_Contacts";
 	protected $primary_key = "ContactID";
 }
+
+
 
 class Client{
 	private $exists = false;
