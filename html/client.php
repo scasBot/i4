@@ -82,31 +82,6 @@
 		apologize("Wrong request type for the page"); 
 	}
 	
-// returns all the contact types as an array with ID => Description
-function get_contact_types() {
-	$contact_type_rows = query(query_select(
-		array(
-			"TABLE" => "db_ContactTypes", 
-			"WHERE" => 
-				array("Visible" => 
-					array(
-						"=", 
-						1
-					)
-				), 
-			"ORDER" => 
-				array("Description" => "ASC"
-				)		
-		)			
-	)); 
-	$contact_types = array(); 		
-	foreach($contact_type_rows as $row) {
-			$contact_types[$row['ContactTypeID']] = $row['Description']; 
-	}
-	
-	return $contact_types; 
-}
-	
 /*	Debugger example
 $client = array("ClientID" => 32794, 
 				"FirstName" => "Willy", 

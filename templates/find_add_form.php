@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="span3"></div>
 	<div class="span6">
-		<form class="form-horizontal" action="../html/find_add.php" method="post">
+		<form class="form-horizontal" action="../html/find_add.php" method="GET">
 			<legend>Find / Add Client</legend>
 			<div class="control-group">
 				<label class="control-label" for="FirstName">First Name</label>
@@ -21,6 +21,7 @@
 				<input type="email" id="Email" name="Email" placeholder="president@harvard.edu" />
 			</div>
 			<div class="control-group">
+				<input type="hidden" name="SHOW_LIST" value="true" hidden>
 				<button class="btn" type="submit">Submit</button>
 				<!-- input type="submit" value="Submit" / --> 
 			</div>

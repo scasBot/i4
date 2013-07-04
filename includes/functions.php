@@ -65,7 +65,31 @@
 		assert2(count($result) == 1, $contacttype_id . " did not match 1 result."); 
 		return $result; 
 	}
-	
+		
+	// returns all the contact types as an array with ID => Description
+	function get_contact_types() {
+		$contact_type_rows = query(query_select(
+			array(
+				"TABLE" => "db_ContactTypes", 
+				"WHERE" => 
+					array("Visible" => 
+						array(
+							"=", 
+							1
+						)
+					), 
+				"ORDER" => 
+					array("Description" => "ASC"
+					)		
+			)			
+		)); 
+		$contact_types = array(); 		
+		foreach($contact_type_rows as $row) {
+				$contact_types[$row['ContactTypeID']] = $row['Description']; 
+		}
+		
+		return $contact_types; 
+	}
     /**
      * Logs out current user, if any.  Based on Example #1 at
      * http://us.php.net/manual/en/function.session-destroy.php.
