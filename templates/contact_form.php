@@ -291,6 +291,8 @@
 <!-- MAIN SCRIPT FOR THIS PAGE HERE -->
 <script>	
 	function display() {
+		state.newContactShown = false; 
+	
 		$("#PutContactsHere").html(""); 
 		
 		contacts.sort(function(a, b) {
@@ -303,13 +305,9 @@
 		}
 		
 		$(function() {
-			$(".contact-form-row").popover({trigger: 'hover'}); 
-		}); 
-		
-		$(function() {
-			$(".contact-form-new").popover({trigger: 'hover'}); 
-		});
-		
+			$(".contact-form-row").popover({placement: 'bottom', trigger: 'hover'}); 
+			$(".contact-form-new").popover({placement: 'bottom', trigger: 'hover'});
+		}); 		
 	}
 	
 	$(document).ready(function() {
