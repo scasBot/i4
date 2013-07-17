@@ -18,8 +18,6 @@
 		// if asking to delete, assert the correct code and delete the client
 		if(isset($_GET["DELETE"])) { 
 			$client = new Client(); 
-			
-			$client = new Client(); 
 			assert2($client->initialize($_GET["ClientID"]));  
 			assert2($client->delete());  
 			redirect("index.php"); 
@@ -58,13 +56,13 @@
 		// grab the client's necessary items
 		$client_info = $client->info->get_array(); 		
 		$contacts = $client->contacts; 
-		$i3_contact = $client->old_contacts; 	
+		$i3_contacts = $client->old_contacts; 	
 		
-		if(isset($i3_contact["contacts"])) {
+		if(!is_null($i3_contacts)) {
 			// sort old contacts by date
 			$compare = create_function("\$a,\$b", 
 				"return \$b['ContactDate'] - \$a['ContactDate'];"); 
-			usort($i3_contact["contacts"], $compare);
+			usort($i3_contacts["contacts"], $compare);
 		}; 
 
 		// grab the contact types
@@ -76,7 +74,7 @@
 		
 		// display it!
 		render("client_form.php", array("title" => "Client", "client" => $client_info, "contacts" => $contacts,
-			"contact_types" => $contact_types, "i3_contact" => $i3_contact, "random_quote" => $filler->random_quote())); 		
+			"contact_types" => $contact_types, "i3_contacts" => $i3_contacts, "random_quote" => $filler->random_quote())); 		
 	}
 	else {
 		apologize("Wrong request type for the page"); 

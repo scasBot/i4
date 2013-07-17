@@ -1,4 +1,4 @@
-<?php if($i3_contact["exists"]) : ?>
+<?php if(!is_null($i3_contacts)) : ?>
 <form>
 	<legend>Old i3 Contacts</legend>
 </form>
@@ -6,7 +6,7 @@
 <div class="row">
 	<div id="OldContacts" class="span6">
 		<?php
-			foreach($i3_contact["contacts"] as $contact) {
+			foreach($i3_contacts as $contact) {
 				echo 
 					"<p>".$contact["ContactType"]."</p>" . 
 					"<p>".$contact["ContactDate"]." by ".$contact["UserName"]."</p><br />"; 

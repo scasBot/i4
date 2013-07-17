@@ -55,11 +55,7 @@ abstract class aDataObject implements iDataObject {
 			}
 		}
 	}
-	
-	// this can be overwritten in inheritances
-	private function construct_start($id) {return true;} 
-	private function construct_end($id) {return true;} 
-	
+		
 	// helper functions to give items based on existence of object
 	private function give_mutable($item) {
 		if($this->exists) {

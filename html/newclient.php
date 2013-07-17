@@ -13,6 +13,8 @@
 	else if($_SERVER["REQUEST_METHOD"] == "POST") {
 		$info = new ClientInfo(); 
 		assert2($info->from_array($_POST), "POST items are incorrect." );
+		assert2($info->set("State", "MA")); 
+		assert2($info->set("Language", "English")); 
 		assert2($info->push(), "Failed to insert into server in newclient.php"); 
 		$client_id = $info->get("ClientID"); 
 		redirect("client.php?ClientID=" . $client_id); 

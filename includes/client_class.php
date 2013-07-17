@@ -140,7 +140,112 @@ class Contact extends aPureDataObject implements iDataObject {
 	protected $primary_key = "ContactID";
 }
 
+class Priority extends aPureDataObject implements iDataObject {
+	protected $elements = array(
+		"ClientID", "CaseTypeID"); 	
+	protected $database_name = "dbi4_Priority"; 
+	protected $primary_key = "ClientID"; 
+	
+	// get the description of the priority
+	public function get_description() {
+		$type_id = $this->get("CaseTypeID"); 
+		
+		return unique_lookup("db_CaseTypes", $type_id, 
+			"CaseTypeID", "Description"); 
+	}
+	
+	// sets the CaseTypeID depending on the ContactTypeID
+	public function set_from_contactid($contactTypeID) {
+		switch $contactTypeID {
+			case 1 : 
+			case 2 : 
+			case 21 : 
+			case 15 : 
+				$this->set("CaseTypeID", 21); 
+				break; 
+			
+		}
+	}
+}
 
+class ClientWithAll implements iDataObject {
+	private $exists = false; 
+
+	private $contacts = array(); 
+	private $info; 
+	private $priority; 
+	private $old_contacts; 
+	
+	
+	function __construct($id = null) {
+		$this->old_contacts = new OldContacts($id); 
+		$this->info = new ClientInfo($id); 
+		$this->priority = new Priority($id); 
+		
+	}
+}
+
+class OldContacts {
+	private $id; 
+	private $exists; 
+	private $old_contacts = array(); 
+	
+	function __construct($id = null) {
+		if(!is_null($id)) {
+			$this->id = $id; 
+			$this->pull(); 
+		}
+	}
+	
+	public function get_old_contacts() {
+		if($this->exists) {
+			return $old_contacts;
+		}
+		else {
+			return null; 
+		}
+	}
+	public function get_exists() {
+		return $this->exists; 
+	}
+		
+	public function pull() {
+		$queried = query(query_select(array(
+			"TABLE" => "db_CaseInfo", 
+			"WHERE" => array("ClientID" => array("=", $this->id)
+		)))); 
+	
+		if(!$queried) {
+			return ($this->exists = false); 
+		}
+		else {
+			$this->exists = true; 
+		}
+		
+		$notes = ""; 
+		foreach($queried as $row) {
+			$notes .= $row["Notes"] . "\n"; 
+		}
+
+		$this->old_contacts["notes"] = $notes; 
+		
+		$queried = query(query_select(array(
+			"TABLE" => "db_Contact", 
+			"WHERE" => array("ClientID" => array("=", $this->id)
+		)))); 
+		
+		$old_contacts = array(); 
+		foreach($queried as $num => $row) {
+			$old_contacts[$num]["ContactDate"] = $row["Date"]; 
+			$old_contacts[$num]["ContactType"] = get_contacttype($row["ContactTypeID"]); 
+			$old_contacts[$num]["UserName"] = get_username($row["UserID"]); 
+		}
+		
+		$this->old_contacts["contacts"] = $old_contacts; 
+		return true; 			
+	}
+
+}
 
 class Client{
 	private $exists = false;

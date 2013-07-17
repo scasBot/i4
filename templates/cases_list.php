@@ -7,6 +7,7 @@
 					<th>Name</th>
 					<th>Phone Number</th>
 					<th>Email</th>
+					<!-- th>Priority</th -->
 				</tr>
 			</thead>
 			<tbody>
@@ -17,6 +18,7 @@
 						echo "<td>" . $case["LastName"]. ", " . $case["FirstName"] . "</td>"; 
 						echo "<td>(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] . "</td>"; 
 						echo "<td>" . $case["Email"] . "</td>";
+//						echo "<td>" . $case["Priority"] . "</td>"; 
 						echo "</tr>"; 
 					}
 					
