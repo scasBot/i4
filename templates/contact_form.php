@@ -47,10 +47,7 @@
 		
 		var html =  
 			"<div id='Contact"+ id +"' class='row contact-form-row'"
-					+ "onclick='showEdit("+id+")' " 
-					+ "data-title='Last Edit' "
-					+ "data-content='" + contact.UserName.Edit
-					+ " on " + contact.ContactEditDate + "'>"  
+					+ "onclick='showEdit("+id+")' >"  
 				+ "<div class='span2 divContactDate'>"
 					+ "<span id='Contact"+ id +"Date'>" 
 						+ contact.ContactDate + "</span>" 
@@ -98,9 +95,13 @@
 								+ "</select>"
 							+ "</div>"
 						+ "</div>"
+						+ "<div class='control-group'>"
+							+"<label class='control-label'>Last Edit: </label>"
+							+"<p style='text-align: center; padding-top: 5px' >" + contact.UserName.Edit + " on " + contact.ContactEditDate + "</p>"
+						+ "</div>"
 					+ "</div>"
 					+ "<div class='span6'>"
-						+ "<textarea class='field span5' rows='6' name='ContactSummary'>"+ContactSummary+"</textarea>"
+						+ "<textarea class='field span5' rows='6' name='ContactSummary' style='font-size: 12px'>"+ContactSummary+"</textarea>"
 					+ "</div>"
 				+ "</div>"
 				+ "<br />"
@@ -144,10 +145,12 @@
 		document.getElementById("EditContact" + id).reset(); 
 		myReset(id); 
 		$("#EditContact" + id).remove(); 
-		state.newContactShown = false; 
 		
 		if(id != 0) {
 			$("#Contact" + id).show(); 
+		}
+		else {
+			state.newContactShown = false; 
 		}
 	}
 
@@ -303,11 +306,6 @@
 			var html = contactDisplayHTML(contacts[n]); 
 			$("#PutContactsHere").append(html); 
 		}
-		
-		$(function() {
-			$(".contact-form-row").popover({placement: 'bottom', trigger: 'hover'}); 
-			$(".contact-form-new").popover({placement: 'bottom', trigger: 'hover'});
-		}); 		
 	}
 	
 	$(document).ready(function() {
