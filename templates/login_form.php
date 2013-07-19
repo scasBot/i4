@@ -2,6 +2,7 @@
     <fieldset>
         <div class="control-group">
 			<select autofocus name="userid">
+				<option value=""></option>
 				<?php 
 					
 					foreach($users as $user)
