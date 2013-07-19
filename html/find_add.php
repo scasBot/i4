@@ -1,5 +1,6 @@
 <?php
 	require("../includes/config.php"); 
+	require("../includes/client_class.php"); 
 	
 	if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		

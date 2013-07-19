@@ -2,9 +2,49 @@
 
 	require("../includes/config.php"); 
 	require("../includes/client_class.php"); 
-	
+/*	
+	$rows = query(query_select(array(
+		"TABLE" => "dbi4_Contacts"))); 
+		
+	foreach($rows as $row) {
+		$selected = query(query_select(array(
+			"TABLE" => "dbi4_Priority", 
+			"WHERE" => array("ClientID" => array("=", $row["ClientID"]))))); 
+		
+		if(!$selected) {
+			$priority = new Priority(); 
+			$priority->set("CaseTypeID", 0); 
+			$priority->set("ClientID", $row["ClientID"]); 
+			$priority->push(); 
+		}
+	}
+*/	
 	if($_SERVER["REQUEST_METHOD"] == "GET")
 	{
+		$rows1 = query(query_select(array(
+			"TABLE" => "dbi4_Priority", 
+			"WHERE" => array("CaseTypeID" => array("=", 1) )
+		)));
+
+		$rows2 = query(query_select(array(
+			"TABLE" => "dbi4_Priority", 
+			"WHERE" => array("CaseTypeID" => array("=", 21) )
+		)));
+
+		$rows3 = query(query_select(array(
+			"TABLE" => "dbi4_Priority", 
+			"WHERE" => array("CaseTypeID" => array("=", 22)), 
+			"LIMIT" => 20
+		)));
+		
+		$rows4 = query(query_select(array(
+			"TABLE" => "dbi4_Priority", 
+			"WHERE" => array("CaseTypeID" => array("=", 0) )
+		)));
+
+		$rows = array_merge($rows4, $rows1, $rows2, $rows3);
+	
+/*	
 		$rows1 = query(query_select(array(
 			"TABLE" => "dbi4_Contacts", 
 			"ORDER" => array("ContactDate" => "DESC"), 
@@ -58,6 +98,7 @@
 			}
 		}
 
+
 		foreach($to_show as $key => $case) {
 			try {
 				$priority = new Priority($case["ClientID"]);  
@@ -70,6 +111,21 @@
 			}
 			
 			$to_show[$key]["Priority"] = $priority->get_description();
+		}
+*/
+		$to_show = array(); 
+		
+		foreach($rows as $row) {
+			$queried = query(query_select(array(
+				"TABLE" => "db_Clients", 
+				"SELECT" => array("FirstName", "LastName", "Phone1AreaCode", "Phone1Number", "Email"), 
+				"WHERE" => array("ClientID" => array("=", $row["ClientID"]))
+			))); 
+			
+			$queried[0]["Priority"] = unique_lookup("db_CaseTypes", $row["CaseTypeID"], 
+				"CaseTypeID", "Description"); 	
+		
+			$to_show[] = $queried[0]; 			
 		}
 		
 		render("cases_list.php", 
