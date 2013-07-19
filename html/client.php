@@ -44,11 +44,16 @@
 		assert2($client_info_obj->push(), "Updating the database failed on client : " . $client_info_obj->get("ClientID"));
 		$client_id = $client_info_obj->get("ClientID"); 
 		unset($client_info_obj); 
+		
+		$priority = new Priority($_POST["ClientID"]); 
+		$priority->set("CaseTypeID", $_POST["Priority"]); 
+		$priority->push(); 
+		unset($priority); 
 	}
 	
 	// if the methods were correct
 	if($correct_req_method) {
-		
+/*		
 		// create a new client and initialize it
 		$client = new Client(); 
 		assert2($client->initialize($client_id), "Client object problem"); 
@@ -57,24 +62,31 @@
 		$client_info = $client->info->get_array(); 		
 		$contacts = $client->contacts; 
 		$i3_contacts = $client->old_contacts; 	
+*/
+		$client = new ClientWithAll($client_id); 
+		$contacts = $client->get_contacts_array(); 
+		$client_info = $client->get("info")->get_array();
+		$priority = $client->get("priority")->get_description(); 
 		
-		if(!is_null($i3_contacts)) {
+		if($i3_contacts["exists"] = $client->get("old_contacts")->get_exists()) {
+			$i3_contacts["notes"] = $client->get("old_contacts")->get_notes(); 
+			$i3_contacts["contacts"] = $client->get("old_contacts")->get_contacts(); 
+			
 			// sort old contacts by date
 			$compare = create_function("\$a,\$b", 
 				"return \$b['ContactDate'] - \$a['ContactDate'];"); 
 			usort($i3_contacts["contacts"], $compare);
-		}; 
-
-		// grab the contact types
-		$contact_types = get_contact_types();
-
+		}		 
+		
 		// remove variables
 		unset($correct_req_method); 
 		unset($client_id); 
 		
 		// display it!
 		render("client_form.php", array("title" => "Client", "client" => $client_info, "contacts" => $contacts,
-			"contact_types" => $contact_types, "i3_contacts" => $i3_contacts, "random_quote" => $filler->random_quote())); 		
+			"contact_types" => get_contact_types(), "i3_contacts" => $i3_contacts, "random_quote" => $filler->random_quote(), 
+			"priorities" => get_priorities(), "priority" => $priority 
+		)); 		
 	}
 	else {
 		apologize("Wrong request type for the page"); 

@@ -1,6 +1,7 @@
 <?php
 
 	require("../includes/config.php"); 
+	require("../includes/client_class.php"); 
 	
 	if($_SERVER["REQUEST_METHOD"] == "GET")
 	{
@@ -57,6 +58,20 @@
 			}
 		}
 
+		foreach($to_show as $key => $case) {
+			try {
+				$priority = new Priority($case["ClientID"]);  
+			}
+			catch(Exception $e) {
+				$priority = new Priority(); 
+				$priority->set("ClientID", $case["ClientID"]); 
+				$priority->set("CaseTypeID", 0); 
+				$priority->push();  
+			}
+			
+			$to_show[$key]["Priority"] = $priority->get_description();
+		}
+		
 		render("cases_list.php", 
 			array("title" => "By Priority", 
 				"cases" => $to_show, 

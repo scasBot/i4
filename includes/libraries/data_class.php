@@ -34,7 +34,7 @@ abstract class aDataObject implements iDataObject {
 	protected $database_name; 
 	
 	// an array of the element names of this object
-	protected $elements = array();
+	protected $elements = array(); 
 
 	// booleans that tell if current local data is synced and
 	// if the object already exists in the database
@@ -84,6 +84,9 @@ abstract class aDataObject implements iDataObject {
 	}
 	public function get_primary_key() {
 		return $this->primary_key; 
+	}
+	public function get_matchers() {
+		return $this->matchers; 
 	}
 	
 	// getter
@@ -210,6 +213,9 @@ abstract class aDataObject implements iDataObject {
 }
 
 abstract class aPureDataObject extends aDataObject implements iDataObject {
+	// an array used to match from the database to the current object (used to get id)
+	protected $matchers = array();
+
 	protected function pull_specific() {
 		$queried = query(query_select(array(
 			"TABLE" => $this->database_name, 
@@ -268,8 +274,8 @@ abstract class aPureDataObject extends aDataObject implements iDataObject {
 			foreach($rows as $row) {
 				$bool = true; 
 				
-				foreach($this->elements as $element) {
-					$bool = $bool && ($row[$element] == $this->get($element)); 
+				foreach($this->matchers as $matcher) {
+					$bool = $bool && ($row[$matcher] == $this->get($matcher)); 
 				}
 
 				if($bool) {

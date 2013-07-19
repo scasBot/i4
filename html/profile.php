@@ -1,22 +1,25 @@
 <?php
 
 	require("../includes/config.php"); 
+	require("../includes/profile_class.php"); 
+	
+	$profile = new Profile($_SESSION["id"]); 
+	$correct_req = false; 
 	
 	if($_SERVER["REQUEST_METHOD"] == "GET") {
-		$table = "i3_Users"; 
-		$where = array("UserID" => array("=", $_SESSION["id"])); 
-		
-		$rows = query(query_select(array("TABLE" => $table, "WHERE" => $where))); 
-		 
-		if(count($rows) == 1) {
-			render("profile_form.php", array("title" => "Profile", "user" => $rows[0])); 
-		}
-		else {
-			apologize("Sorry, something's wrong with the database."); 
-		}
+		$correct_req = true; 
 	}
 	else if($_SERVER["REQUEST_METHOD"] == "POST") {	
-		render("profile_form.php", array("title" => "Profile", "user" => $rows[0])); 
-	}
+		$correct_req = true; 
 		
+		$profile->from_array($_POST); 
+		$profile->push(); 
+	}
+	
+	if($correct_req) {
+		render("profile_form.php", array("title" => "Profile", "user" => $profile->get_array()));		
+	}
+	else {
+		apologize("Incorrect request method."); 
+	}
 ?>

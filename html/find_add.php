@@ -41,6 +41,20 @@ function search($info) {
 			}
 		}
 		
+		foreach($rows as $key => $row) {
+			try {
+				$priority = new Priority($row["ClientID"]);  
+			}
+			catch (Exception $e) {
+				$priority = new Priority(); 
+				$priority->set("ClientID", $row["ClientID"]); 
+				$priority->set("CaseTypeID", 0); 
+				$priority->push(); 
+			}
+			
+			$rows[$key]["Priority"] = $priority->get_description();
+		}
+		
 		// render the list
 		render("cases_list.php", 
 			array("title" => "Find", 

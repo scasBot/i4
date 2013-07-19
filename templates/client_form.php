@@ -1,57 +1,76 @@
 <form id="clientForm" class="form-horizontal" action="client.php" method="post">
 <legend>Client Info</legend>
 <div class="row">
-	<div class="span6">
-		<div class="control-group">
-			<label class="control-label" for="ClientID">Client ID : </label>
-			<div class="controls">
-				<input id="ClientID" name="ClientID" type="text" value="<?php echo $client["ClientID"] ?>" readonly />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="FirstName">First Name: </label>
-			<div class="controls">
-				<input id="FirstName" name="FirstName" type="text" value="<?php echo $client["FirstName"] ?>" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="LastName">Last Name: </label>
-			<div class="controls">
-				<input id="LastName" name="LastName" type="text" value="<?php echo $client["LastName"] ?>" />
-			</div>
-		</div>
-	</div>
-	<div class="span6">
-		<div class="control-group">
-			<label class="control-label" for="Address">Address: </label>
-			<div class="controls">
-				<input id="Address" name="Address" type="text" value="<?php echo $client["Address"] ?>" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="City">City: </label>
-			<div class="controls">
-				<input id="City" name="City" type="text" value="<?php echo $client["City"] ?>" />
-			</div>
-		</div>
+	<div class="span12">
 		<div class="row">
-			<div class="span4">
-		<div class="control-group">
-			<label class="control-label" for="State">State: </label>
-			<div class="controls">
-				<select id="State" name="State" class="input-mini">
-					<?php echo htmlOptionsStates($client["State"]) ?>
-				</select>
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="ClientID">Client ID : </label>
+					<div class="controls">
+						<input id="ClientID" name="ClientID" type="text" value="<?php echo $client["ClientID"] ?>" readonly />
+					</div>
+				</div>
 			</div>
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label">Priority: </label>
+					<div class="controls">
+						<select name="Priority">
+							<?php echo htmlOptions($priorities, $priority) ?>
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="Zip">Zip: </label>
-			<div class="controls">
-				<input id="Zip" name="Zip" type="text" value="<?php echo $client["Zip"] ?>" />
+		<br />
+		<div class="row">
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="FirstName">First Name: </label>
+					<div class="controls">
+						<input id="FirstName" name="FirstName" type="text" value="<?php echo $client["FirstName"] ?>" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="LastName">Last Name: </label>
+					<div class="controls">
+						<input id="LastName" name="LastName" type="text" value="<?php echo $client["LastName"] ?>" />
+					</div>
+				</div>
 			</div>
-		</div>		
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="Address">Address: </label>
+					<div class="controls">
+						<input id="Address" name="Address" type="text" value="<?php echo $client["Address"] ?>" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="City">City: </label>
+					<div class="controls">
+						<input id="City" name="City" type="text" value="<?php echo $client["City"] ?>" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="span4">
+				<div class="control-group">
+					<label class="control-label" for="State">State: </label>
+					<div class="controls">
+						<select id="State" name="State" class="input-mini">
+							<?php echo htmlOptionsStates($client["State"]) ?>
+						</select>
+					</div>
+					</div>
+				</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="Zip">Zip: </label>
+					<div class="controls">
+						<input id="Zip" name="Zip" type="text" value="<?php echo $client["Zip"] ?>" />
+					</div>
+				</div>		
+			</div>
+		</div>
 	</div>
 </div>
 <br/>

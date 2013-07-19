@@ -90,6 +90,24 @@
 		
 		return $contact_types; 
 	}
+	
+	// returns all the priorities 
+	function get_priorities() {
+		$rows = query(query_select(
+			array(
+				"TABLE" => "db_CaseTypes", 
+				"WHERE" => array("Deprecated" => array("=", 0)),
+				"ORDER" => array("Description" => "ASC"))
+		)); 
+		
+		$priorities = array(); 
+		foreach($rows as $row) {
+			$priorities[$row["CaseTypeID"]] = $row["Description"]; 
+		}
+		
+		return $priorities; 
+	}
+	
     /**
      * Logs out current user, if any.  Based on Example #1 at
      * http://us.php.net/manual/en/function.session-destroy.php.

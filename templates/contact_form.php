@@ -1,6 +1,7 @@
 <form id="contactForm" class="form-horizontal">
 	<legend>Contact Info</legend>
 </form>
+
 <div class="row contact-form-header">
 	<div class="span2">Contact Date</div>
 	<div class="span2">Type</div>
@@ -75,7 +76,12 @@
 		var id = (isNew ? 0 : contact.ContactID); 
 		var ContactDate = (isNew ? currentSqlDate() : contact.ContactDate); 
 		var ContactSummary = (isNew ? "" : contact.ContactSummary); 
-		
+		var LastEdit = (isNew? "" : 
+				"<div class='control-group'>"
+					+"<label class='control-label'>Last Edit: </label>"
+					+"<p style='text-align: center; padding-top: 5px' >" + contact.UserName.Edit + " on " + contact.ContactEditDate + "</p>"
+				+ "</div>"); 			
+				
 		var html =  
 		"<form id='EditContact" + id + "' class='contact-edit-form form-horizontal' hidden>" 
 			+ "<div class='row contact-edit-row'>"
@@ -95,10 +101,7 @@
 								+ "</select>"
 							+ "</div>"
 						+ "</div>"
-						+ "<div class='control-group'>"
-							+"<label class='control-label'>Last Edit: </label>"
-							+"<p style='text-align: center; padding-top: 5px' >" + contact.UserName.Edit + " on " + contact.ContactEditDate + "</p>"
-						+ "</div>"
+						+ LastEdit 
 					+ "</div>"
 					+ "<div class='span6'>"
 						+ "<textarea class='field span5' rows='6' name='ContactSummary' style='font-size: 12px'>"+ContactSummary+"</textarea>"
