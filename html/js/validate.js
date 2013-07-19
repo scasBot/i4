@@ -21,18 +21,18 @@ function toNumbers(phonenumber) {
 	return phonenumber.replace(/[^0-9]/g,"");  
 }
 
-// checks if a number is valid mysql syntax
+// checks if a number is valid mysql syntax for a date
 function isValidMysqlSyntax(date) {
-	return /^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}$/.test(date); 
+	return /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/.test(date); 
 }
 
 // checks if a date is valid
 function isValidDate(date) {
-	var dateObject = new Date(date); 	
+	var dateObject = myDate(date); 	
 	return dateObject.toString() != "Invalid Date"; 
 }
 
 // checks both mysql date and date object
-function isValidMysqlDate(date) {
-	return isValidMysqlSyntax(date) && isValidDate(date); 
+function isValidMysqlDate(datestring) {
+	return isValidMysqlSyntax(datestring) && isValidDate(datestring); 
 }

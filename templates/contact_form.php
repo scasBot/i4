@@ -276,8 +276,8 @@
 		var dateInput = $("#EditContact" + id).find("[name='ContactDate']");		
 		
 		if(isValidDate(dateInput.val())) {
-			var date_inputted = new Date(dateInput.val()); 
-			dateInput.val(toSqlDate(date_inputted)); 
+			var date_inputted = myDate(dateInput.val()); 
+			dateInput.val(toSqlDate(date_inputted));
 			return true; 
 		}
 		else {
@@ -302,7 +302,7 @@
 		$("#PutContactsHere").html(""); 
 		
 		contacts.sort(function(a, b) {
-			return (new Date(b.ContactDate)) - (new Date(a.ContactDate)); 
+			return (myDate(b.ContactDate)) - (myDate(a.ContactDate)); 
 		}); 
 		
 		for(n in contacts) {
