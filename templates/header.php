@@ -36,7 +36,7 @@
 			<div class="navbar">  
 					<div class="navbar-inner">  
 						<ul class="nav">
-							<li><a href="../html">SCASi4</a></li>
+							<li><a href="../html">SCASi4-beta</a></li>
 							<li class="dropdown">
 								<a href="../html/cases.php?by_type=priority" 
 									class="dropdown-toggle"
@@ -46,7 +46,7 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="../html/cases.php?by_type=priority">Priority</a></li>
-									<li><a href="../html/cases.php?by_type=category">Category</a></li>
+									<!-- li><a href="../html/cases.php?by_type=category">Category</a></li -->
 									<li><a href="../html/cases.php?by_type=date">Date</a></li>
 								</ul>
 							</li>

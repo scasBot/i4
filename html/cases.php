@@ -21,28 +21,20 @@
 */	
 	if($_SERVER["REQUEST_METHOD"] == "GET")
 	{
-		$rows1 = query(query_select(array(
+		function get_by_priority_id($id) {
+			return query(query_select(array(
 			"TABLE" => "dbi4_Priority", 
-			"WHERE" => array("CaseTypeID" => array("=", 1) )
-		)));
-
-		$rows2 = query(query_select(array(
-			"TABLE" => "dbi4_Priority", 
-			"WHERE" => array("CaseTypeID" => array("=", 21) )
-		)));
-
-		$rows3 = query(query_select(array(
-			"TABLE" => "dbi4_Priority", 
-			"WHERE" => array("CaseTypeID" => array("=", 22)), 
-			"LIMIT" => 20
-		)));
+			"WHERE" => array("CaseTypeID" => array("=", $id))
+			))); 
+		}
 		
-		$rows4 = query(query_select(array(
-			"TABLE" => "dbi4_Priority", 
-			"WHERE" => array("CaseTypeID" => array("=", 0) )
-		)));
+		$urgent = get_by_priority_id(1); 
+		$message_left = get_by_priority_id(22); 
+		$no_contacted = get_by_priority_id(21); 
+		$undefined = get_by_priority_id(0); 
+		$phone_tag = get_by_priority_id(11); 
 
-		$rows = array_merge($rows4, $rows1, $rows2, $rows3);
+		$rows = array_merge($undefined, $urgent, $no_contacted, $phone_tag, $message_left);
 	
 /*	
 		$rows1 = query(query_select(array(
@@ -113,6 +105,9 @@
 			$to_show[$key]["Priority"] = $priority->get_description();
 		}
 */
+
+		$priorities = get_priorities(); 
+		
 		$to_show = array(); 
 		
 		foreach($rows as $row) {
@@ -121,10 +116,8 @@
 				"SELECT" => array("FirstName", "LastName", "Phone1AreaCode", "Phone1Number", "Email"), 
 				"WHERE" => array("ClientID" => array("=", $row["ClientID"]))
 			))); 
-			
-			$queried[0]["Priority"] = unique_lookup("db_CaseTypes", $row["CaseTypeID"], 
-				"CaseTypeID", "Description"); 	
 		
+			$queried[0]["Priority"] = $priorities[$row["CaseTypeID"]]; 		
 			$to_show[] = $queried[0]; 			
 		}
 		
