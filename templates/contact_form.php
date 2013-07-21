@@ -216,8 +216,7 @@
 				newContact.ContactID = 0; 
 				newContact.UserName.Added = "<?php echo $_SESSION["username"] ?>"; 
 				newContact.ClientID = "<?php echo $client["ClientID"] ?>"; 
-			}
-			else {
+			} else {
 				newContact = contacts[index]; 
 			}
 			
@@ -227,13 +226,44 @@
 			newContact.ContactTypeID = editDiv.find("[name='ContactType']").val(); 
 			newContact.ContactSummary = editDiv.find("[name='ContactSummary']").val(); 
 
-			data.data = {}; 
+			data = {}; 
 		
-			data.data.ID = <?php echo $_SESSION["id"] ?>; 
-			data.data.Contact = newContact; 
-			data.data.Action = (id == 0 ? "Insert" : "Update"); 
-			data.REQ = "contact"; 
+			data.ID = <?php echo $_SESSION["id"] ?>; 
+			data.Contact = newContact; 
+			data.Action = (id == 0 ? "Insert" : "Update"); 
 			
+			ajax.sendAjax({
+				data : data, 
+				REQ : "contact", 
+				success : function(r) {
+					try {
+						console.log(r); 
+						var response = $.parseJSON(r); 
+					}
+					catch (e) {
+						throw "Error: server repsonse invalid."; 
+					}
+
+					if(response.Success) {
+						newContact.ContactType = response.data.ContactType; 
+
+						if(id == 0) {
+							newContact.ContactID = response.data.ContactID; 
+							contacts.push(newContact); 
+						} else {
+							contacts[index] = newContact; 
+						}
+						
+						display(); 
+					} else {
+						throw "Error: server response unsuccessful"; 
+					}
+				}, 
+				error : function(e) {
+					alert(e);  
+				}
+			}); 
+/*			
 			$.ajax({
 				url : "ajax.php",
 				type: "POST",
@@ -268,6 +298,7 @@
 					alert(e);  
 				}
 			}); 
+*/
 			return; 
 		}
 	}

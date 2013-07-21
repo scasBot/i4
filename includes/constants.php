@@ -23,6 +23,9 @@
 
 	//** OTHER CONSTANTS **//
 	define("ROOT", "/i4/html"); 
+	
+	define("AJAX_HASH", "hello_bobert"); 
+	
 	/*
 	define("ROOT", realpath(
 					dirname(

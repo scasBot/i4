@@ -1,6 +1,11 @@
 <?php
 	require("../includes/client_class.php"); 
 	
+	if(!isset($data["Action"], $data["Contact"], $data["ID"])) {
+		echo "Error: Inomplete items in data"; 
+		die(); 
+	}
+	
 	if($data["Contact"]["ContactID"] == 0) {
 	
 		$data["Contact"]["UserAddedID"] = $data["ID"]; 

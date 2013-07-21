@@ -27,6 +27,16 @@
         <script src="js/bootstrap.js"></script>
         <script src="js/scripts.js"></script>
 		<script src="js/validate.js"></script>
+		<script src="js/ajax_helpers.js"></script>
+		
+		<?php if (isset($_SESSION["id"])) : ?>
+			<script>
+				var ajax_authentication = {
+					id : <?php echo $_SESSION["id"] ?>, 
+					hash : "<?php echo AJAX_HASH ?>",  
+				}
+			</script>
+		<?php endif; ?>
 
     </head>
 
