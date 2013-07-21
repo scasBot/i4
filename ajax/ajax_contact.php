@@ -1,12 +1,17 @@
 <?php
 	require("../includes/client_class.php"); 
 	
-	if(!isset($data["Action"], $data["Contact"], $data["ID"])) {
+	if(!isset($data["Action"], $data["Contact"])) {
 		echo "Error: Inomplete items in data"; 
 		die(); 
 	}
 	
 	if($data["Contact"]["ContactID"] == 0) {
+	
+		if(!isset($data["ID"])) {
+			echo "Error: Incomplete items in data"; 
+			die(); 
+		}
 	
 		$data["Contact"]["UserAddedID"] = $data["ID"]; 
 		$data["Contact"]["UserEditID"] = $data["ID"]; 
@@ -29,6 +34,11 @@
 		die(); 
 	
 	} else if ($data["Action"] == "Update") {
+		if(!isset($data["ID"])) {
+			echo "Error: Incomplete items in data"; 
+			die(); 
+		}	
+	
 		$contact = new Contact($data["Contact"]["ContactID"]);
 		$data["Contact"]["UserEditID"] = $data["ID"]; 
 		$contact->from_array($data["Contact"]); 

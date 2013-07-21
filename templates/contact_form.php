@@ -174,12 +174,33 @@
 		}
 		else {
 			data = {}; 
-			data.REQ = "contact"; 
-			data.data = {}; 
-			data.data.Action = "Delete"; 
-			data.data.Contact = {}; 
-			data.data.Contact.ContactID = id; 
-		
+			data.Action = "Delete"; 
+			data.Contact = {}; 
+			data.Contact.ContactID = id; 
+			
+			ajax.sendAjax({
+				REQ : "contact", 
+				data : data, 
+				success : function(r) {
+					try {
+						console.log(r); 
+						var response = $.parseJSON(r); 
+					}
+					catch (e) {
+						throw "Error : Server response invalid."; 
+					}
+					
+					if(response.Success) {
+						contacts.splice(getContactIndex(id), 1); 
+						console.log("gone!"); 
+						display(); 
+					}
+				}, 
+				error : function(e) {
+					return; 
+				}
+			}); 
+/*		
 			$.ajax({
 				url : "ajax.php", 
 				type : "POST", 
@@ -199,7 +220,7 @@
 					}
 				}
 			}); 
-			console.log("gone!"); 
+*/
 		}
 	}
 
