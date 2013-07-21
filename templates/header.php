@@ -45,9 +45,9 @@
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
-									<li><a href="../html/cases.php?by_type=priority">Priority</a></li>
+									<li><a href="../html/cases.php?type=priority">Priority</a></li>
 									<!-- li><a href="../html/cases.php?by_type=category">Category</a></li -->
-									<li><a href="../html/cases.php?by_type=date">Date</a></li>
+									<li><a href="../html/cases.php?type=date">Date</a></li>
 								</ul>
 							</li>
 							<li><a href="../html/find_add.php">Find/Add Client</a></li>

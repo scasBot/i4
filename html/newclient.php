@@ -17,7 +17,7 @@
 		assert2($info->set("Language", "English")); 
 		assert2($info->push(), "Failed to insert into server in newclient.php"); 
 		$client_id = $info->get("ClientID"); 
-		$prioirty = new Priority(); 
+		$priority = new Priority(); 
 		$priority->from_array(array("ClientID" => $client_id, "CaseTypeID" => 21)); 
 		$priority->push(); 
 		redirect("client.php?ClientID=" . $client_id); 
