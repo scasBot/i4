@@ -53,16 +53,7 @@
 	
 	// if the methods were correct
 	if($correct_req_method) {
-/*		
-		// create a new client and initialize it
-		$client = new Client(); 
-		assert2($client->initialize($client_id), "Client object problem"); 
-		
-		// grab the client's necessary items
-		$client_info = $client->info->get_array(); 		
-		$contacts = $client->contacts; 
-		$i3_contacts = $client->old_contacts; 	
-*/
+
 		$client = new ClientWithAll($client_id); 
 		$contacts = $client->get_contacts_array(); 
 		$client_info = $client->get("info")->get_array();
