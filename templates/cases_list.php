@@ -1,5 +1,41 @@
 <div class="row">
 	<div class="span12">
+		<div class="row">
+			<div class="span12">
+				<input id="instantSearch" type="text" placeholder="Instant Search" />
+			</div>
+			<script>
+				$(document).ready(function() {
+					$("#instantSearch").focus(); 
+				}); 
+
+				function instantHandler() {
+					if ($(this).val() == "") {
+						$("tr[name='client']").each(function() {
+							$(this).show(); 
+						}); 
+					}
+					else {
+						showRows($(this).val()); 
+					}
+				}
+				
+				function showRows(val) {
+					$("tr[name='client']").each(function() {
+						if($(this).html().toUpperCase().indexOf(val.toUpperCase()) > -1) {
+							$(this).show(); 
+						}
+						else {
+							$(this).hide(); 
+						}
+					}); 
+				}
+				
+				$("#instantSearch").on("keydown", instantHandler); 
+				$("#instantSearch").on("keyup", instantHandler);
+				$("#instantSearch").on("click", instantHandler); 		
+			</script>
+		</div>
 		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
