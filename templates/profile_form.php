@@ -19,7 +19,7 @@
 				<label for="YOG" class="control-label">Graduation Year</label>
 				<select id="YOG" name="YOG">
 					<?php 
-						for($i = 2012; $i < (date("Y") + 5); $i++) {
+						for($i = (date("Y") - 1); $i < (date("Y") + 5); $i++) {
 							echo htmlOption($i, $i, $i == $user["YOG"]); 
 						}						
 					?>
@@ -27,9 +27,9 @@
 			</div>
 			<div class="control-group">
 				<button class="btn" type="submit">Edit User</button>
-				<!-- input type="submit" value="Edit User" / -->
 			</div>
 		</form>
 	</div>
 	<div class="span3"></div>
 </div>
+<?php if(isset($render_stats)) {require("profile_stats_form.php");} ?>

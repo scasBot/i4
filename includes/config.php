@@ -19,7 +19,6 @@
 	require("libraries/ALL.php"); 
 	require("magic_quotes_emulate.php"); 
  
-	
     // enable sessions
     session_start();
 

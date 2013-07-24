@@ -14,7 +14,8 @@
         <link href="css/bootstrap.css" rel="stylesheet"/>
         <!-- link href="css/bootstrap-responsive.css" rel="stylesheet"/ -->
         <link href="css/styles.css" rel="stylesheet"/>
-	
+
+		<link rel="icon" type="image/ico" href="img/favicon.ico">
 		
         <?php if (isset($title)): ?>
             <title>SCASi4: <?php echo htmlspecialchars($title) ?></title>
@@ -84,7 +85,7 @@
         <div class="container">
             <div id="top" class="row">
 				<div class="span12">
-				<a href="/"><img alt="SCAS i4: The Next Generation" src="img/logo.png" style="padding: 10px"/></a>
+				<a href="/"><img alt="SCAS i4: The Next Generation" src="img/logo.jpg" style="padding: 10px"/></a>
 				</div>
 			</div>
 
