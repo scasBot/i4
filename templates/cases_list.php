@@ -2,7 +2,7 @@
 	<div class="span12">
 		<div class="row">
 			<div class="span12">
-				<input id="instantSearch" type="text" placeholder="Instant Search" />
+				<input id="instantSearch" type="text" placeholder="<?php echo "  " . byi4("Instant Search") ?>" />
 			</div>
 			<script>
 				$(document).ready(function() {

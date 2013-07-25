@@ -11,7 +11,7 @@ function check_assert_handler($description = NULL) {
 	// <<<EDIT CODE HERE >>> //
 	$msg = "Assert Failure: " . 
 		($description ? $description : debug_backtrace()) ; 
-	apologize($msg); 
+	trigger_error($msg); 
 	// <<<END EDIT HERE >>> //
 
 }

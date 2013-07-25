@@ -113,6 +113,113 @@
 </div>
 </form>
 <button id="updateClient" class="btn" onclick="updateClient()" >Update Client Info</button>
+<div class="row">
+	<div class="span12">
+		<div id="clientActions">
+			<!-- p><?php echo byi4("Actions") ?></p-->
+			<div class="row">
+				<div class="span12">
+					<button class="btn btn-danger actions" data-action="del">Delete Client</button>
+					<button class="btn btn-info actions" data-action="merge">Merge Client</button>
+					<button class="btn btn-success actions" data-action="email">Email Client</button>
+					<button class="btn btn-inverse actions" data-action="emaili4">Email i4 Users</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+		var actions = {
+			del : function() {
+				if(confirm("Are you sure you want to delete this client and all data " + 
+					"associated with them?")) {
+				
+					window.location = "client.php?DELETE&ClientID=<?php echo $client["ClientID"]?>"; 
+				}
+			}, 
+			merge : function() {
+				window.location = "merge.php?Client1=<?php echo $client["ClientID"] ?>"; 
+			}, 		
+			email : function() {
+				var to = $("input[name='Email']").val(); 
+				if(!isValidEmail(to)) {
+					alert("Client email is invalid."); 
+					return; 
+				} else {
+					addEmailForm(); 
+					$(".email-form").find("input[name='to']").val(to); 
+				}
+			}, 
+			emaili4 : function() {
+				addEmailForm(); 
+			}, 
+		}
+
+		var state = {
+			emailShowing : false, 
+		}
+		
+		function addEmailForm() {
+			if(!state.emailShowing) {
+				$("#clientActions").after(
+					"<div class='row'>" + 
+						"<div class='span2'></div>" + 
+							email.form() +
+						"<div class='span2'></div>" + 
+					"</div>"
+				);
+				state.emailShowing = true; 
+				
+				function handler() {
+					if($(this).data("action") == "send") {
+						ajax.sendAjax({
+							request : "emailForm", 
+							data : $(".email-form").serialize();
+							success : function(r) {
+								try {
+									r = $.parseJSON(r); 
+								
+									if(r.success) {
+										showSuccess(); 
+										$(".email-btn").off("click", handler);
+										$(".email-form").remove(); 
+										state.emailShowing = false; 
+									} else {
+										alert("Something went wrong!" + r); 
+									}
+								} catch(e) {
+									alert("Something went wrong!" + r); 
+								}
+							}, 
+							error : function(r) {
+								alert("Something went wrong!" + r); 
+							}
+						});						
+					}
+				}
+				
+				$(".email-btn").on("click", handler); 
+				return; 
+			} else {
+				alert("Finish sending our current email, yo!"); 
+				return; 
+			}
+		}
+		
+		$(".actions").on("click", function() {
+			actions[$(this).data("action")] (); 
+		}); 
+	}); 
+</script>
+<style type="text/css">
+	.email-form {
+		border: 1px dotted black; 
+		padding-top: 10px; 
+		padding-bottom: 10px; 
+		margin-top : 10px; 
+	}
+</style>
 <script>
 	function updateClient() {
 		$("#clientForm").submit(); 

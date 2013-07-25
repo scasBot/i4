@@ -53,7 +53,7 @@
 		// return the required page
 		switch($_POST["REQ"]) {
 			case "contact" : 
-//			case "emailForm" : 
+			case "emailForm" : 
 				require(ajax_page($_POST["REQ"])); 
 			break;
 			default : 

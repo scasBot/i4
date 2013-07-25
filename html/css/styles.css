@@ -38,6 +38,14 @@
     text-align: center;
 }
 
+#clientActions {
+	border-top: 1px dotted black; 
+	border-bottom: 1px dotted black; 
+	padding-top: 2px; 
+	padding-bottom: 2px; 
+	margin-top: 15px; 
+}
+
 .contact-form-header
 {
 	padding-bottom: 10px; 
