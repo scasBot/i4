@@ -17,10 +17,12 @@
 	
 		// if asking to delete, assert the correct code and delete the client
 		if(isset($_GET["DELETE"])) { 
-			$client = new Client(); 
+			apologize("Sorry, can't do that yet."); 
+		
+/*			$client = new Client(); 
 			assert2($client->initialize($_GET["ClientID"]));  
 			assert2($client->delete());  
-			redirect("index.php"); 
+			redirect("index.php"); */
 		}
 		else {
 			$correct_req_method = true;

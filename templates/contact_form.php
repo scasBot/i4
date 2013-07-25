@@ -202,27 +202,6 @@
 					return; 
 				}
 			}); 
-/*		
-			$.ajax({
-				url : "ajax.php", 
-				type : "POST", 
-				data : data, 
-				success : function(r) {
-					try {
-						console.log(r); 
-						var response = $.parseJSON(r); 
-					}
-					catch (e) {
-						throw "Error : Server response invalid."; 
-					}
-					
-					if(response.Success) {
-						contacts.splice(getContactIndex(id), 1); 
-						display(); 
-					}
-				}
-			}); 
-*/
 		}
 	}
 
@@ -286,42 +265,7 @@
 					alert(e);  
 				}
 			}); 
-/*			
-			$.ajax({
-				url : "ajax.php",
-				type: "POST",
-				data : data,
-				success : function(r) {
-					try {
-						console.log(r); 
-						var response = $.parseJSON(r); 
-					}
-					catch (e) {
-						throw "Error: server repsonse invalid."; 
-					}
-					
-					if(response.Success) {
-						newContact.ContactType = response.data.ContactType; 
 
-						if(id == 0) {
-							newContact.ContactID = response.data.ContactID; 
-							contacts.push(newContact); 
-						}
-						else {
-							contacts[index] = newContact; 
-						}
-						
-						display(); 
-					}
-					else {
-						throw "Error: server response unsuccessful"; 
-					}
-				}, 
-				error : function(e) {
-					alert(e);  
-				}
-			}); 
-*/
 			return; 
 		}
 	}

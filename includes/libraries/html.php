@@ -46,6 +46,7 @@ function htmlOptions($arr, $selected_text = NULL) {
 function htmlOptionsStates($state) {
 	return htmlOptions(
 		array(
+			"" => "", 
 			"AL" => "AL",
 			"AK" => "AK",
 			"AR" => "AR",

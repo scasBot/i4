@@ -18,6 +18,13 @@
         exit;
     }
 	
+	/**
+	* Prints the string of the i4 specialty
+	*/
+	function byi4($feature) {
+		return "{" . $feature . "} by scasi4"; 
+	}
+	
     /**
      * Facilitates debugging by dumping contents of variable
      * to browser.
