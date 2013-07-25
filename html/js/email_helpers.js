@@ -7,6 +7,8 @@ var email = {};
 
 email.id = 0; 
 
+email.onCancel = function() {return;}; 
+
 email.form = function() {
 	var html = 
 	"<form id='emailForm" + email.id + "' class='form-horizontal email-form span8'>" +
@@ -38,7 +40,7 @@ email.form = function() {
 			"<button class='btn email-btn' data-action='send' type='button' data-id='" + email.id + "'>Send Email</button>" + 
 			"<button class='btn email-btn' data-action='reset' type='reset' data-id='" + email.id + "'>Reset</button>" + 
 			"<button class='btn email-btn' data-action='cancel' type='button' data-id='" + email.id + "' style='font-size: 12px'" + 
-				"onclick='$(\"#emailForm" + email.id + "\").remove()' >Cancel</button>" + 
+				"onclick='email.onCancel(); $(\"#emailForm" + email.id + "\").remove()' >Cancel</button>" + 
 		"</div>" + 
 	"</form>"; 
 

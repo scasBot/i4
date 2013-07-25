@@ -134,7 +134,6 @@
 			del : function() {
 				if(confirm("Are you sure you want to delete this client and all data " + 
 					"associated with them?")) {
-				
 					window.location = "client.php?DELETE&ClientID=<?php echo $client["ClientID"]?>"; 
 				}
 			}, 
@@ -169,19 +168,22 @@
 						"<div class='span2'></div>" + 
 					"</div>"
 				);
+				email.onCancel = function() {
+					state.emailShowing = false; 
+				}; 				
 				state.emailShowing = true; 
 				
 				function handler() {
 					if($(this).data("action") == "send") {
 						ajax.sendAjax({
-							request : "emailForm", 
-							data : $(".email-form").serialize();
+							REQ : "emailForm", 
+							data : $(".email-form").serialize(),
 							success : function(r) {
 								try {
 									r = $.parseJSON(r); 
 								
-									if(r.success) {
-										showSuccess(); 
+									if(r.Success) {
+//										showSuccess(); 
 										$(".email-btn").off("click", handler);
 										$(".email-form").remove(); 
 										state.emailShowing = false; 
@@ -189,13 +191,15 @@
 										alert("Something went wrong!" + r); 
 									}
 								} catch(e) {
-									alert("Something went wrong!" + r); 
+									alert("Something went wrong as error!" + r); 
 								}
 							}, 
 							error : function(r) {
-								alert("Something went wrong!" + r); 
+								alert("Something went wrong from ajax!" + r); 
 							}
 						});						
+					} else if ($(this).data("action") == "cancel") {
+						state.emailShowing = false; 
 					}
 				}
 				
