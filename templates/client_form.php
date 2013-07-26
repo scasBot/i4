@@ -152,15 +152,16 @@
 					alert("Client email is invalid."); 
 					return; 
 				} else {
-					addEmailHandler(function(id) {
-						email.to(to, id); 
-						email.from("masmallclaims@gmail.org", id); 
+					addEmailHandler(function(emailForm) {
+						emailForm.to(to); 
+						emailForm.from("masmallclaims@gmail.org"); 
+						emailForm.inputFieldObj("to").prop("disabled", true); 
 					}); 
 				}
 			}, 
 			emaili4 : function() {
-				addEmailHandler(function(id) {
-					email.from("wxiao@college.harvard.edu", id); 
+				addEmailHandler(function(emailForm) {
+					emailForm.from("wxiao@college.harvard.edu"); 
 				}); 
 			}, 
 		}
@@ -168,44 +169,15 @@
 		var state = {
 			emailShowing : false, 
 		}
-		
-		email.onCancel = function(id) {
-			email.onCancelDefault(id); 
-			state.emailShowing = false; 
-		};		
-
-		email.onSend = function(id) {
-			ajax.sendAjax({
-				REQ : "emailForm", 
-				data : email.getInputs(id), 
-				success : function(r) {
-					try {
-						r = $.parseJSON(r); 					
-						if(r.Success) {
-//								showSuccess(); 
-							email.onCancel(id); 
-							state.emailShowing = false; 
-						} else {
-							alert("Something went wrong!" + r); 
-						}
-					} catch(e) {
-						alert("Something went wrong as error!" + r); 
-					}
-				}, 
-				error : function(r) {
-					alert("Something went wrong from ajax!" + r); 
-				}
-			});				
-		}		
 
 		function addEmailHandler(fun) {
 			if(!state.emailShowing) {
-				var id = addEmailForm(); 				
-				email.onReset = function(id) {
-					email.onResetDefault(id); 
-					fun(id); 
-				}; 
-				fun(id); 
+				var emailForm = addEmailForm(); 
+				emailForm.onReset = function() {
+					emailForm.getOnResetDefault()(); 
+					fun(emailForm); 
+				}
+				fun(emailForm); 
 				return; 
 			} else {
 				alert("Finish your current email!");
@@ -214,18 +186,45 @@
 		}
 		
 		function addEmailForm() {
-			var id = email.id; 
+			var emailForm = new email.EmailForm(); 
+
+			emailForm.onCancel = function() {
+				emailForm.getOnCancelDefault()(); 
+				state.emailShowing = false; 
+			}
+			emailForm.onSend = function() {
+				ajax.sendAjax({
+					REQ : "emailForm", 
+					data : emailForm.getInputs(), 
+					success : function(r) {
+						try {
+							r = $.parseJSON(r); 					
+							if(r.Success) {
+//								showSuccess(); 
+								emailForm.onCancel(); 
+							} else {
+								alert("Something went wrong!" + r); 
+							}
+						} catch(e) {
+							alert("Something went wrong as error!" + r); 
+						}
+					}, 
+					error : function(r) {
+						alert("Something went wrong from ajax!" + r); 
+					}
+				});				
+			}
 		
 			$("#clientActions").after(
 				"<div class='row'>" + 
 					"<div class='span2'></div>" + 
-						email.form() +
+						emailForm.form() +
 					"<div class='span2'></div>" + 
 				"</div>"
 			);
 			state.emailShowing = true;
-			email.inputFieldObj("from", id).prop("disabled", true);			
-			return id; 
+			emailForm.inputFieldObj("from").prop("disabled", true); 
+			return emailForm; 
 		}
 	}); 
 </script>
