@@ -3,7 +3,7 @@ function fakeMail($to, $subject, $msg, $headers) {
 	try {
 		$handle = fopen(FAKE_EMAIL_FILE, "a"); 
 		fwrite($handle, json_encode(array("to" => $to, "subject" => $subject, 
-			"message" => $msg, "headers" => $headers))); 
+			"message" => $msg, "headers" => $headers)) . "\n"); 
 		fclose($handle);
 		return true; 
 	} catch (Exception $e) {

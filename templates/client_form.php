@@ -167,22 +167,22 @@
 		}
 
 		var state = {
-			emailShowing : false, 
+			emailShowing : null, 
 		}
 
 		function addEmailHandler(fun) {
-			if(!state.emailShowing) {
-				var emailForm = addEmailForm(); 
-				emailForm.onReset = function() {
-					emailForm.getOnResetDefault()(); 
-					fun(emailForm); 
-				}
-				fun(emailForm); 
-				return; 
-			} else {
-				alert("Finish your current email!");
-				return; 
+			if(state.emailShowing) {
+				state.emailShowing.remove(); 
 			}
+		
+			var emailForm = addEmailForm(); 
+			state.emailShowing = emailForm; 
+			emailForm.onReset = function() {
+				emailForm.getOnResetDefault()(); 
+				fun(emailForm); 
+			}
+			fun(emailForm); 
+			return; 
 		}
 		
 		function addEmailForm() {
