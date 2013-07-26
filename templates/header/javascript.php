@@ -3,6 +3,6 @@
 <script src="js/bootstrap.js"></script>
 <script src="js/scripts.js"></script>
 <script src="js/date_helpers.js"></script>
-<script src="js/email_helpers.js"></script>
+<script src="js/emailBot.js"></script>
 <script src="js/validate.js"></script>
-<script src="js/ajax_helpers.js"></script>
+<script src="js/ajaxBot.js"></script>

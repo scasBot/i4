@@ -193,7 +193,7 @@
 				state.emailShowing = false; 
 			}
 			emailForm.onSend = function() {
-				ajax.sendAjax({
+				ajaxBot.sendAjax({
 					REQ : "emailForm", 
 					data : emailForm.getInputs(), 
 					success : function(r) {
