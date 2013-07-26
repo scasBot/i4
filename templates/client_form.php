@@ -119,9 +119,11 @@
 			<!-- p><?php echo byi4("Actions") ?></p-->
 			<div class="row">
 				<div class="span12">
-					<button class="btn btn-danger actions" data-action="del">Delete Client</button>
-					<button class="btn btn-info actions" data-action="merge">Merge Client</button>
-					<button class="btn btn-success actions" data-action="email">Email Client</button>
+					<div class="btn-group">
+						<button class="btn btn-danger actions" data-action="del">Delete Client</button>
+						<button class="btn btn-info actions" data-action="merge">Merge Client</button>
+						<button class="btn btn-success actions" data-action="email">Email Client</button>
+					</div>
 					<button class="btn btn-inverse actions" data-action="emaili4">Email i4 Users</button>
 				</div>
 			</div>
@@ -130,11 +132,14 @@
 </div>
 <script>
 	$(document).ready(function() {
+		$(".actions").on("click", function() {
+			actions[$(this).data("action")] (); 
+		}); 	
+	
 		var actions = {
 			del : function() {
 				if(confirm("Are you sure you want to delete this client and all data " + 
 					"associated with them?")) {
-				
 					window.location = "client.php?DELETE&ClientID=<?php echo $client["ClientID"]?>"; 
 				}
 			}, 
@@ -147,69 +152,80 @@
 					alert("Client email is invalid."); 
 					return; 
 				} else {
-					addEmailForm(); 
-					$(".email-form").find("input[name='to']").val(to); 
+					addEmailHandler(function(emailForm) {
+						emailForm.to(to); 
+						emailForm.from("masmallclaims@gmail.org"); 
+						emailForm.inputFieldObj("to").prop("disabled", true); 
+					}); 
 				}
 			}, 
 			emaili4 : function() {
-				addEmailForm(); 
+				addEmailHandler(function(emailForm) {
+					emailForm.from("wxiao@college.harvard.edu"); 
+				}); 
 			}, 
 		}
 
 		var state = {
-			emailShowing : false, 
+			emailShowing : null, 
+		}
+
+		function addEmailHandler(fun) {
+			if(state.emailShowing) {
+				state.emailShowing.remove(); 
+			}
+		
+			var emailForm = addEmailForm(); 
+			state.emailShowing = emailForm; 
+			emailForm.onReset = function() {
+				emailForm.getOnResetDefault()(); 
+				fun(emailForm); 
+			}
+			fun(emailForm); 
+			return; 
 		}
 		
 		function addEmailForm() {
-			if(!state.emailShowing) {
-				$("#clientActions").after(
-					"<div class='row'>" + 
-						"<div class='span2'></div>" + 
-							email.form() +
-						"<div class='span2'></div>" + 
-					"</div>"
-				);
-				state.emailShowing = true; 
-				
-				function handler() {
-					if($(this).data("action") == "send") {
-						ajax.sendAjax({
-							request : "emailForm", 
-							data : $(".email-form").serialize();
-							success : function(r) {
-								try {
-									r = $.parseJSON(r); 
-								
-									if(r.success) {
-										showSuccess(); 
-										$(".email-btn").off("click", handler);
-										$(".email-form").remove(); 
-										state.emailShowing = false; 
-									} else {
-										alert("Something went wrong!" + r); 
-									}
-								} catch(e) {
-									alert("Something went wrong!" + r); 
-								}
-							}, 
-							error : function(r) {
+			var emailForm = emailBot.newEmailForm(); 
+
+			emailForm.onCancel = function() {
+				emailForm.getOnCancelDefault()(); 
+				state.emailShowing = false; 
+			}
+			emailForm.onSend = function() {
+				ajaxBot.sendAjax({
+					REQ : "emailForm", 
+					data : emailForm.getInputs(), 
+					success : function(r) {
+						try {
+							r = $.parseJSON(r); 					
+							if(r.Success) {
+//								showSuccess(); 
+								emailForm.onCancel(); 
+							} else {
 								alert("Something went wrong!" + r); 
 							}
-						});						
+						} catch(e) {
+							alert("Something went wrong as error!" + r); 
+						}
+					}, 
+					error : function(r) {
+						alert("Something went wrong from ajax!" + r); 
 					}
-				}
-				
-				$(".email-btn").on("click", handler); 
-				return; 
-			} else {
-				alert("Finish sending our current email, yo!"); 
-				return; 
+				});				
 			}
-		}
 		
-		$(".actions").on("click", function() {
-			actions[$(this).data("action")] (); 
-		}); 
+			$("#clientActions").after(
+				"<div class='row'>" + 
+					"<div class='span2'></div>" + 
+						emailForm.form() +
+					"<div class='span2'></div>" + 
+				"</div>"
+			);
+			state.emailShowing = true;
+			emailForm.inputFieldObj("from").prop("disabled", true); 
+			return emailForm; 
+		}
 	}); 
 </script>
 <style type="text/css">

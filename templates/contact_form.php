@@ -180,7 +180,7 @@
 			data.Contact = {}; 
 			data.Contact.ContactID = id; 
 			
-			ajax.sendAjax({
+			ajaxBot.sendAjax({
 				REQ : "contact", 
 				data : data, 
 				success : function(r) {
@@ -234,7 +234,7 @@
 			data.Contact = newContact; 
 			data.Action = (id == 0 ? "Insert" : "Update"); 
 			
-			ajax.sendAjax({
+			ajaxBot.sendAjax({
 				data : data, 
 				REQ : "contact", 
 				success : function(r) {

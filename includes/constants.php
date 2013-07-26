@@ -9,21 +9,16 @@
      **********************************************************************/
 	
 	//** MYSQL DATABASE ITEMS **//
-    // your database's name
     define("DATABASE", "scas");
-
-    // your database's password
     define("PASSWORD", "pantsonfire");
-
-    // your database's server
     define("SERVER", "mysql.hcs.harvard.edu");
-
-    // your database's username
     define("USERNAME", "scas");
 
 	//** OTHER CONSTANTS **//
-	define("ROOT", "/i4/html"); 
-	define("AJAX_HASH", "hello_bober"); 
+	define("ROOT", "hcs.harvard.edu/~scas/i4/html"); 
+	define("AJAX_HASH", "ojjklioi7875gjjht78hhggjy788");
+	define("LOCAL_HOST_NAME", "WILLYXIAO-THINK"); 
+	define("ON_LOCAL_HOST", LOCAL_HOST_NAME == php_uname("n"))
 	
 	/*
 	define("ROOT", realpath(
