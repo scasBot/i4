@@ -186,7 +186,7 @@
 		}
 		
 		function addEmailForm() {
-			var emailForm = new email.EmailForm(); 
+			var emailForm = emailBot.newEmailForm(); 
 
 			emailForm.onCancel = function() {
 				emailForm.getOnCancelDefault()(); 

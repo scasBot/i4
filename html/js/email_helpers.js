@@ -3,7 +3,7 @@ function isValidEmail(email) {
 	return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)); 
 }
 
-var email = new EmailBot();
+var emailBot = new EmailBot();
 function EmailBot () {
 	var id = 0; 
 	var ids = []; 	
@@ -34,17 +34,16 @@ function EmailBot () {
 		ids.splice(id, 1);			
 	}
 	
-	this.EmailForm = function() {
+	this.newEmailForm = function() {
 		var thisId = (id++) - 1; 
-		var emailForm = new EmailForm(thisId); 
+		var emailForm = new EmailForm(thisId, this); 
 		ids[thisId] = emailForm; 
 		return emailForm; 
 	}
 }
-
 // EmailForm is the class that creates an email form. Before using most functions, you must make a call to 
 // EmailForm.form() and then put that html into the dom. 
-function EmailForm(id) {
+function EmailForm(id, emailBot) {
 	this.getId = function() {return id;}
 	
 	this.form = function() {
@@ -76,11 +75,11 @@ function EmailForm(id) {
 			"</div>" + 
 			"<div class='btn-group'>" + 
 				"<button class='btn email-btn' data-action='send' type='button' data-id='" + id + "'" + 
-					"onclick='email.onSend(" + id + ");' >Send Email</button>" + 
+					"onclick='emailBot.onSend(" + id + ");' >Send Email</button>" + 
 				"<button class='btn email-btn' data-action='reset' type='button' data-id='" + id + "'" + 
-					"onclick='email.onReset(" + id + ");' >Reset</button>" + 
+					"onclick='emailBot.onReset(" + id + ");' >Reset</button>" + 
 				"<button class='btn email-btn' data-action='cancel' type='button' data-id='" + id + "'" + 
-					"onclick='email.onCancel(" + id + ");' >Cancel</button>" + 
+					"onclick='emailBot.onCancel(" + id + ");' >Cancel</button>" + 
 			"</div>" + 
 		"</form>"; 
 		return html;
@@ -98,7 +97,7 @@ function EmailForm(id) {
 
 	this.remove = function() {
 		formObj().remove(); 
-		email.remove(id); 
+		emailBot.remove(id); 
 	} 
 	var remove = this.remove; 
 
