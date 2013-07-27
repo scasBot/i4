@@ -65,7 +65,7 @@ class Mailer {
 				$this->sbj, $this->msg, 
 				"From: " . $this->sender); 
 		} else {		
-			return mail($this->recipients, 
+			return mail($this->recipients[0], 
 				$this->sbj, 
 				$this->msg, 
 				"From: " . $this->sender); 

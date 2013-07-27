@@ -1,4 +1,3 @@
-<script>
 $(document).ready(function() {
 	$(".actions").on("click", function() {
 		actions[$(this).data("action")] (); 
@@ -50,6 +49,7 @@ $(document).ready(function() {
 				emailForm.inputFieldObj("to").typeahead({
 					source : new Emails(contacts).getEmails(), 
 				}); 
+				emailForm.subject("SCAS Question: Client " + constants.clientId); 
 				emailForm.inputFieldObj("to").focus();				
 			}); 
 		},
@@ -58,6 +58,8 @@ $(document).ready(function() {
 				emailForm.from(constants.userEmail); 
 				emailForm.to(constants.legalResearchEmail); 
 				emailForm.inputFieldObj("to").prop("disabled", true); 
+				emailForm.subject("SCAS Referral: Client " + constants.clientId); 
+				emailForm.inputFieldObj("message").focus(); 
 			}); 
 		}, 
 	}
@@ -123,4 +125,3 @@ $(document).ready(function() {
 		return emailForm; 
 	}
 });
-</script>

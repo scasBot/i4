@@ -141,7 +141,9 @@
 		legalResearchEmail : "<?php echo LEGAL_RESEARCH_EMAIL ?>"
 	}); 	
 </script>
-<?php require("client_form_geniusBar.js") ?>
+<script>
+	<?php require("client_form_geniusBar.js") ?>
+</script>
 <script>
 	function updateClient() {
 		$("#clientForm").submit(); 
@@ -151,5 +153,8 @@
 <br />
 <?php 
 	require("contact_form.php"); 
-	require("old_contact_form.php"); 
+	
+	if($i3_contacts["exists"]) {
+		require("old_contact_form.php"); 
+	}
 ?>
