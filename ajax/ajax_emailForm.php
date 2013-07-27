@@ -1,18 +1,25 @@
 <?php
 	// ensure required fields are set
 	if(!isset($data["to"], $data["from"])) {
-		echo "Error: to or from not set."; 
+		echo "Error: 'to' or 'from' not set."; 
 		die(); 
 	}
 	
-	define("FAKE_EMAIL_FILE", "../../i4FakeEmail.txt"); 
-	require("../includes/mailer_class.php"); 
-	$mailer = new Mailer(); 
+	extract($data); 
 	
-	$mailer->to($data["to"]); 
-	$mailer->from($data["from"]); 
-	$mailer->subject($data["subject"]); 
-	$mailer->message($data["message"]); 
+	require("../includes/mailer_class.php"); 
+	require("../includes/profile_class.php"); 
+	$mailer = new Mailer(); 	
+	$profile = new Profile($id); 
+	
+	if(!($from == $profile->get("Email") || $from == SCAS_EMAIL)) {
+		die_with_error("The email " . $from . " is currently unverified as yours."); 
+	}
+		
+	$mailer->to($to); 
+	$mailer->from($from); 
+	$mailer->subject($subject); 
+	$mailer->message($message); 
 	
 	if(!$mailer->send()) {
 		echo "Error: sending failed."; 

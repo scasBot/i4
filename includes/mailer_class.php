@@ -1,4 +1,6 @@
 <?php
+define("FAKE_EMAIL_FILE", ROOT . "/i4FakeEmails.txt"); 
+
 function fakeMail($to, $subject, $msg, $headers) {
 	try {
 		$handle = fopen(FAKE_EMAIL_FILE, "a"); 
@@ -18,7 +20,12 @@ class Mailer {
 	protected $msg = ""; 
 
 	public function to($emails) {
-		$this->recipients = $emails; 
+		if($this->isValidEmail($emails)) {
+			array_push($this->recipients, $emails); 
+		} else {
+			throw new Exception("Adding multiple recipients not supported at" . 
+				"this time."); 
+		}
 	}
 	
 	public function from($email) {
@@ -38,7 +45,7 @@ class Mailer {
 	}
 	
 	public function send() {
-		if(ON_LOCAL_HOST) {
+		if(LOCAL_HOST) {
 			return fakeMail($this->recipients, 
 				$this->sbj, $this->msg, 
 				"From: " . $this->sender); 
