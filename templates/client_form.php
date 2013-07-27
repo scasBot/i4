@@ -113,38 +113,13 @@
 </div>
 </form>
 <button id="updateClient" class="btn" onclick="updateClient()" >Update Client Info</button>
-<div class="row">
-	<div class="span12">
-		<div id="clientActions">
-			<!-- p><?php echo byi4("Actions") ?></p-->
-			<div class="row">
-				<div class="span12">
-					<div class='btn-group'>
-						<button class="btn btn-danger actions" data-action="del">Delete Client</button>				
-					</div>
-					<div class="btn-group">
-						<button class="btn btn-primary actions" data-action="merge">Merge Client</button>
-						<button class="btn btn-inverse actions" data-action="email">Email Client</button>
-					</div>
-					<div class="btn-group">
-						<button class="btn btn-success actions" data-action="emaili4">Email i4 Users</button>
-						<button class="btn btn-info actions" data-action="emailLegalResearch">Email LegalResearch</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<?php require("client_form_geniusBar.php") ?>
 <script>
 	constants.addConstants({
 		clientId : <?php echo $client["ClientID"] ?>, 
 		legalResearchEmail : "<?php echo LEGAL_RESEARCH_EMAIL ?>"
 	}); 	
-</script>
-<script>
-	<?php require("client_form_geniusBar.js") ?>
-</script>
-<script>
+	
 	function updateClient() {
 		$("#clientForm").submit(); 
 	}
