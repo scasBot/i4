@@ -16,6 +16,12 @@
 <br />
 <br />
 <script>
+	constants.addConstants({
+		userName : "<?php echo $_SESSION["username"] ?>", 
+		userEmail : "<?php echo $_SESSION["useremail"] ?>",
+		userId : "<?php echo $_SESSION["id"] ?>", 
+	})
+
 	// contacts as JSON from server
 	var contacts = <?php echo json_encode($contacts) ?>; 
 
@@ -212,17 +218,20 @@
 		
 			var data = {}; 
 			var newContact = {}; 
-			newContact.UserName = {}; 
+			newContact.UserName = {};
+			newContact.Email = {}; 
 
 			if(id ==0) {
 				newContact.ContactID = 0; 
-				newContact.UserName.Added = "<?php echo $_SESSION["username"] ?>"; 
-				newContact.ClientID = "<?php echo $client["ClientID"] ?>"; 
+				newContact.UserName.Added = constants.userName; //"<?php echo $_SESSION["username"] ?>";
+				newContact.Email.Added = constants.userEmail; 
+				newContact.ClientID = constants.clientId; // EDITED 
 			} else {
 				newContact = contacts[index]; 
 			}
 			
-			newContact.UserName.Edit = "<?php echo $_SESSION["username"] ?>"; 
+			newContact.UserName.Edit = constants.userName; //"<?php echo $_SESSION["username"] ?>"; 
+			newContact.Email.Edit = constants.userEmail; 
 			newContact.ContactEditDate = currentSqlDate(); 
 			newContact.ContactDate = editDiv.find("[name='ContactDate']").val(); 
 			newContact.ContactTypeID = editDiv.find("[name='ContactType']").val(); 
@@ -230,7 +239,7 @@
 
 			data = {}; 
 		
-			data.ID = <?php echo $_SESSION["id"] ?>; 
+			data.ID = constants.userId;  
 			data.Contact = newContact; 
 			data.Action = (id == 0 ? "Insert" : "Update"); 
 			

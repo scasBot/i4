@@ -93,3 +93,10 @@
 	min-height: 70px; 
 	border: 1px dotted black; 
 }
+
+.email-form {
+	border: 1px dotted black; 
+	padding-top: 10px; 
+	padding-bottom: 10px; 
+	margin-top : 10px; 
+}

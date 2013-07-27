@@ -7,7 +7,7 @@
 		<meta name="description" content="The next generation database to better serve SCAS clients." />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-        <link href="css/bootstrap.css" rel="stylesheet"/>
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
         <link href="css/styles.css" rel="stylesheet"/>
 
 		<link rel="icon" type="image/ico" href="img/favicon.ico">
@@ -17,14 +17,6 @@
         <?php else: ?>
             <title>SCASi4</title>
         <?php endif ?>
-		<?php if (isset($_SESSION["id"])) : ?>
-			<script>
-				var ajax_authentication = {
-					id : <?php echo $_SESSION["id"] ?>, 
-					hash : "<?php echo AJAX_HASH ?>",  
-				}
-			</script>
-		<?php endif; ?>
 		<?php if (isset($javascript)) : ?>
 			<script>
 				<?php
@@ -34,14 +26,21 @@
 				?>
 			</script>
 		<?php endif; ?>
-
-		<?php require("header/javascript.php") ?>
+		<?php if (isset($_SESSION["id"])) : ?>
+			<script>
+				var ajax_authentication = {
+					id : <?php echo $_SESSION["id"] ?>, 
+					hash : "<?php echo AJAX_HASH ?>",  
+				}
+			</script>
+		<?php endif; ?>
+		<?php require("header_javascript.php") ?>
     </head>
     <body>
 		<div class="container">
 			<?php 
 				if (isset($_SESSION["id"])) {
-					require("header/navbar.php"); 
+					require("header_navbar.php"); 
 				}			
 			?>
 		</div>

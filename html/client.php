@@ -56,10 +56,10 @@
 	// if the methods were correct
 	if($correct_req_method) {
 
-		$client = new ClientWithAll($client_id); 
-		$contacts = $client->get_contacts_array(); 
+		$client = new ClientWithAll($client_id);
+		$contacts = $client->get_contacts_array();
 		$client_info = $client->get("info")->get_array();
-		$priority = $client->get("priority")->get_description(); 
+		$priority = $client->get("priority")->get_description();
 		
 		if($i3_contacts["exists"] = $client->get("old_contacts")->get_exists()) {
 			$i3_contacts["notes"] = $client->get("old_contacts")->get_notes(); 

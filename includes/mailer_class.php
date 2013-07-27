@@ -23,7 +23,7 @@ class Mailer {
 		if($this->isValidEmail($emails)) {
 			array_push($this->recipients, $emails); 
 		} else {
-			throw new Exception("Adding multiple recipients not supported at" . 
+			throw new Exception("'To' field incorrect. Multipls recipients not supported at" . 
 				"this time."); 
 		}
 	}

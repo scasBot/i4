@@ -7,7 +7,7 @@
 			//var_dump($GLOBALS); 
 			render("email_form.php", array("title" => "Email"));
 		}
-		die(); 
+		apologize("Sorry, not set up yet."); 
 	} else if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		var_dump($GLOBALS); 
 		die(); 

@@ -158,7 +158,9 @@ class Contact extends aPureDataObject implements iDataObject {
 			}
 
 			$contacts["UserName"]["Edit"] = get_username($pure_array["UserEditID"]); 
-			$contacts["UserName"]["Added"] = get_username($pure_array["UserAddedID"]); 
+			$contacts["UserName"]["Added"] = get_username($pure_array["UserAddedID"]);
+			$contacts["Email"]["Edit"] = get_useremail($pure_array["UserEditID"]); 
+			$contacts["Email"]["Added"] = get_useremail($pure_array["UserAddedID"]); 
 			$contacts["ContactType"] = get_contacttype($pure_array["ContactTypeID"]);
 			
 			return $contacts; 

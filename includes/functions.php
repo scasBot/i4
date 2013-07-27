@@ -40,11 +40,15 @@
 	*
 	**/
 	function unique_lookup($table, $key, $key_field, $val_field) {
-		$results = query(query_select(array(
-			"TABLE" => $table, 
-			"WHERE" => array($key_field => 
-				array("=", $key)))
-		));
+		try {
+			$results = query(query_select(array(
+				"TABLE" => $table, 
+				"WHERE" => array($key_field => 
+					array("=", $key)))
+			));
+		} catch (Exception $e) {
+			throw new Exception("Unique lookup failed, backtrace: " . $e->getMessage()); 
+		}
 		
 		// assert2(count($results) == 1, $key_field .": ". $key . " did not return 1 match"); 
 		if(empty($results)) {
@@ -55,6 +59,10 @@
 		return $result[$val_field]; 		
 	}
 
+	function get_useremail($user_id) {
+		return unique_lookup("i3_Users", $user_id, "UserID", "Email");  
+	}
+	
 	function get_username($user_id) {
 		global $filler; 
 		
