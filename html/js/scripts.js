@@ -37,3 +37,23 @@ function selectOption(selectObject, key) {
 		}
 	}); 
 }
+
+// emulates the php foreach loop
+function foreach(obj, fun) {
+	function error(msg) {
+		alert(msg); 
+		return; 
+	}
+
+	if(arguments.length < 2) {
+		return error("foreach loop must be called with both arguments."); 
+	} else if ((typeof obj !== "object") || !obj) {
+		return error("First argument of foreach loop must be an object."); 
+	} 
+	
+	for(var key in obj) {
+		if(obj.hasOwnProperty(key)) {
+			fun(key, obj[key]); 
+		}
+	}
+}

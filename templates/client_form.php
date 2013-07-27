@@ -131,6 +131,26 @@
 	</div>
 </div>
 <script>
+	var constants = new constantBot(); 	
+	function constantBot(obj) {
+		var constantBot = this; 
+		if(obj) {
+			addConstants(obj); 
+		}
+		
+		function addConstants(obj) {
+			foreach(obj, function(key, val) {
+				constantBot[key] = val;
+			});
+		}
+		
+		this.addConstants = addConstants; 
+	}
+
+	constants.addConstants({
+		clientId : <?php echo $client["ClientID"] ?>
+	}); 
+
 	$(document).ready(function() {
 		$(".actions").on("click", function() {
 			actions[$(this).data("action")] (); 
@@ -140,11 +160,11 @@
 			del : function() {
 				if(confirm("Are you sure you want to delete this client and all data " + 
 					"associated with them?")) {
-					window.location = "client.php?DELETE&ClientID=<?php echo $client["ClientID"]?>"; 
+					window.location = "client.php?DELETE&ClientID=" + constants.clientId; 
 				}
 			}, 
 			merge : function() {
-				window.location = "merge.php?Client1=<?php echo $client["ClientID"] ?>"; 
+				window.location = "merge.php?Client1=" + constants.clientId; 
 			}, 		
 			email : function() {
 				var to = $("input[name='Email']").val(); 
@@ -193,6 +213,9 @@
 				state.emailShowing = false; 
 			}
 			emailForm.onSend = function() {
+				var data = emailForm.getInputs(); 
+				data.clientId = constants.clientId; 
+			
 				ajaxBot.sendAjax({
 					REQ : "emailForm", 
 					data : emailForm.getInputs(), 

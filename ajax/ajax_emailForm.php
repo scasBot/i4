@@ -10,12 +10,15 @@
 	require("../includes/mailer_class.php"); 
 	require("../includes/profile_class.php"); 
 	$mailer = new Mailer(); 	
-	$profile = new Profile($id); 
+	$profile = new Profile($id);
+	$client = new ClientInfo($data["clientId"]); 
 	
 	if(!($from == $profile->get("Email") || $from == SCAS_EMAIL)) {
 		die_with_error("The email " . $from . " is currently unverified as yours."); 
+	} else if (!$to) {
+		die_with_error("You must input something in the to field."); 
 	}
-		
+
 	$mailer->to($to); 
 	$mailer->from($from); 
 	$mailer->subject($subject); 
