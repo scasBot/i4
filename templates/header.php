@@ -17,6 +17,7 @@
         <?php else: ?>
             <title>SCASi4</title>
         <?php endif ?>
+
 		<?php if (isset($javascript)) : ?>
 			<script>
 				<?php
@@ -26,7 +27,8 @@
 				?>
 			</script>
 		<?php endif; ?>
-		<?php if (isset($_SESSION["id"])) : ?>
+
+		<?php if (LOGGED_IN) : ?>
 			<script>
 				var ajax_authentication = {
 					id : <?php echo $_SESSION["id"] ?>, 
@@ -34,12 +36,13 @@
 				}
 			</script>
 		<?php endif; ?>
+
 		<?php require("header_javascript.php") ?>
     </head>
     <body>
 		<div class="container">
 			<?php 
-				if (isset($_SESSION["id"])) {
+				if (LOGGED_IN) {
 					require("header_navbar.php"); 
 				}			
 			?>

@@ -34,12 +34,19 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 
 	// if asking to delete, assert the correct code and delete the client
 	if(isset($_GET["DELETE"])) { 
-		apologize("Sorry, can't do that yet."); 
-	
-/*not ready yet....			$client = new Client(); 
-		assert2($client->initialize($_GET["ClientID"]));  
-		assert2($client->delete());  
-		redirect("index.php"); */
+		try {
+			$client = new Client($_GET["ClientID"]); 		
+
+			if(!$client->delete()) {
+				apologize("There was an error on the server in deleting the client, please " . 
+					"contact " . ADMIN_EMAIL); 
+			} else {
+				redirect("index.php"); 
+			}
+		} catch (Exception $e) {
+			apologize("There was an error on the server in deleting the client: " . 
+				$e->getMessage() . " Please contact " . ADMIN_EMAIL); 
+		}
 	} else { // if not asking to delete and usage is correct, then show the variables
 		$correct_req_method = true;
 		$client_id = $_GET["ClientID"];		
@@ -67,6 +74,8 @@ else if($_SERVER["REQUEST_METHOD"] == "POST") {
 	$priority->set("CaseTypeID", $_POST["Priority"]); 
 	$priority->push(); 
 	unset($priority); 
+	
+	redirect("client.php?ClientID=" . $_POST["ClientID"]); 
 }
 
 /* this code applies to both GET and POST requests
@@ -77,7 +86,7 @@ if($correct_req_method) {
 		the template requires specific variable names in specific formats right
 		now... so....process a little bit to fit it. For all of these functions look at
 		client_class.php */
-	$client = new ClientWithAll($client_id);
+	$client = new Client($client_id);
 	$contacts = $client->get_contacts_array();
 	$client_info = $client->get("info")->get_array();
 	$priority = $client->get("priority")->get_description();

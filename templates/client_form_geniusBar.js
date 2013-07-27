@@ -110,6 +110,7 @@ $(document).ready(function() {
 		}
 		
 		emailForm.inputFieldObj("to").attr("autocomplete", "off"); 
+		emailForm.inputFieldObj("to").attr("placeholder", "Start typing..."); 
 		emailForm.inputFieldObj("to").typeahead({
 			source : new Emails(contacts).getEmails(), 
 		}); 
