@@ -1,4 +1,19 @@
 <?php
+/*******************************
+mailer_class.php
+
+By: Willy Xiao
+willy@chenxiao.us
+
+Developed for SCAS i4
+masmallclaims@gmail.com
+
+To use code, please contact SCAS or
+Willy at the above emails. 
+
+August 2013
+***********************************/
+
 define("FAKE_EMAIL_FILE", ROOT . "/i4FakeEmails.txt"); 
 
 function fakeMail($to, $subject, $msg, $headers) {

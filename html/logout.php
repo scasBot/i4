@@ -1,12 +1,27 @@
 <?php
+/*******************************
+logout.php
 
-    // configuration
-    require("../includes/config.php"); 
+By: Willy Xiao
+willy@chenxiao.us
 
-    // log out current user, if any
-    logout();
+Developed for SCAS i4
+masmallclaims@gmail.com
 
-    // redirect user
-    redirect("../html");
+To use code, please contact SCAS or
+Willy at the above emails. 
 
+August 2013
+
+Description : 
+Logs out a user
+***********************************/
+// configuration
+require("../includes/config.php"); 
+
+// log out current user, if any
+logout();
+
+// redirect user
+redirect("../html");
 ?>
