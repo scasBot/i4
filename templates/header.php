@@ -27,16 +27,14 @@
 				?>
 			</script>
 		<?php endif; ?>
-
 		<?php if (LOGGED_IN) : ?>
-			<script>
+			<script type="text/javascript">
 				var ajax_authentication = {
 					id : <?php echo $_SESSION["id"] ?>, 
 					hash : "<?php echo AJAX_HASH ?>",  
 				}
 			</script>
 		<?php endif; ?>
-
 		<?php require("header_javascript.php") ?>
     </head>
     <body>

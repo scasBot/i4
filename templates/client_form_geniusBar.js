@@ -29,7 +29,35 @@ $(document).ready(function() {
 		}, 
 		emaili4 : function() {
 			addEmailHandler(function(emailForm) {
-				emailForm.from("wxiao@college.harvard.edu"); 
+				emailForm.from(constants.userEmail);
+
+				function Emails(contacts) {
+					var emails = []; 
+					this.getEmails = function() {return emails;}; 
+					this.addToEmails = addToEmails;
+					function addToEmails(email) {
+						var inArray = (emails.indexOf(email) > -1); 
+						if(!inArray) {emails.push(email);}
+					}
+					for(n in contacts) {
+						addToEmails(contacts[n].Email.Edit); 
+						addToEmails(contacts[n].Email.Added); 
+					}
+				}
+				
+				emailForm.inputFieldObj("to").attr("autocomplete", "off"); 
+				emailForm.inputFieldObj("to").attr("placeholder", "Start typing..."); 
+				emailForm.inputFieldObj("to").typeahead({
+					source : new Emails(contacts).getEmails(), 
+				}); 
+				emailForm.inputFieldObj("to").focus();				
+			}); 
+		},
+		emailLegalResearch : function() {
+			addEmailHandler(function(emailForm) {
+				emailForm.from(constants.userEmail); 
+				emailForm.to(constants.legalResearchEmail); 
+				emailForm.inputFieldObj("to").prop("disabled", true); 
 			}); 
 		}, 
 	}
@@ -55,7 +83,13 @@ $(document).ready(function() {
 	
 	function addEmailForm() {
 		var emailForm = emailBot.newEmailForm(); 
-
+		$("#clientActions").after(
+			"<div class='row'>" + 
+				"<div class='span2'></div>" + 
+					emailForm.form() +
+				"<div class='span2'></div>" + 
+			"</div>"
+		);
 		emailForm.onCancel = function() {
 			emailForm.getOnCancelDefault()(); 
 			state.emailShowing = false; 
@@ -84,38 +118,8 @@ $(document).ready(function() {
 				}
 			});				
 		}
-	
-		$("#clientActions").after(
-			"<div class='row'>" + 
-				"<div class='span2'></div>" + 
-					emailForm.form() +
-				"<div class='span2'></div>" + 
-			"</div>"
-		);
 		state.emailShowing = true;
-		emailForm.inputFieldObj("from").prop("disabled", true); 
-		
-		function Emails(contacts) {
-			var emails = []; 
-			this.getEmails = function() {return emails;}; 
-			this.addToEmails = addToEmails;
-			function addToEmails(email) {
-				var inArray = (emails.indexOf(email) > -1); 
-				if(!inArray) {emails.push(email);}
-			}
-			for(n in contacts) {
-				addToEmails(contacts[n].Email.Edit); 
-				addToEmails(contacts[n].Email.Added); 
-			}
-		}
-		
-		emailForm.inputFieldObj("to").attr("autocomplete", "off"); 
-		emailForm.inputFieldObj("to").attr("placeholder", "Start typing..."); 
-		emailForm.inputFieldObj("to").typeahead({
-			source : new Emails(contacts).getEmails(), 
-		}); 
-		emailForm.inputFieldObj("to").focus(); 
-		
+		emailForm.inputFieldObj("from").prop("disabled", true);  		
 		return emailForm; 
 	}
 });

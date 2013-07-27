@@ -28,7 +28,7 @@ define("AJAX_HASH", "imofftoseethewizardthewonderfulwizardofoz");
 
 define("SCAS_EMAIL", "masmallclaims@gmail.com"); 
 define("ADMIN_EMAIL", "wxiao@college.harvard.edu"); 
-
+define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com"); 
 
 //** MYSQL DATABASE ITEMS **//
 define("DATABASE", "scas");
