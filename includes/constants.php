@@ -14,7 +14,7 @@
 	define("LOCAL_HOST", LOCAL_HOST_NAME == php_uname("n")); 
 
 	// ROOT_ can be used to create public links or to run scripts
-	define("ROOT", dirname(__DIR__)); 	
+	define("ROOT", dirname(dirname((__FILE__)))); 	
 	define("ROOT_FROM_DOMAIN", (LOCAL_HOST ? "/" : "/~scas/")); 
 	define("ROOT_PUBLIC", $_SERVER["HTTP_HOST"]. ROOT_FROM_DOMAIN . basename(ROOT)); 
 
