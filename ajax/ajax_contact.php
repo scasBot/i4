@@ -6,14 +6,14 @@
 		die(); 
 	}
 	
-	if($data["Contact"]["ContactID"] == 0) {
+	if($Contact["ContactID"] == 0) {
 	
-		if(!isset($data["ID"])) {
+		if(!isset($ID)) {
 			echo "Error: Incomplete items in data"; 
 			die(); 
 		}
 	
-		$data["Contact"]["UserAddedID"] = $data["ID"]; 
+		$Contact["UserAddedID"] = $data["ID"]; 
 		$data["Contact"]["UserEditID"] = $data["ID"]; 
 	
 		$contact = new Contact(); 

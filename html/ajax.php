@@ -43,11 +43,12 @@
 		} else if (!isset($_POST["auth"]["id"]) || $_POST["auth"]["hash"] != AJAX_HASH) { 
 			echo "Error: Authorization incorrect"; 
 			die(); 
-		} else if(!isset($_POST["REQ"])) { // require REQuested page
+		} else if(!isset($_POST["REQ"])) { // the ajax request has to ask for a specific page
 			echo "Error: REQ not set"; 
 			die(); 
 		}
 		
+		$id = $_POST["auth"]["id"]; 
 		$data = $_POST["data"]; 
 		
 		// return the required page

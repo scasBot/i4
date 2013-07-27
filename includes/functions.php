@@ -197,4 +197,9 @@
         }
     }
 	
+	function die_with_error($msg) {
+		trigger_error($msg . " If you don't know what this means, contact: " . ADMIN_EMAIL . 
+			" with the error message."); 
+		die(); 
+	}
 ?>
