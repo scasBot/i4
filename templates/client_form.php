@@ -126,10 +126,5 @@
 </script>
 <br />
 <br />
-<?php 
-	require("contact_form.php"); 
-	
-	if($i3_contacts["exists"]) {
-		require("old_contact_form.php"); 
-	}
-?>
+<?php require("contact_form.php");?> 
+<?php ($i3_contacts["exists"] ? require("old_contact_form.php") : "")?>
