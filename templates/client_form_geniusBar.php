@@ -21,12 +21,6 @@
 	</div>
 </div>
 <script>
-	constants.addConstants({
-		clientId : <?php echo $client["ClientID"] ?>, 
-		legalResearchEmail : "<?php echo LEGAL_RESEARCH_EMAIL ?>"
-	}); 	
-</script>
-<script>
 $(document).ready(function() {
 	$(".actions").on("click", function() {
 		actions[$(this).data("action")] (); 

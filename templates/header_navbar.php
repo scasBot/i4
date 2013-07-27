@@ -3,7 +3,7 @@
 		<ul class="nav">
 			<li><a href="index.php">SCASi4-beta</a></li>
 			<li class="dropdown">
-				<a href="../html/cases.php?by_type=priority" 
+				<a href="cases.php?type=priority" 
 					class="dropdown-toggle"
 					data-toggle="dropdown">
 					List of Cases by
@@ -17,7 +17,7 @@
 			</li>
 			<li><a href="find_add.php">Find/Add Client</a></li>
 			<li class="dropdown">
-				<a href="../html"
+				<a href="index.php"
 					class="dropdown-toggle"
 					data-toggle="dropdown">
 					Database Items
@@ -26,6 +26,17 @@
 				<ul class="dropdown-menu">							
 					<li><a href="leaderboard.php">Leaderboard</a></li>
 					<li><a href="profile.php">Profile</a></li>
+				</ul>
+			</li>
+			<li class="dropdown">
+				<a href="index.php"
+					class="dropdown-toggle"
+					data-toggle="dropdown">
+					Resources
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a target="_blank" href="resources/manual.pdf">Manual</a></li>
 				</ul>
 			</li>
 		</ul>
