@@ -6,7 +6,7 @@ function htmlInputField($name, $type, $class = null,
 	$html .= "name='" . $name . "' "; 
 	$html .= "type='" . $type . "' ";
 	$html .= (is_null($class) ? "" : "class='" . $class . "' "); 
-	$html .= (is_null($val) ? "" : "val='" . $val . "' "); 
+	$html .= (is_null($val) ? "" : "value='" . $val . "' "); 
 	$html .= (is_null($required) ? "" : "required "); 	
 	$html .= " />"; 
 	
@@ -18,20 +18,24 @@ function htmlInputField($name, $type, $class = null,
 	<div class="span3"></div>
 	<div class="span6">
 		<form id="emailForm" action="email.php" method="POST" class="form-horizontal">
+
 			<legend>SCAS Assistance Request</legend>
-			*(denotes required field)
+			<?php if(!empty($warning)) : ?>
+				<p style="color: #FF2222; font-size: 15px" > <?php echo $warning ?> </p>
+			<?php endif; ?>			
+			<p>*(denotes required field)</p>
 			<div class="control-group">
 				<label class="control-label">First Name: *</label>
 				<div class="controls">
 					<input name="FirstName" type="text" class="input-large" 
-						val="<?php echo $FirstName ?>" required />
+						value="<?php echo $FirstName ?>" required />
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Last Name: *</label>
 				<div class="controls">
 					<input name="LastName" type="text" class="input-large" 
-						val="<?php echo $LastName ?>" required />
+						value="<?php echo $LastName ?>" required />
 				</div>
 			</div>
 			<div class="control-group">
@@ -47,7 +51,7 @@ function htmlInputField($name, $type, $class = null,
 				<label class="control-label">E-mail Address: *</label>
 				<div class="controls">
 					<input name="Email" type="email" class="input-large" 
-						val="<?php echo $Email ?>" required/>
+						value="<?php echo $Email ?>" required/>
 				</div>
 				<!--type e-mail incompatible with safari-->
 			</div>
@@ -55,7 +59,7 @@ function htmlInputField($name, $type, $class = null,
 				<label class="control-label">Phone Number:</label>
 				<div class="controls">
 					<input name="Phone" type="tel" class="input-large" 
-						val="<?php echo $Phone ?>" />
+						value="<?php echo $Phone ?>" />
 				</div>
 				<!-- type "tel" act same as "text" as of now.-->
 			</div>
@@ -63,7 +67,7 @@ function htmlInputField($name, $type, $class = null,
 				<label class="control-label">Zip Code:</label>
 				<div class="controls">
 					<input name="Zip" type="text" class="input-large" maxlength=5 
-						val="<?php echo $Zip ?>" />
+						value="<?php echo $Zip ?>" />
 				</div>
 			</div>
 			<div class="control-group">
@@ -94,17 +98,18 @@ function htmlInputField($name, $type, $class = null,
 				<label class="control-label">Subject: *</label>
 				<div class="controls">
 					<input name="Subject" type="text" class= "input-large" 
-						val="<?php echo $Subject ?>" required/>
+						value="<?php echo $Subject ?>" required/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Message: *</label>
 				<div class="controls">
-					<textarea name="Message" rows=10 class="input-large" placeholder="Please summarize the issue..." required>
-					<?php echo $Message ?></textarea>
+					<textarea name="Message" rows=10 class="input-large" placeholder="Please summarize the issue..." required><?php echo $Message ?></textarea>
 				</div>
 			</div>
 			<!-- a verification code needs to be inserted here-->
+			<?php echo $captcha ?>
+			<br />
 			<button id="emailFormSubmit" class="btn btn-primary">Submit</button>
 		</form>
 	</div>

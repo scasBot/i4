@@ -2,8 +2,16 @@
 // configuration
 require("../includes/config.php"); 
 
+// for the captcha
+require("../includes/recaptchalib.php");
+ 
+$public_key = "6LedVuUSAAAAAOndq0FREOZhLogrL1S1b1WdSBXD"; 
+$private_key = "6LedVuUSAAAAAJSkG6kZpKLfQyTQhtRhQhcSolz8"; 
+
+$captcha = recaptcha_get_html($public_key); 
+								
 if($_SERVER["REQUEST_METHOD"] == "GET") {
-	$warning = false; 
+	$warning = ""; 
 
 	$FirstName = ""; 
 	$LastName = ""; 
@@ -21,6 +29,10 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		$Contacted = ""; 
 	}
 	
+	$resp = recaptcha_check_answer ($private_key,
+                                $_SERVER["REMOTE_ADDR"],
+                                $_POST["recaptcha_challenge_field"],
+                                $_POST["recaptcha_response_field"]);			
 	try {
 		if(empty($FirstName)) {
 			throw new Exception("First Name was empty."); 
@@ -32,20 +44,25 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 			throw new Exception("Message was empty."); 
 		} else if (!filter_var($Email, FILTER_VALIDATE_EMAIL)) {
 			throw new Exception("Email was invalid."); 
+		} else if(!$resp->is_valid) {
+			throw new Exception("Captcha was incorrect."); 
 		}
+		
+		$warning = ""; 
 	} catch(Exception $e) {
-		$warning = $e->getMessage(); 
+		$warning = $e->getMessage() . " Please try again."; 
 	}
-
-	//** DO STUFF WITH EMAIL **// 
-
+	//** DO STUFF WITH EMAIL **//
+	
+	
+/*
 	function display($page_name) {
 		require(ROOT . "/templates/static_" . $page_name); 
 	}
 	
 	display("email_thanks.php"); 
-	
-	require(ROOT . "/templates/" . "
+*/	
+//	require(ROOT . "/templates/" . "); 
 }
 
 render("email_form.php", 
@@ -58,5 +75,6 @@ array("title" => "Email",
 	"Phone" => $Phone, 
 	"Zip" => $Zip, 
 	"Contacted" => $Contacted, 
-	"warning" => $warning));
+	"warning" => $warning, 
+	"captcha" => $captcha));
 ?>
