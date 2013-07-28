@@ -30,8 +30,9 @@ function htmlOption($text, $val, $selected = false) {
 function htmlOptions($arr, $selected_text = NULL) {
 	
 	// ensure the selected key (if any) is in the array
-	assert2(func_num_args() < 2 || in_array($selected_text, $arr),  
-		"key: " . $selected_text . " not in array"); 
+	if(func_num_args() > 2 && !in_array($selected_text, $arr)) {	
+		throw new Exception("key: " . $selected_text . " not in array"); 
+	}
 
 	// create the options
 	$html = ""; 
