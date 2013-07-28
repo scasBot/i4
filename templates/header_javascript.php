@@ -8,4 +8,12 @@
 <?php if(LOGGED_IN) : ?>
 	<script src="js/emailBot.js"></script>
 	<script src="js/ajaxBot.js"></script>
+	<script>
+		constants.addConstants({
+			userName : "<?php echo $_SESSION["username"] ?>", 
+			userEmail : "<?php echo $_SESSION["useremail"] ?>",
+			userId : "<?php echo $_SESSION["id"] ?>", 
+			legalResearchEmail : "<?php echo LEGAL_RESEARCH_EMAIL ?>"
+		})	
+	</script>
 <?php endif; ?>

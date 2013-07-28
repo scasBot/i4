@@ -19,7 +19,6 @@ Go to i4/html/js/ajaxBot.js to see how it is used.
 ***********************************/
 
 require("../includes/config.php"); 
-
 define("AJAX_ROOT", "../ajax/"); 	
 
 // global error handling for all ajax pages, doesn't do much now
@@ -79,6 +78,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	switch($_POST["REQ"]) {
 		case "contact" : 
 		case "emailForm" : 
+		case "clientEmails" : 
 			require(ajax_handler($_POST["REQ"])); 
 		break;
 		default : 

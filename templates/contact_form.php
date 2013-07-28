@@ -16,12 +16,6 @@
 <br />
 <br />
 <script>
-	constants.addConstants({
-		userName : "<?php echo $_SESSION["username"] ?>", 
-		userEmail : "<?php echo $_SESSION["useremail"] ?>",
-		userId : "<?php echo $_SESSION["id"] ?>", 
-	})
-
 	// contacts as JSON from server
 	var contacts = <?php echo json_encode($contacts) ?>; 
 

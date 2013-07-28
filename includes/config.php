@@ -38,13 +38,14 @@ require("magic_quotes_emulate.php");
 session_start();
 
 // require authentication for most pages
-if (!preg_match("{(?:login|logout|register|ajax|email)\.php$}", $_SERVER["PHP_SELF"])) {
+if (!preg_match("{(?:login|logout|register|email)\.php$}", $_SERVER["PHP_SELF"])) {
 
 	// id shows whether or not a user has been logged in 
 	if (empty($_SESSION["id"])) {
 		redirect("login.php");
 	} else {
 		define("LOGGED_IN", true); 
+		define("COMPER", is_comper($_SESSION["id"])); 
 	}
 } else {
 	define("LOGGED_IN", false); 

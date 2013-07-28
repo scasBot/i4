@@ -117,7 +117,6 @@
 <script>
 	constants.addConstants({
 		clientId : <?php echo $client["ClientID"] ?>, 
-		legalResearchEmail : "<?php echo LEGAL_RESEARCH_EMAIL ?>"
 	}); 	
 	
 	function updateClient() {

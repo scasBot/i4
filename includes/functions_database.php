@@ -101,4 +101,9 @@ function get_priorities() {
 	return $priorities; 
 }
 
+// finds if user is a comper
+function is_comper($id) {
+	$comper = unique_lookup("i3_Users", $id, "UserID", "Comper"); 
+	return($comper == 1); 
+}
 ?>

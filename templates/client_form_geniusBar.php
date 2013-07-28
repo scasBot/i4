@@ -1,15 +1,20 @@
 <div class="row">
 	<div class="span12">
-		<div id="clientActions">
+		<div id="geniusBar">
 			<!-- p><?php echo byi4("Actions") ?></p-->
 			<div class="row">
 				<div class="span12">
-					<div class='btn-group'>
-						<button class="btn btn-danger actions" data-action="del">Delete Client</button>				
-					</div>
+					<?php if(!COMPER) : ?>
+						<div class='btn-group'>
+							<button class="btn btn-danger actions" data-action="del">Delete Client</button>
+						</div>
+					<?php endif; ?>
 					<div class="btn-group">
 						<button class="btn btn-primary actions" data-action="merge">Merge Client</button>
 						<button class="btn btn-inverse actions" data-action="email">Email Client</button>
+					</div>
+					<div class="btn-group">
+						<button class="btn btn-warning actions"  data-action="grabEmails">Grab Email</button>
 					</div>
 					<div class="btn-group">
 						<button class="btn btn-success actions" data-action="emaili4">Email i4 Users</button>
@@ -27,12 +32,14 @@ $(document).ready(function() {
 	}); 	
 
 	var actions = {
-		del : function() {
-			if(confirm("Are you sure you want to delete this client and all data " + 
-				"associated with them?")) {
-				window.location = "client.php?DELETE&ClientID=" + constants.clientId; 
-			}
-		}, 
+		<?php if(!COMPER) : ?>
+			del : function() {
+				if(confirm("Are you sure you want to delete this client and all data " + 
+					"associated with them?")) {
+					window.location = "client.php?DELETE&ClientID=" + constants.clientId; 
+				}
+			}, 
+		<?php endif; ?>
 		merge : function() {
 			window.location = "merge.php?Client1=" + constants.clientId; 
 		}, 		
@@ -48,6 +55,54 @@ $(document).ready(function() {
 					emailForm.inputFieldObj("to").prop("disabled", true); 
 				}); 
 			}
+		}, 
+		grabEmails : function() {
+			function showClientEmails(emails) {
+				if(state.emailShowing) {
+					state.emailShowing.remove();
+				} else if (state.clientEmailShowing) {
+					state.clientEmailShowing.remove(); 
+				}
+				
+				$("#grabEmails").empty(); 
+				$("#grabEmails").append("<div class='row geniusBar-clientEmailHeader'><div class='span2'>Email</div>" + 
+					"<div class='span2'>Name</div><div class='span2'>Subject</div><div class='span6'>Message</div></div>"); 
+				for(n in emails) {
+					$("#grabEmails").append(showClientEmail(emails[n])); 
+				}
+				$("#grabEmails").append("<div class='btn-group' style='margin-top: 4px'><button class='btn clientEmails' data-action='add'>Add</button>" + 
+					"<button class=btn clientEmails' data-action='delete'>Delete</button></div>"); 
+				$("#grabEmails").show(); 
+				this.remove = function() {
+					$("#grabEmails").empty(); 
+					$("#grabEmails").hide(); 
+				}
+			}
+			
+			function showClientEmail(email) {
+				return "<div data-date='" + email.date + "' data-subject='" + email.subject + "'" +
+					"data-message='" + email.message + "' class='row geniusBar-clientEmail'>" + 
+					"<div class='span2'><p>" + 
+						email.email + 
+					"</p></div>" + 
+					"<div class='span2'><p>" + 
+						email.name + 
+					"</p></div>" + 
+					"<div class='span2'><p>" + 
+						email.subject +
+					"</p></div>" + 
+					"<div class='span5'><p>" + 
+						email.message + 
+					"</p></div>" + 
+				"</div>"
+			}
+
+			ajaxBot.sendAjax({REQ: "clientEmails", 
+				data : {action : "GET"}, 
+				success : function(r) {
+					state.clientEmailShowing = new showClientEmails($.parseJSON(r)); 
+				}
+			}); 
 		}, 
 		emaili4 : function() {
 			addEmailHandler(function(emailForm) {
@@ -89,11 +144,16 @@ $(document).ready(function() {
 
 	var state = {
 		emailShowing : null, 
+		clientEmailShowing : null, 
 	}
+	$("#geniusBar").after("<div id='grabEmails'></div>"); 
+	$("#grabEmails").hide(); 
 
 	function addEmailHandler(fun) {
 		if(state.emailShowing) {
 			state.emailShowing.remove(); 
+		} else if(state.clientEmailShowing) {
+			state.clientEmailShowing.remove(); 
 		}
 	
 		var emailForm = addEmailForm(); 
@@ -108,7 +168,7 @@ $(document).ready(function() {
 	
 	function addEmailForm() {
 		var emailForm = emailBot.newEmailForm(); 
-		$("#clientActions").after(
+		$("#geniusBar").after(
 			"<div class='row'>" + 
 				"<div class='span2'></div>" + 
 					emailForm.form() +

@@ -33,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	}
 
 	// if asking to delete, assert the correct code and delete the client
-	if(isset($_GET["DELETE"])) { 
+	if(isset($_GET["DELETE"]) && !COMPER) { 
 		try {
 			$client = new Client($_GET["ClientID"]); 		
 
