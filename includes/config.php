@@ -29,9 +29,9 @@ error_reporting(E_ALL);
 // requirements
 require("trolling.php");
 require("constants.php");
+require("libraries/ALL.php");
 require("functions_navigation.php");
-require("functions_database.php");
-require("libraries/ALL.php"); 
+require("functions_database.php"); 
 require("magic_quotes_emulate.php"); 
 
 // enable sessions

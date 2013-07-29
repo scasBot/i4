@@ -56,11 +56,13 @@ function main_event() {
 				$result = array(); 
 				for($line = fgets($handle); $line; $line = fgets($handle)) {
 					$tmp = json_decode($line, true); 
-					if(!$tmp["date"] == $data["date"]) {
+					if($tmp["date"] != $data["date"]) {
 						$result[] = $tmp; 
-					}
+					} 
 				}
 				fclose($handle); 
+				echo json_encode($result); 
+				die();
 			} catch (Exception $e) {
 				fclose($handle); 
 				throw new Exception("Reading failure: " . $e->getMessage()); 

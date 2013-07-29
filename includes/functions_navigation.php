@@ -49,6 +49,10 @@ function dump($variable)
  * http://us.php.net/manual/en/function.session-destroy.php.
  */
 function logout() {
+	$log = new i3_Log($_SESSION["logid"]); 
+	$log->set("Logout", mysql_date()); 
+	$log->push(); 
+
 	// unset any session variables
 	$_SESSION = array();
 

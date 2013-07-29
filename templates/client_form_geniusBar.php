@@ -46,7 +46,7 @@ $(document).ready(function() {
 		email : function() {
 			var to = $("input[name='Email']").val(); 
 			if(!isValidEmail(to)) {
-				alert("Client email is invalid."); 
+				alert("This client's email is invalid."); 
 				return; 
 			} else {
 				addEmailHandler(function(emailForm) {
@@ -66,13 +66,60 @@ $(document).ready(function() {
 				
 				$("#grabEmails").empty(); 
 				$("#grabEmails").append("<div class='row geniusBar-clientEmailHeader'><div class='span2'>Email</div>" + 
-					"<div class='span2'>Name</div><div class='span2'>Subject</div><div class='span6'>Message</div></div>"); 
+					"<div class='span2'>Name</div><div class='span2'>Subject</div><div class='span5'>Message</div></div>"); 
 				for(n in emails) {
 					$("#grabEmails").append(showClientEmail(emails[n])); 
 				}
 				$("#grabEmails").append("<div class='btn-group' style='margin-top: 4px'><button class='btn clientEmails' data-action='add'>Add</button>" + 
-					"<button class=btn clientEmails' data-action='delete'>Delete</button></div>"); 
+					"<button class='btn clientEmails' data-action='delete'>Delete</button><button class='btn clientEmails' data-action='cancel'>Cancel</button>" + 
+					"</div>"); 
 				$("#grabEmails").show(); 
+				
+				function toggle(obj) {
+					if(obj.data("on") == "true") {
+						obj.css("background-color", ""); 
+						obj.data("on", "false"); 
+					} else {
+						obj.css("background-color", "#CCCCFF"); 
+						obj.data("on", "true"); 
+					}
+				}
+				$(".geniusBar-clientEmail").on("click", function() {
+					toggle($(this)); 
+				}); 
+				
+				$("button.clientEmails").on("click", function() {
+					switch ($(this).data("action")) {
+						case "add" : 
+							allclientEmails(function(obj) {
+								$(".contact-form-new").click(); 
+								selectOption($("#EditContact0").find("[name='ContactType']"), "Email Received");
+								var date = new Date(Number(obj.data("date")) * 1000); 
+								$("#EditContact0").find("[name='ContactDate']").val(toSqlDate(date)); 
+								$("#EditContact0").find("[name='ContactSummary']").text(obj.data("message")); 
+							}); 
+						break; 
+						case "delete" :
+							allclientEmails(function(obj) {
+								ajaxBot.sendAjax({REQ : "clientEmails", 
+									data : {action : "UPDATE", date : obj.data("date")}, 
+									success : function(r) {
+										$("button.clientEmails[data-action='cancel']").click(); 
+									}}); 
+							}); 
+						break; 
+						case "cancel" : 
+							state.clientEmailShowing.remove(); 
+						break; 
+					}
+				}); 
+				
+				function allclientEmails(fun) {
+					$(".geniusBar-clientEmail").each(function() {
+						if($(this).data("on") == "true") fun($(this)); 
+					}); 
+				}
+				
 				this.remove = function() {
 					$("#grabEmails").empty(); 
 					$("#grabEmails").hide(); 
@@ -81,7 +128,7 @@ $(document).ready(function() {
 			
 			function showClientEmail(email) {
 				return "<div data-date='" + email.date + "' data-subject='" + email.subject + "'" +
-					"data-message='" + email.message + "' class='row geniusBar-clientEmail'>" + 
+					"data-message='" + email.message + "' data-on='false' class='row geniusBar-clientEmail'>" + 
 					"<div class='span2'><p>" + 
 						email.email + 
 					"</p></div>" + 
@@ -146,7 +193,7 @@ $(document).ready(function() {
 		emailShowing : null, 
 		clientEmailShowing : null, 
 	}
-	$("#geniusBar").after("<div id='grabEmails'></div>"); 
+	$("#geniusBar").after("<div class='row'><div class='span12' id='grabEmails'></div></div>"); 
 	$("#grabEmails").hide(); 
 
 	function addEmailHandler(fun) {
