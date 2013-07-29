@@ -101,4 +101,29 @@ function get_priorities() {
 	return $priorities; 
 }
 
+// finds if user is a comper
+function is_comper($id) {
+	$comper = unique_lookup("i3_Users", $id, "UserID", "Comper"); 
+	return($comper == 1); 
+}
+
+class i3_log extends aPureDataObject implements iDataObject {
+	protected $matchers = array("UserID", "Login", "IP"); 
+	protected $elements = array("LogID", "UserID", "Login", "Logout", "IP"); 
+	protected $database_name = "i3_Log"; 
+	protected $primary_key = "LogID"; 
+}
+
+function mysql_date() {
+	return date("Y-m-d H:i:s"); 
+}
+
+function set_i3_log() {
+	$log = new i3_Log(); 
+	$log->set("UserID", $_SESSION["id"]); 
+	$log->set("Login", mysql_date());
+	$log->set("IP", $_SERVER['REMOTE_ADDR']); 
+	$log->push(); 
+	return $log->get("LogID"); 
+}
 ?>

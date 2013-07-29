@@ -30,7 +30,7 @@ function EmailBot () {
 	}
 	
 	this.newEmailForm = function() {
-		var thisId = (id++) - 1; 
+		var thisId = id++; 
 		var emailForm = new EmailForm(thisId, this); 
 		ids[thisId] = emailForm; 
 		return emailForm; 

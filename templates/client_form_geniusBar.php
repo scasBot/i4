@@ -1,12 +1,14 @@
 <div class="row">
 	<div class="span12">
-		<div id="clientActions">
+		<div id="geniusBar">
 			<!-- p><?php echo byi4("Actions") ?></p-->
 			<div class="row">
 				<div class="span12">
-					<div class='btn-group'>
-						<button class="btn btn-danger actions" data-action="del">Delete Client</button>				
-					</div>
+					<?php if(!COMPER) : ?>
+						<div class='btn-group'>
+							<button class="btn btn-danger actions" data-action="del">Delete Client</button>
+						</div>
+					<?php endif; ?>
 					<div class="btn-group">
 						<button class="btn btn-primary actions" data-action="merge">Merge Client</button>
 						<button class="btn btn-inverse actions" data-action="email">Email Client</button>
@@ -27,19 +29,21 @@ $(document).ready(function() {
 	}); 	
 
 	var actions = {
-		del : function() {
-			if(confirm("Are you sure you want to delete this client and all data " + 
-				"associated with them?")) {
-				window.location = "client.php?DELETE&ClientID=" + constants.clientId; 
-			}
-		}, 
+		<?php if(!COMPER) : ?>
+			del : function() {
+				if(confirm("Are you sure you want to delete this client and all data " + 
+					"associated with them?")) {
+					window.location = "client.php?DELETE&ClientID=" + constants.clientId; 
+				}
+			}, 
+		<?php endif; ?>
 		merge : function() {
 			window.location = "merge.php?Client1=" + constants.clientId; 
 		}, 		
 		email : function() {
 			var to = $("input[name='Email']").val(); 
 			if(!isValidEmail(to)) {
-				alert("Client email is invalid."); 
+				alert("This client's email is invalid."); 
 				return; 
 			} else {
 				addEmailHandler(function(emailForm) {
@@ -95,7 +99,7 @@ $(document).ready(function() {
 		if(state.emailShowing) {
 			state.emailShowing.remove(); 
 		}
-	
+
 		var emailForm = addEmailForm(); 
 		state.emailShowing = emailForm; 
 		emailForm.onReset = function() {
@@ -108,7 +112,7 @@ $(document).ready(function() {
 	
 	function addEmailForm() {
 		var emailForm = emailBot.newEmailForm(); 
-		$("#clientActions").after(
+		$("#geniusBar").after(
 			"<div class='row'>" + 
 				"<div class='span2'></div>" + 
 					emailForm.form() +
@@ -130,7 +134,11 @@ $(document).ready(function() {
 					try {
 						r = $.parseJSON(r); 					
 						if(r.Success) {
+							var id = emailForm.getId(); 
 							emailForm.onCancel(); 
+							$("#geniusBar").after("<div id='emailSent" + 
+								id + "' class='alert'>Email sent successfully at " + toSqlDate(myDate()) + "!</div>"); 
+							setTimeout(function() {$("#emailSent" + id).remove()}, 5000); 
 						} else {
 							alert("Something went wrong!" + r); 
 						}

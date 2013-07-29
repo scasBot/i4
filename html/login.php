@@ -47,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$_SESSION["id"] = $row["UserID"];
 			$_SESSION["username"] = $user[0]["UserName"]; 
 			$_SESSION["useremail"] = $user[0]["Email"]; 
+			$_SESSION["logid"] = set_i3_log(); 
 
 			// redirect to portfolio
 			redirect("../html");

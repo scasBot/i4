@@ -7,11 +7,10 @@
 ****************/
 
 function check_assert_handler($description = NULL) {
-
 	// <<<EDIT CODE HERE >>> //
 	$msg = "Assert Failure: " . 
 		($description ? $description : debug_backtrace()) ; 
-	trigger_error($msg); 
+	throw new Exception($msg);  
 	// <<<END EDIT HERE >>> //
 
 }

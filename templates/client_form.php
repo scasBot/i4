@@ -112,19 +112,51 @@
 	</div>
 </div>
 </form>
-<button id="updateClient" class="btn" onclick="updateClient()" >Update Client Info</button>
+<button id="updateClient" class="btn" onclick="updateClient()">Update Client Info</button>
 <?php require("client_form_geniusBar.php") ?>
 <script>
 	constants.addConstants({
 		clientId : <?php echo $client["ClientID"] ?>, 
-		legalResearchEmail : "<?php echo LEGAL_RESEARCH_EMAIL ?>"
 	}); 	
-	
+	var updatedClient = 0; 
 	function updateClient() {
-		$("#clientForm").submit(); 
+		var inputTypes = ["input", "select", "textarea[name='ClientNotes']"]; 
+		var fields = [];  
+		for(type in inputTypes) {
+			$("#clientForm").find(inputTypes[type]).each(function() {
+				fields.push($(this)); 
+			});
+		}
+		var data = {}; 
+		for(field in fields) {
+			data[fields[field].attr("name")] = fields[field].val(); 
+		}
+		ajaxBot.sendAjax({
+			REQ : "updateClient", 
+			data : data, 
+			success : function(r) {
+				try {
+					r = $.parseJSON(r); 
+					if(!r.Success) {
+						throw "Server response unsuccessful " + r.Message; 
+					} else {
+						updatedClient++; 
+						$("#updateClient").before("<div id='updated" + updatedClient + 
+						"' class='alert'>Client successfully updated at " + toSqlDate(myDate()) +"!</div>");
+						var x = updatedClient; 
+						setTimeout(function(){$("#updated" + x).remove()}, 5000); 
+					}
+				} catch(e) {
+					alert("Error updating client" + e); 
+				}
+			}, 
+			error : function(e) {
+				alert(e); 
+			}
+		});
 	}
 </script>
 <br />
 <br />
 <?php require("contact_form.php");?> 
-<?php ($i3_contacts["exists"] ? require("old_contact_form.php") : "")?>
+<?php if($i3_contacts["exists"]) require("old_contact_form.php") ?>
