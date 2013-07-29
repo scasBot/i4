@@ -14,9 +14,6 @@
 						<button class="btn btn-inverse actions" data-action="email">Email Client</button>
 					</div>
 					<div class="btn-group">
-						<button class="btn btn-warning actions"  data-action="grabEmails">Grab Email</button>
-					</div>
-					<div class="btn-group">
 						<button class="btn btn-success actions" data-action="emaili4">Email i4 Users</button>
 						<button class="btn btn-info actions" data-action="emailLegalResearch">Email LegalResearch</button>
 					</div>
@@ -55,101 +52,6 @@ $(document).ready(function() {
 					emailForm.inputFieldObj("to").prop("disabled", true); 
 				}); 
 			}
-		}, 
-		grabEmails : function() {
-			function showClientEmails(emails) {
-				if(state.emailShowing) {
-					state.emailShowing.remove();
-				} else if (state.clientEmailShowing) {
-					state.clientEmailShowing.remove(); 
-				}
-				
-				$("#grabEmails").empty(); 
-				$("#grabEmails").append("<div class='row geniusBar-clientEmailHeader'><div class='span2'>Email</div>" + 
-					"<div class='span2'>Name</div><div class='span2'>Subject</div><div class='span5'>Message</div></div>"); 
-				for(n in emails) {
-					$("#grabEmails").append(showClientEmail(emails[n])); 
-				}
-				$("#grabEmails").append("<div class='btn-group' style='margin-top: 4px'><button class='btn clientEmails' data-action='add'>Add</button>" + 
-					"<button class='btn clientEmails' data-action='delete'>Delete</button><button class='btn clientEmails' data-action='cancel'>Cancel</button>" + 
-					"</div>"); 
-				$("#grabEmails").show(); 
-				
-				function toggle(obj) {
-					if(obj.data("on") == "true") {
-						obj.css("background-color", ""); 
-						obj.data("on", "false"); 
-					} else {
-						obj.css("background-color", "#CCCCFF"); 
-						obj.data("on", "true"); 
-					}
-				}
-				$(".geniusBar-clientEmail").on("click", function() {
-					toggle($(this)); 
-				}); 
-				
-				$("button.clientEmails").on("click", function() {
-					switch ($(this).data("action")) {
-						case "add" : 
-							allclientEmails(function(obj) {
-								$(".contact-form-new").click(); 
-								selectOption($("#EditContact0").find("[name='ContactType']"), "Email Received");
-								var date = new Date(Number(obj.data("date")) * 1000); 
-								$("#EditContact0").find("[name='ContactDate']").val(toSqlDate(date)); 
-								$("#EditContact0").find("[name='ContactSummary']").text(obj.data("message")); 
-							}); 
-						break; 
-						case "delete" :
-							allclientEmails(function(obj) {
-								ajaxBot.sendAjax({REQ : "clientEmails", 
-									data : {action : "UPDATE", date : obj.data("date")}, 
-									success : function(r) {
-										$("button.clientEmails[data-action='cancel']").click(); 
-									}}); 
-							}); 
-						break; 
-						case "cancel" : 
-							state.clientEmailShowing.remove(); 
-						break; 
-					}
-				}); 
-				
-				function allclientEmails(fun) {
-					$(".geniusBar-clientEmail").each(function() {
-						if($(this).data("on") == "true") fun($(this)); 
-					}); 
-				}
-				
-				this.remove = function() {
-					$("#grabEmails").empty(); 
-					$("#grabEmails").hide(); 
-				}
-			}
-			
-			function showClientEmail(email) {
-				return "<div data-date='" + email.date + "' data-subject='" + email.subject + "'" +
-					"data-message='" + email.message + "' data-on='false' class='row geniusBar-clientEmail'>" + 
-					"<div class='span2'><p>" + 
-						email.email + 
-					"</p></div>" + 
-					"<div class='span2'><p>" + 
-						email.name + 
-					"</p></div>" + 
-					"<div class='span2'><p>" + 
-						email.subject +
-					"</p></div>" + 
-					"<div class='span5'><p>" + 
-						email.message + 
-					"</p></div>" + 
-				"</div>"
-			}
-
-			ajaxBot.sendAjax({REQ: "clientEmails", 
-				data : {action : "GET"}, 
-				success : function(r) {
-					state.clientEmailShowing = new showClientEmails($.parseJSON(r)); 
-				}
-			}); 
 		}, 
 		emaili4 : function() {
 			addEmailHandler(function(emailForm) {
@@ -191,18 +93,13 @@ $(document).ready(function() {
 
 	var state = {
 		emailShowing : null, 
-		clientEmailShowing : null, 
 	}
-	$("#geniusBar").after("<div class='row'><div class='span12' id='grabEmails'></div></div>"); 
-	$("#grabEmails").hide(); 
 
 	function addEmailHandler(fun) {
 		if(state.emailShowing) {
 			state.emailShowing.remove(); 
-		} else if(state.clientEmailShowing) {
-			state.clientEmailShowing.remove(); 
 		}
-	
+
 		var emailForm = addEmailForm(); 
 		state.emailShowing = emailForm; 
 		emailForm.onReset = function() {
