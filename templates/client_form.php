@@ -112,13 +112,13 @@
 	</div>
 </div>
 </form>
-<button id="updateClient" class="btn" onclick="updateClient()" >Update Client Info</button>
+<button id="updateClient" class="btn" onclick="updateClient()">Update Client Info</button>
 <?php require("client_form_geniusBar.php") ?>
 <script>
 	constants.addConstants({
 		clientId : <?php echo $client["ClientID"] ?>, 
 	}); 	
-	
+	var updatedClient = 0; 
 	function updateClient() {
 		var inputTypes = ["input", "select", "textarea[name='ClientNotes']"]; 
 		var fields = [];  
@@ -139,6 +139,12 @@
 					r = $.parseJSON(r); 
 					if(!r.Success) {
 						throw "Server response unsuccessful " + r.Message; 
+					} else {
+						updatedClient++; 
+						$("#updateClient").before("<div id='updated" + updatedClient + 
+						"' class='alert'>Client successfully updated at " + toSqlDate(myDate()) +"!</div>");
+						var x = updatedClient; 
+						setTimeout(function(){$("#updated" + x).remove()}, 5000); 
 					}
 				} catch(e) {
 					alert("Error updating client" + e); 
@@ -153,4 +159,4 @@
 <br />
 <br />
 <?php require("contact_form.php");?> 
-<?php ($i3_contacts["exists"] ? require("old_contact_form.php") : "")?>
+<?php if($i3_contacts["exists"]) require("old_contact_form.php") ?>

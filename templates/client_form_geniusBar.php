@@ -134,7 +134,11 @@ $(document).ready(function() {
 					try {
 						r = $.parseJSON(r); 					
 						if(r.Success) {
+							var id = emailForm.getId(); 
 							emailForm.onCancel(); 
+							$("#geniusBar").after("<div id='emailSent" + 
+								id + "' class='alert'>Email sent successfully at " + toSqlDate(myDate()) + "!</div>"); 
+							setTimeout(function() {$("#emailSent" + id).remove()}, 5000); 
 						} else {
 							alert("Something went wrong!" + r); 
 						}
