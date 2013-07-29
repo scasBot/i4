@@ -120,7 +120,34 @@
 	}); 	
 	
 	function updateClient() {
-		$("#clientForm").submit(); 
+		var inputTypes = ["input", "select", "textarea[name='ClientNotes']"]; 
+		var fields = [];  
+		for(type in inputTypes) {
+			$("#clientForm").find(inputTypes[type]).each(function() {
+				fields.push($(this)); 
+			});
+		}
+		var data = {}; 
+		for(field in fields) {
+			data[fields[field].attr("name")] = fields[field].val(); 
+		}
+		ajaxBot.sendAjax({
+			REQ : "updateClient", 
+			data : data, 
+			success : function(r) {
+				try {
+					r = $.parseJSON(r); 
+					if(!r.Success) {
+						throw "Server response unsuccessful " + r.Message; 
+					}
+				} catch(e) {
+					alert("Error updating client" + e); 
+				}
+			}, 
+			error : function(e) {
+				alert(e); 
+			}
+		});
 	}
 </script>
 <br />

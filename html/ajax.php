@@ -79,6 +79,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		case "contact" : 
 		case "emailForm" : 
 		case "clientEmails" : 
+		case "updateClient" : 
 			require(ajax_handler($_POST["REQ"])); 
 		break;
 		default : 
