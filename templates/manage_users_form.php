@@ -127,7 +127,10 @@ August 2013
 		}
 		
 		function displayUsers(r) {
-			
+			/* displayTitle */
+			for(n in r) {
+				/* displayIndividualUsers */
+			}
 		}
 	}
 </script>
