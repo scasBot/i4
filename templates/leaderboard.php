@@ -15,7 +15,7 @@
 		);
 	?>
 	<body>
-		<table class="table table-striped">
+		<table class="table table-bordered table-striped" style="background-color:#4876FF">
 			<tr>
 				<th>ID</th>
 				<th>Name</th>

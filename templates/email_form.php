@@ -50,6 +50,7 @@ function htmlInputField($name, $type, $class = null,
 			<div class="control-group">
 				<label class="control-label">E-mail Address: *</label>
 				<div class="controls">
+
 					<input name="Email" type="email" class="input-large" 
 						value="<?php echo $Email ?>" required/>
 				</div>
