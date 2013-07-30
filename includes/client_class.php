@@ -158,7 +158,9 @@ class Contact extends aPureDataObject implements iDataObject {
 			}
 
 			$contacts["UserName"]["Edit"] = get_username($pure_array["UserEditID"]); 
-			$contacts["UserName"]["Added"] = get_username($pure_array["UserAddedID"]); 
+			$contacts["UserName"]["Added"] = get_username($pure_array["UserAddedID"]);
+			$contacts["Email"]["Edit"] = get_useremail($pure_array["UserEditID"]); 
+			$contacts["Email"]["Added"] = get_useremail($pure_array["UserAddedID"]); 
 			$contacts["ContactType"] = get_contacttype($pure_array["ContactTypeID"]);
 			
 			return $contacts; 
@@ -193,12 +195,11 @@ class Priority extends aPureDataObject implements iDataObject {
 			case 15 : 
 				$this->set("CaseTypeID", 21); 
 				break; 
-			
 		}
 	}
 }
 
-class ClientWithAll extends aDataObject implements iDataObject {
+class Client extends aDataObject implements iDataObject {
 	protected $elements = array(
 		"contacts", "info", "priority", "old_contacts"); 
 
@@ -217,8 +218,22 @@ class ClientWithAll extends aDataObject implements iDataObject {
 		return false; 
 	}
 	protected function delete_specific() {
-		// need to implement
-		return false; 
+		$success = true; 
+	
+		try {
+			$success = $success && $this->pull(); 
+		
+			$success = $success && $this->get("info")->delete() && 
+				$this->get("old_contacts")->delete() && $this->get("priority")->delete(); 
+
+			foreach($this->get("contacts") as $contact) {
+				$success = $success && $contact->delete(); 
+			}
+			
+			return $success; 
+		} catch (Exception $e) {
+			throw new Exception("delete_specific failure: " . $e->getMessage()); 
+		}
 	}
 	protected function push_insert_specific() {
 		// need to implement
@@ -226,7 +241,8 @@ class ClientWithAll extends aDataObject implements iDataObject {
 	}
 	
 	public function auto_set_priority() {
-		
+		// need to implement
+		return false; 
 	}
 	
 	public function pull_priority() {
@@ -351,6 +367,13 @@ class OldContacts {
 		
 		$this->contacts = $old_contacts; 
 		return true; 			
+	}
+	
+	/* We don't actually have to delete any of the old contacts from the database
+		we don't care about it that much and it doesn't really take up too much space, 
+		plus we want to keep the old i3 working */
+	public function delete() {
+		return true; 
 	}
 }
 

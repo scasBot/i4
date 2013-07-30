@@ -1,8 +1,3 @@
-// email validator - http://www.w3resource.com/javascript/form/email-validation.php#sthash.YaiMT7Vz.dpuf
-function isValidEmail(email) {  
-	return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)); 
-}
-
 var emailBot = new EmailBot();
 function EmailBot () {
 	var id = 0; 
@@ -35,7 +30,7 @@ function EmailBot () {
 	}
 	
 	this.newEmailForm = function() {
-		var thisId = (id++) - 1; 
+		var thisId = id++; 
 		var emailForm = new EmailForm(thisId, this); 
 		ids[thisId] = emailForm; 
 		return emailForm; 

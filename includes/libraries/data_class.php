@@ -184,13 +184,21 @@ abstract class aDataObject implements iDataObject {
 	// deletes the object from the server
 	public function delete() {
 		if($this->exists) {
-			$this->exists = false; 
-			$this->wipe_all(); 
-			$this->synced = null; 			
-			return $this->delete_specific(); 
+			try {
+				if($this->delete_specific()) {
+					$this->wipe_all(); 
+					$this->synced = null; 
+					$this->exists = false; 
+					return true; 
+				} else {
+					return false; 
+				}
+			} catch (Exception $e) {
+				throw new Exception("Deleting object: " . __CLASS__ . " failed with: " . $e->getMessage()); 
+			}
 		}
 		else {
-			return false; 
+			throw new Exception("Can't delete object, not in database");  
 		}
 	}
 

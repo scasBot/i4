@@ -1,13 +1,27 @@
 <?php
+/*******************************
+leaderboard.php
 
-	// requirements
-	require("../includes/config.php"); 
+By: Willy Xiao
+willy@chenxiao.us
 
-	if($_SERVER["REQUEST_METHOD"] == "GET") {
-		apologize("Sorry, this page isn't ready yet."); 
-	}
-	else if($_SERVER["REQUEST_METHOD"] == "POST") {	
-		apologize("Sorry, you can't post to the leaderboard. :("); 
-		
-	}
+Developed for SCAS i4
+masmallclaims@gmail.com
+
+To use code, please contact SCAS or
+Willy at the above emails. 
+
+August 2013
+***********************************/
+
+// requirements
+require("../includes/config.php"); 
+
+if($_SERVER["REQUEST_METHOD"] == "GET") {
+	apologize("Sorry, this page isn't ready yet."); 
+}
+else if($_SERVER["REQUEST_METHOD"] == "POST") {	
+	apologize("Sorry, you can't post to the leaderboard. :("); 
+	
+}
 ?>

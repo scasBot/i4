@@ -1,4 +1,19 @@
 <?php
+/*******************************
+mailer_class.php
+
+By: Willy Xiao
+willy@chenxiao.us
+
+Developed for SCAS i4
+masmallclaims@gmail.com
+
+To use code, please contact SCAS or
+Willy at the above emails. 
+
+August 2013
+***********************************/
+
 define("FAKE_EMAIL_FILE", ROOT . "/i4FakeEmails.txt"); 
 
 function fakeMail($to, $subject, $msg, $headers) {
@@ -23,7 +38,7 @@ class Mailer {
 		if($this->isValidEmail($emails)) {
 			array_push($this->recipients, $emails); 
 		} else {
-			throw new Exception("Adding multiple recipients not supported at" . 
+			throw new Exception("'To' field incorrect. Multipls recipients not supported at" . 
 				"this time."); 
 		}
 	}
@@ -50,7 +65,7 @@ class Mailer {
 				$this->sbj, $this->msg, 
 				"From: " . $this->sender); 
 		} else {		
-			return mail($this->recipients, 
+			return mail($this->recipients[0], 
 				$this->sbj, 
 				$this->msg, 
 				"From: " . $this->sender); 

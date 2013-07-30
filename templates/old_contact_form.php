@@ -1,4 +1,3 @@
-<?php if($i3_contacts["exists"]) : ?>
 <form>
 	<legend>Old i3 Contacts</legend>
 </form>
@@ -28,4 +27,3 @@
 		</div>
 	</div>
 </div>
-<?php endif; ?>
