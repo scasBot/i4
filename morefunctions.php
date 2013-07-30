@@ -27,7 +27,7 @@
 	$passing_strings = array(
 		"willy@chenxiao.us", 
 		"willy@chenxiao.us, tom@bob.com",
-		"willy@chenxiao.us,      tom@bob.com", // multiple spaces 		
+		"willy@chenxiao.us,      tom@bob.com    ", // multiple spaces 		
 		"<willy xiao> willy@chenxiao.us, <tom bob> tom@bob.com", 
 		"willy@chenxiao.us, <tom bob> tom@bob.com", 
 		"wxiao@college.harvard.edu", 
@@ -43,7 +43,8 @@
 		"willy@chenxiao.us tom@bob.com", 
 		"willy@chenxiao.us <willy xiao> tom@bob.com", 
 		"willy@chenxiao.us, <willy xiao>, tom@bob.com", 
-		"willy@chenxiao.us, tom@bob.com, ble"
+		"willy@chenxiao.us, tom@bob.com, ble",
+		"willy@chenxiao.us, , tom@bob.com"
 	); 
 	
 	foreach($passing_strings as $str) {
