@@ -27,7 +27,6 @@
 					<li><a href="leaderboard.php">Leaderboard</a></li>
 					<li><a href="profile.php">Profile</a></li>
 					<?php if(ADMIN) : ?>
-						<li><a href="manage.php?type=compers">Manage Compers</a></li>
 						<li><a href="manage.php?type=users">Manage Users</a></li>
 					<?php endif; ?>
 				</ul>
