@@ -13,7 +13,14 @@
 		// first, tidy up the whitespaces.
 //		$rawarray = str_replace(" ","",$string);
 		// then, clean up the contents outside of <...>
-		$mailarray = explode(",", $string);
+		$string = trim($string); 
+		if(strlen($string) == 0) {
+			return null; 
+		}
+		$mailarray = explode(",", trim($string));
+		if(!is_array($mailarray)) {
+			return null; 
+		}
 
 		// then filter through the array for none-email formats and return the result array of mail addresses.
 		$goodmails = array();
@@ -56,6 +63,8 @@
 	}
 		
 	$passing_strings = array(
+		"", 
+		" ", 
 		"willy@chenxiao.us", 
 		"willy@chenxiao.us, tom@bob.com",
 		"willy@chenxiao.us,      tom@bob.com", // multiple spaces 		
