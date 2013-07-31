@@ -7,6 +7,7 @@ class SearchBinary implements iSearch {
 	protected $left = null; 
 	protected $right = null; 
 	protected $type = null; 
+	protected $of = null; 
 	
 	public function get_left() {
 		return $this->left; 
@@ -15,7 +16,10 @@ class SearchBinary implements iSearch {
 		return $this->right; 
 	}
 	public function get_type() {
-		return $this->type; 
+		return "Binary"; 
+	}
+	public function get_of() {
+		return $this->of; 
 	}
 
 	public function __construct($clause1, $clause2, $type) {
@@ -27,7 +31,7 @@ class SearchBinary implements iSearch {
 		} else {
 			$this->left = $clause1; 
 			$this->right = $clause2; 
-			$this->type = $type; 
+			$this->of = $type; 
 		}
 	}
 }
