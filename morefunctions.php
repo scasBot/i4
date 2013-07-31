@@ -9,30 +9,30 @@
 
     //This is a function that takes a string of emails and put it into one array	
 	function parseEmailString($string) {
-		$string = trim($string); 
-		if(strlen($string) == 0) {
-			return null; 
-		}
-		$mailarray = explode(",", $string);
-		if(!is_array($mailarray)) {
-			return null; 
-		}
+		try {
+			$string = trim($string); 
+			if(strlen($string) == 0) {
+				return null; 
+			}
+			$mailarray = explode(",", $string);
+			if(!is_array($mailarray)) {
+				return null; 
+			}
 
-		$goodmails = array();
-		$index = array(); 
-		
-		foreach($mailarray as $email){
-			try { 
+			$goodmails = array();
+			$index = array(); 
+			
+			foreach($mailarray as $email){
 				$email = parseEmail($email); 
 				if(!isset($index[$email])) {
 					array_push($goodmails, $email); 
 					$index[$email] = ""; 
 				}	
-			} catch (Exception $e) {
-				throw new Exception("Function 'parseEmailString' failed with: [" . $e->getMessage() . "]"); 
 			}
+			return $goodmails;
+		} catch (Exception $e) {
+			throw new Exception("Function 'parseEmailString' failed with: [" . $e->getMessage() . "]"); 
 		}
-		return $goodmails;
 	}
 
 	function parseEmail($email) {
