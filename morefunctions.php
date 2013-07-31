@@ -10,11 +10,19 @@
     //This is a function that takes a string of emails and put it into one array
 	
 	function parseEmails($string) {
-		// first turn the email string into email array.
-		$mailarray = explode(",", $string);
+		// first, tidy up the whitespaces.
+		$rawarray = str_replace(" ","",$string);
+		// then, clean up the contents outside of <...>
+		$mailarray = explode(",", $rawarray);
 		// then filter through the array for none-email formats and return the result array of mail addresses.
 		$goodmails = array();
 		foreach($mailarray as $email){
+			$start = strpos($email,"<");
+			if ($start != FALSE) {
+				$end = strpos($email,">");
+				$email = substr($email,$start,$end-$start);
+				$email = str_replace("<","",$email);
+			}
 			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				array_push($goodmails, $email);
 			} else {
@@ -28,12 +36,12 @@
 		"willy@chenxiao.us", 
 		"willy@chenxiao.us, tom@bob.com",
 		"willy@chenxiao.us,      tom@bob.com", // multiple spaces 		
-		"<willy xiao> willy@chenxiao.us, <tom bob> tom@bob.com", 
-		"willy@chenxiao.us, <tom bob> tom@bob.com", 
+		"willy xiao <willy@chenxiao.us>, tom bob <tom@bob.com>", 
+		"willy@chenxiao.us, tom bob <tom@bob.com>", 
 		"wxiao@college.harvard.edu", 
 		"wxiao.debate@gmail.com", 
 		"willy@chenxiao.us, bob@tom.com, tom@bob.com", 
-		"willy@chenxiao.us, willy@chenxiao.us", 
+		"willy@chenxiao.us, willy@chenxiao.us"
 	); 
 	$failing_strings = array(
 		"willy", 
@@ -41,7 +49,7 @@
 		"@google.com", 
 		"willy@", 
 		"willy@chenxiao.us tom@bob.com", 
-		"willy@chenxiao.us <willy xiao> tom@bob.com", 
+		"willy@chenxiao.us willy xiao <tom@bob.com>", 
 		"willy@chenxiao.us, <willy xiao>, tom@bob.com", 
 		"willy@chenxiao.us, tom@bob.com, ble"
 	); 
@@ -51,6 +59,7 @@
 		var_dump(parseEmails($str)); 
 		echo "</p>"; 
 	}
+	
 	foreach($failing_strings as $str) {
 		try {
 			echo "<p>Failed: "; 
