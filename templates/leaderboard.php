@@ -10,7 +10,6 @@
 			array("id" => 5, "name" => "Willy Xiao", "contacts" => 2, "big" => 45), 
 			array("id" => 6, "name" => "Julianna Auccoin", "contacts" => 45, "big" => 12), 
 			array("id" => 45, "name" => "Catherine Choi", "contacts" => 100, "big" => 13), 
-			array("id" => 420, "name" => "Mary Jane", "contacts" => 24, "big" => 30),
 			array("id" => 789, "name" => "Linh Tran Phuong", "contacts" => 123, "big" => 45) 
 		);
 	?>
