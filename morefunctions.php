@@ -17,7 +17,7 @@
 		if(strlen($string) == 0) {
 			return null; 
 		}
-		$mailarray = explode(",", trim($string));
+		$mailarray = explode(",", $string);
 		if(!is_array($mailarray)) {
 			return null; 
 		}
