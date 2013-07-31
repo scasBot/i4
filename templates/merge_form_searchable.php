@@ -1,3 +1,9 @@
 <div class='row'>
-	<input type='text' disabled />
+	<div class='span4 mergeCenter'>
+	</div>
 </div>
+<script>
+	$(".mergeCenter").droppable({
+		accept : ".mergeinfo", 
+	}); 
+</script>
