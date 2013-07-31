@@ -7,12 +7,8 @@
 		}
 	}
 
-    //This is a function that takes a string of emails and put it into one array
-	
+    //This is a function that takes a string of emails and put it into one array	
 	function parseEmailString($string) {
-		// first, tidy up the whitespaces.
-//		$rawarray = str_replace(" ","",$string);
-		// then, clean up the contents outside of <...>
 		$string = trim($string); 
 		if(strlen($string) == 0) {
 			return null; 
@@ -22,14 +18,11 @@
 			return null; 
 		}
 
-		// then filter through the array for none-email formats and return the result array of mail addresses.
 		$goodmails = array();
 		$index = array(); 
 		
 		foreach($mailarray as $email){
 			try { 
-				/* WSX COMMENT: almost exactly the same as your original 
-					function, except this erases duplicates */
 				$email = parseEmail($email); 
 				if(!isset($index[$email])) {
 					array_push($goodmails, $email); 
@@ -43,28 +36,31 @@
 	}
 
 	function parseEmail($email) {
-		$start = strpos($email,"<");
-		if ($start) { 
-			/* WSX COMMENT: saying $start != FALSE is the 
-				equivalent of saying $start == true, which is the equivalent 
-				of saying just "$start" */
-
-			$end = strpos($email,">");
-			$email = substr($email,$start,$end-$start);
-			$email = str_replace("<","",$email);
-		}
-		$email = trim($email); 
-		
-		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			return $email; 
-		} else {
-			throw new Exception("Function 'parseEmail' failed with: [Invalid email: " . $email . "]"); 
+		try {
+			$start = strpos($email,"<");
+			if ($start) { 
+				$end = strpos($email,">");
+				if(!$end) {
+					throw new Exception("Invalid email " . $email); 
+				}
+				$email = substr($email,$start + 1, ($end - $start) - 1);
+			}
+			$email = trim($email); 
+			
+			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				return $email; 
+			} else {
+				throw new Exception("Inavlid email " . $email); 
+			}
+		} catch (Exception $e) {
+			throw new Exception("Function 'parseEmail' failed with:[" . $e->getMessage() . "]"); 
 		}
 	}
 		
 	$passing_strings = array(
 		"", 
 		" ", 
+		"David Joyner <davidbilljoyner@gmail.com>, Diana Carrillo <Diana.carrillo@scouts.org.mx>, Dylan Davies <dylaneric94@hotmail.com>, Grecia Barcena <grecia.barcena@scouts.org.mx>, Keegan Eatmon <kneatmon@hotmail.com>, Luis Antonio Aguayo <luis.aguayo@scouts.org.mx>, Meghan Pierson <zebramep@gmail.com>, Patrick Claytor <patrick.claytor@gmail.com>, Victoria McCormick <torimcc@gmail.com>",
 		"willy@chenxiao.us", 
 		"willy@chenxiao.us, tom@bob.com",
 		"willy@chenxiao.us,      tom@bob.com", // multiple spaces 		
@@ -80,6 +76,7 @@
 		"willy", 
 		"google.com", 
 		"@google.com", 
+		"willy@chenxiao.us.", 
 		"<willy@chenxiao.us> <tom@bob.com>",
 		"<willy@chenxiao.us> willy xiao, <willy@chenxiao.us> <tom, willyxiao <willy@chenxiao.us>",
 		"willy@", 
