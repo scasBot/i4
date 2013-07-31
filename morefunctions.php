@@ -11,9 +11,9 @@
 	
 	function parseEmailString($string) {
 		// first, tidy up the whitespaces.
-		$rawarray = str_replace(" ","",$string);
+//		$rawarray = str_replace(" ","",$string);
 		// then, clean up the contents outside of <...>
-		$mailarray = explode(",", $rawarray);
+		$mailarray = explode(",", $string);
 
 		// then filter through the array for none-email formats and return the result array of mail addresses.
 		$goodmails = array();
@@ -46,6 +46,7 @@
 			$email = substr($email,$start,$end-$start);
 			$email = str_replace("<","",$email);
 		}
+		$email = trim($email); 
 		
 		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			return $email; 
@@ -73,6 +74,7 @@
 		"<willy@chenxiao.us> <tom@bob.com>",
 		"<willy@chenxiao.us> willy xiao, <willy@chenxiao.us> <tom, willyxiao <willy@chenxiao.us>",
 		"willy@", 
+		"willy@ chenxiao.us", 
 		"willy@chenxiao.us tom@bob.com", 
 		"willy@chenxiao.us, <willy xiao>, tom@bob.com", 
 		"willy@chenxiao.us, tom@bob.com, ble",
