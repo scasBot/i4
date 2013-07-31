@@ -51,7 +51,8 @@
 		"willy@chenxiao.us tom@bob.com", 
 		"willy@chenxiao.us willy xiao <tom@bob.com>", 
 		"willy@chenxiao.us, <willy xiao>, tom@bob.com", 
-		"willy@chenxiao.us, tom@bob.com, ble"
+		"willy@chenxiao.us, tom@bob.com, ble",
+		"willy@chenxiao.us, , tom@bob.com"
 	); 
 	
 	foreach($passing_strings as $str) {
