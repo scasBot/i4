@@ -27,7 +27,7 @@
 			</div>
 			<button id='EditPassword-btn' class='btn btn-success' 
 				type='button' style='margin-bottom: 10px'
-				onclick='$("#EditPassword").show(); $(this).hide()'>Click to Edit Password</button> 
+				onclick='$("#EditPassword").show(); $(this).hide(); $("#CurrentPassword").focus()'>Click to Edit Password</button> 
 			<div id='EditPassword' style='display: none' hidden> 
 				<div style='border: 1px dotted black; margin-bottom: 10px'></div>
 				<div class='control-group'>
@@ -48,7 +48,8 @@
 				<div style='border: 1px dotted black; margin-bottom: 10px'></div>
 			</div>
 			<div class="control-group">
-				<button id='profile-form-submit' class="btn btn-block btn-primary" type="button">Edit User</button>
+				<button id='profile-form-submit' class="btn btn-block btn-primary" 
+					type="button" style='height: 40px'>Save Profile Updates</button>
 			</div>
 		</form>
 	</div>
