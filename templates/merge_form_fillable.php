@@ -1,5 +1,20 @@
 <h3 style='border-bottom: 1px solid black'><?php echo "Client " . $client->get_id(); ?></h3>
 <?php
+/*
+if(!function_exists("createId")) {
+	function createId($str) {
+		global $clientNumber; 
+		return $str . $clientNumber; 
+	}
+}*/
+	echo $clientNumber; 
+	
+	function createId($str) {
+		global $clientNumber; 
+		echo $clientNumber; 
+		return $str . $clientNumber; 
+	}	
+	
 if(!function_exists("printRow")) {
 	function printRow($title, $data) {
 		echo "<div class='well well-small mergeinfo'>"; 
@@ -18,7 +33,8 @@ if(!function_exists("printRow2")) {
 	}
 }
 ?>
-<div class='merge-form-fillable'>
+<div class='merge-form-fillable' class='merge-form-fillable' 
+	data-clientNumber='<?php echo $clientNumber ?>' >
 <?php
 // printRow2("ID:", "ClientID", $client->get_id()); 
 printRow2("First Name:", "FirstName", $client->get("info")->get("FirstName")); 

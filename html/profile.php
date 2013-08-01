@@ -28,15 +28,12 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		"user" => $profile->get_array()));		
 }
 else if($_SERVER["REQUEST_METHOD"] == "POST") {	
-	$correct_req = true; 
-	
 	// if POSTing, then edit the profile and push
 	$profile->from_array($_POST); 
 	$profile->push(); 
 	
 	$password = new Password($_SESSION["id"]); 
-	$user = $password->get_array(); 
-	
+	$user = $password->get_array();	
 	if($_POST["NewPassword"]) {
 		if(crypt($_POST["CurrentPassword"], $user["hash"]) != $user["hash"]) {
 			apologize("Incorrect current password. Password not changed, all other " . 
