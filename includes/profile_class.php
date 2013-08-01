@@ -7,5 +7,10 @@ class Profile extends aPureDataObject implements iDataObject {
 	protected $database_name = "i3_Users"; 
 }
 
-
+class Password extends aPureDataObject implements iDataObject {
+	protected $matchers = array("UserID", "hash"); 
+	protected $elements = array("UserID", "hash"); 
+	protected $primary_key = "UserID"; 
+	protected $database_name = "i3_Passwords"; 
+}
 ?>

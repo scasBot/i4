@@ -33,6 +33,22 @@ else if($_SERVER["REQUEST_METHOD"] == "POST") {
 	// if POSTing, then edit the profile and push
 	$profile->from_array($_POST); 
 	$profile->push(); 
+	
+	$password = new Password($_SESSION["id"]); 
+	$user = $password->get_array(); 
+	
+	if($_POST["NewPassword"]) {
+		if(crypt($_POST["CurrentPassword"], $user["hash"]) != $user["hash"]) {
+			apologize("Incorrect current password. Password not changed, all other " . 
+				"profile stats updated."); 
+		} else if($_POST["NewPassword"] != $_POST["ConfirmPassword"]) {
+			apologize("Sorry, new password and confirmation don't match. " . 
+				"Password not changed, all other profile stats updated."); 
+		} else {
+			$password->set("hash", crypt($_POST["NewPassword"])); 
+			$password->push(); 
+		}
+	}
 }
 
 if($correct_req) {
