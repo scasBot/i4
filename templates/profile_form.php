@@ -25,22 +25,30 @@
 					?>
 				</select>
 			</div>
-			<div style='border: 1px dotted black; margin-bottom: 10px'></div>
-			<div class='control-group'>
-				<label for='CurrentPassword' class='control-label'>Current Password: </label>
-				<input id="CurrentPassword" name="CurrentPassword" type="password" />
+			<button id='EditPassword-btn' class='btn btn-success' 
+				type='button' style='margin-bottom: 10px'
+				onclick='$("#EditPassword").show(); $(this).hide()'>Click to Edit Password</button> 
+			<div id='EditPassword' style='display: none' hidden> 
+				<div style='border: 1px dotted black; margin-bottom: 10px'></div>
+				<div class='control-group'>
+					<label for='CurrentPassword' class='control-label'>Current Password: </label>
+					<input id="CurrentPassword" name="CurrentPassword" type="password" />
+				</div>
+				<div class='control-group'>
+					<label for='NewPassword' class='control-label'>New Password: </label>
+					<input id="NewPassword" name="NewPassword" type="password" />
+				</div>
+				<div class='control-group'>
+					<label for='ConfirmPassword' class='control-label'>Confirm Password: </label>
+					<input id="ConfirmPassword" name="ConfirmPassword" type="password" />
+				</div>			
+				<button class='btn btn-success'
+					type='button' style='margin-bottom: 2px'
+					onclick='$("#EditPassword").find("input").val(""); $("#EditPassword-btn").show(); $("#EditPassword").hide()'>Cancel</button>
+				<div style='border: 1px dotted black; margin-bottom: 10px'></div>
 			</div>
-			<div class='control-group'>
-				<label for='NewPassword' class='control-label'>New Password: </label>
-				<input id="NewPassword" name="NewPassword" type="password" />
-			</div>
-			<div class='control-group'>
-				<label for='ConfirmPassword' class='control-label'>Confirm Password: </label>
-				<input id="ConfirmPassword" name="ConfirmPassword" type="password" />
-			</div>			
-			<div style='border: 1px dotted black; margin-bottom: 10px'></div>
 			<div class="control-group">
-				<button id='profile-form-submit' class="btn" type="button">Edit User</button>
+				<button id='profile-form-submit' class="btn btn-block btn-primary" type="button">Edit User</button>
 			</div>
 		</form>
 	</div>
