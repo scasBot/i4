@@ -4,19 +4,19 @@
 		<form id='profile-form' class="form-horizontal" action="profile.php" method="POST"> 
 			<legend>Profile (Your 24601)</legend>
 			<div class="control-group">
-				<label class="control-label">User ID</label>
+				<label class="control-label">User ID: </label>
 				<input type="text" value="<?php echo $user["UserID"] ?>" readonly />
 			</div>
 			<div class="control-group">
-				<label for="UserName" class="control-label">User Name</label>
+				<label for="UserName" class="control-label">User Name: </label>
 				<input id="UserName" type="text" value="<?php echo $user["UserName"] ?>" name="UserName" />
 			</div>
 			<div class="control-group">
-				<label for="Email" class="control-label">Email</label>
+				<label for="Email" class="control-label">Email: </label>
 				<input id="Email" type="email" value="<?php echo $user["Email"] ?>" name="Email" />
 			</div>
 			<div class="control-group">
-				<label for="YOG" class="control-label">Graduation Year</label>
+				<label for="YOG" class="control-label">Graduation Year: </label>
 				<select id="YOG" name="YOG">
 					<?php 
 						for($i = (date("Y") - 1); $i < (date("Y") + 5); $i++) {
@@ -27,15 +27,15 @@
 			</div>
 			<div style='border: 1px dotted black; margin-bottom: 10px'></div>
 			<div class='control-group'>
-				<label for='CurrentPassword' class='control-label'>Current Password</label>
+				<label for='CurrentPassword' class='control-label'>Current Password: </label>
 				<input id="CurrentPassword" name="CurrentPassword" type="password" />
 			</div>
 			<div class='control-group'>
-				<label for='NewPassword' class='control-label'>New Password</label>
+				<label for='NewPassword' class='control-label'>New Password: </label>
 				<input id="NewPassword" name="NewPassword" type="password" />
 			</div>
 			<div class='control-group'>
-				<label for='ConfirmPassword' class='control-label'>Confirm Password</label>
+				<label for='ConfirmPassword' class='control-label'>Confirm Password: </label>
 				<input id="ConfirmPassword" name="ConfirmPassword" type="password" />
 			</div>			
 			<div style='border: 1px dotted black; margin-bottom: 10px'></div>
