@@ -13,8 +13,6 @@ Willy at the above emails.
 
 August 2013
 ***********************************/
-
-
  /* some functions differ based on LOCAL_HOST or server. */
 define("SERVER_NAME", "cicero.hcs.harvard.edu"); 
 // define("LOCAL_HOST_NAME", "WILLYXIAO-THINK"); 
@@ -32,15 +30,15 @@ define("ADMIN_EMAIL", "wxiao@college.harvard.edu");
 define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com"); 
 
 //** MYSQL DATABASE ITEMS **//
-if(!LOCAL_HOST) {
-	define("DATABASE", "scas");
-	define("PASSWORD", "pantsonfire");
-	define("SERVER", "mysql.hcs.harvard.edu");
-	define("USERNAME", "scas");	
-} else {
+if(LOCAL_HOST) {
 	define("DATABASE", "scas"); 
 	define("SERVER", "localhost");
 	define("USERNAME", "root"); 
 	define("PASSWORD", ""); 
+} else {
+	define("DATABASE", "scas");
+	define("PASSWORD", "pantsonfire");
+	define("SERVER", "mysql.hcs.harvard.edu");
+	define("USERNAME", "scas");	
 }
 ?>
