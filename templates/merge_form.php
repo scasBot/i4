@@ -2,25 +2,17 @@
 	require("../includes/client_class.php"); 
 	$client1 = new Client(16209); 
 	$client2 = new Client(16200); 	
-	
-	function require_fillable($client, $clientNumber) {
-		require("merge_form_fillable.php"); 
-	}
-	function require_searchable() {
-		require("merge_form_searchable.php"); 
-	}
+	global $clientNumber; 
 ?>
 <div class='row'>
 	<div id='clientOne' class='span4'>
 		<?php
 			if($client1) {
-//				$client = $client1;
-//				$clientNumber = 1; 
-				require_fillable($client1, 1); 
-//				require("merge_form_fillable.php"); 
+				$client = $client1;
+				$clientNumber = 1; 
+				require("merge_form_fillable.php"); 
 			} else {
-				require_searchable(); 
-//				require("merge_form_searchable.php"); 
+				require("merge_form_searchable.php"); 
 			}
 		?>
 	</div>
@@ -42,15 +34,15 @@
 	</div>
 </div>
 <script type='text/javascript'>
-function mergeForm() {
-	var numOfClients = $(".merge-form-fillable").length; 
+function MergeForm() {
+	var numClients = $(".merge-form-fillable").length; 
 	
-	if(numOfClients == 1) 
+	if(numClients == 1) 
 		var mergeForm = new Merge1Form(); 
 	else 
 		var mergeForm = new Merge2Form(); 
 		
-	return mergeForm; 
+	this.__proto__ = mergeForm; 
 }
 function Merge1Form() {
 	$(".merger-input").each(function() {
@@ -69,6 +61,6 @@ function Merge2Form() {
 	}); 
 }
 
-mergeForm(); 
+var mergeForm = new MergeForm(); 
 
 </script>

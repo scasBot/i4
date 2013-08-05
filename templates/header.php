@@ -13,11 +13,19 @@
 
 		<link rel="icon" type="image/ico" href="img/favicon.ico">
 		
-        <?php if (isset($title)): ?>
-            <title><?php echo htmlspecialchars($title) ?></title>
-        <?php else: ?>
-            <title>SCASi4</title>
-        <?php endif ?>
+		<?php if(!LOCAL_HOST) :  ?>
+			<?php if (isset($title)): ?>
+				<title><?php echo htmlspecialchars($title) ?></title>
+			<?php else: ?>
+				<title>SCASi4</title>
+			<?php endif ?>
+		<?php else : ?> 
+			<?php if (isset($title)): ?>
+				<title>LOCAL: <?php echo htmlspecialchars($title) ?></title>
+			<?php else: ?>
+				<title>LOCAL: SCASi4</title>
+			<?php endif ?>
+		<?php endif ?>
 
 		<?php if (isset($javascript)) : ?>
 			<script>

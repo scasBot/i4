@@ -7,14 +7,13 @@ if(!function_exists("createId")) {
 		return $str . $clientNumber; 
 	}
 }*/
-	echo $clientNumber; 
-	
+if(!function_exists("createId")) {
 	function createId($str) {
 		global $clientNumber; 
-		echo $clientNumber; 
 		return $str . $clientNumber; 
 	}	
-	
+}
+
 if(!function_exists("printRow")) {
 	function printRow($title, $data) {
 		echo "<div class='well well-small mergeinfo'>"; 
@@ -27,7 +26,7 @@ if(!function_exists("printRow")) {
 	}
 }
 if(!function_exists("printRow2")) {
-	function printRow2($title, $id, $info) {
+	function printRow2($title, $id, $info) {	
 		printRow("<p style='text-align: left; font-weight: bold'>" . $title . "</p>", 
 			"<p id='" . createId($id) . "' style='text-align: left'>" . $info . "</p>"); 
 	}
@@ -47,7 +46,7 @@ printRow2("City:", "City", $client->get("info")->get("Address"));
 printRow2("State:", "State", $client->get("info")->get("State")); 
 printRow2("Zip:", "Zip", $client->get("info")->get("Zip")); 
 printRow2("Language:", "Language", $client->get("info")->get("Language")); 
-printRow2("Notes:", "Notes", $client->get("info")->get("ClientNotes"));
+printRow2("Notes:", "ClientNotes", $client->get("info")->get("ClientNotes"));
 ?>
 </div>
 <style type="text/css">
