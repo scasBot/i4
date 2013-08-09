@@ -60,7 +60,7 @@ function zeroPad(num, size) {
 // selectOption in dropdown
 function selectOption(selectObject, key) {
 	selectObject.find("option").each(function () {
-		if ($(this).text() == key) {
+		if ($(this).text() == key || $(this).val() == key) {
 			$(this).prop('selected', true); 
 			return; 
 		}

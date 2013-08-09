@@ -14,16 +14,17 @@ Willy at the above emails.
 August 2013
 ***********************************/
  /* some functions differ based on LOCAL_HOST or server. */
-define("SERVER_NAME", "cicero.hcs.harvard.edu"); 
+define("SERVER_NAME", "hcs.harvard.edu"); 
 // define("LOCAL_HOST_NAME", "WILLYXIAO-THINK"); 
-define("LOCAL_HOST", SERVER_NAME !== php_uname("n")); 
+define("LOCAL_HOST",  strstr(php_uname("n"), SERVER_NAME) === false);
 
 // ROOT_ can be used to create public links or to run scripts
 define("ROOT", dirname(dirname((__FILE__)))); 	
 define("ROOT_FROM_DOMAIN", (LOCAL_HOST ? "/" : "/~scas/")); 
 define("ROOT_PUBLIC", $_SERVER["HTTP_HOST"]. ROOT_FROM_DOMAIN . basename(ROOT)); 
 
-define("AJAX_HASH", "imofftoseethewizardthewonderfulwizardofoz");
+define("LEADERBOARD_STATS_FILE", ROOT . "/data/" . "data_leaderboard.php"); 
+define("AJAX_HASH", "THISISSPARTA");
 
 define("SCAS_EMAIL", "masmallclaims@gmail.com"); 
 define("ADMIN_EMAIL", "wxiao@college.harvard.edu"); 

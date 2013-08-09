@@ -1,7 +1,6 @@
 <form id="contactForm" class="form-horizontal">
 	<legend>Contact Info</legend>
 </form>
-
 <div class="row contact-form-header">
 	<div class="span2">Contact Date</div>
 	<div class="span2">Type</div>
@@ -173,8 +172,7 @@
 		
 		if(!shouldDelete) {
 			return; 
-		}
-		else {
+		} else {
 			data = {}; 
 			data.Action = "Delete"; 
 			data.Contact = {}; 
@@ -185,7 +183,6 @@
 				data : data, 
 				success : function(r) {
 					try {
-						console.log(r); 
 						var response = $.parseJSON(r); 
 					}
 					catch (e) {
@@ -194,8 +191,8 @@
 					
 					if(response.Success) {
 						contacts.splice(getContactIndex(id), 1); 
-						console.log("gone!"); 
 						display(); 
+						updatePriority(); 
 					}
 				}, 
 				error : function(e) {
@@ -217,14 +214,14 @@
 
 			if(id ==0) {
 				newContact.ContactID = 0; 
-				newContact.UserName.Added = constants.userName; //"<?php echo $_SESSION["username"] ?>";
+				newContact.UserName.Added = constants.userName;
 				newContact.Email.Added = constants.userEmail; 
-				newContact.ClientID = constants.clientId; // EDITED 
+				newContact.ClientID = constants.clientId; 
 			} else {
 				newContact = contacts[index]; 
 			}
 			
-			newContact.UserName.Edit = constants.userName; //"<?php echo $_SESSION["username"] ?>"; 
+			newContact.UserName.Edit = constants.userName; 
 			newContact.Email.Edit = constants.userEmail; 
 			newContact.ContactEditDate = currentSqlDate(); 
 			newContact.ContactDate = editDiv.find("[name='ContactDate']").val(); 
@@ -242,7 +239,6 @@
 				REQ : "contact", 
 				success : function(r) {
 					try {
-						console.log(r); 
 						var response = $.parseJSON(r); 
 					}
 					catch (e) {
@@ -258,8 +254,8 @@
 						} else {
 							contacts[index] = newContact; 
 						}
-						
-						display(); 
+						display();	
+						updatePriority();
 					} else {
 						throw "Error: server response unsuccessful"; 
 					}
@@ -280,8 +276,7 @@
 			var date_inputted = myDate(dateInput.val()); 
 			dateInput.val(toSqlDate(date_inputted));
 			return true; 
-		}
-		else {
+		} else {
 			var msg = (isValidMysqlSyntax(dateInput.val()) ? 
 					"the date you entered is invalid...please consult a calendar" : 
 					"Format in the following way:  YYYY-MM-DD hh:mm:ss"); 					
@@ -292,26 +287,105 @@
 		}
 	}	
 	
+	function updatePriority () {
+		var contactTypeArr = []; 
+		for(n in contacts) {
+			contactTypeArr.push(contacts[n].ContactTypeID); 
+		}
+		var priorityID = calculatePriority(contactTypeArr); 
+		var selectObj = $("select[name='Priority']"); 
+		if(selectObj.val() == priorityID) {
+			return; 
+		} else {
+			selectOption(selectObj, priorityID); 
+			$("#updateClient").click(); 
+		}
+	}
+	
+	function calculatePriority(arr) {
+		if(!arr || arr.length < 1) {
+			return 21; // never been contacted
+		}
 
+		switch(Number(arr.shift())) {
+			case 97 : // assistance not required
+				return 97; // assistance not required
+			break; 
+			case 31 : // appointment scheduled 
+				return 10; // upcoming appointment
+			break; 
+			case 12 : // Called, helped by phone
+			case 16 : // Email, response sent
+			case 20 : // Call received, helped by phone
+			case 30 : // Met with client
+				return 61; // Client Assisted
+			break; 
+			case 11 : // Called, no answer
+				return 11; // Phone tag
+			break; 
+			case 13 : // Called, wrong number
+			case 14 : // Called, number not in service
+				return 90; // cannot contact
+			break; 
+			case 21 : // Voicemail received
+			case 15 : // Email received
+				return 21; // Never been contacted
+			break; 
+			case 92 : // referred to legal research
+				return 52; // Case referred, LR
+			break;
+			case 1 : // Create client record	
+				if(arr.length > 1)
+					return calculatePriority(arr); // We don't care about when the record was created
+				else
+					return 21; // Never been contacted
+			break; 
+			case 10 : // message left
+				switch (countLeftVM(arr) + 1) {
+					case 0 : 
+						return 0; // undefined
+					break; 
+					case 1 : 
+						return 22; // 1 message left
+					break;
+					case 2 : 
+						return 23; // 2 messages left
+					break;
+					default : 
+						return 24; // 3+ messages left
+					break;
+				} 
+			break; 
+		}
+	}
+	
+	function countLeftVM(arr) {
+		if(arr.length < 1) 
+			return 0; 
+		else if(arr.shift() == 10) 
+			return countLeftVM(arr) + 1; 
+		else 
+			return countLeftVM(arr); 
+	}
+		
 </script>
 
 <!-- MAIN SCRIPT FOR THIS PAGE HERE -->
-<script>	
-	function display() {
+<script>
+	function display() {		
 		state.newContactShown = false; 
-	
 		$("#PutContactsHere").html(""); 
 		
 		contacts.sort(function(a, b) {
 			return (myDate(b.ContactDate)) - (myDate(a.ContactDate)); 
 		}); 
-		
+
 		for(n in contacts) {
 			var html = contactDisplayHTML(contacts[n]); 
 			$("#PutContactsHere").append(html); 
 		}
 	}
-	
+		
 	$(document).ready(function() {
 		display();  		
 	}); 

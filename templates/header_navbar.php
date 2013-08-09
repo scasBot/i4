@@ -40,6 +40,7 @@
 				</a>
 				<ul class="dropdown-menu">
 					<li><a target="_blank" href="resources/manual.pdf">Manual</a></li>
+					<li><a target="_blank" href="http://masmallclaims.wikia.com/wiki/MA_Small_Claims_Wiki">Wiki</a></li>
 				</ul>
 			</li>
 		</ul>
