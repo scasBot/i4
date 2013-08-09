@@ -1,11 +1,4 @@
 <?php
-	$handle = fopen("data/emails.php", "r"); 
-	
-	$result = array(); 
-	for($line = fgets($handle); $line; $line = fgets($handle)) {
-		$result[] = json_decode($line); 
-	}
+var_dump($_SERVER["HTTP_HOST"]); 
+//var_dump($GLOBALS); 
 ?>
-<script>
-	var emails = <?php echo json_encode($result) ?>; 
-</script>
