@@ -298,7 +298,8 @@
 			return; 
 		} else {
 			selectOption(selectObj, priorityID); 
-			$("#updateClient").click(); 
+			updateClient(); 
+//			$("#updateClient").click(); 
 		}
 	}
 	
