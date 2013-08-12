@@ -17,9 +17,13 @@ Description : ajax.php is the global
 handler for all ajax requests to the scas website. 
 Go to i4/html/js/ajaxBot.js to see how it is used. 
 ***********************************/
-
 require("../includes/config.php"); 
 define("AJAX_ROOT", "../ajax/"); 	
+
+if(!LOGGED_IN) {
+	echo ajax_error("Must be logged in to continue."); 
+	die(); 
+}
 
 // global error handling for all ajax pages, doesn't do much now
 function ajax_error($string) {
@@ -80,6 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		case "emailForm" : 
 		case "clientEmails" : 
 		case "updateClient" : 
+		case "searchUsers" : 
 			require(ajax_handler($_POST["REQ"])); 
 		break;
 		default : 

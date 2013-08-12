@@ -46,6 +46,7 @@ if (!preg_match("{(?:login|logout|register|email)\.php$}", $_SERVER["PHP_SELF"])
 	} else {
 		define("LOGGED_IN", true); 
 		define("COMPER", is_comper($_SESSION["id"])); 
+		define("ADMIN", is_admin($_SESSION["id"])); 
 	}
 } else {
 	define("LOGGED_IN", false); 

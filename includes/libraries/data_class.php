@@ -57,7 +57,7 @@ abstract class aDataObject implements iDataObject {
 	}
 		
 	// helper functions to give items based on existence of object
-	private function give_mutable($item) {
+	protected function give_mutable($item) {
 		if($this->exists) {
 			return $this->$item; 
 		}
@@ -68,10 +68,10 @@ abstract class aDataObject implements iDataObject {
 	
 	// giving elements back based on existence
 	public function get_id() {
-		return give_mutable("id"); 
+		return $this->give_mutable("id"); 
 	}
 	public function get_synced() {
-		return give_mutable("synced"); 
+		return $this->give_mutable("synced"); 
 	}
 	public function get_elements() {
 		return $this->elements; 

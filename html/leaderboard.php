@@ -18,10 +18,14 @@ August 2013
 require("../includes/config.php"); 
 
 if($_SERVER["REQUEST_METHOD"] == "GET") {
-	apologize("Sorry, this page isn't ready yet."); 
+	$json_stats = file_get_contents(LEADERBOARD_STATS_FILE); 
+	$stats = json_decode($json_stats, true);
+	render("leaderboard_form.php", array("title" => "Leaderboard", "stats" => $stats)); 
 }
 else if($_SERVER["REQUEST_METHOD"] == "POST") {	
 	apologize("Sorry, you can't post to the leaderboard. :("); 
 	
 }
+
+
 ?>

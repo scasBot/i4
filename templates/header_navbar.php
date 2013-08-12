@@ -26,6 +26,9 @@
 				<ul class="dropdown-menu">							
 					<li><a href="leaderboard.php">Leaderboard</a></li>
 					<li><a href="profile.php">Profile</a></li>
+					<?php if(ADMIN) : ?>
+						<li><a href="manage.php?type=users">Manage Users</a></li>
+					<?php endif; ?>
 				</ul>
 			</li>
 			<li class="dropdown">
@@ -37,6 +40,7 @@
 				</a>
 				<ul class="dropdown-menu">
 					<li><a target="_blank" href="resources/manual.pdf">Manual</a></li>
+					<li><a target="_blank" href="http://masmallclaims.wikia.com/wiki/MA_Small_Claims_Wiki">Wiki</a></li>
 				</ul>
 			</li>
 		</ul>

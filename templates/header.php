@@ -8,15 +8,24 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
         <link href="css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet"/>
         <link href="css/styles.css" rel="stylesheet"/>
 
 		<link rel="icon" type="image/ico" href="img/favicon.ico">
 		
-        <?php if (isset($title)): ?>
-            <title><?php echo htmlspecialchars($title) ?></title>
-        <?php else: ?>
-            <title>SCASi4</title>
-        <?php endif ?>
+		<?php if(!LOCAL_HOST) :  ?>
+			<?php if (isset($title)): ?>
+				<title><?php echo htmlspecialchars($title) ?></title>
+			<?php else: ?>
+				<title>SCASi4</title>
+			<?php endif ?>
+		<?php else : ?> 
+			<?php if (isset($title)): ?>
+				<title>LOCAL: <?php echo htmlspecialchars($title) ?></title>
+			<?php else: ?>
+				<title>LOCAL: SCASi4</title>
+			<?php endif ?>
+		<?php endif ?>
 
 		<?php if (isset($javascript)) : ?>
 			<script>
@@ -48,7 +57,7 @@
         <div class="container">
             <div id="top" class="row">
 				<div class="span12">
-				<a href="/"><img alt="SCAS i4: The Next Generation" src="img/logo.jpg" style="padding: 10px"/></a>
+				<a href="/"><img alt="SCAS i4: The Next Generation" src="img/logo.jpg" width="300px" height="64px" style="padding: 10px"/></a>
 				</div>
 			</div>
 

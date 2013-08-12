@@ -44,7 +44,7 @@ function htmlOptions($arr, $selected_text = NULL) {
 }
 
 // <option value="AL">AL</option>...<option value="WV">WV</option>
-function htmlOptionsStates($state) {
+function htmlOptionsStates($state = null) {
 	return htmlOptions(
 		array(
 			"" => "", 

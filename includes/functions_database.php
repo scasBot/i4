@@ -30,7 +30,6 @@ function unique_lookup($table, $key, $key_field, $val_field) {
 	}
 
 	/* no longer enforcing one return*/
-	// assert2(count($results) == 1, $key_field .": ". $key . " did not return 1 match"); 
 	if(empty($results)) {
 		return null; 
 	}
@@ -105,6 +104,20 @@ function get_priorities() {
 function is_comper($id) {
 	$comper = unique_lookup("i3_Users", $id, "UserID", "Comper"); 
 	return($comper == 1); 
+}
+
+function is_admin($id) {
+	try {
+		$result = query(query_select(array(
+			"TABLE" => "i3_Admins", 
+			"WHERE" => array(
+				"UserID" => array("=", $id))
+		))); 
+		
+		return (count($result) > 0); 
+	} catch (Exception $e) {
+		return false; 
+	}
 }
 
 class i3_log extends aPureDataObject implements iDataObject {
