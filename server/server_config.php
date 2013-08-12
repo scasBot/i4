@@ -1,5 +1,6 @@
 <?php
-require("../includes/constants.php"); 
-require("../includes/libraries/ALL.php"); 
-require("../includes/functions_database.php"); 
+define("CRON_ROOT", "/nfs/home/groups/scas/web/i4/"); 
+require(CRON_ROOT . "includes/constants.php"); 
+require(CRON_ROOT . "includes/libraries/ALL.php"); 
+require(CRON_ROOT . "includes/functions_database.php"); 
 ?>
