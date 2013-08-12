@@ -7,35 +7,31 @@
  * Global CSS.
  ***************************************************************************/
 
-.container
-{
+.container {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
 
-#top
-{
+#top {
     /* center contents */
     text-align: center;
 }
 
-#middle
-{
+#middle {
     /* center contents */
     text-align: center;
 }
 
-#bottom
-{
+#bottom {
     /* shrink bottom's font size */
     font-size: smaller;
 
     /* surround with whitespace */
-    margin: 20px;
+    margin-bottom: 20px;
+	margin-top: 10px; 
 
-    /* center contents */
-    text-align: center;
+	border-top: 1px dotted black; 
 }
 
 #geniusBar {

@@ -10,15 +10,14 @@ class Filler {
 		}
 	}
 
-	private $quotes = array(
-		"Freedom lies in being bold - Robert Frost", 
-		"Not all who wonder are lost - J.R.R. Tolkein", 
-		"Waddup - Willy Xiao", 
-		"Everything has beauty but not everyone sees it - Confucius", 
-		"Be a yardstick of quality. Some people aren't used to an environment where excellence is expected - Steve Jobs");
-		
-	public function random_quote($seed_number = NULL) {		
-		return $this->random($this->quotes, $seed_number); 
+	public function random_quote($seed_number = NULL) {	
+		$quotes = query(query_select(array(
+			"TABLE" => "i3_Quotes"))); 
+		$tmp = array(); 
+		foreach($quotes as $quote) {
+			$tmp[] = $quote["quote"]; 
+		}
+		return $this->random($tmp, $seed_number); 
 	}
 
 	private $celebs = array(
