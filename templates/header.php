@@ -48,16 +48,15 @@
     </head>
     <body>
 		<div class="container">
-			<?php 
-				if (LOGGED_IN) {
-					require("header_navbar.php"); 
-				}			
-			?>
+			<?php if (LOGGED_IN) : ?>
+				<?php require("header_navbar.php"); ?>
+
+			<?php endif;?>
 		</div>
         <div class="container">
             <div id="top" class="row">
 				<div class="span12">
-				<a href="/"><img alt="SCAS i4: The Next Generation" src="img/logo.jpg" width="300px" height="64px" style="padding: 10px"/></a>
+				<a href="index.php"><img alt="SCAS i4: The Next Generation" src="img/logo.jpg" width="300px" height="64px" style="padding: 10px"/></a>
 				</div>
 			</div>
 

@@ -1,6 +1,3 @@
-<div id="TESTING">
-    <h1>BETA-VERSION : Hi Catherine and Julianna!</h1>
-</div>
-<div>
-    <a href="logout.php">Log Out</a>
-</div>
+<!-- h2><?php echo $quote ?></h2 -->
+
+<img src="img/harvard_pbha_logo.png" />
