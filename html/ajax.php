@@ -82,6 +82,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	switch($_POST["REQ"]) {
 		case "contact" : 
 		case "emailForm" : 
+		case "mergeFormSearch" : 
 		case "clientEmails" : 
 		case "updateClient" : 
 		case "searchUsers" : 

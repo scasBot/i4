@@ -1,15 +1,16 @@
 <?php 
 	require("../includes/client_class.php"); 
 	$client1 = new Client(16209); 
-	$client2 = new Client(16200); 	
+	//$client2 = new Client(16200); 	
 	global $clientNumber; 
 ?>
 <div class='row'>
-	<div id='clientOne' class='span4'>
+	<div id='clientOne' class='span4 merge-form-side'>
 		<?php
-			if($client1) {
+			$clientNumber = 1; 
+		
+			if(isset($client1)) {
 				$client = $client1;
-				$clientNumber = 1; 
 				require("merge_form_fillable.php"); 
 			} else {
 				require("merge_form_searchable.php"); 
@@ -21,11 +22,12 @@
 			require("merge_form_merger.php"); 
 		?>
 	</div>
-	<div id='clientTwo' class='span4'>
+	<div id='clientTwo' class='span4 merge-form-side'>
 		<?php
-			if($client2) {
+			$clientNumber = 2; 		
+			
+			if(isset($client2)) {
 				$client = $client2; 
-				$clientNumber = 2; 
 				require("merge_form_fillable.php"); 
 			} else {
 				require("merge_form_searchable.php"); 
