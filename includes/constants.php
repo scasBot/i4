@@ -31,15 +31,15 @@ define("ADMIN_EMAIL", "wxiao@college.harvard.edu");
 define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com"); 
 
 //** MYSQL DATABASE ITEMS **//
-if(LOCAL_HOST) {
+/*if(LOCAL_HOST) {
 	define("DATABASE", "scas"); 
 	define("SERVER", "localhost");
 	define("USERNAME", "root"); 
 	define("PASSWORD", ""); 
-} else {
+} else {*/
 	define("DATABASE", "scas");
 	define("PASSWORD", "pantsonfire");
 	define("SERVER", "mysql.hcs.harvard.edu");
 	define("USERNAME", "scas");	
-}
+//}
 ?>
