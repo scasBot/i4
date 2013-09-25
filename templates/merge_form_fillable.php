@@ -1,12 +1,5 @@
 <h3 style='border-bottom: 1px solid black'><?php echo "Client " . $client->get_id(); ?></h3>
 <?php
-/*
-if(!function_exists("createId")) {
-	function createId($str) {
-		global $clientNumber; 
-		return $str . $clientNumber; 
-	}
-}*/
 if(!function_exists("createId")) {
 	function createId($str) {
 		global $clientNumber; 
