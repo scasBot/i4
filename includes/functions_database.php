@@ -112,8 +112,7 @@ function is_admin($id) {
 			"TABLE" => "i3_Admins", 
 			"WHERE" => array(
 				"UserID" => array("=", $id))
-		))); 
-		
+		))); 		
 		return (count($result) > 0); 
 	} catch (Exception $e) {
 		return false; 

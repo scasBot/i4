@@ -8,6 +8,17 @@ class ClientInfo extends aDataObject implements iDataObject {
 		"Zip", "Language", "ClientNotes"); 
 	protected $primary_key = "ClientID"; 
 
+	// needs to check values are legitimate
+	public function set($element, $value) {
+		
+		// strips any other punctuation from phone numbers
+		if($element == "Phone1Number" || $element == "Phone2Number") {
+			$value = only_numbers($value); 
+		}
+	
+		return parent::set($element, $value); 
+	}
+
 	// query the database, edit it and then update the client
 	protected function pull_specific() {
 		$client_queried = query(query_select(

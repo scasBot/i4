@@ -29,7 +29,9 @@
 					<?php if(ADMIN) : ?>
 						<li><a href="manage.php?type=users">Manage Users</a></li>
 					<?php endif; ?>
-					<li><a href="add_user.php">Add Users</a></li>					
+					<?php if(!COMPER) : ?>
+						<li><a href="add_user.php">Add Users</a></li>
+					<?php endif; ?>
 				</ul>
 			</li>
 			<li class="dropdown">

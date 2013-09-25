@@ -2,6 +2,10 @@
 require("../includes/config.php"); 
 require("../includes/profile_class.php"); 
 
+if(COMPER) {
+	redirect(ROOT_PUBLIC); 
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {	
 	if(empty($_POST["YOG"]) || empty($_POST["UserName"]) || 
@@ -17,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 	
 	$password = new Password();
 	$password->set("UserID", $comper->get_id()); 
-	$password->set("hash", crypt("SCAS1965")); 
+	$password->set("hash", crypt("scas1965")); 
 	$password->push(); 
 }
 
