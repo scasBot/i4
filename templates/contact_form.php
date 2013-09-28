@@ -293,7 +293,7 @@
 			contactTypeArr.push(contacts[n].ContactTypeID); 
 		}
 		var priorityID = calculatePriority(contactTypeArr); 
-		var selectObj = $("select[name='Priority']"); 
+		var selectObj = $("select[name='CaseTypeID']"); 
 		if(selectObj.val() == priorityID) {
 			return; 
 		} else {

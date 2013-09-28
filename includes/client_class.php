@@ -5,9 +5,14 @@ class ClientInfo extends aDataObject implements iDataObject {
 	protected $elements = array(
 		"ClientID", "FirstName", "LastName", "Phone1Number", 
 		"Phone2Number", "Email", "Address", "City", "State", 
-		"Zip", "Language", "ClientNotes"); 
+		"Zip", "Language", "ClientNotes", "CaseTypeID"); 
 	protected $primary_key = "ClientID"; 
 
+	public function get_priority() {
+		return unique_lookup("db_CaseTypes", $this->get("CaseTypeID"), 
+			"CaseTypeID", "Description"); 
+	}
+	
 	// needs to check values are legitimate
 	public function set($element, $value) {
 		
@@ -35,7 +40,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		)); 
 		$cq = $client_queried[0]; 
 
-		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language"); 
+		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language", "CaseTypeID"); 
 
 		$client = array(); 
 		foreach($cq as $key => $value) {
@@ -82,6 +87,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		$to_update["ZIP"] = $current["Zip"]; 
 		$to_update["Address1"] = $current["Address"]; 
 		$to_update["Notes"] = $current["ClientNotes"];
+		$to_update["CaseTypeID"] = $current["CaseTypeID"]; 
 		
 		return $to_update; 
 	}
@@ -124,8 +130,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 			
 			if(!$rows) {
 				return null; 
-			}
-			else {
+			} else {
 				foreach($rows as $row) {
 					if($row["FirstName"] == $this->get("FirstName")
 						&& $row["Email"] == $this->get("Email")

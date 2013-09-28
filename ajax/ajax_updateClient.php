@@ -2,6 +2,9 @@
 	require("../includes/client_class.php"); 
 	
 	try {
+		// because priority is now in the CaseTypeID
+		$data["Priority"] = $data["CaseTypeID"]; 
+	
 		// create new client info object and update it
 		$client_info_obj = new ClientInfo($data["ClientID"]); 
 		assert2($client_info_obj->from_array($data), "Updating client failed...fields in \$_POST are incorrect"); 
