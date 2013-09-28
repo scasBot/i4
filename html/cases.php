@@ -23,18 +23,16 @@ require("../includes/config.php");
 require("../includes/client_class.php"); 
 
 if($_SERVER["REQUEST_METHOD"] == "GET")
-{
-	
+{	
 	// priority from table dbi4_Priority
 	if($_GET["type"] == "priority") {
 
-		// returns all elements of type priority=$id
 		function get_by_priority_id($id) {
 			return query(query_select(array(
-			"TABLE" => "dbi4_Priority", 
+			"TABLE" => "db_Clients", 
 			"WHERE" => array("CaseTypeID" => array("=", $id))
 			))); 
-		}
+		}		
 		
 		// these can be changed easily to reflect different ordering of priorities
 		$urgent = get_by_priority_id(1); 
@@ -51,19 +49,22 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	
 		$rows = query(query_select(array(
 			"TABLE" => "dbi4_Contacts",
-			"SELECT" => "ClientID", 
+			"SELECT" => array("ClientID"), 
 			"ORDER" => array("ContactDate" => "DESC"), 
 			"LIMIT" => 100 // currently only selecting 100
 		))); 
+
 
 		/* We only want to display each client once, this means we have to check
 			if the client has already been shown */
 		$taken = array();
 		foreach($rows as $key => $row) {
 			if(!isset($taken[$row["ClientID"]])) {
-				$priority = new Priority($row["ClientID"]); // also we can take this time to get the priority
+/*				$priority = new Priority($row["ClientID"]); // also we can take this time to get the priority
 				// could be source of slowness
-				$rows[$key]["CaseTypeID"] = $priority->get("CaseTypeID"); 
+				$rows[$key]["CaseTypeID"] = $priority->get("CaseTypeID"); */
+				$client_info = new ClientInfo($row["ClientID"]); 
+				$rows[$key]["CaseTypeID"] = $client_info->get("CaseTypeID"); 
 				$taken[$row["ClientID"]] = "";
 			} else {
 				unset($rows[$key]); 
@@ -80,7 +81,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	foreach($rows as $row) {
 		$queried = query(query_select(array(
 			"TABLE" => "db_Clients", 
-			"SELECT" => array("FirstName", "LastName", "Phone1AreaCode", "Phone1Number", "Email"), 
+			"SELECT" => array("FirstName", "LastName", "Phone1AreaCode", "Phone1Number", "Email", "CaseTypeID"), 
 			"WHERE" => array("ClientID" => array("=", $row["ClientID"]))
 		))); 
 		$queried[0]["Priority"] = $priorities[$row["CaseTypeID"]]; // get the priority 

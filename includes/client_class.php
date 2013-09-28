@@ -5,9 +5,14 @@ class ClientInfo extends aDataObject implements iDataObject {
 	protected $elements = array(
 		"ClientID", "FirstName", "LastName", "Phone1Number", 
 		"Phone2Number", "Email", "Address", "City", "State", 
-		"Zip", "Language", "ClientNotes"); 
+		"Zip", "Language", "ClientNotes", "CaseTypeID"); 
 	protected $primary_key = "ClientID"; 
-
+	
+	public function get_priority() {
+		return unique_lookup("db_CaseTypes", $this->get("CaseTypeID"), 
+			"CaseTypeID", "Description"); 
+	}
+	
 	// needs to check values are legitimate
 	public function set($element, $value) {
 		
@@ -35,7 +40,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		)); 
 		$cq = $client_queried[0]; 
 
-		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language"); 
+		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language", "CaseTypeID"); 
 
 		$client = array(); 
 		foreach($cq as $key => $value) {
@@ -82,6 +87,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		$to_update["ZIP"] = $current["Zip"]; 
 		$to_update["Address1"] = $current["Address"]; 
 		$to_update["Notes"] = $current["ClientNotes"];
+		$to_update["CaseTypeID"] = $current["CaseTypeID"]; 
 		
 		return $to_update; 
 	}
@@ -124,8 +130,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 			
 			if(!$rows) {
 				return null; 
-			}
-			else {
+			} else {
 				foreach($rows as $row) {
 					if($row["FirstName"] == $this->get("FirstName")
 						&& $row["Email"] == $this->get("Email")
@@ -182,6 +187,7 @@ class Contact extends aPureDataObject implements iDataObject {
 	}
 }
 
+/*
 class Priority extends aPureDataObject implements iDataObject {
 	protected $matchers = array(
 		"ClientID", "CaseTypeID"); 
@@ -209,16 +215,17 @@ class Priority extends aPureDataObject implements iDataObject {
 		}
 	}
 }
+*/
 
 class Client extends aDataObject implements iDataObject {
 	protected $elements = array(
-		"contacts", "info", "priority", "old_contacts"); 
+		"contacts", "info",/* "priority", */"old_contacts"); 
 
 	protected $primary_key = "ClientID"; 
 	protected $database_name = null; 
 	
 	protected function pull_specific() {
-		return ($this->pull_priority() && 
+		return (/*$this->pull_priority() && */
 				$this->pull_info() && 
 				$this->pull_old_contacts() && 
 				$this->pull_contacts());  
@@ -235,7 +242,7 @@ class Client extends aDataObject implements iDataObject {
 			$success = $success && $this->pull(); 
 		
 			$success = $success && $this->get("info")->delete() && 
-				$this->get("old_contacts")->delete() && $this->get("priority")->delete(); 
+				$this->get("old_contacts")->delete() /* && $this->get("priority")->delete()*/; 
 
 			foreach($this->get("contacts") as $contact) {
 				$success = $success && $contact->delete(); 
@@ -255,7 +262,8 @@ class Client extends aDataObject implements iDataObject {
 		// need to implement
 		return false; 
 	}
-	
+
+/*	
 	public function pull_priority() {
 		try {
 			return $this->set("priority", new Priority($this->id)); 
@@ -269,7 +277,7 @@ class Client extends aDataObject implements iDataObject {
 			return $priority->push(); 
 		}
 	}
-	
+*/	
 	public function pull_info() {
 		return $this->set("info", new ClientInfo($this->id)); 
 	}

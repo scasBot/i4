@@ -15,8 +15,7 @@
 				<div class="control-group">
 					<label class="control-label">Priority: </label>
 					<div class="controls">
-						<select name="Priority">
-							<?php if (unique_lookup("db_CaseTypes", $priority, "Description", "Deprecated") == 1) $priority = "Undefined" ?>
+						<select name="CaseTypeID">
 							<?php echo htmlOptions($priorities, $priority) ?>
 						</select>
 					</div>

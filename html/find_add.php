@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 	function and renders the clients. Currently everything is <or> and not <and> */
 function search($info) { // $info is all items in a $_GET or $_POST request
 	$table = "db_Clients"; 
-	$select = array("FirstName", "LastName", "Phone1AreaCode", "Phone1Number", "Email"); // items that are to be displayed
+	$select = array("FirstName", "LastName", "Phone1AreaCode", "Phone1Number", "Email", "CaseTypeID"); // items that are to be displayed
 
 	$rows = array(); // will hold all the cases in the end
 	foreach($info as $key => $value) {
@@ -66,23 +66,30 @@ function search($info) { // $info is all items in a $_GET or $_POST request
 			}
 		}
 	}
+
+	$priorities = get_priorities(); 
 	
 	// now we need the priorities for each client too
 	foreach($rows as $key => $row) {
-		try {
-			$priority = new Priority($row["ClientID"]);  
+/*	no longer using priority
+		try { 
+			$priority = new Priority($row["ClientID"]);
 		} catch (Exception $e) {
 				/* exception is triggered if the client doesn't have a priority
-					so then we have to make a new one */
+					so then we have to make a new one * /
 			$priority = new Priority(); 
 			$priority->set("ClientID", $row["ClientID"]); 
 			$priority->set("CaseTypeID", 0); // 0 means "undefined" priority
 			$priority->push(); 
 		}
-		
-		$rows[$key]["Priority"] = $priority->get_description();
+*/		
+		if(isset($priorities[$row["CaseTypeID"]])) {
+			$rows[$key]["Priority"] = $priorities[$row["CaseTypeID"]];
+		} else {
+			$rows[$key]["Priority"] = "Undefined"; // any errors, catch-all
+		}
 	}
-	
+
 	// render the list
 	render("cases_list.php", 
 		array("title" => "Find", 
