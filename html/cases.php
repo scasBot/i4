@@ -28,10 +28,10 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	if($_GET["type"] == "priority") {		
 
 		function get_by_priority_id($id) {
-			return query(query_select(array(
-			"TABLE" => "db_Clients", 
-			"WHERE" => array("CaseTypeID" => array("=", $id))
-			))); 
+			return query(
+				"SELECT * FROM db_Clients INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority FROM "
+				. "db_CaseTypes WHERE Deprecated=0) AS t1) ON t1.CaseTypeID=db_Clients.CaseTypeID WHERE " 
+				. "db_Clients.CaseTypeID=" . $id); 
 		}
 		
 		// these can be changed easily to reflect different ordering of priorities
@@ -42,6 +42,12 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 		
 		// this might be a source of the slowness
 		$rows = array_merge($undefined, $urgent, $no_contacted, $phone_tag);
+		
+		render("cases_list.php", array("title" => "By Priority", 
+			"cases" => $rows, 
+			"addnew" => null)); // addnew shouldn't be shown, can change template to use isset to avoid this.
+		
+		die(); 
 		
 	// date orders the cases by the last contact date added in dbi4_contacts
 	} else if ($_GET["type"] == "date") {
