@@ -28,6 +28,16 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	// priority from table dbi4_Priority
 	if($_GET["type"] == "priority") {
 
+		/*
+		function get_by_priority_id($id) {
+			return query(query_select(array(
+			"TABLE" => "db_Clients", 
+			"WHERE" => array("CaseTypeID" => array("=", $id))
+			))); 
+		}
+		*/
+		
+		
 		// returns all elements of type priority=$id
 		function get_by_priority_id($id) {
 			return query(query_select(array(
@@ -35,6 +45,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 			"WHERE" => array("CaseTypeID" => array("=", $id))
 			))); 
 		}
+		
 		
 		// these can be changed easily to reflect different ordering of priorities
 		$urgent = get_by_priority_id(1); 

@@ -7,7 +7,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		"Phone2Number", "Email", "Address", "City", "State", 
 		"Zip", "Language", "ClientNotes", "CaseTypeID"); 
 	protected $primary_key = "ClientID"; 
-
+	
 	public function get_priority() {
 		return unique_lookup("db_CaseTypes", $this->get("CaseTypeID"), 
 			"CaseTypeID", "Description"); 

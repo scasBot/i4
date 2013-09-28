@@ -83,7 +83,11 @@ function search($info) { // $info is all items in a $_GET or $_POST request
 			$priority->push(); 
 		}
 */		
-		$rows[$key]["Priority"] = $priorities[$rows[$key]["CaseTypeID"]];
+		if(isset($priorities[$row["CaseTypeID"]])) {
+			$rows[$key]["Priority"] = $priorities[$row["CaseTypeID"]];
+		} else {
+			$rows[$key]["Priority"] = "Undefined"; // any errors, catch-all
+		}
 	}
 
 	// render the list
