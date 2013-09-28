@@ -85,7 +85,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 			"WHERE" => array("ClientID" => array("=", $row["ClientID"]))
 		))); 
 		$queried[0]["Priority"] = $priorities[$row["CaseTypeID"]]; // get the priority 
-		$to_show[] = $queried[0]; 			
+		$to_show[] = $queried[0];	
 	}
 
 	render("cases_list.php", 
