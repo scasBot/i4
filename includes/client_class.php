@@ -219,13 +219,13 @@ class Priority extends aPureDataObject implements iDataObject {
 
 class Client extends aDataObject implements iDataObject {
 	protected $elements = array(
-		"contacts", "info", "priority", "old_contacts"); 
+		"contacts", "info",/* "priority", */"old_contacts"); 
 
 	protected $primary_key = "ClientID"; 
 	protected $database_name = null; 
 	
 	protected function pull_specific() {
-		return ($this->pull_priority() && 
+		return (/*$this->pull_priority() && */
 				$this->pull_info() && 
 				$this->pull_old_contacts() && 
 				$this->pull_contacts());  
@@ -242,7 +242,7 @@ class Client extends aDataObject implements iDataObject {
 			$success = $success && $this->pull(); 
 		
 			$success = $success && $this->get("info")->delete() && 
-				$this->get("old_contacts")->delete() && $this->get("priority")->delete(); 
+				$this->get("old_contacts")->delete() /* && $this->get("priority")->delete()*/; 
 
 			foreach($this->get("contacts") as $contact) {
 				$success = $success && $contact->delete(); 
@@ -262,7 +262,8 @@ class Client extends aDataObject implements iDataObject {
 		// need to implement
 		return false; 
 	}
-	
+
+/*	
 	public function pull_priority() {
 		try {
 			return $this->set("priority", new Priority($this->id)); 
@@ -276,7 +277,7 @@ class Client extends aDataObject implements iDataObject {
 			return $priority->push(); 
 		}
 	}
-	
+*/	
 	public function pull_info() {
 		return $this->set("info", new ClientInfo($this->id)); 
 	}
