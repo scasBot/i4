@@ -50,11 +50,11 @@ if($_GET["type"] == "priority") {
 	// get the clients with most recent 100 contacts added
 	$clients = "((SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, Phone1Number, Email, " 
 		. "CaseTypeID, ContactDate FROM db_Clients INNER JOIN (dbi4_Contacts AS contacts) ON contacts.ClientID=db_Clients.ClientID ORDER BY " 
-		. "contacts.ContactDate DESC LIMIT 100) AS t1)"; 
+		. "contacts.ContactDate DESC LIMIT 100) AS clients)"; 
 
 	// get their priority information too
-	$cases = query("SELECT t1.*, Priority FROM $clients INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority FROM " 
-		. "db_CaseTypes WHERE Deprecated=0) AS priority) ON t1.CaseTypeID=priority.CaseTypeID ORDER BY t1.ContactDate DESC"); 
+	$cases = query("SELECT clients.*, Priority FROM $clients INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority FROM " 
+		. "db_CaseTypes WHERE Deprecated=0) AS priority) ON clients.CaseTypeID=priority.CaseTypeID ORDER BY clients.ContactDate DESC"); 
 
 } else {
 	apologize("Can't access cases like that."); 
