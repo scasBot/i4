@@ -85,12 +85,16 @@ function get_contact_types() {
 
 // returns all the priorities 
 function get_priorities() {
-	$rows = query(query_select(
-		array(
-			"TABLE" => "db_CaseTypes", 
-			"WHERE" => array("Deprecated" => array("=", 0)),
-			"ORDER" => array("Description" => "ASC"))
-	)); 
+	static $rows; 
+	
+	if(!isset($rows)) {
+		$rows = query(query_select(
+			array(
+				"TABLE" => "db_CaseTypes", 
+				"WHERE" => array("Deprecated" => array("=", 0)),
+				"ORDER" => array("Description" => "ASC"))
+		)); 	
+	}
 	
 	$priorities = array(); 
 	foreach($rows as $row) {

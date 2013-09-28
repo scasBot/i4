@@ -19,14 +19,14 @@ Returns the cases_list template with information.
 
 /***********************************NEED BETTER ALGORITHM, THIS IS SLOW *********************/
 
+
 require("../includes/config.php"); 
 require("../includes/client_class.php"); 
 
 if($_SERVER["REQUEST_METHOD"] == "GET")
 {	
 	// priority from table dbi4_Priority
-	if($_GET["type"] == "priority") {
-
+	if($_GET["type"] == "priority") {		
 		function get_by_priority_id($id) {
 			return query(query_select(array(
 			"TABLE" => "db_Clients", 
@@ -60,9 +60,6 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 		$taken = array();
 		foreach($rows as $key => $row) {
 			if(!isset($taken[$row["ClientID"]])) {
-/*				$priority = new Priority($row["ClientID"]); // also we can take this time to get the priority
-				// could be source of slowness
-				$rows[$key]["CaseTypeID"] = $priority->get("CaseTypeID"); */
 				$client_info = new ClientInfo($row["ClientID"]); 
 				$rows[$key]["CaseTypeID"] = $client_info->get("CaseTypeID"); 
 				$taken[$row["ClientID"]] = "";
