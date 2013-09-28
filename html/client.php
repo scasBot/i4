@@ -41,7 +41,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 				apologize("There was an error on the server in deleting the client, please " . 
 					"contact " . ADMIN_EMAIL); 
 			} else {
-				redirect("index.php"); 
+				redirect("cases.php?type=priority"); 
 			}
 		} catch (Exception $e) {
 			apologize("There was an error on the server in deleting the client: " . 
