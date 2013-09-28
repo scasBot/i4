@@ -52,13 +52,27 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	// date orders the cases by the last contact date added in dbi4_contacts
 	} else if ($_GET["type"] == "date") {
 
+		$clients = "((SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, Phone1Number, Email, " 
+			. "CaseTypeID, ContactDate FROM db_Clients INNER JOIN (dbi4_Contacts AS contacts) ON contacts.ClientID=db_Clients.ClientID ORDER BY " 
+			. "contacts.ContactDate DESC LIMIT 100) AS t1)"; 
+
+		$rows = query("SELECT t1.*, Priority FROM $clients INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority FROM " 
+			. "db_CaseTypes WHERE Deprecated=0) AS priority) ON t1.CaseTypeID=priority.CaseTypeID ORDER BY t1.ContactDate DESC"); 
+
+		render("cases_list.php", array("title" => "By Priority", 
+			"cases" => $rows, 
+			"addnew" => null)); // addnew shouldn't be shown, can change template to use isset to avoid this.
+			
+		die(); 
+		
+		/*
 		$rows = query(query_select(array(
 			"TABLE" => "dbi4_Contacts",
 			"SELECT" => array("ClientID"), 
 			"ORDER" => array("ContactDate" => "DESC"), 
 			"LIMIT" => 100 // currently only selecting 100
 		))); 
-
+		*/
 
 		/* We only want to display each client once, this means we have to check
 			if the client has already been shown */
