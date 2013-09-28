@@ -187,6 +187,7 @@ class Contact extends aPureDataObject implements iDataObject {
 	}
 }
 
+/*
 class Priority extends aPureDataObject implements iDataObject {
 	protected $matchers = array(
 		"ClientID", "CaseTypeID"); 
@@ -214,6 +215,7 @@ class Priority extends aPureDataObject implements iDataObject {
 		}
 	}
 }
+*/
 
 class Client extends aDataObject implements iDataObject {
 	protected $elements = array(

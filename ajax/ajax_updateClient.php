@@ -11,11 +11,14 @@
 		assert2($client_info_obj->push(), "Updating the database failed on client : " . $client_info_obj->get("ClientID"));
 		unset($client_info_obj); 
 		
+		/*
 		// priority is currently not a part of ClientInfo so it needs a separate update
 		$priority = new Priority($data["ClientID"]); 
 		assert2($priority->set("CaseTypeID", $data["Priority"]), "Failed to set client priority"); 
 		assert2($priority->push(), "Failed to push client priority");  
 		unset($priority); 
+		*/
+		
 	} catch(Exception $e) {
 		echo json_encode(array("Success"=>false, "Message"=>$e->getMessage())); 
 		die();

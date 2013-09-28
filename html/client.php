@@ -71,11 +71,13 @@ else if($_SERVER["REQUEST_METHOD"] == "POST") {
 	$client_id = $client_info_obj->get("ClientID"); 
 	unset($client_info_obj); 
 	
+	/*
 	// priority is currently not a part of ClientInfo so it needs a separate update
 	$priority = new Priority($_POST["ClientID"]); 
 	$priority->set("CaseTypeID", $_POST["Priority"]); 
 	$priority->push(); 
 	unset($priority); 
+	*/
 	
 	redirect("client.php?ClientID=" . $_POST["ClientID"]); 
 }

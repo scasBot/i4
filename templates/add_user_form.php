@@ -2,7 +2,7 @@
 	<div class="span3"></div>
 	<div class="span6">
 		<form class="form-horizontal" action="add_user.php" method="POST"> 
-			<legend>New Victim</legend>
+			<legend>Welcome to the SCAS Family!</legend>
 			<div class="control-group">
 				<label for="UserName" class="control-label">User Name: </label>
 				<input id="UserName" type="text" name="UserName" />
