@@ -27,6 +27,27 @@ function apologize($message) {
 	exit;
 }
 
+/** 
+* Benchmarks the time to check latency of website
+*/ 
+function benchmark($msg = NULL) {
+	static $benchmark_counter; 
+	if(!isset($benchmark_counter)) {
+		$benchmark_counter = 0; 
+	} else {
+		$benchmark_counter++; 
+	}
+
+	static $start; 
+	if(!isset($start)) {
+		$start = microtime(true); 
+	}
+	
+	echo ("<p>Benchmark " . 
+		($msg? $msg : "#" . $benchmark_counter) . ": " . 
+		((microtime(true) - $start) * 1000) . "</p>"); 
+}
+
 /**
 * Prints the string of the i4 specialty
 */
