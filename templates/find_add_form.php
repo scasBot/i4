@@ -3,6 +3,10 @@
 	<div class="span6">
 		<form class="form-horizontal" action="find_add.php" method="GET">
 			<legend>Find / Add Client</legend>
+			<div class="control-group"> 
+				<label class="control-label" for="ClientId">Client ID</label>
+				<input type="text" id="ClientId" name="ClientId" placeholder="24601" />
+			</div>
 			<div class="control-group">
 				<label class="control-label" for="FirstName">First Name</label>
 				<input type="text" id="FirstName" name="FirstName" placeholder="Jay" />
