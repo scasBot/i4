@@ -13,6 +13,7 @@
 					<li><a href="cases.php?type=priority">Priority</a></li>
 					<!-- li><a href="../html/cases.php?by_type=category">Category</a></li -->
 					<li><a href="cases.php?type=date">Date</a></li>
+					<li><a href="cases.php?type=me">Me</a></li>
 				</ul>
 			</li>
 			<li><a href="find_add.php">Find/Add Client</a></li>
