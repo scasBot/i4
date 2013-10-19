@@ -19,10 +19,11 @@ Returns the cases_list template with information.
 require("../includes/config.php"); 
 require("../includes/client_class.php"); 
 
-define("LIMITING_NUMBER", 100); // limit the number of cases
+// limit the number of cases
+define("LIMITING_NUMBER", 100);
 
 // check usage
-if($_SERVER["REQUEST_METHOD"] !== "GET") {
+if($_SERVER["REQUEST_METHOD"] !== "GET" || !isset($_GET["type"])) {
 	apologize("Must be a GET request."); 
 }
 
