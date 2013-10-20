@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		apologize("Sorry, need at least 1 client to merge."); 
 	}
 	
-	render("merge_form.php", array("title" => "Merge", "ClientID" => $_GET["Client1"])); 
+	render("merge_form.php", array("title" => "Merge BETA", "ClientID" => $_GET["Client1"])); 
 	//apologize("Sorry, this page hasn't been implemented yet");
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	// type-check the inputs
