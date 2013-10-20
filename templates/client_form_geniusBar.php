@@ -10,7 +10,9 @@
 						</div>
 					<?php endif; ?>
 					<div class="btn-group">
-						<button class="btn btn-primary actions" data-action="merge">Merge Client</button>
+						<?php if(!COMPER) : ?>
+							<button class="btn btn-primary actions" data-action="merge">Merge Client</button>
+						<?php endif; ?>
 						<button class="btn btn-inverse actions" data-action="email">Email Client</button>
 					</div>
 					<div class="btn-group">

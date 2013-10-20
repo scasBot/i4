@@ -4,15 +4,20 @@
 require("../includes/config.php"); 
 require("../includes/client_class.php"); 
 
+// anything more than LIMIT_NUMBER should be assumed to be an error
 define("LIMIT_NUMBER", 40); 
+
+if(COMPER) {
+	apologize("Sorry, compers can't access this option."); 
+}
 
 if($_SERVER["REQUEST_METHOD"] == "GET") {
 	if(!isset($_GET["Client1"])) {
 		apologize("Sorry, need at least 1 client to merge."); 
 	}
 	
-	//render("merge_form.php", array("title" => "Merge", "ClientID" => $_GET["Client1"])); 
-	apologize("Sorry, this page hasn't been implemented yet");
+	render("merge_form.php", array("title" => "Merge", "ClientID" => $_GET["Client1"])); 
+	//apologize("Sorry, this page hasn't been implemented yet");
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	// type-check the inputs
 	if(!isset($_POST["ClientID1"], $_POST["ClientID2"]) 

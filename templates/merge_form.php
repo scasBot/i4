@@ -1,5 +1,4 @@
 <?php 
-	require("../includes/client_class.php"); 
 	$client1 = new Client($ClientID); 	
 	global $clientNumber; 
 ?>
