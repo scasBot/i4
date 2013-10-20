@@ -262,22 +262,7 @@ class Client extends aDataObject implements iDataObject {
 		// need to implement
 		return false; 
 	}
-
-/*	
-	public function pull_priority() {
-		try {
-			return $this->set("priority", new Priority($this->id)); 
-		}
-		catch (Exception $e) {
-			$priority = new Priority(); 
-			$priority->set("ClientID", $this->id);
-
-			// 0 for undefined
-			$priority->set("CaseTypeID", 0); 
-			return $priority->push(); 
-		}
-	}
-*/	
+	
 	public function pull_info() {
 		return $this->set("info", new ClientInfo($this->id)); 
 	}
@@ -338,7 +323,7 @@ class OldContacts {
 			return null; 
 		}
 	}
-	
+		
 	public function get_notes() {
 		if($this->exists) {
 			return $this->notes; 
@@ -360,8 +345,7 @@ class OldContacts {
 	
 		if(!$queried) {
 			return ($this->exists = false); 
-		}
-		else {
+		} else {
 			$this->exists = true; 
 		}
 		

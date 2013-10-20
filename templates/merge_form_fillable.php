@@ -47,5 +47,6 @@ printRow2("Notes:", "ClientNotes", $client->get("info")->get("ClientNotes"));
 	cursor: pointer
 }
 </style>
-
-
+<script type="text/javascript">
+	var ClientID<?php echo $clientNumber ?> = <?php echo $client->get_id() ?>; 
+</script>

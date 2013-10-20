@@ -1,7 +1,6 @@
 <?php 
 	require("../includes/client_class.php"); 
-	$client1 = new Client(16209); 
-	//$client2 = new Client(16200); 	
+	$client1 = new Client($ClientID); 	
 	global $clientNumber; 
 ?>
 <div class='row'>

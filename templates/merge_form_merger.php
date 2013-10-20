@@ -15,6 +15,8 @@
 <div class='row'>
 	<div class='span4 mergeCenter'>
 		<form id="merge_form_merger" method="post" action="merge.php">
+			<input name="ClientID1" type="hidden" hidden />
+			<input name="ClientID2" type="hidden" hidden />
 			<?php 
 				printInfoField2("First Name", "text", "FirstName"); 
 				printInfoField2("Last Name", "text", "LastName"); 
@@ -37,7 +39,13 @@
 <script>
 function submitMerger() {
 	if(confirm("By merging the clients, the old clients will be deleted. Please confirm.")) {
-		$("#merge_form_merger").submit(); 
+		if(ClientID1 && ClientID2) {
+			$("#merge_form_merger").find("input[name='ClientID1']").val(ClientID1); 
+			$("#merge_form_merger").find("input[name='ClientID2']").val(ClientID2); 
+			$("#merge_form_merger").submit(); 
+		} else {
+			alert("Error, must choose both clients."); 
+		}
 	}
 }	
 </script>
