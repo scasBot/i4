@@ -76,4 +76,56 @@ class Mailer {
 		return filter_var($email, FILTER_VALIDATE_EMAIL); 
 	}
 }
+
+/* Not used right now
+//This is a function that takes a string of emails and put it into one array	
+function parseEmailString($string) {
+	try {
+		$string = trim($string); 
+		if(strlen($string) == 0) {
+			return null; 
+		}
+		$mailarray = explode(",", $string);
+		if(!is_array($mailarray)) {
+			return null; 
+		}
+
+		$goodmails = array();
+		$index = array(); 
+		
+		foreach($mailarray as $email){
+			$email = parseEmail($email); 
+			if(!isset($index[$email])) {
+				array_push($goodmails, $email); 
+				$index[$email] = ""; 
+			}	
+		}
+		return $goodmails;
+	} catch (Exception $e) {
+		throw new Exception("Function 'parseEmailString' failed with: [" . $e->getMessage() . "]"); 
+	}
+}
+
+function parseEmail($email) {
+	try {
+		$start = strpos($email,"<");
+		if ($start) { 
+			$end = strpos($email,">");
+			if(!$end) {
+				throw new Exception("Invalid email " . $email); 
+			}
+			$email = substr($email,$start + 1, ($end - $start) - 1);
+		}
+		$email = trim($email); 
+		
+		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			return $email; 
+		} else {
+			throw new Exception("Inavlid email " . $email); 
+		}
+	} catch (Exception $e) {
+		throw new Exception("Function 'parseEmail' failed with:[" . $e->getMessage() . "]"); 
+	}
+}
+*/
 ?>
