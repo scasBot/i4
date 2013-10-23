@@ -1,5 +1,25 @@
 <?php
+/*******************************
+client_class.php
 
+By: Willy Xiao
+willy@chenxiao.us
+
+Developed for SCAS i4
+masmallclaims@gmail.com
+
+To use code, please contact SCAS or
+Willy at the above emails. 
+
+August 2013
+
+Description: Implements the iDataObjects
+	for different client information in the 
+	database. These include ClientInfo, 
+	Contacts, and Old i3 Contacts.
+***********************************/
+
+// client info
 class ClientInfo extends aDataObject implements iDataObject {
 	protected $database_name = "db_Clients"; 
 	protected $elements = array(
@@ -8,12 +28,13 @@ class ClientInfo extends aDataObject implements iDataObject {
 		"Zip", "Language", "ClientNotes", "CaseTypeID"); 
 	protected $primary_key = "ClientID"; 
 	
+	// return the priority description of the client
 	public function get_priority() {
 		return unique_lookup("db_CaseTypes", $this->get("CaseTypeID"), 
 			"CaseTypeID", "Description"); 
 	}
 	
-	// needs to check values are legitimate
+	// wrapper function because it has to check the phone numbers
 	public function set($element, $value) {
 		
 		// strips any other punctuation from phone numbers
@@ -146,6 +167,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 	} 
 }
 
+// dbi4_Contacts
 class Contact extends aPureDataObject implements iDataObject {
 	protected $matchers = array(
 		"ContactTypeID", 
@@ -159,7 +181,8 @@ class Contact extends aPureDataObject implements iDataObject {
 		"ContactSummary", "ClientID"); 
 	protected $database_name = "dbi4_Contacts";
 	protected $primary_key = "ContactID";
-	
+
+	// converts a dbi4_contact into a converted contact array
 	public function get_converted_array() {
 		if($this->exists) {
 			$to_copy = array("ClientID", "ContactID", "ContactDate", 
@@ -187,36 +210,7 @@ class Contact extends aPureDataObject implements iDataObject {
 	}
 }
 
-/*
-class Priority extends aPureDataObject implements iDataObject {
-	protected $matchers = array(
-		"ClientID", "CaseTypeID"); 
-
-	protected $elements = array(
-		"ClientID", "CaseTypeID"); 	
-	protected $database_name = "dbi4_Priority"; 
-	protected $primary_key = "ClientID"; 
-	
-	// get the description of the priority
-	public function get_description() {
-		return unique_lookup("db_CaseTypes", 
-			$this->get("CaseTypeID"), "CaseTypeID", "Description"); 
-	}
-	
-	// sets the CaseTypeID depending on the ContactTypeID
-	public function set_from_contactid($contactTypeID) {
-		switch ($contactTypeID) {
-			case 1 : 
-			case 2 : 
-			case 21 : 
-			case 15 : 
-				$this->set("CaseTypeID", 21); 
-				break; 
-		}
-	}
-}
-*/
-
+// wrapper class for the entire client, should use sparingly, there are bugs
 class Client extends aDataObject implements iDataObject {
 	protected $elements = array(
 		"contacts", "info",/* "priority", */"old_contacts"); 
@@ -302,6 +296,7 @@ class Client extends aDataObject implements iDataObject {
 	}
 }
 
+// old i4 contacts included here, should be read-only
 class OldContacts {
 	private $id;  
 	private $exists; 
@@ -379,142 +374,4 @@ class OldContacts {
 		return true; 
 	}
 }
-
-/*
-class Client{
-	private $exists = false;
-	public $info; 
-	public $contacts = array();
-	public $old_contacts = array();
-	public $id; 
-
-	function __construct($id = null) {
-		if(!is_null($id)) {			
-			$this->info = new ClientInfo($id);
-		}	
-		else {
-			$this->info = new ClientInfo(); 
-		}
-	}
-	
-	public function initialize($client_id) {
-		return $this->set_client($client_id) && $this->refresh_all(); 
-	}
-	
-	public function set_client($client_id) {
-		$response = query(query_select(
-			array("TABLE" => "db_Clients", 
-					"WHERE" => array("ClientID" => 
-						array("=", $client_id))))
-		); 
-		
-		if(count($response) > 1) {
-			apologize("Too many clients match id : " . $client_id); 
-		}
-		
-		$this->exists = count($response) == 1; 
-		$this->id = $client_id;
-		$this->info->set_by_id($client_id); 
-		
-		return $this->exists; 
-	}
-	
-	public function refresh_all() { 		
-		if($this->exists) {
-			return 
-				$this->refresh_info() &&  
-				$this->refresh_contacts() &&
-				$this->refresh_old_contacts(); 			
-		}
-		else {
-			return false; 
-		}
-	}
-	
-	public function refresh_info() {
-		if($this->exists) {
-			return $this->info->pull();
-		}
-		else {
-			return false; 
-		}
-	}
-	
-	public function refresh_contacts() {
-		if($this->exists) {
-			$queried = query(query_select(
-				array("TABLE" => "dbi4_Contacts", 
-						"WHERE" => array(
-							"ClientID" => array("=", $this->id)))
-			)); 
-
-			$to_copy = array("ContactID", "ContactDate", "ContactEditDate", "ContactSummary"); 
-			$contacts = array(); 
-			
-			foreach($queried as $key => $value) {
-				$contacts[$key] = array(); 
-				foreach($value as $field => $val) {
-					if(in_array($field, $to_copy)) {
-						$contacts[$key][$field] = $val; 
-					}
-				}
-				
-				$contacts[$key]["UserName"]["Edit"] = get_username($value["UserEditID"]); 
-				$contacts[$key]["UserName"]["Added"] = get_username($value["UserAddedID"]); 
-				$contacts[$key]["ContactType"] = get_contacttype($value["ContactTypeID"]);
-				$contacts[$key]["ContactTypeID"] = $value["ContactTypeID"]; 
-				$contacts[$key]["ClientID"] = $this->id; 
-			}
-			
-			$this->contacts = $contacts; 
-			return true; 
-		}
-		else {
-			return false; 
-		}
-	}	
-
-	public function refresh_old_contacts() {
-		if($this->exists) {
-			$queried = query(query_select(array(
-				"TABLE" => "db_CaseInfo", 
-				"WHERE" => array("ClientID" => array("=", $this->id)
-			)))); 
-		
-			if(!$queried) {
-				$this->old_contacts["exists"] = false; 
-				return true; 
-			}
-			else {
-				$this->old_contacts["exists"] = true; 
-			}
-			
-			$notes = ""; 
-			foreach($queried as $row) {
-				$notes .= $row["Notes"] . "\n"; 
-			}
-
-			$this->old_contacts["notes"] = $notes; 
-			
-			$queried = query(query_select(array(
-				"TABLE" => "db_Contact", 
-				"WHERE" => array("ClientID" => array("=", $this->id)
-			)))); 
-			
-			$old_contacts = array(); 
-			foreach($queried as $num => $row) {
-				$old_contacts[$num]["ContactDate"] = $row["Date"]; 
-				$old_contacts[$num]["ContactType"] = get_contacttype($row["ContactTypeID"]); 
-				$old_contacts[$num]["UserName"] = get_username($row["UserID"]); 
-			}
-			
-			$this->old_contacts["contacts"] = $old_contacts; 
-			return true; 			
-		}
-		else {
-			return false; 
-		}
-	}
-}
-*/
 ?>

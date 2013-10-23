@@ -1,29 +1,53 @@
 <?php
+/*******************************
+merge.php
+
+By: Willy Xiao
+willy@chenxiao.us
+
+Developed for SCAS i4
+masmallclaims@gmail.com
+
+To use code, please contact SCAS or
+Willy at the above emails. 
+
+August 2013
+
+Description: Displays and handles the merge 
+	client option from the geniusBar. 
+***********************************/
 
 // configuration
 require("../includes/config.php"); 
 require("../includes/client_class.php"); 
 
-// anything more than LIMIT_NUMBER should be assumed to be an error
+// maximum number of contacts that can be changed, 
+// anything else assumed to be an error
 define("LIMIT_NUMBER", 40); 
 
+// compers not allowed to access
 if(COMPER) {
 	apologize("Sorry, compers can't access this option."); 
 }
 
+// requesting the merge page
 if($_SERVER["REQUEST_METHOD"] == "GET") {
+
+	// must input the client who's going to be base of merge
 	if(!isset($_GET["Client1"])) {
 		apologize("Sorry, need at least 1 client to merge."); 
 	}
 	
 	render("merge_form.php", array("title" => "Merge BETA", "ClientID" => $_GET["Client1"])); 
-	//apologize("Sorry, this page hasn't been implemented yet");
+
+// posting the results of the merge
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	
 	// type-check the inputs
 	if(!isset($_POST["ClientID1"], $_POST["ClientID2"]) 
 		|| is_null($_POST["ClientID1"]) 
 		|| is_null($_POST["ClientID2"]) 
-		|| !is_numeric($_POST["ClientID1"])
+		|| !is_numeric($_POST["ClientID1"]) // maybe use is_int?
 		|| !is_numeric($_POST["ClientID2"])
 		|| $_POST["ClientID1"] <= 0
 		|| $_POST["ClientID2"] <= 0) {
@@ -50,7 +74,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	$client2 = new ClientInfo($_POST["ClientID2"]); 
 	assert2($client2->delete());
 	
-	// go to merged client
+	// display merged client
 	redirect("client.php?ClientID=" . $client1->get_id()); 
 }
 ?>
