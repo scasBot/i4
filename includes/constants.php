@@ -24,22 +24,10 @@ define("ROOT_FROM_DOMAIN", (LOCAL_HOST ? "/" : "/~scas/"));
 define("ROOT_PUBLIC", $_SERVER["HTTP_HOST"]. ROOT_FROM_DOMAIN . basename(ROOT)); 
 
 define("LEADERBOARD_STATS_FILE", ROOT . "/data/" . "data_leaderboard.php"); 
-define("AJAX_HASH", "THISISSPARTA");
 
 define("SCAS_EMAIL", "masmallclaims@gmail.com"); 
 define("ADMIN_EMAIL", "wxiao@college.harvard.edu"); 
 define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com"); 
 
-//** MYSQL DATABASE ITEMS **//
-/*if(LOCAL_HOST) {
-	define("DATABASE", "scas"); 
-	define("SERVER", "localhost");
-	define("USERNAME", "root"); 
-	define("PASSWORD", ""); 
-} else {*/
-	define("DATABASE", "scas");
-	define("PASSWORD", "pantsonfire");
-	define("SERVER", "mysql.hcs.harvard.edu");
-	define("USERNAME", "scas");	
-//}
+require("constants_passwords.php"); 
 ?>
