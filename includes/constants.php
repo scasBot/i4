@@ -29,5 +29,5 @@ define("SCAS_EMAIL", "masmallclaims@gmail.com");
 define("ADMIN_EMAIL", "wxiao@college.harvard.edu"); 
 define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com"); 
 
-require("constants_passwords.php"); 
+require("../server/constants_passwords.php"); 
 ?>
