@@ -1,14 +1,14 @@
 <form action="login.php" method="post">
     <fieldset>
         <div class="control-group">
-			<input type="text" name="Email" placeholder="Email" autocomplete="off" autofocus />
+			<input type="text" name="UserName" placeholder="Start typing..." autocomplete="off" autofocus />
 		</div>
 		<script>
-			$("input[name='Email']").typeahead({
+			$("input[name='UserName']").typeahead({
 				source: [
 				<?php
 					foreach($users as $user) {
-						echo "\"" . $user["Email"] . "\","; 
+						echo "\"" . $user["UserName"] . "\","; 
 					}
 				?>
 				], 

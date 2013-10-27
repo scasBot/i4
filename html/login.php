@@ -23,16 +23,16 @@ require("../includes/config.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	// validate submission
-	if (empty($_POST['Email'])) {
-		apologize("You must provide your email.");
+	if (empty($_POST['UserName'])) {
+		apologize("You must provide your username.");
 	} else if (empty($_POST["password"])) {
 		apologize("You must provide your password.");
 	}
 
 	// query database for user
 	$rows = query("SELECT * FROM i3_Passwords INNER JOIN i3_Users " 
-		. "ON i3_Users.UserID=i3_Passwords.UserID WHERE `Email`=?", $_POST["Email"]);
-	$user = query("SELECT 'UserID', `UserName`, `Email` FROM i3_Users WHERE `Email`=?", $_POST['Email']); 
+		. "ON i3_Users.UserID=i3_Passwords.UserID WHERE `UserName`=? AND Hidden=0", $_POST["UserName"]);
+	$user = query("SELECT 'UserID', `UserName`, `Email` FROM i3_Users WHERE `UserName`=? AND Hidden=0", $_POST['UserName']); 
 	
 	// if we found user, check password
 	if (count($rows) > 0) {
@@ -61,8 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 else { // must be a $_GET request
 
 	// get all the users to display in dropdown and render form
-	$rows = query("SELECT `Email`, `UserName` " . 
-		"FROM `i3_Users` WHERE `hidden`=0 ORDER BY `Email` DESC"); 
+	$rows = query("SELECT `UserName` " . 
+		"FROM `i3_Users` WHERE `hidden`=0 ORDER BY `UserName` DESC"); 
 	render("login_form.php", array("title" => "Log In", "users" => $rows));
 }
 ?>
