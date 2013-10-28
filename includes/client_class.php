@@ -25,13 +25,19 @@ class ClientInfo extends aDataObject implements iDataObject {
 	protected $elements = array(
 		"ClientID", "FirstName", "LastName", "Phone1Number", 
 		"Phone2Number", "Email", "Address", "City", "State", 
-		"Zip", "Language", "ClientNotes", "CaseTypeID"); 
+		"Zip", "Language", "ClientNotes", "CaseTypeID", "CategoryID"); 
 	protected $primary_key = "ClientID"; 
 	
 	// return the priority description of the client
 	public function get_priority() {
 		return unique_lookup("db_CaseTypes", $this->get("CaseTypeID"), 
 			"CaseTypeID", "Description"); 
+	}
+	
+	// return the category description of the client
+	public function get_category() {
+		return unique_lookup("db_Categories", $this->get("CategoryID"),
+			"CategoryID", "Description"); 
 	}
 	
 	// wrapper function because it has to check the phone numbers
@@ -61,7 +67,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		)); 
 		$cq = $client_queried[0]; 
 
-		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language", "CaseTypeID"); 
+		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language", "CaseTypeID", "CategoryID"); 
 
 		$client = array(); 
 		foreach($cq as $key => $value) {
@@ -109,6 +115,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		$to_update["Address1"] = $current["Address"]; 
 		$to_update["Notes"] = $current["ClientNotes"];
 		$to_update["CaseTypeID"] = $current["CaseTypeID"]; 
+		$to_update["CategoryID"] = $current["CategoryID"]; 
 		
 		return $to_update; 
 	}

@@ -37,6 +37,14 @@
 						<input id="LastName" name="LastName" type="text" value="<?php echo $client["LastName"] ?>" />
 					</div>
 				</div>
+				<div class="control-group">
+					<label class="control-label">Category: </label>
+					<div class="controls">
+						<select name="CategoryID">
+							<?php echo htmlOptions($categories, $category) ?>
+						</select>
+					</div>
+				</div>
 			</div>
 			<div class="span6">
 				<div class="control-group">

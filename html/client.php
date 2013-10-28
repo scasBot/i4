@@ -70,15 +70,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST") {
 	assert2($client_info_obj->push(), "Updating the database failed on client : " . $client_info_obj->get("ClientID"));
 	$client_id = $client_info_obj->get("ClientID"); 
 	unset($client_info_obj); 
-	
-	/*
-	// priority is currently not a part of ClientInfo so it needs a separate update
-	$priority = new Priority($_POST["ClientID"]); 
-	$priority->set("CaseTypeID", $_POST["Priority"]); 
-	$priority->push(); 
-	unset($priority); 
-	*/
-	
+		
 	redirect("client.php?ClientID=" . $_POST["ClientID"]); 
 }
 
@@ -94,14 +86,13 @@ if($correct_req_method) {
 	$contacts = $client->get_contacts_array();
 	$client_info = $client->get("info")->get_array();
 	$priority = $client->get("info")->get_priority(); 
+	$category = $client->get("info")->get_category(); 
 	
 	// check deprecated
 	if (unique_lookup("db_CaseTypes", $priority, "Description", "Deprecated") == 1) {
 		$priority = "Undefined"; 
 	}
 	
-//	$priority = $client->get("priority")->get_description();
-
 	if($i3_contacts["exists"] = $client->get("old_contacts")->get_exists()) {
 		$i3_contacts["notes"] = $client->get("old_contacts")->get_notes(); 
 		$i3_contacts["contacts"] = $client->get("old_contacts")->get_contacts(); 
@@ -119,7 +110,7 @@ if($correct_req_method) {
 	// display it!
 	render("client_form.php", array("title" => "Client", "client" => $client_info, "contacts" => $contacts,
 		"contact_types" => get_contact_types(), "i3_contacts" => $i3_contacts, "random_quote" => $filler->random_quote(), 
-		"priorities" => get_priorities(), "priority" => $priority 
+		"priorities" => get_priorities(), "priority" => $priority, "categories" => get_categories(), "category" => $category
 	)); 		
 }
 else { // handler for incorrect request method

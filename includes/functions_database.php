@@ -104,6 +104,21 @@ function get_priorities() {
 	return $priorities; 
 }
 
+// returns all categories
+function get_categories() {
+	static $rows; 
+	if(!isset($rows)) {
+		$rows = query("SELECT * FROM db_Categories ORDER BY SortKey ASC"); 
+	}
+	
+	$categories = array(); 
+	foreach($rows as $row) {
+		$categories[$row["CategoryID"]] = $row["Description"]; 
+	}
+	
+	return $categories; 
+}
+
 // finds if user is a comper
 function is_comper($id) {
 	$comper = unique_lookup("i3_Users", $id, "UserID", "Comper"); 
