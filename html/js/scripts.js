@@ -7,12 +7,11 @@
  **********************************************************************/
 
  /*========================================ConstantBot.js================================*/
-	// store any constants inside of constants so it isn't taking up global namespace
-	var constants = new constantBot(); 
-	
+	// store any constants inside of constants so it isn't taking up global namespace	
 	// respect the abstraction barrier and use constants.addConstants({constantName : constantValue, cn2 : cv2 ...})
-	function constantBot(obj) {
-		var constantBot = this; 
+	var constants = (function (obj) {
+		var Module = {}; 
+		
 		if(obj) {
 			addConstants(obj); 
 		}
@@ -24,15 +23,16 @@
 				var type = typeof val; 
 				if(allowedTypes.indexOf(type) < 0) {
 					throw new Error("That type of constant is not allowed"); 
-				} else if (typeof constantBot[key] !== "undefined") {
+				} else if (typeof Module[key] !== "undefined") {
 					throw new Error("That constant has already been defined"); 
 				}
-				constantBot[key] = val;
+				Module[key] = val;
 			});
 		}
 		
-		this.addConstants = addConstants; 
-	}
+		Module.addConstants = addConstants; 
+		return Module; 
+	})(); 
 	
 /*=======================================Helpers.js========================================*/
 // if statement is wrong then end everything

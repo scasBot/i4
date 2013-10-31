@@ -1,41 +1,45 @@
-var emailBot = new EmailBot();
-function EmailBot () {
+var emailBot = (function () {
+	var Module = {}; 
+
 	var id = 0; 
 	var ids = []; 	
-	this.getIds = function() {
+	Module.getIds = function() {
 		return ids.slice(0); 
 	}	
 	
 	var onClickHelper = function(id, fun) {
 		fun(ids[id]); 
 	}
-	this.onCancel = function(id) {
+	Module.onCancel = function(id) {
 		onClickHelper(id, function(emailForm) {
 			emailForm.onCancel(); 
 		}); 
 	}
-	this.onReset = function(id) {
+	Module.onReset = function(id) {
 		onClickHelper(id, function(emailForm) {
 			emailForm.onReset(); 
 		}); 
 	}
-	this.onSend = function(id) {
+	Module.onSend = function(id) {
 		onClickHelper(id, function(emailForm) {
 			emailForm.onSend(); 
 		}); 
 	}
 	
-	this.remove = function(id) {
+	Module.remove = function(id) {
 		ids.splice(id, 1);			
 	}
 	
-	this.newEmailForm = function() {
+	Module.newEmailForm = function() {
 		var thisId = id++; 
 		var emailForm = new EmailForm(thisId, this); 
 		ids[thisId] = emailForm; 
 		return emailForm; 
 	}
-}
+	
+	return Module; 
+})(); 
+
 // EmailForm is the class that creates an email form. Before using most functions, you must make a call to 
 // EmailForm.form() and then put that html into the dom. 
 function EmailForm(id, emailBot) {

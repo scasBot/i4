@@ -1,5 +1,3 @@
-var ajaxBot = new AjaxBot(); 
-
 // sendAjax calls with validation
 /*
 	params should be of type: 
@@ -9,11 +7,13 @@ var ajaxBot = new AjaxBot();
 	 error : function_on_error
 	}
 */
-function AjaxBot () {
+var ajaxBot = (function($) {
+	var Module = {}; 
+
 	var authId = ajax_authentication.id; 
 	var authHash = ajax_authentication.hash;
 
-	this.sendAjax = function(params) {
+	Module.sendAjax = function(params) {
 		var auth = {
 			id : authId, 
 			hash : authHash, 
@@ -31,4 +31,6 @@ function AjaxBot () {
 			error : params.error
 		});
 	}; 
-}
+	
+	return Module; 
+})(jQuery); 
