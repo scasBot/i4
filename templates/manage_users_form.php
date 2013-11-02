@@ -59,28 +59,18 @@ August 2013
 <div id="putUsersHere">
 </div>
 <script type="text/javascript" >
-	var handler = new UserSearchHandler(); 
-	function UserSearchHandler() {
-		$("#userSearchForm").on("keyup", action_handler); 
-		var handler = this; 
-/*		var dictionary = {}; // this can be used later to optimize code
-		function toKey(obj) {
-			var key = (obj.hidden ? "1" : "0"); 
-			key += (obj.compers ? "1" : "0"); 
-			key += obj.yog.toString(); 
-			key += obj.search; 
-			return key; 
-		}*/
+	var handler = (function($) {
+		var Module = {}; 
+		Module.init = init; 
 		
 		function fillSpace(str) {
 			$("#putUsersHere").html(str); 
 		}
-		function initialize() {
+		
+		function init() {
 			fillSpace("<p class='well'>Search for users above!</p>"); 
 		}
-		this.initialize = initialize; 
-		initialize(); 
-		
+
 		function searchLength() {
 			return $("#userSearchForm").val().length; 
 		}
@@ -92,11 +82,12 @@ August 2013
 				search : $("#userSearchForm").val(), 
 			}; 
 		}
-		
+
+		$("#userSearchForm").on("keyup", action_handler); 			
 		function action_handler() {
 			data = getInputs(); 
 			if(data.search.length < 1) {
-				initialize(); 
+				init(); 
 			} else {	
 				function onSuccess(r) {
 					if(!r) {
@@ -132,5 +123,9 @@ August 2013
 				/* displayIndividualUsers */
 			}
 		}
-	}
+		
+		return Module; 
+	})(jQuery); 
+	
+	handler.init(); 
 </script>
