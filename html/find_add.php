@@ -36,60 +36,49 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 	die(); 
 }
 
+function insert_between_each_char($str, $between) {
+	$string = ""; 
+	$str = str_split($str); 
+	
+	foreach($str as $c) {
+		$string .= $between . $c; 
+	}
+	
+	return $string . $between; 
+}
+
+function kv_fun($key, $value) {
+	return "$key LIKE '$value'"; 
+}
+
+
 /* main function for this page that performs the search 
 	function and renders the clients. Currently everything is <or> and not <and> */
 function search($info) { // $info is all items in a $_GET or $_POST request
 	$table = "db_Clients"; 
-	$select = array("FirstName", "LastName", "Phone1AreaCode", "Phone1Number", "Email", "CaseTypeID"); // items that are to be displayed
-
+	$query_arr = array(); 
+	$phone_query = ""; 
 	$rows = array(); // will hold all the cases in the end
+
 	foreach($info as $key => $value) {
-		// avoid empty elements and the SHOW_LIST get request
-		if($value !== "" && $key != "SHOW_LIST") { // potential security flaw
-			if($key != "PhoneNumber") { // everything but phone numbers can be directly accessed
-				$rows = array_merge($rows, 
-					query(query_select(array("TABLE" => $table, "SELECT" => $select, 
-					"WHERE" => array($key => array("=", $value))))));
-			} else if ($key == "PhoneNumber") {
-					// phonenumber is annoying because db_Clients shows areacode and then number
-				$value = only_numbers($value); 
-				$numbers = str_split(substr($value, 3)); 
-				$string = ""; 
-				foreach($numbers as $number) {
-					$string .= "%" . $number; 
-				}
-			
-				$rows = array_merge($rows, 
-					query(query_select(array("TABLE" => $table, "SELECT" => $select, 
-					"WHERE" => array("Phone1AreaCode" => array("=", substr($value, 0, 3)), 
-						"Phone1Number" => array("LIKE", $string)))))); 
-			}
+		if(!empty($info[$key]) && $key != "SHOW_LIST" && $key != "PhoneNumber")
+			$query_arr[$key] = $value; 
+		else if(!empty($info[$key]) && $key == "PhoneNumber") {
+			$value = only_numbers($value); 
+			$phone_query = "(`Phone1AreaCode`='" . substr($value, 0, 3) . 
+				"' AND `Phone1Number` LIKE '" . insert_between_each_char(substr($value, 3), "%") . "')"; 			
 		}
 	}
-
-	$priorities = get_priorities(); 
 	
-	// now we need the priorities for each client too
-	foreach($rows as $key => $row) {
-/*	no longer using priority
-		try { 
-			$priority = new Priority($row["ClientID"]);
-		} catch (Exception $e) {
-				/* exception is triggered if the client doesn't have a priority
-					so then we have to make a new one * /
-			$priority = new Priority(); 
-			$priority->set("ClientID", $row["ClientID"]); 
-			$priority->set("CaseTypeID", 0); // 0 means "undefined" priority
-			$priority->push(); 
-		}
-*/		
-		if(isset($priorities[$row["CaseTypeID"]])) {
-			$rows[$key]["Priority"] = $priorities[$row["CaseTypeID"]];
-		} else {
-			$rows[$key]["Priority"] = "Undefined"; // any errors, catch-all
-		}
-	}
+	// query string
+	$query = "SELECT $table.*, db_CaseTypes.Description as Priority "
+		. "FROM $table INNER JOIN db_CaseTypes ON db_CaseTypes.CaseTypeID=db_Clients.CaseTypeID WHERE "; 
+	
+	$query .= arr_to_str("kv_fun", " OR ", "", $query_arr) 
+		. (count($query_arr) > 0 && $phone_query != "" ? " OR " : "" ). $phone_query; 
 
+	$rows = query($query); 
+	
 	// render the list
 	render("cases_list.php", 
 		array("title" => "Find", 
