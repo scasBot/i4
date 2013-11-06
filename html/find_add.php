@@ -56,7 +56,6 @@ function kv_fun($key, $value) {
 	function and renders the clients. Currently everything is <or> and not <and> */
 function search($info) { // $info is all items in a $_GET or $_POST request
 	$table = "db_Clients"; 
-	$select = array("FirstName", "LastName", "Phone1AreaCode", "Phone1Number", "Email", "CaseTypeID"); // items that are to be displayed
 	$query_arr = array(); 
 	$phone_query = ""; 
 	$rows = array(); // will hold all the cases in the end

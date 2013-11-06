@@ -60,8 +60,11 @@ August 2013
 </div>
 <script type="text/javascript" >
 	var handler = (function($) {
+		$("#userSearchForm").on("keyup", action_handler); 
+	
 		var Module = {}; 
 		Module.init = init; 
+		init(); 
 		
 		function fillSpace(str) {
 			$("#putUsersHere").html(str); 
@@ -71,9 +74,6 @@ August 2013
 			fillSpace("<p class='well'>Search for users above!</p>"); 
 		}
 
-		function searchLength() {
-			return $("#userSearchForm").val().length; 
-		}
 		function getInputs() {
 			return {
 				hidden : $("#userHidden").is(":checked"), 
@@ -83,36 +83,32 @@ August 2013
 			}; 
 		}
 
-		$("#userSearchForm").on("keyup", action_handler); 			
 		function action_handler() {
 			data = getInputs(); 
 			if(data.search.length < 1) {
 				init(); 
 			} else {	
-				function onSuccess(r) {
-					if(!r) {
-						fillSpace("<p class='well'>No matches found, try refining your search.</p>"); 
-					} else if(r == "1") { // 1 means too long
-						fillSpace("<p class='well'>Too many results, try refining your search.</p>"); 
-					} else {
-						try {
-							r = $.parseJSON(r); 
-							displayUsers(r); 
-						} catch (e) {
-							fillSpace("<p class='well'>Sorry, there was an error " + e + "</p>"); 
-						}
-					}
-				}
-				function onError(r) {
-					fillSpace("<p class='well'>Something went wrong with your " + 
-						"ajax request.</p>"); 
-				}
-				
 				ajaxBot.sendAjax({
 					REQ : "searchUsers", 
 					data : data, 
-					success : onSuccess, 
-					error : onError
+					success : function(r) {
+						if(!r) {
+							fillSpace("<p class='well'>No matches found, try refining your search.</p>"); 
+						} else if(r == "1") { // 1 means too long
+							fillSpace("<p class='well'>Too many results, try refining your search.</p>"); 
+						} else {
+							try {
+								r = $.parseJSON(r); 
+								displayUsers(r); 
+							} catch (e) {
+								fillSpace("<p class='well'>Sorry, there was an error " + e + "</p>"); 
+							}
+						}
+					}, 
+					error : function(r) {
+						fillSpace("<p class='well'>Something went wrong with your " + 
+							"ajax request.</p>"); 					
+					}, 
 				}); 
 			}
 		}
@@ -126,6 +122,4 @@ August 2013
 		
 		return Module; 
 	})(jQuery); 
-	
-	handler.init(); 
 </script>
