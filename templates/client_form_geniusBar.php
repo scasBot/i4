@@ -38,10 +38,10 @@ $(document).ready(function() {
 					window.location = "client.php?DELETE&ClientID=" + constants.clientId; 
 				}
 			}, 
-		<?php endif; ?>
 		merge : function() {
 			window.location = "merge.php?Client1=" + constants.clientId; 
 		}, 		
+		<?php endif; ?>		
 		<?php if(false) : ?>
 		email : function() {
 			var to = $("input[name='Email']").val(); 
