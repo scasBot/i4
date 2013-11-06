@@ -13,7 +13,7 @@
 						<?php if(!COMPER) : ?>
 							<button class="btn btn-primary actions" data-action="merge">Merge Client</button>
 						<?php endif; ?>
-						<button class="btn btn-inverse actions" data-action="email">Email Client</button>
+						<!-- button class="btn btn-inverse actions" data-action="email">Email Client</button -->
 					</div>
 					<div class="btn-group">
 						<button class="btn btn-success actions" data-action="emaili4">Email i4 Users</button>
@@ -42,6 +42,7 @@ $(document).ready(function() {
 		merge : function() {
 			window.location = "merge.php?Client1=" + constants.clientId; 
 		}, 		
+		<?php if(false) : ?>
 		email : function() {
 			var to = $("input[name='Email']").val(); 
 			if(!isValidEmail(to)) {
@@ -54,7 +55,8 @@ $(document).ready(function() {
 					emailForm.inputFieldObj("to").prop("disabled", true); 
 				}); 
 			}
-		}, 
+		},
+		<?php endif; ?>
 		emaili4 : function() {
 			addEmailHandler(function(emailForm) {
 				emailForm.from(constants.userEmail);
