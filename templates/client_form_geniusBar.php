@@ -17,7 +17,7 @@
 					</div>
 					<div class="btn-group">
 						<button class="btn btn-success actions" data-action="emaili4">Email i4 Users</button>
-						<button class="btn btn-info actions" data-action="emailLegalResearch">Email LegalResearch</button>
+						<button class="btn btn-inverse actions" data-action="emailLegalResearch">Email LegalResearch</button>
 					</div>
 				</div>
 			</div>
