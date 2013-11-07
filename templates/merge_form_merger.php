@@ -1,37 +1,41 @@
 <h3 style='border-bottom: 1px solid black' >Merged Client</h3>
 <?php
-	function printInfoField($title, $input) {
-		echo "<div class='well' style='padding: 4px' >"; 
-		echo "<p style='font-weight: bold'>$title: </p>"; 
-		echo $input; 
-		echo "</div>";
-	}
-	function printInfoField2($title, $input_type, $input_name) {
-		printInfoField($title, 
-			"<input id='" . $input_name . "' type='" 
-			. $input_type . "' name='" . $input_name . "' class='merger-input' />"); 
-	}
+    $info_field = array(
+        array("First Name", "text", "FirstName"),
+        array("Last Name", "text", "LastName"),
+        array("Primary Phone", "tel", "Phone1Number"),		
+        array("Secondary Phone", "tel", "Phone2Number"),
+        array("Email", "email", "Email"),
+        array("Address", "text", "Address"),
+        array("City", "text", "City"),
+        array("State", 
+            "<select id='State' name='State' class='merger-input'>" . htmlOptionsStates() . "</select>"),
+        array("Zip", "text", "Zip"),
+        array("Language", "text", "Language"), 	
+        array("Notes",
+            "<textarea id='ClientNotes' name='ClientNotes' class='merger-input'></textarea>"),     
+    ); 
+    
+    function isLevelTwo($arr) {
+        return isset($arr[2]); 
+    }
 ?>
 <div class='row'>
 	<div class='span4 mergeCenter'>
 		<form id="merge_form_merger" method="post" action="merge.php">
 			<input name="ClientID1" type="hidden" hidden />
 			<input name="ClientID2" type="hidden" hidden />
-			<?php 
-				printInfoField2("First Name", "text", "FirstName"); 
-				printInfoField2("Last Name", "text", "LastName"); 
-				printInfoField2("Primary Phone", "tel", "Phone1Number");		
-				printInfoField2("Secondary Phone", "tel", "Phone2Number");
-				printInfoField2("Email", "email", "Email");
-				printInfoField2("Address", "text", "Address");
-				printInfoField2("City", "text", "City");
-				printInfoField("State", 
-					"<select id='State' name='State' class='merger-input'>" . htmlOptionsStates() . "</select>");
-				printInfoField2("Zip", "text", "Zip");
-				printInfoField2("Language", "text", "Language"); 	
-				printInfoField("Notes",
-					"<textarea id='ClientNotes' name='ClientNotes' class='merger-input'></textarea>"); 
-			?>
+			<?php foreach($info_field as $field) : ?>
+                <div class='well' style='padding: 4px' >
+                    <p style='font-weight: bold'><?php echo $field[0] ?></p>
+                    <?php if(isLevelTwo($field)): ?>
+                        <input id="<?php echo $field[2] ?>" type="<?php echo $field[1] ?>" 
+                            name="<?php echo $field[2] ?>" class='merger-input' />
+                    <?php else : ?>
+                        <?php echo $field[1] ?>
+                    <?php endif; ?>  
+                </div>
+            <?php endforeach ?>
 		</form>
 	</div>
 </div>

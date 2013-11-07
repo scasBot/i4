@@ -38,7 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		apologize("Sorry, need at least 1 client to merge."); 
 	}
 	
-	render("merge_form.php", array("title" => "Merge BETA", "ClientID" => $_GET["Client1"])); 
+	render("merge_form.php", array("title" => "Merge", "ClientID" => $_GET["Client1"])); 
 
 // posting the results of the merge
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -16,9 +16,7 @@
 		?>
 	</div>
 	<div id='clientMerged' class='span4'>
-		<?php
-			require("merge_form_merger.php"); 
-		?>
+		<?php require("merge_form_merger.php"); ?>
 	</div>
 	<div id='clientTwo' class='span4 merge-form-side'>
 		<?php
