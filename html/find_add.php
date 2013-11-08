@@ -61,12 +61,14 @@ function search($info) { // $info is all items in a $_GET or $_POST request
 	$rows = array(); // will hold all the cases in the end
 
 	foreach($info as $key => $value) {
-		if(!empty($info[$key]) && $key != "SHOW_LIST" && $key != "PhoneNumber")
-			$query_arr[$key] = $value; 
-		else if(!empty($info[$key]) && $key == "PhoneNumber") {
-			$value = only_numbers($value); 
-			$phone_query = "(`Phone1AreaCode`='" . substr($value, 0, 3) . 
-				"' AND `Phone1Number` LIKE '" . insert_between_each_char(substr($value, 3), "%") . "')"; 			
+		if(!empty($info[$key])) {
+			if($key != "SHOW_LIST" && $key != "PhoneNumber")
+				$query_arr[$key] = $value; 
+			else if($key == "PhoneNumber") {
+				$value = only_numbers($value); 
+				$phone_query = "(`Phone1AreaCode`='" . substr($value, 0, 3) . 
+					"' AND `Phone1Number` LIKE '" . insert_between_each_char(substr($value, 3), "%") . "')"; 			
+			}
 		}
 	}
 	
