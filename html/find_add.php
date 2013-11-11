@@ -56,17 +56,18 @@ function kv_fun($key, $value) {
 	function and renders the clients. Currently everything is <or> and not <and> */
 function search($info) { // $info is all items in a $_GET or $_POST request
 	$table = "db_Clients"; 
+	$keys = array("ClientID", "FirstName", "LastName", "PhoneNumber", "Email"); 
 	$query_arr = array(); 
 	$phone_query = ""; 
 	$rows = array(); // will hold all the cases in the end
-
-	foreach($info as $key => $value) {
-		if(!empty($info[$key]) && $key != "SHOW_LIST" && $key != "PhoneNumber")
-			$query_arr[$key] = $value; 
+	
+	foreach($keys as $key) {
+		if(!empty($info[$key]) && $key != "PhoneNumber")
+			$query_arr[$key] = $info[$key]; 
 		else if(!empty($info[$key]) && $key == "PhoneNumber") {
-			$value = only_numbers($value); 
-			$phone_query = "(`Phone1AreaCode`='" . substr($value, 0, 3) . 
-				"' AND `Phone1Number` LIKE '" . insert_between_each_char(substr($value, 3), "%") . "')"; 			
+			$value = only_numbers($info[$key]); 
+			$phone_query = "(`Phone1AreaCode`='" . substr($info[$key], 0, 3) . 
+				"' AND `Phone1Number` LIKE '" . insert_between_each_char(substr($info[$key], 3), "%") . "')"; 			
 		}
 	}
 	
