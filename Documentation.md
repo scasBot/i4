@@ -8,21 +8,21 @@ _____
 
 How to edit the server and the domain:
 _____
-	*URL: 
+	* URL: 
 		+i4.masmallclaims.org -> hcs.harvard.edu/~scas/i4
 	
 		+The server is managed by the Harvard Computer Society. To access the server and edit files, you have to first ask HCS to give your fas.harvard.edu account permission to access the SCAS user. Then ssh into your fas.harvard.edu account (this requires an ssh client such as putty on Windows). Once you log into your fas account you can run "ssh scas@hcs.harvard.edu" to edit the server. 
 		+The location of the website is at ~/web/i4
 
-	*HOW TO PUSH/PULL: 
+	* HOW TO PUSH/PULL: 
 		+You have a number of options to push and pull from the server. 
 		+Currently the server is set up as a local repository to https://github.com/willyxiao/i4.git (look at github section for more info). To update you can simply run "git pull" in the i4 directory. 
 		+Alternatively you can use scp/pscp to push and pull through ssh clients. 
 
-	*MYSQL: 
+	* MYSQL: 
 		+The mysql database, likewise, is managed by the Harvard Computer Society. To edit, you can go to http://hcs.harvard.edu/phpmyadmin. The login and password information should be received by word-of-mouth from previous developers of the project.
 
-	*GODADDY ACCOUNT: 
+	* GODADDY ACCOUNT: 
 		+SCAS also has a GoDaddy.com account which registers our domain name: masmallclaims.org. This is where forwarding (such as i4.masmallclaims.org) is set-up and where you can edit those. The login information should also be received by word-of-mouth.
 
 Version control and Github:
