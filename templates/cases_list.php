@@ -1,3 +1,6 @@
+<?php if(empty($cases)) : ?>
+	<a href="http://thecatapi.com"><img src="http://thecatapi.com/api/images/get?format=src&type=gif"></a>
+<?php else : ?>
 <div class="row">
 	<div class="span12">
 		<div class="row">
@@ -36,43 +39,39 @@
 				$("#instantSearch").on("click", instantHandler); 		
 			</script>
 		</div>
-		<?php if(!empty($cases)) : ?>
-			<table class="table table-striped table-hover">
-				<thead>
-					<tr>
-						<th/>
-						<th>Name</th>
-						<th>Phone Number</th>
-						<th>Email</th>
-						<th>Priority</th>
-					</tr>
-				</thead>
-				<tbody>			
-					<?php
-						foreach($cases as $case) {
-							echo "<tr name='client' id='" . $case["ClientID"] . "' style='cursor : pointer'>"; 
-							echo "<td/>"; 
-							echo "<td>" . $case["LastName"]. ", " . $case["FirstName"] . "</td>"; 
-							echo "<td>(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] . "</td>"; 
-							echo "<td>" . $case["Email"] . "</td>";
-							echo "<td>" . $case["Priority"] . "</td>"; 
-							echo "</tr>"; 
-						}
-						
-						if(!empty($addnew)) {
-							echo "<tr name='newclient' style='cursor : pointer'>"; 
-							echo "<td><b>Add New: </b></td>"; 
-							echo "<td id='NewName'>" . $addnew["LastName"] . ", " . $addnew["FirstName"] . "</td>";
-							echo "<td id='NewPhoneNumber'>" . $addnew["PhoneNumber"] . "</td>"; 
-							echo "<td id='NewEmail' >" . $addnew["Email"] . "</td>"; 
-							echo "</tr>"; 
-						}
-					?>
-				</tbody>
-			</table>
-		<?php else : ?>
-			<a href="http://thecatapi.com"><img src="http://thecatapi.com/api/images/get?format=src&type=gif"></a>
-		<?php endif; ?>
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th/>
+					<th>Name</th>
+					<th>Phone Number</th>
+					<th>Email</th>
+					<th>Priority</th>
+				</tr>
+			</thead>
+			<tbody>			
+				<?php
+					foreach($cases as $case) {
+						echo "<tr name='client' id='" . $case["ClientID"] . "' style='cursor : pointer'>"; 
+						echo "<td/>"; 
+						echo "<td>" . $case["LastName"]. ", " . $case["FirstName"] . "</td>"; 
+						echo "<td>(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] . "</td>"; 
+						echo "<td>" . $case["Email"] . "</td>";
+						echo "<td>" . $case["Priority"] . "</td>"; 
+						echo "</tr>"; 
+					}
+					
+					if(!empty($addnew)) {
+						echo "<tr name='newclient' style='cursor : pointer'>"; 
+						echo "<td><b>Add New: </b></td>"; 
+						echo "<td id='NewName'>" . $addnew["LastName"] . ", " . $addnew["FirstName"] . "</td>";
+						echo "<td id='NewPhoneNumber'>" . $addnew["PhoneNumber"] . "</td>"; 
+						echo "<td id='NewEmail' >" . $addnew["Email"] . "</td>"; 
+						echo "</tr>"; 
+					}
+				?>
+			</tbody>
+		</table>
 		<form id='javascript-form' method='post' style='display: none'>
 		</form>
 	</div>
@@ -96,3 +95,4 @@
 		$("#javascript-form").submit(); 
 	}); 
 </script>
+<?php endif; ?>
