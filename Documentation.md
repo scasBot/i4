@@ -8,38 +8,38 @@ _____
 
 How to edit the server and the domain:
 _____
-	* URL: 
-		+i4.masmallclaims.org -> hcs.harvard.edu/~scas/i4
-	
-		+The server is managed by the Harvard Computer Society. To access the server and edit files, you have to first ask HCS to give your fas.harvard.edu account permission to access the SCAS user. Then ssh into your fas.harvard.edu account (this requires an ssh client such as putty on Windows). Once you log into your fas account you can run "ssh scas@hcs.harvard.edu" to edit the server. 
-		+The location of the website is at ~/web/i4
+* URL: 
+	+ i4.masmallclaims.org -> hcs.harvard.edu/~scas/i4
 
-	* HOW TO PUSH/PULL: 
-		+You have a number of options to push and pull from the server. 
-		+Currently the server is set up as a local repository to https://github.com/willyxiao/i4.git (look at github section for more info). To update you can simply run "git pull" in the i4 directory. 
-		+Alternatively you can use scp/pscp to push and pull through ssh clients. 
+	+ The server is managed by the Harvard Computer Society. To access the server and edit files, you have to first ask HCS to give your fas.harvard.edu account permission to access the SCAS user. Then ssh into your fas.harvard.edu account (this requires an ssh client such as putty on Windows). Once you log into your fas account you can run "ssh scas@hcs.harvard.edu" to edit the server. 
+	+ The location of the website is at ~/web/i4
 
-	* MYSQL: 
-		+The mysql database, likewise, is managed by the Harvard Computer Society. To edit, you can go to http://hcs.harvard.edu/phpmyadmin. The login and password information should be received by word-of-mouth from previous developers of the project.
+* HOW TO PUSH/PULL: 
+	+ You have a number of options to push and pull from the server. 
+	+ Currently the server is set up as a local repository to https://github.com/willyxiao/i4.git (look at github section for more info). To update you can simply run "git pull" in the i4 directory. 
+	+ Alternatively you can use scp/pscp to push and pull through ssh clients. 
 
-	* GODADDY ACCOUNT: 
-		+SCAS also has a GoDaddy.com account which registers our domain name: masmallclaims.org. This is where forwarding (such as i4.masmallclaims.org) is set-up and where you can edit those. The login information should also be received by word-of-mouth.
+* MYSQL: 
+	+ The mysql database, likewise, is managed by the Harvard Computer Society. To edit, you can go to http://hcs.harvard.edu/phpmyadmin. The login and password information should be received by word-of-mouth from previous developers of the project.
+
+* GODADDY ACCOUNT: 
+	+ SCAS also has a GoDaddy.com account which registers our domain name: masmallclaims.org. This is where forwarding (such as i4.masmallclaims.org) is set-up and where you can edit those. The login information should also be received by word-of-mouth.
 
 Version control and Github:
 _____
-	*GITHUB: 
-		+The current code for the SCAS website is at https://github.com/willyxiao/i4.git. You can go to that public repository. To become a collaborator, ask Willy!
+* GITHUB: 
+	+ The current code for the SCAS website is at https://github.com/willyxiao/i4.git. You can go to that public repository. To become a collaborator, ask Willy!
 
-	*INVARIANTS/RULES: 
-		+Releases: 
-			-At the end of every semester, the tech director should issue a new "release" of the SCAS i4 by creating a git tag. The current method is for the fall semester to be release v4.x.0 and the spring to be release v4.x.1. In these releases, the "x" represents an incremented variable from the previous year; so in year 1, the relase is v4.1.0, v4.1.1. Then the next year, the releases will be v4.2.0 and v4.2.1. 
-		+Branches: 
-			-There are three main branches to the git repository: alpha, beta, and master. All development should occur on alpha, this branch never synchronizes to hcs servers and is used solely for code development. The beta branch should be pushed to for beta testing. On the hcs server, doing a "git checkout beta" will deploy beta branch. Master should always be stable, tested code. 
-		+Necessary files that are ignored:
-			-server/constants_passwords.php does not appear in the git repository. Do NOT add or commit this and keep it in the .gitignore file. These include database and server passwords which should not be made public.
+* INVARIANTS/RULES: 
+	+ Releases: 
+		- At the end of every semester, the tech director should issue a new "release" of the SCAS i4 by creating a git tag. The current method is for the fall semester to be release v4.x.0 and the spring to be release v4.x.1. In these releases, the "x" represents an incremented variable from the previous year; so in year 1, the relase is v4.1.0, v4.1.1. Then the next year, the releases will be v4.2.0 and v4.2.1. 
+	+ Branches: 
+		- There are three main branches to the git repository: alpha, beta, and master. All development should occur on alpha, this branch never synchronizes to hcs servers and is used solely for code development. The beta branch should be pushed to for beta testing. On the hcs server, doing a "git checkout beta" will deploy beta branch. Master should always be stable, tested code. 
+	+ Necessary files that are ignored:
+		- server/constants_passwords.php does not appear in the git repository. Do NOT add or commit this and keep it in the .gitignore file. These include database and server passwords which should not be made public.
 
-	*NOTE: 
-		+If you haven't used git before, you should really learn to use it! Google for information about it, but this will decrease development time significantly!
+* NOTE: 
+	+ If you haven't used git before, you should really learn to use it! Google for information about it, but this will decrease development time significantly!
 
 Structure of the i4 code: 
 _____
