@@ -60,7 +60,7 @@ function search($info) { // $info is all items in a $_GET or $_POST request
 	$query_arr = array(); 
 	$phone_query = ""; 
 	$rows = array(); // will hold all the cases in the end
-	
+
 	foreach($keys as $key) {
 		if(!empty($info[$key]) && $key != "PhoneNumber")
 			$query_arr[$key] = $info[$key]; 

@@ -65,15 +65,14 @@ August 2013
 		var Module = {}; 
 		Module.init = init; 
 		init(); 
+		function init() {
+			fillSpace("<p class='well'>Search for users above!</p>"); 
+		}
 		
 		function fillSpace(str) {
 			$("#putUsersHere").html(str); 
 		}
 		
-		function init() {
-			fillSpace("<p class='well'>Search for users above!</p>"); 
-		}
-
 		function getInputs() {
 			return {
 				hidden : $("#userHidden").is(":checked"), 
@@ -114,10 +113,14 @@ August 2013
 		}
 		
 		function displayUsers(r) {
-			/* displayTitle */
-			for(n in r) {
-				/* displayIndividualUsers */
+			for(var i = 0; i < r.length; ++i) {
+				fillspace(makeHtml(r[i])); 
 			}
+		}
+		
+		function makeHtml(user) {
+			var html = ""; 
+			html += user.name; 
 		}
 		
 		return Module; 
