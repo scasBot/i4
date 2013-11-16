@@ -1,4 +1,4 @@
-<?php if(empty($cases)) : ?>
+<?php if(empty($cases) && empty($addnew)) : ?>
 	<a href="http://thecatapi.com"><img src="http://thecatapi.com/api/images/get?format=src&type=gif"></a>
 <?php else : ?>
 <div class="row">

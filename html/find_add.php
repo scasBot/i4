@@ -56,7 +56,7 @@ function kv_fun($key, $value) {
 	function and renders the clients. Currently everything is <or> and not <and> */
 function search($info) { // $info is all items in a $_GET or $_POST request
 	$table = "db_Clients"; 
-	$keys = array("ClientID", "FirstName", "LastName", "PhoneNumber", "Email"); 
+	$keys = array("ClientId", "FirstName", "LastName", "PhoneNumber", "Email"); 
 	$query_arr = array(); 
 	$phone_query = ""; 
 	$rows = array(); // will hold all the cases in the end
@@ -77,7 +77,7 @@ function search($info) { // $info is all items in a $_GET or $_POST request
 	
 	$query .= arr_to_str("kv_fun", " OR ", "", $query_arr) 
 		. (count($query_arr) > 0 && $phone_query != "" ? " OR " : "" ). $phone_query; 
-
+	
 	$rows = query($query); 
 	
 	// render the list
