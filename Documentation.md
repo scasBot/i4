@@ -3,8 +3,8 @@ Documentation for the SCASi4
 
 Intro: 
 _____
-*Welcome new head, tech director, or developer to the SCASi4 project! Started in May 2013, the i4 replaces the SCAS i3 and is used to log client contacts for the Small Claims Advisory Service. 
-*This documentation is to serve as guidance for you to continue contributing to the project. I hope this is helpful for anyone hoping to help this organization. Thanks!
+* Welcome new head, tech director, or developer to the SCASi4 project! Started in May 2013, the i4 replaces the SCAS i3 and is used to log client contacts for the Small Claims Advisory Service. 
+* This documentation is to serve as guidance for you to continue contributing to the project. I hope this is helpful for anyone hoping to help this organization. Thanks!
 
 How to edit the server and the domain:
 _____
