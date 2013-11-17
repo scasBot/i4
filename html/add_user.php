@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 	
 	$password = new Password();
 	$password->set("UserID", $comper->get_id()); 
-	$password->set("hash", crypt("scas1965")); 
+	$password->set("hash", crypt("comper")); 
 	$password->push(); 
 }
 
