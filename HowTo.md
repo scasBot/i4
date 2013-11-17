@@ -2,15 +2,15 @@ How to use the i4
 =====
 
 New User
-_____
+-----
 > If you are a new comper for SCAS, then your training director should have rights to create a new account for you. They should go under database > Add User. By filling out the form, you will automatically be considered a "comper" and have certain editing rights. The default password should be passed by word-of-mouth, so ask a current SCAS Board Member for your password!
 
 Find/Add client
-_____
->When you receive a new contact from a client, you should then add it into the i4 (this includes emails, appointments, and phone calls). To do this, go to Find/Add Client. Inside here you should enter as much information as possible about the client; this will help you find the client in the database if they've already been added. If it's an old client, you can click on their name and go to their client page. If it's a new client, click the "Add New" option and they will be entered into the database.
+-----
+> When you receive a new contact from a client, you should then add it into the i4 (this includes emails, appointments, and phone calls). To do this, go to Find/Add Client. Inside here you should enter as much information as possible about the client; this will help you find the client in the database if they've already been added. If it's an old client, you can click on their name and go to their client page. If it's a new client, click the "Add New" option and they will be entered into the database.
 	
 Editing a client
-_____
+-----
 > Client Information:
 >*	To update the client information, simply change the fields that you see on the client's page and you click "Update Client". If you see a "Client successfully updated message, then it's worked!
 
@@ -22,7 +22,7 @@ _____
 >*	To edit an old contact, simply click on the contact and edit as if you were adding a new contact. While the Contact Added By field will stay the same, the "last edit" information will change.
 	
 Tips/Hints
-_____
+-----
 > Email: 
 >*	From each client page, you can email the SCAS i4 users that previously have touched the client (including added or edited contacts) and legal research. This bar with the email information is termed the "Genius Bar."
 
@@ -30,5 +30,5 @@ _____
 >*	The "Genius Bar" also allows you to delete and merge clients (if you're not a comper). To merge a client, find the ClientID of the other entry. Then on the merge page, fill in that ClientID, update the client info in the middle of the page and click merge! All old i3 contacts and i4 contacts will be automatically merged into one client.
 
 Managing Users
-_____
+-----
 > The executives and the tech director have power to manage current users. This includes changing information about the users, hiding users from the login, and graduating users from the comp. This can be found under Database > Manage Users.
