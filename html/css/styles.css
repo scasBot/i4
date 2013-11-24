@@ -121,5 +121,9 @@
 }
 
 .mergeinfo:hover {
-    cursor: pointer
+    cursor: pointer; 
+}
+
+.user_row:hover {
+	cursor: pointer; 
 }

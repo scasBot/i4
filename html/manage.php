@@ -30,9 +30,6 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	}
 
 	switch ($_GET["type"]) {
-		case "compers" : 
-			render("manage_compers_form.php", array("title" => "Manage")); 
-		break; 
 		case "users" : 
 			render("manage_users_form.php", array("title" => "Manage")); 
 		break; 
@@ -41,6 +38,6 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		break; 
 	}
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	
+	apologize("Can't post here."); 
 }
 ?>

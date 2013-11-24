@@ -60,6 +60,9 @@ August 2013
 </div>
 <script type="text/javascript" >
 	var handler = (function($) {
+		var showing = false; 
+		var space = $("#putUsersHere"); 
+		
 		$("#userSearchForm").on("keyup", action_handler); 
 	
 		var Module = {}; 
@@ -69,8 +72,52 @@ August 2013
 			fillSpace("<p class='well'>Search for users above!</p>"); 
 		}
 		
-		function fillSpace(str) {
-			$("#putUsersHere").html(str); 
+		function fillSpace(str, showButtons) {
+			space.html(str); 
+			
+			if(showButtons) {
+				space.append(
+					"<button id='graduate' class='btn action-btn'>Graduate</button>"
+					+ "<button id='ungraduate' class='btn action-btn'>Ungraduate</button>"
+					+ "<button id='hide' class='btn action-btn'>Hide</button>"
+					+ "<button id='unhide' class='btn action-btn'>Unhide</button>"); 
+					
+					$(".action-btn").on("click", function() {
+						var data = {
+							"type" : "list", 
+							"action" : $(this).attr("id"), 
+							"users" : [], 
+						}; 
+					
+						reduce_users(function(user) {
+							if(user.checked) {
+								data.users.push(user.UserID); 
+							}
+						}); 
+						
+						console.log(data); 
+						
+						if(data.users.length < 1) 
+							return; // don't do anything
+						
+						ajaxBot.sendAjax({
+							REQ : "editUsers", 
+							data: data, 
+							success : function(r) {
+								if(r) {
+									alert(r); 
+									return; 
+								}
+								
+								alert("Done, about to refresh now."); 
+								location.reload(); 
+							}, 
+							error : function(r) {
+								alert("There was an error: " + r); 
+							}
+						}); 
+					})
+			}				
 		}
 		
 		function getInputs() {
@@ -92,19 +139,23 @@ August 2013
 					data : data, 
 					success : function(r) {
 						if(!r) {
+							showing = false; 
 							fillSpace("<p class='well'>No matches found, try refining your search.</p>"); 
 						} else if(r == "1") { // 1 means too long
+							showing = false; 
 							fillSpace("<p class='well'>Too many results, try refining your search.</p>"); 
 						} else {
 							try {
 								r = $.parseJSON(r); 
 								displayUsers(r); 
 							} catch (e) {
+								showing = false; 
 								fillSpace("<p class='well'>Sorry, there was an error " + e + "</p>"); 
 							}
 						}
 					}, 
 					error : function(r) {
+						showing = false; 
 						fillSpace("<p class='well'>Something went wrong with your " + 
 							"ajax request.</p>"); 					
 					}, 
@@ -112,17 +163,54 @@ August 2013
 			}
 		}
 		
+		function reduce_users(fun) {
+			$(".user_row").each(function() {
+				var user = {}; 
+				user.UserName = $(this).find(".user_name").text(); 
+				user.Email = $(this).find(".user_email").text(); 
+				user.UserID = $(this).attr("id"); 
+				user.checked = $(this).find("input[name='select_user']").is(":checked"); 
+				fun(user); 
+			}); 
+		}
+		
 		function displayUsers(r) {
-			for(var i = 0; i < r.length; ++i) {
-				fillspace(makeHtml(r[i])); 
+			var html = "<table class='table table-striped'><thead><tr>"
+				+ "<th><input name='select_all' type='checkbox'></input></th>"
+				+ "<th>User Name</th>"
+				+ "<th>Email</th>"
+				+ "</tr></thead>"; 
+			for(var i in r) {
+				html += makeHtml(r[i]); 
 			}
+			
+			fillSpace(html, true); 
+			
+
+			$("input[name='select_all']").on("click", function() {
+				if($(this).is(":checked")) {
+					$("input[name='select_user']").each(function() {
+						$(this).prop("checked", true); 
+					}); 
+				} else {
+					$("input[name='select_user']").each(function() {
+						$(this).prop("checked", false); 
+					}); 
+				}
+			}); 
+			
+			showing = true; 
 		}
 		
 		function makeHtml(user) {
-			var html = ""; 
-			html += user.name; 
+			var html = "<tr id='" + user.UserID + "' class='user_row'>"; 
+			html += "<td><input name='select_user' type='checkbox'></input></td>"; 
+			html += "<td class='user_name' onclick='document.location=\"manage_user.php?UserID=" + user.UserID + "\"' >" + user.UserName + "</td>"; 
+			html += "<td class='user_email' onclick='document.location=\"manage_user.php?UserID=" + user.UserID + "\"' >" + user.Email + "</td>";
+			html += "</tr>"; 
+			return html; 
 		}
-		
+				
 		return Module; 
 	})(jQuery); 
 </script>

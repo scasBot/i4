@@ -86,6 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		case "clientEmails" : 
 		case "updateClient" : 
 		case "searchUsers" : 
+		case "editUsers" : 
 			require(ajax_handler($_POST["REQ"])); 
 		break;
 		default : 
