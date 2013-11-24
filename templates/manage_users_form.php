@@ -97,7 +97,7 @@ August 2013
 		// delay for typing
 		function delay_action() {
 			fillSpace("<div class='well'><img src='img/ajax-loader.gif'></img></div>"); 
-			setTimeout(action_handler, 1200); 
+			setTimeout(action_handler, 500); 
 		}
 	
 
