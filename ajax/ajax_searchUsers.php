@@ -5,11 +5,11 @@ define("LIMIT", 100);
 $query = "SELECT DISTINCT UserID, UserName, Email FROM i3_Users WHERE "; 
 
 if(isset($data["hidden"])) {
-	$query .= "Hidden=" . (($data["hidden"] == "false") ? 0 : 1) . " AND "; 
+	$query .= "Hidden=" . (($data["hidden"]) ? 0 : 1) . " AND "; 
 }
 
 if(isset($data["comper"])) {
-	$query .= " Comper=" . (($data["comper"] == "false") ? 0 : 1) . " AND "; 
+	$query .= " Comper=" . (($data["comper"]) ? 0 : 1) . " AND "; 
 }
 
 if(isset($data["yog"]) && $data["yog"] > 0) {
@@ -21,6 +21,7 @@ if(isset($data["search"])) {
 		. "LOWER(Email) REGEXP '" . strtolower($data["search"]) . "')"; 
 }
 
+$query .= " ORDER BY UserName"; 
 $results = query($query); 
 
 if(!$results) {
