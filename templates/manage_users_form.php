@@ -94,14 +94,24 @@ August 2013
 		}		
 			
 		$("#userSearchForm").on("keyup", delay_action); 
+		var last; 
 		// delay for typing
-		function delay_action() {
-			fillSpace("<div class='well'><img src='img/ajax-loader.gif'></img></div>"); 
-			setTimeout(action_handler, 500); 
+		function delay_action(ev, rec) {
+			if(!rec) {
+				fillSpace("<div class='well'><img src='img/ajax-loader.gif'></img></div>");			
+				$("#userSearchForm").off("keyup", delay_action); 		
+			}
+			
+			var tmp = getInputs().search; 
+			if(last == tmp) {
+				$("#userSearchForm").on("keyup", delay_action); 
+				action_handler(); 
+			} else {
+				last = tmp; 
+				setTimeout(function() {delay_action(ev, true)}, 500); 
+			}
 		}
-	
-
-		
+			
 		function update() {
 			var data = {
 				"type" : "list", 
