@@ -62,11 +62,14 @@ August 2013
 	var handler = (function($) {
 		var Module = {};
 		var space = $("#putUsersHere"); 	
+		var searchBar = $("#userSearchForm"); 
+		
 		Module.init = init; 
 		init(); 
 		
 		function init() {
 			fillSpace("<p class='well'>Search for users above!</p>"); 
+			searchBar.val(""); 
 		}
 		
 		function fillSpace(str, showButtons) {
@@ -93,18 +96,18 @@ August 2013
 			}); 
 		}		
 			
-		$("#userSearchForm").on("keyup", delay_action); 
+		searchBar.on("keyup", delay_action); 
 		var last; 
 		// delay for typing
 		function delay_action(ev, rec) {
 			if(!rec) {
 				fillSpace("<div class='well'><img src='img/ajax-loader.gif'></img></div>");			
-				$("#userSearchForm").off("keyup", delay_action); 		
+				searchBar.off("keyup", delay_action); 		
 			}
 			
 			var tmp = getInputs().search; 
 			if(last == tmp) {
-				$("#userSearchForm").on("keyup", delay_action); 
+				searchBar.on("keyup", delay_action); 
 				action_handler(); 
 			} else {
 				last = tmp; 
@@ -136,9 +139,9 @@ August 2013
 						alert(r); 
 						return; 
 					}
-					
-					alert("Done, about to refresh now."); 
-					location.reload(); 
+
+					alert("Success! About to refresh now."); 					
+					init(); 
 				}, 
 				error : function(r) {
 					alert("There was an error: " + r); 
