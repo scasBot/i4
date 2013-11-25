@@ -31,7 +31,7 @@ Version control and Github:
 
 > INVARIANTS/RULES: 
 >*	Releases: 
->	+ At the end of every semester, the tech director should issue a new "release" of the SCAS i4 by creating a git tag. The current method is for the fall semester to be release v4.x.0 and the spring to be release v4.x.1. In these releases, the "x" represents an incremented variable from the previous year; so in year 1, the relase is v4.1.0, v4.1.1. Then the next year, the releases will be v4.2.0 and v4.2.1. 
+>	+ At the end of every semester, the tech director should issue a new "release" of the SCAS i4 by creating a git tag. The current method is for the fall semester to be release v4.x.0 and the spring to be release v4.x.1. In these releases, the "x" represents an incremented variable from the previous year; so in year 1, the release is i4.1.0, i4.1.1. Then the next year, the releases will be i4.2.0 and i4.2.1. 
 >*	Branches: 
 >	+ There are three main branches to the git repository: alpha, beta, and master. All development should occur on alpha, this branch never synchronizes to hcs servers and is used solely for code development. The beta branch should be pushed to for beta testing. On the hcs server, doing a "git checkout beta" will deploy beta branch. Master should always be stable, tested code. 
 >*	Necessary files that are ignored:
@@ -80,5 +80,5 @@ Other things to keep in mind:
 History:  
 -----
 > For your reference, here is a history of the lead developers of the SCAS i4 project, and their releases.
->	+ Willy Xiao	willy@chenxiao.us	May 2013 - December 2013	v4.1.0 - v4.1.1
+>	+ Willy Xiao	willy@chenxiao.us	May 2013 - December 2013	v4.1.0 - i4.1.1
 	
