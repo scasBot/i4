@@ -4,7 +4,7 @@ Documentation
 Intro: 
 -----
 > Welcome new head, tech director, or developer to the SCASi4 project! Started in May 2013, the i4 replaces the SCAS i3 and is used to log client contacts for the Small Claims Advisory Service. 
-> This documentation is to serve as guidance for you to continue contributing to the project. I hope this is helpful for anyone hoping to help this organization. Thanks!
+> This documentation is to serve as guidance for you to continue contributing to the project. Thanks for your service!
 
 How to edit the server and the domain:
 -----
@@ -15,7 +15,7 @@ How to edit the server and the domain:
 
 > HOW TO PUSH/PULL: 
 >*	You have a number of options to push and pull from the server. 
->*	Currently the server is set up as a local repository to https://github.com/willyxiao/i4.git (look at github section for more info). To update you can simply run "git pull" in the i4 directory. 
+>*	Currently the server is set up as a local repository to https://github.com/scasBot/i4.git (look at github section for more info). To update you can simply run "git pull" in the i4 directory. 
 >*	Alternatively you can use scp/pscp to push and pull through ssh clients. 
 
 > MYSQL: 
@@ -33,7 +33,7 @@ Version control and Github:
 >*	Releases: 
 >	+ At the end of every semester, the tech director should issue a new "release" of the SCAS i4 by creating a git tag. The current method is for the fall semester to be release v4.x.0 and the spring to be release v4.x.1. In these releases, the "x" represents an incremented variable from the previous year; so in year 1, the release is i4.1.0, i4.1.1. Then the next year, the releases will be i4.2.0 and i4.2.1. 
 >*	Branches: 
->	+ There are three main branches to the git repository: alpha, beta, and master. All development should occur on alpha, this branch never synchronizes to hcs servers and is used solely for code development. The beta branch should be pushed to for beta testing. On the hcs server, doing a "git checkout beta" will deploy beta branch. Master should always be stable, tested code. 
+>	+ There are two main branches to the git repository: beta and master. All development should occur on new development branches, this branch never synchronizes to hcs servers and is used solely for code development. The beta branch should be pushed to for beta testing. On the hcs server, doing a "git checkout beta" will deploy beta branch. Master should always be stable, tested code. 
 >*	Necessary files that are ignored:
 >	+ server/constants_passwords.php does not appear in the git repository. Do NOT add or commit this and keep it in the .gitignore file. These include database and server passwords which should not be made public.
 
