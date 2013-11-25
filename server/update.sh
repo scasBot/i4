@@ -1,3 +1,5 @@
+cd ..
+
 # for automatically updating scas server
 
 git checkout master

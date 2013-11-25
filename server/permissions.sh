@@ -1,3 +1,5 @@
+cd ..
+
 # all folders should not be globally accessible
 chmod 700 ajax/
 chmod 700 data/
