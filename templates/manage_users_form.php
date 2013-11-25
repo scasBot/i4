@@ -60,21 +60,20 @@ August 2013
 </div>
 <script type="text/javascript" >
 	var handler = (function($) {
-		var showing = false; 
-		var space = $("#putUsersHere"); 
+		var Module = {};
+		var space = $("#putUsersHere"); 	
+		var searchBar = $("#userSearchForm"); 
 		
-		$("#userSearchForm").on("keyup", action_handler); 
-	
-		var Module = {}; 
 		Module.init = init; 
 		init(); 
+		
 		function init() {
 			fillSpace("<p class='well'>Search for users above!</p>"); 
+			searchBar.val(""); 
 		}
 		
 		function fillSpace(str, showButtons) {
-			space.html(str); 
-			
+			space.html(str); 		
 			if(showButtons) {
 				space.append(
 					"<button id='graduate' class='btn action-btn'>Graduate</button>"
@@ -82,44 +81,74 @@ August 2013
 					+ "<button id='hide' class='btn action-btn'>Hide</button>"
 					+ "<button id='unhide' class='btn action-btn'>Unhide</button>"); 
 					
-					$(".action-btn").on("click", function() {
-						var data = {
-							"type" : "list", 
-							"action" : $(this).attr("id"), 
-							"users" : [], 
-						}; 
-					
-						reduce_users(function(user) {
-							if(user.checked) {
-								data.users.push(user.UserID); 
-							}
-						}); 
-						
-						console.log(data); 
-						
-						if(data.users.length < 1) 
-							return; // don't do anything
-						
-						ajaxBot.sendAjax({
-							REQ : "editUsers", 
-							data: data, 
-							success : function(r) {
-								if(r) {
-									alert(r); 
-									return; 
-								}
-								
-								alert("Done, about to refresh now."); 
-								location.reload(); 
-							}, 
-							error : function(r) {
-								alert("There was an error: " + r); 
-							}
-						}); 
-					})
+					$(".action-btn").on("click", update); 
 			}				
-		}
+		}		
 		
+		function reduce_users(fun) {
+			$(".user_row").each(function() {
+				var user = {}; 
+				user.UserName = $(this).find(".user_name").text(); 
+				user.Email = $(this).find(".user_email").text(); 
+				user.UserID = $(this).attr("id"); 
+				user.checked = $(this).find("input[name='select_user']").is(":checked"); 
+				fun(user); 
+			}); 
+		}		
+			
+		searchBar.on("keyup", delay_action); 
+		var last; 
+		// delay for typing
+		function delay_action(ev, rec) {
+			if(!rec) {
+				fillSpace("<div class='well'><img src='img/ajax-loader.gif'></img></div>");			
+				searchBar.off("keyup", delay_action); 		
+			}
+			
+			var tmp = getInputs().search; 
+			if(last == tmp) {
+				searchBar.on("keyup", delay_action); 
+				action_handler(); 
+			} else {
+				last = tmp; 
+				setTimeout(function() {delay_action(ev, true)}, 500); 
+			}
+		}
+			
+		function update() {
+			var data = {
+				"type" : "list", 
+				"action" : $(this).attr("id"), 
+				"users" : [], 
+			}; 
+		
+			reduce_users(function(user) {
+				if(user.checked) {
+					data.users.push(user.UserID); 
+				}
+			}); 
+		
+			if(data.users.length < 1) 
+				return; // don't do anything
+			
+			ajaxBot.sendAjax({
+				REQ : "editUsers", 
+				data: data, 
+				success : function(r) {
+					if(r) {
+						alert(r); 
+						return; 
+					}
+
+					alert("Success! About to refresh now."); 					
+					init(); 
+				}, 
+				error : function(r) {
+					alert("There was an error: " + r); 
+				}
+			}); 
+		}
+					
 		function getInputs() {
 			return {
 				hidden : $("#userHidden").is(":checked"), 
@@ -139,23 +168,19 @@ August 2013
 					data : data, 
 					success : function(r) {
 						if(!r) {
-							showing = false; 
 							fillSpace("<p class='well'>No matches found, try refining your search.</p>"); 
 						} else if(r == "1") { // 1 means too long
-							showing = false; 
 							fillSpace("<p class='well'>Too many results, try refining your search.</p>"); 
 						} else {
 							try {
 								r = $.parseJSON(r); 
 								displayUsers(r); 
 							} catch (e) {
-								showing = false; 
 								fillSpace("<p class='well'>Sorry, there was an error " + e + "</p>"); 
 							}
 						}
 					}, 
 					error : function(r) {
-						showing = false; 
 						fillSpace("<p class='well'>Something went wrong with your " + 
 							"ajax request.</p>"); 					
 					}, 
@@ -163,16 +188,7 @@ August 2013
 			}
 		}
 		
-		function reduce_users(fun) {
-			$(".user_row").each(function() {
-				var user = {}; 
-				user.UserName = $(this).find(".user_name").text(); 
-				user.Email = $(this).find(".user_email").text(); 
-				user.UserID = $(this).attr("id"); 
-				user.checked = $(this).find("input[name='select_user']").is(":checked"); 
-				fun(user); 
-			}); 
-		}
+
 		
 		function displayUsers(r) {
 			var html = "<table class='table table-striped'><thead><tr>"
@@ -198,8 +214,6 @@ August 2013
 					}); 
 				}
 			}); 
-			
-			showing = true; 
 		}
 		
 		function makeHtml(user) {
