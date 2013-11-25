@@ -27,7 +27,7 @@ How to edit the server and the domain:
 Version control and Github:
 -----
 > GITHUB: 
->*	The current code for the SCAS website is at https://github.com/willyxiao/i4.git. You can go to that public repository. To become a collaborator, ask Willy!
+>*	The current code for the SCAS website is at https://github.com/scasBot/i4.git. You can go to that public repository. To become a collaborator, ask the current tech director!
 
 > INVARIANTS/RULES: 
 >*	Releases: 
