@@ -1,3 +1,3 @@
 data/*
 i4FakeEmails.txt
-constants_passwords.php
+hash.json
