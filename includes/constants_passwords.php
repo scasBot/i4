@@ -32,4 +32,6 @@ define("PASSWORD", $pw_json["MYSQL"]["PASSWORD"]);
 define("SERVER", $pw_json["MYSQL"]["SERVER"]); 
 define("USERNAME", $pw_json["MYSQL"]["USERNAME"]); 
 
+$pw_string = null; 
+$pw_json = null; 
 ?>

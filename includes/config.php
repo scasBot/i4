@@ -22,13 +22,22 @@ Description :
 	constants etc., 
 ***********************************/
 
-// display errors, warnings, and notices
+// constants first
+require("constants.php");
+
+// error reporting
 ini_set("display_errors", true);
-error_reporting(E_ALL);
+if(LOCAL_HOST) {
+	// everything displayed
+	error_reporting(E_ALL | E_STRICT);
+} else {
+	// fatal errors and parse errors
+	error_reporting(E_ERROR | E_PARSE);
+}
 
 // requirements
+require("constants_passwords.php"); 
 require("trolling.php");
-require("constants.php");
 require("libraries/ALL.php");
 require("functions_navigation.php");
 require("functions_database.php"); 
