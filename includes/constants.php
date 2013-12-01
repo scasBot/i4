@@ -28,5 +28,8 @@ define("SCAS_EMAIL", "masmallclaims@gmail.com");
 define("ADMIN_EMAIL", "wxiao@college.harvard.edu"); 
 define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com"); 
 
+// idling on website for over 10 minutes is a log-out
+define("IDLE_TIME_LIMIT", 1200);
+
 define("PASSWORDS_FILE", ROOT . "/server/hash.json"); 
 ?>

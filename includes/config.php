@@ -56,6 +56,7 @@ if (!preg_match("{(?:login|logout|register|email)\.php$}", $_SERVER["PHP_SELF"])
 		define("LOGGED_IN", true); 
 		define("COMPER", is_comper($_SESSION["id"])); 
 		define("ADMIN", is_admin($_SESSION["id"])); 
+		update_i3_log(); // will logout if timed out
 	}
 } else {
 	define("LOGGED_IN", false); 
