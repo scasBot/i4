@@ -170,7 +170,7 @@ class i3_log {
 	}
 
 	public function logout() {
-		query("UPDATE i3_Log SET Logout=CURRENT_TIMESTAMP WHERE LogID=?", 
+		query("UPDATE i3_Log SET LastAction=LastAction, Logout=CURRENT_TIMESTAMP WHERE LogID=?", 
 			$this->LogID); 	
 	}
 		
