@@ -138,11 +138,46 @@ function is_admin($id) {
 	}
 }
 
-class i3_log extends aPureDataObject implements iDataObject {
-	protected $matchers = array("UserID", "Login", "IP"); 
-	protected $elements = array("LogID", "UserID", "Login", "Logout", "IP"); 
-	protected $database_name = "i3_Log"; 
-	protected $primary_key = "LogID"; 
+class i3_log {
+	private $LogID; 
+
+	public function __construct($LogID = null) {
+		if(is_null($LogID)) {
+			query("INSERT INTO i3_Log (UserID, Login, IP) VALUES (?, NOW(), ?)", 
+				$_SESSION["id"], $_SERVER["REMOTE_ADDR"]); 
+			$log = query("SELECT LogID FROM i3_Log WHERE UserID=? AND IP=? ORDER BY LogID DESC LIMIT 1", 
+				$_SESSION["id"], $_SERVER["REMOTE_ADDR"]); 
+			$this->LogID = $log[0]["LogID"]; 
+		} else {
+			$this->LogID = $LogID; 
+		}
+	}
+
+	public function update() {
+		try {
+			$log = query("SELECT TIMESTAMPDIFF(SECOND, LastAction, CURRENT_TIMESTAMP) as Seconds FROM i3_Log WHERE LogID=?", 
+				$this->LogID); 
+		
+			if($log[0]["Seconds"] > IDLE_TIME_LIMIT) {
+				redirect("logout.php"); 
+			}
+		} catch (Exception $e) {
+			throw new Exception("Error, log failed: " . $e->getMessage()); 
+		}
+
+		query("UPDATE i3_Log SET LastAction=CURRENT_TIMESTAMP WHERE LogID=?", $this->LogID); 
+		return; 	
+	}
+
+	public function logout() {
+		query("UPDATE i3_Log SET LastAction=LastAction, Logout=CURRENT_TIMESTAMP WHERE LogID=?", 
+			$this->LogID); 	
+	}
+		
+	public function get_LogID() {
+		return $this->LogID; 
+	}
+	
 }
 
 function mysql_date() {
@@ -151,10 +186,15 @@ function mysql_date() {
 
 function set_i3_log() {
 	$log = new i3_Log(); 
-	$log->set("UserID", $_SESSION["id"]); 
-	$log->set("Login", mysql_date());
-	$log->set("IP", $_SERVER['REMOTE_ADDR']); 
-	$log->push(); 
-	return $log->get("LogID"); 
+	return $log->get_LogID(); 
 }
+
+// updates the i3_log with most recent activity, if it's been passed IDLE_TIME_LIMIT, then it will auto
+// log-out the user. 
+function update_i3_log() {
+	$log = new i3_Log($_SESSION["logid"]); 
+	$log->update(); 
+	return; 
+}
+
 ?>

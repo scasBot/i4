@@ -15,7 +15,6 @@ August 2013
 ***********************************/
  /* some functions differ based on LOCAL_HOST or server. */
 define("SERVER_NAME", "hcs.harvard.edu"); 
-// define("LOCAL_HOST_NAME", "WILLYXIAO-THINK"); 
 define("LOCAL_HOST",  strstr(php_uname("n"), SERVER_NAME) === false);
 
 // ROOT_ can be used to create public links or to run scripts
@@ -29,5 +28,8 @@ define("SCAS_EMAIL", "masmallclaims@gmail.com");
 define("ADMIN_EMAIL", "wxiao@college.harvard.edu"); 
 define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com"); 
 
-require("../server/constants_passwords.php"); 
+// idling on website for over 10 minutes is a log-out
+define("IDLE_TIME_LIMIT", 1200);
+
+define("PASSWORDS_FILE", ROOT . "/server/hash.json"); 
 ?>

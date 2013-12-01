@@ -1,4 +1,4 @@
-cd ..
+cd ~/web/i4
 
 # all folders should not be globally accessible
 chmod 700 ajax/

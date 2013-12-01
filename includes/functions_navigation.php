@@ -71,9 +71,8 @@ function dump($variable)
  */
 function logout() {
 	$log = new i3_Log($_SESSION["logid"]); 
-	$log->set("Logout", mysql_date()); 
-	$log->push(); 
-
+	$log->logout(); 
+	
 	// unset any session variables
 	$_SESSION = array();
 
