@@ -7,6 +7,7 @@ chmod 700 server/
 
 # html is publicly accessible, not readable
 chmod 711 html/ 
+chmod 711 html/*.php
 
 # all these directories publicly accessible, not readable
 chmod 711 html/js/
