@@ -38,13 +38,6 @@ else if($_SERVER["REQUEST_METHOD"] == "POST") {
 	assert2($info->push(), "Failed to insert into server in newclient.php"); 
 	$client_id = $info->get("ClientID"); 
 	
-	/*
-	// priority is a different object than ClientInfo
-	$priority = new Priority(); 
-	$priority->from_array(array("ClientID" => $client_id, "CaseTypeID" => 21)); // by default 21 is never been contacted
-	$priority->push(); 
-	*/
-	
 	// redirects to the client's contact page
 	redirect("client.php?ClientID=" . $client_id); 
 }

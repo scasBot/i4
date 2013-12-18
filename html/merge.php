@@ -63,8 +63,10 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	$tables = array("db_CaseInfo", "db_Contact", "dbi4_Contacts"); 
 	foreach($tables as $table) {
 		try {
-			query("UPDATE " . $table . " SET ClientID=" . $_POST["ClientID1"] 
-				. " WHERE ClientID=" . $_POST["ClientID2"] . " LIMIT " . LIMIT_NUMBER); 
+			query("UPDATE ? SET ClientID=? WHERE ClientID=? LIMIT " . LIMIT_NUMBER, 
+				$table, 
+				$_POST["ClientID1"}, 
+				$_POST["ClientID2"]); 				
 		} catch (Exception $e) {
 			apologize("Something broke: " . $e); 
 		}
