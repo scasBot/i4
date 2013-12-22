@@ -18,6 +18,7 @@
 					<div class="btn-group">
 						<button class="btn btn-success actions" data-action="emaili4">Email i4 Users</button>
 						<button class="btn btn-inverse actions" data-action="emailLegalResearch">Email LegalResearch</button>
+						<button class="btn actions" data-action="emailClient">Email Client</button>
 					</div>
 				</div>
 			</div>
@@ -93,6 +94,16 @@ $(document).ready(function() {
 				emailForm.inputFieldObj("message").focus(); 
 			}); 
 		}, 
+		emailClient : function() {
+			addEmailHandler(function(emailForm) {
+				emailForm.from("donotreply@masmallclaims.org"); 
+				emailForm.to("<? echo $client['Email'] ?>"); 
+				// emailForm.inputFieldObj("to").prop("disabled", true); 
+				emailForm.subject(""); 
+				emailForm.inputFieldObj("message").focus();
+				emailForm.isClient = true; 
+			}); 
+		}, 
 	}
 
 	var state = {
@@ -142,7 +153,27 @@ $(document).ready(function() {
 							emailForm.onCancel(); 
 							$("#geniusBar").after("<div id='emailSent" + 
 								id + "' class='alert'>Email sent successfully at " + toSqlDate(myDate()) + "!</div>"); 
-							setTimeout(function() {$("#emailSent" + id).remove()}, 5000); 
+							setTimeout(function() {$("#emailSent" + id).remove()}, 5000);
+
+							// if email sent to Client, add contacts
+							if (emailForm.isClient == true)
+							{
+								// spoof "editDiv" 
+								var editDiv = $("#EditContact0");
+								editDiv.find("[name='ContactDate']").val(currentSqlDate());
+								editDiv.find("[name='ContactType']").val("Email, Response Sent");
+								editDiv.find("[name='ContactSummary']").val(data.message);
+
+								// according to what's entered here, create new contact
+								// this method is found in "contact_form.php"
+								updateContact(0);
+
+								// now revert to blank
+								editDiv.find("[name='ContactDate']").val("");
+								editDiv.find("[name='ContactType']").val("");
+								editDiv.find("[name='ContactSummary']").val("");
+							}		
+
 						} else {
 							alert("Something went wrong!" + r); 
 						}
