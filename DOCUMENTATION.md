@@ -19,7 +19,7 @@ How to edit the server and the domain:
 >*	Alternatively you can use scp/pscp to push and pull through ssh clients. 
 
 > MYSQL: 
->*	The mysql database, likewise, is managed by the Harvard Computer Society. To edit, you can go to http://hcs.harvard.edu/phpmyadmin. The login and password information should be received by word-of-mouth from previous developers of the project.
+>*	The mysql database, likewise, is managed by the Harvard Computer Society. To edit, you can go to http://hcs.harvard.edu/phpmyadmin. The login and password information should be received by word-of-mouth from previous developers of the project. Passwords, username, database name etc., should be kept in a file called hash.json inside of /server. It should be included in .gitignore. 
 
 > GODADDY ACCOUNT: 
 >*	SCAS also has a GoDaddy.com account which registers our domain name: masmallclaims.org. This is where forwarding (such as i4.masmallclaims.org) is set-up and where you can edit those. The login information should also be received by word-of-mouth.
@@ -35,7 +35,7 @@ Version control and Github:
 >*	Branches: 
 >	+ There are two main branches to the git repository: beta and master. All development should occur on new development branches, this branch never synchronizes to hcs servers and is used solely for code development. The beta branch should be pushed to for beta testing. On the hcs server, doing a "git checkout beta" will deploy beta branch. Master should always be stable, tested code. 
 >*	Necessary files that are ignored:
->	+ server/constants_passwords.php does not appear in the git repository. Do NOT add or commit this and keep it in the .gitignore file. These include database and server passwords which should not be made public.
+>	+ server/hash.json does not appear in the git repository. Do NOT add or commit this and keep it in the .gitignore file. These include database and server passwords which should not be made public.
 
 > NOTE: 
 >*	If you haven't used git before, you should really learn to use it! Google for information about it, but this will decrease development time significantly!
@@ -65,6 +65,9 @@ Structure of the i4 code:
 		
 Other things to keep in mind: 
 -----
+> DEV on localhost:
+>	+ If you're developing on localhost and you're not on Harvard's network, then you can't actually connect to the mysql server. When this happens, you should just export the database from hcs.harvard.edu/phpmyadmin, load it into your localhost and then change hash.json accordingly to point to localhost.
+
 > CSS: 
 >	+ Done through bootstrap version 2.2.1. Not bootstrap 2.3! This is important to note as many things have changed!
 
