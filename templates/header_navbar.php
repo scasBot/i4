@@ -1,4 +1,4 @@
-<div class="navbar">  
+<div class="navbar" style="margin-top: 10px">  
 	<div class="navbar-inner">  
 		<ul class="nav">
 			<li><a href="index.php">SCASi4</a></li>
