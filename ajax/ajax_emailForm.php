@@ -12,16 +12,18 @@
 	$mailer = new Mailer(); 	
 	$profile = new Profile($id);
 	
-	if(!($from == $profile->get("Email") || $from == SCAS_EMAIL)) {
+	if(!($from == $profile->get("Email") || $from == SCAS_EMAIL || $from == "donotreply@masmallclaims.org")) {
 		die_with_error("The email " . $from . " is currently unverified as yours."); 
 	} else if (!$to) {
 		die_with_error("You must input something in the to field."); 
 	}
 
 	$mailer->to($to); 
+	$mailer->senderName($senderName);
 	$mailer->from($from); 
 	$mailer->subject($subject); 
-	$mailer->message($message); 
+	$mailer->message($message);
+
 	
 	if(!$mailer->send()) {
 		echo "Error: sending failed."; 

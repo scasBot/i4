@@ -80,6 +80,7 @@ function EmailForm(id, emailBot) {
 				"<button class='btn email-btn' data-action='cancel' type='button' data-id='" + id + "'" + 
 					"onclick='emailBot.onCancel(" + id + ");' >Cancel</button>" + 
 			"</div>" + 
+			"<input type='hidden' name='senderName' value='' />" +
 		"</form>"; 
 		return html;
 	}
@@ -119,6 +120,7 @@ function EmailForm(id, emailBot) {
 		}
 	}	
 	this.to = function(val) {return inputHelper("to", val);}
+	this.senderName = function(val) {return inputHelper("senderName", val); }
 	this.from = function(val) {return inputHelper("from", val);}
 	this.subject = function(val) {return inputHelper("subject", val); }
 	this.message = function(val) {return inputHelper("message", val); }
@@ -126,6 +128,7 @@ function EmailForm(id, emailBot) {
 	this.getInputs = function() {
 		return {
 			to : this.to(),
+			senderName : this.senderName(),
 			from : this.from(), 
 			subject : this.subject(), 
 			message : this.message(), 

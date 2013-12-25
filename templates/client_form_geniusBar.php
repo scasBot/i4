@@ -97,11 +97,11 @@ $(document).ready(function() {
 		emailClient : function() {
 			addEmailHandler(function(emailForm) {
 				emailForm.from("donotreply@masmallclaims.org"); 
+				emailForm.senderName("MA Small Claims");
 				emailForm.to("<? echo $client['Email'] ?>"); 
 				// emailForm.inputFieldObj("to").prop("disabled", true); 
 				emailForm.subject(""); 
-				emailForm.inputFieldObj("message").focus();
-				emailForm.isClient = true; 
+				emailForm.inputFieldObj("subject").focus();
 			}); 
 		}, 
 	}
@@ -156,23 +156,11 @@ $(document).ready(function() {
 							setTimeout(function() {$("#emailSent" + id).remove()}, 5000);
 
 							// if email sent to Client, add contacts
-							if (emailForm.isClient == true)
+							if (data.from == "donotreply@masmallclaims.org")
 							{
-								// spoof "editDiv" 
-								var editDiv = $("#EditContact0");
-								editDiv.find("[name='ContactDate']").val(currentSqlDate());
-								editDiv.find("[name='ContactType']").val("Email, Response Sent");
-								editDiv.find("[name='ContactSummary']").val(data.message);
-
-								// according to what's entered here, create new contact
-								// this method is found in "contact_form.php"
-								updateContact(0);
-
-								// now revert to blank
-								editDiv.find("[name='ContactDate']").val("");
-								editDiv.find("[name='ContactType']").val("");
-								editDiv.find("[name='ContactSummary']").val("");
+								addEmailContact(data.subject, data.message);	
 							}		
+
 
 						} else {
 							alert("Something went wrong!" + r); 
@@ -191,4 +179,60 @@ $(document).ready(function() {
 		return emailForm; 
 	}
 });
+	
+function addEmailContact(subject, message) {
+	
+	var data = {}; 
+	var newContact = {}; 
+	newContact.UserName = {};
+	newContact.Email = {}; 
+
+	newContact.ContactID = 0; 
+	newContact.UserName.Added = constants.userName;
+	newContact.Email.Added = constants.userEmail; 
+	newContact.ClientID = constants.clientId; 
+	
+	newContact.UserName.Edit = constants.userName; 
+	newContact.Email.Edit = constants.userEmail; 
+	newContact.ContactEditDate = currentSqlDate(); 
+	newContact.ContactDate = currentSqlDate();
+	newContact.ContactTypeID = 16; // 16 is "Email, Response Sent" 
+	newContact.ContactSummary = "Subject: " + subject + "\n\nMessage: " + message; 
+
+	data = {}; 
+
+	data.ID = constants.userId;  
+	data.Contact = newContact; 
+	data.Action = "Insert"; 
+	
+	ajaxBot.sendAjax({
+		data : data, 
+		REQ : "contact", 
+		success : function(r) {
+			try {
+				var response = $.parseJSON(r); 
+			}
+			catch (e) {
+				throw "Error: server repsonse invalid."; 
+			}
+
+			if(response.Success) {
+				newContact.ContactType = response.data.ContactType; 
+
+				newContact.ContactID = response.data.ContactID; 
+				contacts.push(newContact); 
+				
+				display();	
+				updatePriority();
+			} else {
+				throw "Error: server response unsuccessful"; 
+			}
+		}, 
+		error : function(e) {
+			alert(e);  
+		}
+	}); 
+
+	return; 
+}
 </script>
