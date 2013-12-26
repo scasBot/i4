@@ -16,9 +16,9 @@
 						<!-- button class="btn btn-inverse actions" data-action="email">Email Client</button -->
 					</div>
 					<div class="btn-group">
-						<button class="btn btn-success actions" data-action="emaili4">Email i4 Users</button>
-						<button class="btn btn-inverse actions" data-action="emailLegalResearch">Email LegalResearch</button>
-						<button class="btn actions" data-action="emailClient">Email Client</button>
+						<button class="btn btn-default actions" data-action="emaili4">Email i4 Users</button>
+						<button class="btn btn-default actions" data-action="emailLegalResearch">Email LegalResearch</button>
+						<button class="btn btn-success actions" data-action="emailClient">Email Client</button>
 					</div>
 				</div>
 			</div>
@@ -126,19 +126,28 @@ $(document).ready(function() {
 	}
 	
 	function addEmailForm() {
+
 		var emailForm = emailBot.newEmailForm(); 
 		$("#geniusBar").after(
-			"<div class='row'>" + 
-				"<div class='span2'></div>" + 
-					emailForm.form() +
-				"<div class='span2'></div>" + 
-			"</div>"
+			emailForm.form()
+
 		);
+		// show modal
+		$("#emailForm").modal('show');
+		
+		// disable hide when clicked outside modal
+		$("#emailForm").modal({backdrop : 'static' });
+
 		emailForm.onCancel = function() {
+			$("#emailForm").modal('hide');
 			emailForm.getOnCancelDefault()(); 
 			state.emailShowing = false; 
 		}
 		emailForm.onSend = function() {
+			// transfer data from editor to message
+			$("#message").val(tinymce.get('editor').getContent());
+
+
 			var data = emailForm.getInputs(); 
 			data.clientId = constants.clientId; 
 		
@@ -197,7 +206,7 @@ function addEmailContact(subject, message) {
 	newContact.ContactEditDate = currentSqlDate(); 
 	newContact.ContactDate = currentSqlDate();
 	newContact.ContactTypeID = 16; // 16 is "Email, Response Sent" 
-	newContact.ContactSummary = "Subject: " + subject + "\n\nMessage: " + message; 
+	newContact.ContactSummary = "Subject: " + subject + message; 
 
 	data = {}; 
 

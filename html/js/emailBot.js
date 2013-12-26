@@ -44,44 +44,86 @@ var emailBot = (function () {
 // EmailForm.form() and then put that html into the dom. 
 function EmailForm(id, emailBot) {
 	this.getId = function() {return id;}
-	
+
+	// a modal view	
 	this.form = function() {
 		var html = 
-		"<form id='emailForm" + id + "' class='form-horizontal email-form span8'>" +
-			"<div class='control-group'>" +
-				"<label class='control-label' for='to'>To: </label>" +
-				"<div class='controls'>" + 
-					"<input name='to' type='email' />" + 
+		"<div class='modal fade' id='emailForm' tabindex='-1' role='dialog' aria-labelledby='emailFormLabel' aria-hidden='true'>" +
+		"<div class='modal-dialog'>" +
+			"<div class='modal-content'>" +
+				"<form id='emailForm" + id + "' class='form-horizontal'>" +
+				"<div class='modal-header' style='text-align: left'>" +
+					"<button type='button' class='close' data-dismiss='modal' aria-hidden='true' onclick='emailBot.onCancel(" + id + ");'>&times;</button>" +
+					"<div class='row'>" +
+						"<div class='control-group'>" +
+							"<div class='col-md-2' style='text-align: right'>" +
+								"<label class='control-label' for='to'>To </label>" +
+							"</div>" +
+							"<div class='col-md-9'>" +
+								"<input type='email' name='to' class='form-control' style='border: 0'>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+					"<div class='row'>" +
+						"<div class='control-group'>" +
+							"<div class='col-md-2' style='text-align: right'>" +
+								"<label class='control-label' for='from'>From </label>" +
+							"</div>" +
+							"<div class='col-md-9'>" +
+								"<input type='email' name='from' class='form-control' style='border: 0'>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+					"<div class='row'>" +
+						"<div class='control-group'>" +
+							"<div class='col-md-2' style='text-align: right'>" +
+								"<label class='control-label' for='subject'>Subject </label>" +
+							"</div>" +
+							"<div class='col-md-9'>" +
+								"<input type='text' name='subject' class='form-control' style='border: 0' placeholder='Subject goes here...'>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+				"</div>" +
+				"<div class='modal-body'>" + 
+						"<textarea name='editor' class='mceEditor' rows='6' style='width: 100%; height: 100%; font-size: 13px; border: 0;' placeholder='Type message here...'></textarea>" + 
+
+				"</div>" +
+				"<div class='modal-footer'>" +
+						"<button class='btn btn-primary' data-dismiss='modal' data-action='send' type='button' data-id='" + id + "'" + 
+							"onclick='emailBot.onSend(" + id + ");' ><span class='glyphicon glyphicon-send'/> Send</button>" + 
+						"<button class='btn btn-danger' data-dismiss='modal' data-action='cancel' type='button' aria-hidden='true' onclick='emailBot.onCancel(" + id + ");' data-id='" + id + "'>Cancel</button>" + 
 				"</div>" + 
-			"</div>" +
-			"<div class='control-group'>" + 
-				"<label class='control-label' for='from'>From: </label>" + 
-				"<div class='controls'>" + 
-					"<input name='from' type='email' />" + 
-				"</div>" + 
-			"</div>" + 
-			"<div class='control-group'>" + 
-				"<label class='control-label' for='subject'>Subject: </label>" + 
-				"<div class='controls'>" + 
-					"<input name='subject' type='text' />" + 
-				"</div>" + 
-			"</div>" + 
-			"<div class='control-group'>" + 
-				"<label class='control-label' for='message'>Message: </label>" + 
-				"<div class='controls'>" + 
-					"<textarea name='message' rows='5' cols='5' style='font-size: 12px'></textarea>" + 
-				"</div>" + 
-			"</div>" + 
-			"<div class='btn-group'>" + 
-				"<button class='btn email-btn' data-action='send' type='button' data-id='" + id + "'" + 
-					"onclick='emailBot.onSend(" + id + ");' >Send Email</button>" + 
-				"<button class='btn email-btn' data-action='reset' type='button' data-id='" + id + "'" + 
-					"onclick='emailBot.onReset(" + id + ");' >Reset</button>" + 
-				"<button class='btn email-btn' data-action='cancel' type='button' data-id='" + id + "'" + 
-					"onclick='emailBot.onCancel(" + id + ");' >Cancel</button>" + 
-			"</div>" + 
-			"<input type='hidden' name='senderName' value='' />" +
-		"</form>"; 
+				"<input type='hidden' name='senderName' value='' />" +
+				"<input type='hidden' id='message' name='message' value='' />" +
+			"</form>" +
+		"</div>" + // content
+		"</div>" + // dialog
+		"</div>" +  // modal
+		"<script type='text/javascript'>" +
+			"tinymce.init({" +
+				"mode: 'specific_textareas'," +
+				"editor_selector: 'mceEditor'," +
+				"plugins: [" +
+					"'advlist autolink lists link image charmap print preview anchor'," +
+					"'searchreplace visualblocks code fullscreen'," +
+					"'insertdatetime media table contextmenu paste'" +
+				"]," +
+				"toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'," +
+				"setup : function(ed) {" +
+					"ed.on('keydown', function(event) {" +
+						"if (event.keyCode == 9) {" +
+							"if (event.shiftKey) {ed.execCommand('Outdent');}" +
+							"else {ed.execCommand('Indent');}" +
+							"event.preventDefault();" +
+							"return false;" +
+						"}" +
+
+					"});" +
+				"}" +
+			"});" +
+		"</script>";
+
 		return html;
 	}
 
