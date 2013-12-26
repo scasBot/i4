@@ -36,7 +36,7 @@
 			</div>
 			<div class="form-group">
 				<input type="hidden" name="SHOW_LIST" value="true" hidden>
-				<button class="btn" type="submit">Submit</button>
+				<button class="btn btn-default" type="submit">Submit</button>
 				<!-- input type="submit" value="Submit" / --> 
 			</div>
 		</form>

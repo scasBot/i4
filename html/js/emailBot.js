@@ -114,7 +114,7 @@ function EmailForm(id, emailBot) {
 					"ed.on('keydown', function(event) {" +
 						"if (event.keyCode == 9) {" +
 							"if (event.shiftKey) {ed.execCommand('Outdent');}" +
-							"else {ed.execCommand('Indent');}" +
+							"else {ed.execCommand('mceInsertContent', false, '&emsp;&emsp;');}" +
 							"event.preventDefault();" +
 							"return false;" +
 						"}" +

@@ -20,7 +20,7 @@
 				<label class="control-label">Priority: </label>
 				</div>
 				<div class="col-md-6 controls" style="text-align: left">
-					<select name="CaseTypeID">
+					<select name="CaseTypeID" class="form-control">
 						<?php echo htmlOptions($priorities, $priority) ?>
 					</select>
 				</div>
@@ -59,7 +59,7 @@
 					<label class="control-label">Category: </label>
 				</div>
 				<div class="col-md-6 controls">
-					<select name="CategoryID">
+					<select name="CategoryID" class="form-control">
 						<?php echo htmlOptions($categories, $category) ?>
 					</select>
 				</div>
@@ -95,7 +95,7 @@
 					<label class="control-label" for="State">State: </label>
 				</div>
 				<div class="col-md-6 controls" style="text-align: left">
-					<select id="State" name="State" class="input-mini">
+					<select id="State" name="State" class="form-control">
 						<?php echo htmlOptionsStates($client["State"]) ?>
 					</select>
 				</div>
@@ -176,7 +176,7 @@
 </div>
 </form>
 <br />
-<button id="updateClient" class="btn" onclick="updateClient()">Update Client Info</button>
+<button id="updateClient" class="btn btn-default" onclick="updateClient()"><i class="glyphicon glyphicon-floppy-disk"></i> Update Client Info</button>
 <?php require("client_form_geniusBar.php") ?>
 <script>
 	constants.addConstants({

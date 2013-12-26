@@ -1,4 +1,14 @@
-<h3>Welcome <?php echo $_SESSION["username"] ?>!</h3>
-<p>To get started, use the navigation bar at the top of this page.</p>
-<img src="img/harvard_pbha_logo.png" />
-<h3><?php echo $quote ?></h3>
+<div class="banner home">
+<img src="img/scas_logo.png" style="width: 600px; margin-top: -65px;"/>
+</div>
+<div class="banner-after">
+<?
+	// extrapolate person and quote from given string
+	$index = strpos($quote, " - ");
+	$person = substr($quote, $index + 2);
+	$quote = substr($quote, 1, $index - 2);
+?>
+
+<h3 class="quote"><?php echo $quote ?></h3>
+<p> - <?php echo $person;?> </p>
+</div>

@@ -1,7 +1,9 @@
 <form action="login.php" method="post">
     <fieldset>
-        <div class="control-group">
-			<input type="text" name="UserName" placeholder="Start typing..." autocomplete="off" autofocus />
+		<div class="row">
+			<div class="control-group" style="width: 30%; display: inline-block; text-align: center;">
+				<input type="text" class="form-control" name="UserName" placeholder="Start typing..." autocomplete="off" autofocus />
+			</div>
 		</div>
 		<script>
 			$("input[name='UserName']").typeahead({
@@ -14,11 +16,15 @@
 				], 
 			}); 
 		</script>
+		<br />
+		<div class="row">
+			<div class="control-group" style="width: 30%; display: inline-block; text-align: center;">
+				<input name="password" class="form-control" placeholder="Password" type="password"/>
+			</div>
+		</div>
+		<br />
         <div class="control-group">
-            <input name="password" placeholder="Password" type="password"/>
-        </div>
-        <div class="control-group">
-            <button type="submit" class="btn">Log In</button>
+            <button type="submit" class="btn btn-default">Log In</button>
         </div>
     </fieldset>
 </form>

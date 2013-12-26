@@ -31,7 +31,7 @@
     margin-bottom: 20px;
 	margin-top: 10px; 
 
-	border-top: 1px dotted black; 
+	border-top: 1px solid #EEEEEE; 
 }
 
 #geniusBar {
@@ -94,7 +94,7 @@
 .contact-form-new
 {
 	background-color: #DDDDEE; 
-	height: 20px; 
+	height: 40px; 
 	padding-bottom: 10px;
 	padding-top: 10px; 
 }
@@ -126,4 +126,37 @@
 
 .user_row:hover {
 	cursor: pointer; 
+}
+
+/*  GLOBAL CHANGES */
+
+p, h3 {
+	font-family: 'Lato', serif;
+}
+
+
+/*  HOME PAGE */
+
+.banner {
+	height: 550px;
+	width: 100%;
+	top: 0;
+	left: 0;
+	display: inline-block;
+	position: absolute;
+	z-index: -2;
+}
+
+	.banner.home {
+		background:  linear-gradient(45deg, #b39c68, #a56365, #412e4c) no-repeat center center;
+	}
+
+.banner-after {
+	margin-top: 500px;
+	margin-bottom: 40px;
+}
+
+.quote {
+	font-size: 30px;
+	font-family: 'Playfair Display', serif;
 }

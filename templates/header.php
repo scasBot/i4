@@ -10,6 +10,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet"/>
 		<link href="css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet"/>
         <link href="css/styles.css" rel="stylesheet"/>
+		<link href='http://fonts.googleapis.com/css?family=Lato|Playfair+Display|Balthazar' rel='stylesheet' type='text/css'>
 
 		<link rel="icon" type="image/ico" href="img/favicon.ico">
 		
@@ -55,9 +56,6 @@
 		</div>
         <div class="container">
             <div id="top" class="row">
-				<div class="span12">
-				<a href="index.php"><img alt="SCAS i4: The Next Generation" src="img/logo.jpg" width="300px" height="64px" style="padding: 10px"/></a>
-				</div>
 			</div>
 
             <div id="middle">

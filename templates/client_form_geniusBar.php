@@ -6,19 +6,19 @@
 				<div class="span12">
 					<?php if(!COMPER) : ?>
 						<div class='btn-group'>
-							<button class="btn btn-danger actions" data-action="del">Delete Client</button>
+							<button class="btn btn-danger actions" data-action="del"><i class="glyphicon glyphicon-trash"></i> Delete Client</button>
 						</div>
 					<?php endif; ?>
 					<div class="btn-group">
 						<?php if(!COMPER) : ?>
-							<button class="btn btn-primary actions" data-action="merge">Merge Client</button>
+							<button class="btn btn-primary actions" data-action="merge"><i class="glyphicon glyphicon-retweet"></i> Merge Client</button>
 						<?php endif; ?>
 						<!-- button class="btn btn-inverse actions" data-action="email">Email Client</button -->
 					</div>
 					<div class="btn-group">
 						<button class="btn btn-default actions" data-action="emaili4">Email i4 Users</button>
 						<button class="btn btn-default actions" data-action="emailLegalResearch">Email LegalResearch</button>
-						<button class="btn btn-success actions" data-action="emailClient">Email Client</button>
+						<button class="btn btn-success actions" data-action="emailClient"><i class="glyphicon glyphicon-envelope"></i> Email Client</button>
 					</div>
 				</div>
 			</div>
