@@ -33,6 +33,19 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		case "users" : 
 			render("manage_users_form.php", array("title" => "Manage")); 
 		break; 
+		case "user" : 
+			if(!isset($_GET["UserID"])) {
+				apologize("Must input a user id.");
+			}
+			try {
+				$user = new Profile($_GET["UserID"]); 
+				render("profile_form.php", array("title" => "Manage", 
+					"user" => $user->get_array(), 
+					"ADMIN_EDIT" => true)); 
+			} catch ($e) {
+				apologize("Sorry, getting the profile failed: " . $e->getmessage()); 
+			}
+		break;
 		default : 
 			apologize("Sorry, that type of management doesn't exist."); 
 		break; 

@@ -119,6 +119,14 @@ function get_categories() {
 	return $categories; 
 }
 
+// returns a random word with $len
+	// http://codepad.org/9Y8CpnDx
+function get_randomword($len = 10) {
+    $word = array_merge(range('a', 'z'), range('A', 'Z'));
+    shuffle($word);
+    return substr(implode($word), 0, $len);
+}
+
 // finds if user is a comper
 function is_comper($id) {
 	$comper = unique_lookup("i3_Users", $id, "UserID", "Comper"); 
