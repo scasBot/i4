@@ -5,7 +5,9 @@
 	<div class="span12">
 		<div class="row">
 			<div class="span12">
-				<input id="instantSearch" type="text" placeholder="<?php echo "  " . byi4("Instant Search") ?>" />
+				<div class="col-sm-4 col-sm-offset-4">
+				<input id="instantSearch" class="form-control" type="text" placeholder="<?php echo "  " . byi4("Instant Search") ?>" />
+				</div>			
 			</div>
 			<script>
 				$(document).ready(function() {
