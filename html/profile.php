@@ -19,6 +19,7 @@ Description :
 ***********************************/
 require("../includes/config.php"); 
 require("../includes/profile_class.php"); 
+require("../includes/mailer_class.php"); 
 
 // both GET and POST means the request method is correct
 if($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -26,7 +27,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		if(!isset($_GET["UserID"])) 
 			apologize("Must give a user id."); 
 		else {
-			$new_password = get_randomword(); 
+			$new_password =  get_randomword(); 
 			$password = new Password($_GET["UserID"]); 
 			$password->set("hash", crypt($new_password)); 
 			$password->push(); 
@@ -39,20 +40,34 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 			$mailer->message("Your password for i4.masmallclaims.org has recently been reset to " . $new_password 
 				. ". Please login now and change it."); 
 			$mailer->send();
-
 			redirect("manage.php?type=user&UserID=" . $_GET["UserID"]); 
 		}
+	} else if (ADMIN && isset($_GET["MakeAdmin"])) {
+		if(!isset($_GET["UserID"])) 
+			apologize("Must give a user id."); 
+		else {
+			query("INSERT INTO i3_Admins SET UserID=?", $_GET["UserID"]); 
+		}
+		redirect("manage.php?type=user&UserID=" . $_GET["UserID"]); 
+	} else if(ADMIN && isset($_GET["RevokeAdmin"])) {
+		if(!isset($_GET["UserID"])) 
+			apologize("Must give a user id."); 
+		else {
+			query("DELETE FROM i3_Admins WHERE UserID=? LIMIT 1", $_GET["UserID"]); 
+		}	
+		redirect("manage.php?type=user&UserID=" . $_GET["UserID"]); 		
 	}
 
 	$profile = new Profile($_SESSION["id"]); 
 	render("profile_form.php", array("title" => "Profile", 
-		"user" => $profile->get_array()));		
+		"user" => $profile->get_array(), 
+		"user_is_admin" => ADMIN));		
 } else if($_SERVER["REQUEST_METHOD"] == "POST") {	
 	if(ADMIN) {
 		if(!isset($_POST["UserID"]))
 			apologize("Must give a user id. If this is an error, please contact " . ADMIN_EMAIL); 
-		
 		$id = $_POST["UserID"];
+		$self = true; 
 	} else {
 		$id = $_SESSION["id"]; 
 		if($_POST["NewPassword"]) {
@@ -77,7 +92,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	$profile->from_array($_POST); 
 	$profile->push(); 
 
-	
-	redirect("profile.php"); // so that it doesn't post multiple times
+	if(isset($self))
+		redirect("manage.php?type=user&UserID=" . $_POST["UserID"]); 					
+	else 
+		redirect("profile.php"); // so that it doesn't post multiple times
 }
 ?>

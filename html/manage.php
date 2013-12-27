@@ -41,8 +41,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 				$user = new Profile($_GET["UserID"]); 
 				render("profile_form.php", array("title" => "Manage", 
 					"user" => $user->get_array(), 
-					"ADMIN_EDIT" => true)); 
-			} catch ($e) {
+					"ADMIN_EDIT" => true, 
+					"user_is_admin" => is_admin($_GET["UserID"]))); 
+			} catch (Exception $e) {
 				apologize("Sorry, getting the profile failed: " . $e->getmessage()); 
 			}
 		break;

@@ -3,9 +3,12 @@
 	<div class="span6">
 		<form id='profile-form' class="form-horizontal" action="profile.php" method="POST"> 
 			<legend>Profile (Your 24601)</legend>
+			<?php if(isset($user_is_admin) && $user_is_admin) : ?>
+				<span class="label label-info" style="margin-bottom: 10px">Admin</span>
+			<?php endif; ?>
 			<div class="control-group">
 				<label class="control-label">User ID: </label>
-				<input type="text" value="<?php echo $user["UserID"] ?>" readonly />
+				<input type="text" value="<?php echo $user["UserID"] ?>" readonly name="UserID" />
 			</div>
 			<div class="control-group">
 				<label for="UserName" class="control-label">User Name: </label>
@@ -25,16 +28,33 @@
 					?>
 				</select>
 			</div>
-			<?php if isset(ADMIN_EDIT) && ADMIN_EDIT : ?>
-				<button id='ResetPassword-btn' class='btn btn-sucess'
-					type='button' style='margin-bottom: 10px'>Reset User's Password</button>
+			<?php if (isset($ADMIN_EDIT) && $ADMIN_EDIT) : ?>
+				<div class='btn-group'>
+					<button id='ResetPassword-btn' class='btn btn-success'
+						type='button' style='margin-bottom: 10px'>Reset User's Password</button>
+					<button id='MakeAdmin-btn' class='btn btn-inverse'
+						type='button' style='margin-bottom: 10px'>Make Admin</button>
+					<button id='RevokeAdmin-btn' class='btn btn-primary'
+						type='button' style='margin-bottom: 10px'>Revoke Admin</button>
+				</div>
 				<script>
+					constants.addConstants({"EditId" : <?php echo $user["UserID"] ?>}); 
 					$(document).ready(function() {
-						$("ResetPassword-btn").click(function() {
+						$("#ResetPassword-btn").click(function() {
 							if(confirm("Are you sure you wanna do that?")) {
-								window.location.href = "profile.php?ResetPassword=1&UserID=" . $user["UserID"]; 
+								window.location.href = "profile.php?ResetPassword=1&UserID=" + constants.EditId; 
 							}
-						})
+						}); 
+						$("#MakeAdmin-btn").click(function() {
+							if(confirm("Yooo.....you positive?")) {
+								window.location.href = "profile.php?MakeAdmin=1&UserID=" + constants.EditId;
+							}
+						}); 
+						$("#RevokeAdmin-btn").click(function() {
+							if(confirm("Revokin'?")) {
+								window.location.href = "profile.php?RevokeAdmin=1&UserID=" + constants.EditId;
+							}
+						}); 
 					}); 
 				</script>
 			<?php else : ?>
