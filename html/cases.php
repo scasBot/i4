@@ -33,9 +33,13 @@ if($_GET["type"] == "priority") {
 	// gets all information from clients with CaseTypeID = $id
 	function get_by_priority_id($id) {
 		return query(
-			"SELECT * FROM db_Clients INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority FROM "
-			. "db_CaseTypes WHERE Deprecated=0) AS t1) ON t1.CaseTypeID=db_Clients.CaseTypeID WHERE " 
-			. "db_Clients.CaseTypeID=" . $id); 
+			"SELECT * "
+			. "FROM db_Clients "
+			. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
+				. "FROM db_CaseTypes "
+				. "WHERE Deprecated=0) AS t1) "
+			. "ON t1.CaseTypeID=db_Clients.CaseTypeID "
+			. "WHERE db_Clients.CaseTypeID=?", $id); 
 	}
 	
 	// these can be changed easily to reflect different ordering of priorities
@@ -51,27 +55,47 @@ if($_GET["type"] == "priority") {
 } else if ($_GET["type"] == "date") {
 
 	// get the clients with most recent 100 contacts added
-	$clients = "((SELECT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, Phone1Number, Email, " 
-		. "CaseTypeID, ContactDate FROM db_Clients INNER JOIN (dbi4_Contacts AS contacts) " 
-		. "ON contacts.ClientID=db_Clients.ClientID ORDER BY " 
-		. "contacts.ContactDate DESC LIMIT " . LIMITING_NUMBER . ") AS clients)"; 
+	$clients = 
+		"((SELECT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, "
+			. "Phone1Number, Email, CaseTypeID, ContactDate "
+		. "FROM db_Clients "
+		. "INNER JOIN (dbi4_Contacts AS contacts) " 
+		. "ON contacts.ClientID=db_Clients.ClientID "
+		. "ORDER BY contacts.ContactDate DESC LIMIT " . LIMITING_NUMBER . ") "
+		. "AS clients)"; 
 
 	// get their priority information too
-	$cases = query("SELECT DISTINCT clients.ClientID, FirstName, LastName, Phone1AreaCode, Phone1Number, Email, "
-		. "Priority FROM $clients INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority FROM " 
-		. "db_CaseTypes WHERE Deprecated=0) AS priority) ON clients.CaseTypeID=priority.CaseTypeID ORDER BY clients.ContactDate DESC"); 
+	$cases = query(
+		"SELECT DISTINCT clients.ClientID, FirstName, LastName, "
+		. "Phone1AreaCode, Phone1Number, Email, Priority "
+		. "FROM $clients "
+		. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
+			. "FROM db_CaseTypes "
+			. "WHERE Deprecated=0) AS priority) "
+		. "ON clients.CaseTypeID=priority.CaseTypeID " 
+		. "ORDER BY clients.ContactDate DESC"); 
 
 } else if ($_GET["type"] == "me") {
 
 	// get the last clients touched by user
-	$clients = "((SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, Phone1Number, Email, CaseTypeID "  
-		. "FROM dbi4_Contacts INNER JOIN db_Clients ON db_Clients.ClientID=dbi4_Contacts.ClientID WHERE UserAddedID=" . $_SESSION["id"] . " " 
-		. "OR UserEditID=" . $_SESSION["id"] . " ORDER BY ContactDate DESC "
-		. "LIMIT " . LIMITING_NUMBER . ") AS clients)"; 
+	$clients = 
+		"((SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, "
+			. "Phone1AreaCode, Phone1Number, Email, CaseTypeID "  
+		. "FROM dbi4_Contacts "
+		. "INNER JOIN db_Clients "
+		. "ON db_Clients.ClientID=dbi4_Contacts.ClientID "
+		. "WHERE UserAddedID=? " 
+		. "OR UserEditID=? "
+		. "ORDER BY ContactDate DESC "
+		. "LIMIT " . LIMITING_NUMBER . ") "
+		. "AS clients)"; 
 	
 	// get their information
-	$cases = query("SELECT clients.*, Description AS Priority FROM $clients INNER JOIN db_CaseTypes " 
-		. "ON clients.CaseTypeID=db_CaseTypes.CaseTypeID"); 	
+	$cases = query(
+		"SELECT clients.*, Description AS Priority "
+		. "FROM $clients INNER JOIN db_CaseTypes " 
+		. "ON clients.CaseTypeID=db_CaseTypes.CaseTypeID", 
+			$_SESSION["id"], $_SESSION["id"]); 	
 	
 } else {
 	apologize("Can't access cases like that."); 

@@ -51,7 +51,6 @@
 		<div class="container">
 			<?php if (LOGGED_IN) : ?>
 				<?php require("header_navbar.php"); ?>
-
 			<?php endif;?>
 		</div>
         <div class="container">

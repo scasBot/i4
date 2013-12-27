@@ -219,8 +219,10 @@ August 2013
 		function makeHtml(user) {
 			var html = "<tr id='" + user.UserID + "' class='user_row'>"; 
 			html += "<td><input name='select_user' type='checkbox'></input></td>"; 
-			html += "<td class='user_name' onclick='document.location=\"manage_user.php?UserID=" + user.UserID + "\"' >" + user.UserName + "</td>"; 
-			html += "<td class='user_email' onclick='document.location=\"manage_user.php?UserID=" + user.UserID + "\"' >" + user.Email + "</td>";
+			html += "<td class='user_name' onclick='document.location=\"manage.php?type=user&UserID=" 
+				+ user.UserID + "\"' >" + user.UserName + "</td>"; 
+			html += "<td class='user_email' onclick='document.location=\"manage.php?type=user&UserID=" 
+				+ user.UserID + "\"' >" + user.Email + "</td>";
 			html += "</tr>"; 
 			return html; 
 		}

@@ -13,18 +13,15 @@ function query(/* $sql [, ... ] */) {
 
 	// try to connect to database
 	static $handle;
-	if (!isset($handle))
-	{
-		try
-		{
+	if (!isset($handle)) {
+		try {
 			// connect to database
 			$handle = new PDO("mysql:dbname=" . QUERY_DATABASE . ";host=" . QUERY_SERVER, QUERY_USERNAME, QUERY_PASSWORD);
 
 			// ensure that PDO::prepare returns false when passed invalid SQL
 			$handle->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); 
 		}
-		catch (Exception $e)
-		{
+		catch (Exception $e) {
 			// trigger (big, orange) error
 			trigger_error($e->getMessage(), E_USER_ERROR);
 			exit;
@@ -33,8 +30,7 @@ function query(/* $sql [, ... ] */) {
 
 	// prepare SQL statement
 	$statement = $handle->prepare($sql);
-	if ($statement === false)
-	{
+	if ($statement === false) {
 		$tmp = array(); 
 		$tmp = $handle->errorInfo(); 
 		
@@ -47,12 +43,10 @@ function query(/* $sql [, ... ] */) {
 	$results = $statement->execute($parameters);
 
 	// return result set's rows, if any
-	if ($results !== false)
-	{
+	if ($results !== false) {
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
-	else
-	{
+	else {
 		return "FAIL";
 	}
 }
@@ -110,27 +104,23 @@ function query_update($q_arr) {
 		// UPDATE clause
 		$query = "UPDATE " . $q_arr["TABLE"] . " "; 
 		
-		if(isset($q_arr["UPDATE"]))
-		{
+		if(isset($q_arr["UPDATE"])) {
 			$update_maker = create_function("\$k,\$v", "
 				return \"`\" . \$k . \"`='\" . \$v . \"'\";"); 
 
 			$query .= "SET " . arr_to_str($update_maker, ", ", " ", $q_arr["UPDATE"]); 
 		}
-		else
-		{
+		else {
 			return false; 
 		}
 		
-		if(isset($q_arr["WHERE"]))
-		{
+		if(isset($q_arr["WHERE"])) {
 			$where_maker = create_function("\$k,\$v", " 
 				return \"`\" . \$k . \"`\" . \$v[0] . \"'\" . \$v[1] . \"'\";"); 
 			
 			$query .= "WHERE " . arr_to_str($where_maker, "AND ", " ", $q_arr["WHERE"]); 
 		}			
-		else
-		{
+		else {
 			return false; 
 		}
 		

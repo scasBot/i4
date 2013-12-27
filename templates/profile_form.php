@@ -3,9 +3,12 @@
 	<div class="span6">
 		<form id='profile-form' class="form-horizontal" action="profile.php" method="POST"> 
 			<legend>Profile (Your 24601)</legend>
+			<?php if(isset($user_is_admin) && $user_is_admin) : ?>
+				<span class="label label-info" style="margin-bottom: 10px">Admin</span>
+			<?php endif; ?>
 			<div class="control-group">
 				<label class="control-label">User ID: </label>
-				<input type="text" value="<?php echo $user["UserID"] ?>" readonly />
+				<input type="text" value="<?php echo $user["UserID"] ?>" readonly name="UserID" />
 			</div>
 			<div class="control-group">
 				<label for="UserName" class="control-label">User Name: </label>
@@ -25,28 +28,59 @@
 					?>
 				</select>
 			</div>
-			<button id='EditPassword-btn' class='btn btn-success' 
-				type='button' style='margin-bottom: 10px'
-				onclick='$("#EditPassword").show(); $(this).hide(); $("#CurrentPassword").focus()'>Click to Edit Password</button> 
-			<div id='EditPassword' style='display: none' hidden> 
-				<div style='border: 1px dotted black; margin-bottom: 10px'></div>
-				<div class='control-group'>
-					<label for='CurrentPassword' class='control-label'>Current Password: </label>
-					<input id="CurrentPassword" name="CurrentPassword" type="password" />
+			<?php if (isset($ADMIN_EDIT) && $ADMIN_EDIT) : ?>
+				<div class='btn-group'>
+					<button id='ResetPassword-btn' class='btn btn-success'
+						type='button' style='margin-bottom: 10px'>Reset User's Password</button>
+					<button id='MakeAdmin-btn' class='btn btn-inverse'
+						type='button' style='margin-bottom: 10px'>Make Admin</button>
+					<button id='RevokeAdmin-btn' class='btn btn-primary'
+						type='button' style='margin-bottom: 10px'>Revoke Admin</button>
 				</div>
-				<div class='control-group'>
-					<label for='NewPassword' class='control-label'>New Password: </label>
-					<input id="NewPassword" name="NewPassword" type="password" />
+				<script>
+					constants.addConstants({"EditId" : <?php echo $user["UserID"] ?>}); 
+					$(document).ready(function() {
+						$("#ResetPassword-btn").click(function() {
+							if(confirm("Are you sure you wanna do that?")) {
+								window.location.href = "profile.php?ResetPassword=1&UserID=" + constants.EditId; 
+							}
+						}); 
+						$("#MakeAdmin-btn").click(function() {
+							if(confirm("Yooo.....you positive?")) {
+								window.location.href = "profile.php?MakeAdmin=1&UserID=" + constants.EditId;
+							}
+						}); 
+						$("#RevokeAdmin-btn").click(function() {
+							if(confirm("Revokin'?")) {
+								window.location.href = "profile.php?RevokeAdmin=1&UserID=" + constants.EditId;
+							}
+						}); 
+					}); 
+				</script>
+			<?php else : ?>
+				<button id='EditPassword-btn' class='btn btn-success' 
+					type='button' style='margin-bottom: 10px'
+					onclick='$("#EditPassword").show(); $(this).hide(); $("#CurrentPassword").focus()'>Click to Edit Password</button> 
+				<div id='EditPassword' style='display: none' hidden> 
+					<div style='border: 1px dotted black; margin-bottom: 10px'></div>
+					<div class='control-group'>
+						<label for='CurrentPassword' class='control-label'>Current Password: </label>
+						<input id="CurrentPassword" name="CurrentPassword" type="password" />
+					</div>
+					<div class='control-group'>
+						<label for='NewPassword' class='control-label'>New Password: </label>
+						<input id="NewPassword" name="NewPassword" type="password" />
+					</div>
+					<div class='control-group'>
+						<label for='ConfirmPassword' class='control-label'>Confirm Password: </label>
+						<input id="ConfirmPassword" name="ConfirmPassword" type="password" />
+					</div>			
+					<button class='btn btn-success'
+						type='button' style='margin-bottom: 2px'
+						onclick='$("#EditPassword").find("input").val(""); $("#EditPassword-btn").show(); $("#EditPassword").hide()'>Cancel</button>
+					<div style='border: 1px dotted black; margin-bottom: 10px'></div>
 				</div>
-				<div class='control-group'>
-					<label for='ConfirmPassword' class='control-label'>Confirm Password: </label>
-					<input id="ConfirmPassword" name="ConfirmPassword" type="password" />
-				</div>			
-				<button class='btn btn-success'
-					type='button' style='margin-bottom: 2px'
-					onclick='$("#EditPassword").find("input").val(""); $("#EditPassword-btn").show(); $("#EditPassword").hide()'>Cancel</button>
-				<div style='border: 1px dotted black; margin-bottom: 10px'></div>
-			</div>
+			<?php endif; ?>
 			<div class="control-group">
 				<button id='profile-form-submit' class="btn btn-block btn-primary" 
 					type="button" style='height: 40px'>Save Profile Updates</button>
