@@ -6,18 +6,19 @@
 				<div class="span12">
 					<?php if(!COMPER) : ?>
 						<div class='btn-group'>
-							<button class="btn btn-danger actions" data-action="del">Delete Client</button>
+							<button class="btn btn-danger actions" data-action="del"><i class="glyphicon glyphicon-trash"></i> Delete Client</button>
 						</div>
 					<?php endif; ?>
 					<div class="btn-group">
 						<?php if(!COMPER) : ?>
-							<button class="btn btn-primary actions" data-action="merge">Merge Client</button>
+							<button class="btn btn-primary actions" data-action="merge"><i class="glyphicon glyphicon-retweet"></i> Merge Client</button>
 						<?php endif; ?>
 						<!-- button class="btn btn-inverse actions" data-action="email">Email Client</button -->
 					</div>
 					<div class="btn-group">
-						<button class="btn btn-success actions" data-action="emaili4">Email i4 Users</button>
-						<button class="btn btn-inverse actions" data-action="emailLegalResearch">Email LegalResearch</button>
+						<button class="btn btn-default actions" data-action="emaili4">Email i4 Users</button>
+						<button class="btn btn-default actions" data-action="emailLegalResearch">Email LegalResearch</button>
+						<button class="btn btn-success actions" data-action="emailClient"><i class="glyphicon glyphicon-envelope"></i> Email Client</button>
 					</div>
 				</div>
 			</div>
@@ -93,6 +94,16 @@ $(document).ready(function() {
 				emailForm.inputFieldObj("message").focus(); 
 			}); 
 		}, 
+		emailClient : function() {
+			addEmailHandler(function(emailForm) {
+				emailForm.from("donotreply@masmallclaims.org"); 
+				emailForm.senderName("MA Small Claims");
+				emailForm.to("<? echo $client['Email'] ?>"); 
+				// emailForm.inputFieldObj("to").prop("disabled", true); 
+				emailForm.subject(""); 
+				emailForm.inputFieldObj("subject").focus();
+			}); 
+		}, 
 	}
 
 	var state = {
@@ -115,19 +126,28 @@ $(document).ready(function() {
 	}
 	
 	function addEmailForm() {
+
 		var emailForm = emailBot.newEmailForm(); 
 		$("#geniusBar").after(
-			"<div class='row'>" + 
-				"<div class='span2'></div>" + 
-					emailForm.form() +
-				"<div class='span2'></div>" + 
-			"</div>"
+			emailForm.form()
+
 		);
+		// show modal
+		$("#emailForm").modal('show');
+		
+		// disable hide when clicked outside modal
+		$("#emailForm").modal({backdrop : 'static' });
+
 		emailForm.onCancel = function() {
+			$("#emailForm").modal('hide');
 			emailForm.getOnCancelDefault()(); 
 			state.emailShowing = false; 
 		}
 		emailForm.onSend = function() {
+			// transfer data from editor to message
+			$("#message").val(tinymce.get('editor').getContent());
+
+
 			var data = emailForm.getInputs(); 
 			data.clientId = constants.clientId; 
 		
@@ -142,7 +162,15 @@ $(document).ready(function() {
 							emailForm.onCancel(); 
 							$("#geniusBar").after("<div id='emailSent" + 
 								id + "' class='alert'>Email sent successfully at " + toSqlDate(myDate()) + "!</div>"); 
-							setTimeout(function() {$("#emailSent" + id).remove()}, 5000); 
+							setTimeout(function() {$("#emailSent" + id).remove()}, 5000);
+
+							// if email sent to Client, add contacts
+							if (data.from == "donotreply@masmallclaims.org")
+							{
+								addEmailContact(data.subject, data.message);	
+							}		
+
+
 						} else {
 							alert("Something went wrong!" + r); 
 						}
@@ -160,4 +188,60 @@ $(document).ready(function() {
 		return emailForm; 
 	}
 });
+	
+function addEmailContact(subject, message) {
+	
+	var data = {}; 
+	var newContact = {}; 
+	newContact.UserName = {};
+	newContact.Email = {}; 
+
+	newContact.ContactID = 0; 
+	newContact.UserName.Added = constants.userName;
+	newContact.Email.Added = constants.userEmail; 
+	newContact.ClientID = constants.clientId; 
+	
+	newContact.UserName.Edit = constants.userName; 
+	newContact.Email.Edit = constants.userEmail; 
+	newContact.ContactEditDate = currentSqlDate(); 
+	newContact.ContactDate = currentSqlDate();
+	newContact.ContactTypeID = 16; // 16 is "Email, Response Sent" 
+	newContact.ContactSummary = "Subject: " + subject + message; 
+
+	data = {}; 
+
+	data.ID = constants.userId;  
+	data.Contact = newContact; 
+	data.Action = "Insert"; 
+	
+	ajaxBot.sendAjax({
+		data : data, 
+		REQ : "contact", 
+		success : function(r) {
+			try {
+				var response = $.parseJSON(r); 
+			}
+			catch (e) {
+				throw "Error: server repsonse invalid."; 
+			}
+
+			if(response.Success) {
+				newContact.ContactType = response.data.ContactType; 
+
+				newContact.ContactID = response.data.ContactID; 
+				contacts.push(newContact); 
+				
+				display();	
+				updatePriority();
+			} else {
+				throw "Error: server response unsuccessful"; 
+			}
+		}, 
+		error : function(e) {
+			alert(e);  
+		}
+	}); 
+
+	return; 
+}
 </script>

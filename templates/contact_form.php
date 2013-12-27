@@ -2,10 +2,10 @@
 	<legend>Contact Info</legend>
 </form>
 <div class="row contact-form-header">
-	<div class="span2">Contact Date</div>
-	<div class="span2">Type</div>
-	<div class="span6">Summary</div>
-	<div class="span2">Added by</div>
+	<div class="col-md-2">Contact Date</div>
+	<div class="col-md-2">Type</div>
+	<div class="col-md-6">Summary</div>
+	<div class="col-md-2">Added by</div>
 </div>
 <div class='row contact-form-new' onclick="newContact()" 
 	data-title="Add New Contact" 
@@ -50,19 +50,19 @@
 		var html =  
 			"<div id='Contact"+ id +"' class='row contact-form-row'"
 					+ "onclick='showEdit("+id+")' >"  
-				+ "<div class='span2 divContactDate'>"
-					+ "<span id='Contact"+ id +"Date'>" 
-						+ contact.ContactDate + "</span>" 
+				+ "<div class='col-md-2 divContactDate'>"
+					+ "<col-md- id='Contact"+ id +"Date'>" 
+						+ contact.ContactDate + "</col-md->" 
 				+ "</div>"
-				+ "<div class='span2 divContactType'>"
-					+ "<span id='Contact"+ id + "Type'>" 
-						+ contact.ContactType + "</span>"
+				+ "<div class='col-md-2 divContactType'>"
+					+ "<col-md- id='Contact"+ id + "Type'>" 
+						+ contact.ContactType + "</col-md->"
 				+ "</div>"
-				+ "<div class='span6 contact-form-summary divContactSummary'>" 
-					+ "<span id='Contact" +id+"Summary'>"
-						+  contactSummary + "</span>" 
+				+ "<div class='col-md-6 contact-form-summary divContactSummary'>" 
+					+ "<col-md- id='Contact" +id+"Summary'>"
+						+  contactSummary + "</col-md->" 
 				+ "</div>"
-				+ "<div class='span2'>"
+				+ "<div class='col-md-2'>"
 					+ contact.UserName.Added
 				+ "</div>"
 			+ "</div><br />";
@@ -87,7 +87,7 @@
 		"<form id='EditContact" + id + "' class='contact-edit-form form-horizontal' hidden>" 
 			+ "<div class='row contact-edit-row'>"
 				+ "<div class='row'>" 
-					+ "<div class='span6'>"
+					+ "<div class='col-md-6'>"
 						+ "<div class='control-group'>"
 							+ "<label class='control-label'>Date: </label>"
 							+ "<div class='controls'>"
@@ -104,25 +104,25 @@
 						+ "</div>"
 						+ LastEdit 
 					+ "</div>"
-					+ "<div class='span6'>"
-						+ "<textarea class='field span5' rows='6' name='ContactSummary' style='font-size: 12px'>"+ContactSummary+"</textarea>"
+					+ "<div class='col-md-6'>"
+						+ "<textarea class='field col-md-5' rows='6' name='ContactSummary' style='font-size: 12px'>"+ContactSummary+"</textarea>"
 					+ "</div>"
 				+ "</div>"
 				+ "<br />"
 				+ "<div class='row'>"
-					+ "<div class='span2'></div>"
-					+ "<div class='span3'>"
+					+ "<div class='col-md-2'></div>"
+					+ "<div class='col-md-3'>"
 						+ "<button type='button' id='contact-edit-row-update"+id+"' class='btn' onclick='updateContact("+id+")'>Save</button>"
 					+ "</div>"
-					+ "<div class='span2'>"
+					+ "<div class='col-md-2'>"
 						+ "<button type='button' id='contact-edit-row-undo" +id+"' class='btn' onclick='undoContact("+id+")'>Undo</button>"
 					+ "</div>"
-					+ "<div class='span3'>"
+					+ "<div class='col-md-3'>"
 						+ "<button type='button' id='contact-edit-row-delete" + id + "' class='btn' "
 							+ (id == 0 ? "disabled" : "onclick='deleteContact("+id+")'")
 							+ ">Delete</button>"
 					+ "</div>"
-					+ "<div class='span2'></div>"
+					+ "<div class='col-md-2'></div>"
 				+ "</div>" 			
 			+ "</div>"
 		+ "</form>"; 		

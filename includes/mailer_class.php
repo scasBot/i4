@@ -33,6 +33,7 @@ class Mailer {
 	protected $sender = ""; 
 	protected $sbj = ""; 
 	protected $msg = ""; 
+	protected $senderName = "";
 
 	public function to($emails) {
 		if($this->isValidEmail($emails)) {
@@ -58,18 +59,29 @@ class Mailer {
 	public function message($msg) {
 		$this->msg = $msg; 
 	}
-	
+		
+	public function senderName($senderName) {
+		$this->senderName = $senderName;
+	}
+
 	public function send() {
-		if(LOCAL_HOST) {
-			return fakeMail($this->recipients, 
-				$this->sbj, $this->msg, 
-				"From: " . $this->sender); 
-		} else {		
-			return mail($this->recipients[0], 
-				$this->sbj, 
-				$this->msg, 
-				"From: " . $this->sender); 
+//		if(LOCAL_HOST) {
+//			return fakeMail($this->recipients, 
+//				$this->sbj, $this->msg, 
+//				"From: " . $this->sender); 
+//		} else {
+
+		// change up "from" if we have a sender name
+		if ($this->senderName != "")
+		{
+			$this->sender = $this->senderName . " <" . $this->sender . ">";
 		}
+	
+		return mail($this->recipients[0], 
+			$this->sbj, 
+			$this->msg, 
+			"From: " . $this->sender); 
+//		}
 	}
 	
 	public function isValidEmail($email) {
