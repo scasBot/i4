@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse" role="navigation" style="margin-top: 10px;">  
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">  
 	<div class="navbar-inner">  
 		<ul class="nav navbar-nav">
 			<li><a class="navbar-brand" href="index.php">SCASi4</a></li>

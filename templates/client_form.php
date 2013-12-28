@@ -1,5 +1,5 @@
 <form id="clientForm" class="form-horizontal" action="client.php" method="post">
-<legend>Client Info</legend>
+<h3 style="font-size: 60px">Client Info</h3>
 <div class="row">
 	<div class="col-md-6">
 		<div class="row">

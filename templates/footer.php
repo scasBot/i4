@@ -9,7 +9,6 @@
 					<p class='pull-left'>Questions, concerns, bugs? Notify <a href='mailto:<?php echo ADMIN_EMAIL ?>'><?php echo ADMIN_EMAIL ?></a>.</p>
 				</div>
 			</div>
-		</div>
 
     </body>
 
