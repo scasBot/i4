@@ -85,6 +85,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		case "mergeFormSearch" : 
 		case "clientEmails" : 
 		case "updateClient" : 
+		case "searchClients" :
 		case "searchUsers" : 
 		case "editUsers" : 
 			require(ajax_handler($_POST["REQ"])); 
