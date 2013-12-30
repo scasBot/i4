@@ -56,30 +56,30 @@ function EmailForm(id, emailBot) {
 					"<button type='button' class='close' data-dismiss='modal' aria-hidden='true' onclick='emailBot.onCancel(" + id + ");'>&times;</button>" +
 					"<div class='row'>" +
 						"<div class='control-group'>" +
-							"<div class='col-md-2' style='text-align: right'>" +
+							"<div class='col-sm-2' style='text-align: right'>" +
 								"<label class='control-label' for='to'>To </label>" +
 							"</div>" +
-							"<div class='col-md-9'>" +
+							"<div class='col-sm-9'>" +
 								"<input type='email' name='to' class='form-control' style='border: 0'>" +
 							"</div>" +
 						"</div>" +
 					"</div>" +
 					"<div class='row'>" +
 						"<div class='control-group'>" +
-							"<div class='col-md-2' style='text-align: right'>" +
+							"<div class='col-sm-2' style='text-align: right'>" +
 								"<label class='control-label' for='from'>From </label>" +
 							"</div>" +
-							"<div class='col-md-9'>" +
+							"<div class='col-sm-9'>" +
 								"<input type='email' name='from' class='form-control' style='border: 0'>" +
 							"</div>" +
 						"</div>" +
 					"</div>" +
 					"<div class='row'>" +
 						"<div class='control-group'>" +
-							"<div class='col-md-2' style='text-align: right'>" +
+							"<div class='col-sm-2' style='text-align: right'>" +
 								"<label class='control-label' for='subject'>Subject </label>" +
 							"</div>" +
-							"<div class='col-md-9'>" +
+							"<div class='col-sm-9'>" +
 								"<input type='text' name='subject' class='form-control' style='border: 0' placeholder='Subject goes here...'>" +
 							"</div>" +
 						"</div>" +
@@ -90,9 +90,10 @@ function EmailForm(id, emailBot) {
 
 				"</div>" +
 				"<div class='modal-footer'>" +
-						"<button class='btn btn-primary' data-dismiss='modal' data-action='send' type='button' data-id='" + id + "'" + 
+						"<div id='progressBar'></div>" +
+						"<button class='btn btn-primary' id='send' data-action='send' type='button' data-id='" + id + "'" + 
 							"onclick='emailBot.onSend(" + id + ");' ><span class='glyphicon glyphicon-send'/> Send</button>" + 
-						"<button class='btn btn-danger' data-dismiss='modal' data-action='cancel' type='button' aria-hidden='true' onclick='emailBot.onCancel(" + id + ");' data-id='" + id + "'>Cancel</button>" + 
+						"<button class='btn btn-danger' id='cancel' data-dismiss='modal' data-action='cancel' type='button' aria-hidden='true' onclick='emailBot.onCancel(" + id + ");' data-id='" + id + "'>Cancel</button>" + 
 				"</div>" + 
 				"<input type='hidden' name='senderName' value='' />" +
 				"<input type='hidden' id='message' name='message' value='' />" +
@@ -128,7 +129,7 @@ function EmailForm(id, emailBot) {
 	}
 
 	this.formObj = function() {
-		return $("#emailForm" + id);		
+		return $("#emailForm");		
 	} 
 	var formObj = this.formObj; 
 	

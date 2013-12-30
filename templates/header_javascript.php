@@ -3,6 +3,7 @@
 <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="js/bootstrap_typeahead.js"></script>
 <script src="js/tinymce/tinymce.min.js"></script>
+<script src="js/jquery-scrollto.js"></script>
 <!-- script src="js/date_helpers.js"></script>
 <script src="js/validate.js"></script -->
 <script src="js/scripts.js"></script>

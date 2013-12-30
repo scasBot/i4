@@ -53,7 +53,7 @@
 				<?php require("header_navbar.php"); ?>
 			<?php endif;?>
 		</div>
-            <div id="top" class="row">
+            <div id="top">
 			</div>
 
             <div id="middle">

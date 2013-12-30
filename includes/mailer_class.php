@@ -80,7 +80,8 @@ class Mailer {
 		return mail($this->recipients[0], 
 			$this->sbj, 
 			$this->msg, 
-			"From: " . $this->sender); 
+			"Content-type:text/html;charset=iso-8859-1\r\n"
+				. "From: " . $this->sender); 
 //		}
 	}
 	

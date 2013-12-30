@@ -1,15 +1,8 @@
-<form id="contactForm" class="form-horizontal">
-	<legend>Contact Info</legend>
-</form>
-<div class="row contact-form-header">
-	<div class="col-md-2">Contact Date</div>
-	<div class="col-md-2">Type</div>
-	<div class="col-md-6">Summary</div>
-	<div class="col-md-2">Added by</div>
+<div id="addDiv">
+	<button id="addButton" onclick="newContact();" class="btn btn-success btn-block">
+		Add New Contact
+	</button>
 </div>
-<div class='row contact-form-new' onclick="newContact()" 
-	data-title="Add New Contact" 
-	data-content="<?php echo $random_quote ?>">Click here to add new contact</div>
 <div id="PutContactsHere">
 </div>
 <br />
@@ -18,9 +11,11 @@
 	// contacts as JSON from server
 	var contacts = <?php echo json_encode($contacts) ?>; 
 
+	if (!contacts) contacts = {};
+
 	// global variables needed to run
 	var state = {
-		newContactShown : false,  
+		afternewContactShown : false,  
 	}
 	
 	// given a contactID, get the contact
@@ -48,24 +43,13 @@
 		}
 		
 		var html =  
-			"<div id='Contact"+ id +"' class='row contact-form-row'"
-					+ "onclick='showEdit("+id+")' >"  
-				+ "<div class='col-md-2 divContactDate'>"
-					+ "<col-md- id='Contact"+ id +"Date'>" 
-						+ contact.ContactDate + "</col-md->" 
-				+ "</div>"
-				+ "<div class='col-md-2 divContactType'>"
-					+ "<col-md- id='Contact"+ id + "Type'>" 
-						+ contact.ContactType + "</col-md->"
-				+ "</div>"
-				+ "<div class='col-md-6 contact-form-summary divContactSummary'>" 
-					+ "<col-md- id='Contact" +id+"Summary'>"
-						+  contactSummary + "</col-md->" 
-				+ "</div>"
-				+ "<div class='col-md-2'>"
-					+ contact.UserName.Added
-				+ "</div>"
-			+ "</div><br />";
+			"<tr id='Contact"+ id +"' onclick='showEdit("+id+")'"
+				+ " style='cursor: pointer'>"  
+				+ "<td>" + contact.ContactDate + "</td>" 
+				+ "<td>" + contact.ContactType + "</td>" 
+				+ "<td>" + contactSummary + "</td>" 
+				+ "<td>" + contact.UserName.Added + "</td>" 
+			+ "</tr>";
 		
 		return html; 
 	}
@@ -77,55 +61,82 @@
 		var id = (isNew ? 0 : contact.ContactID); 
 		var ContactDate = (isNew ? currentSqlDate() : contact.ContactDate); 
 		var ContactSummary = (isNew ? "" : contact.ContactSummary); 
+		var ContactType = (isNew ? "Appointment scheduled" : contact.ContactType);
 		var LastEdit = (isNew? "" : 
 				"<div class='control-group'>"
 					+"<label class='control-label'>Last Edit: </label>"
 					+"<p style='text-align: center; padding-top: 5px' >" + contact.UserName.Edit + " on " + contact.ContactEditDate + "</p>"
 				+ "</div>"); 			
-				
-		var html =  
-		"<form id='EditContact" + id + "' class='contact-edit-form form-horizontal' hidden>" 
-			+ "<div class='row contact-edit-row'>"
-				+ "<div class='row'>" 
-					+ "<div class='col-md-6'>"
-						+ "<div class='control-group'>"
-							+ "<label class='control-label'>Date: </label>"
-							+ "<div class='controls'>"
-								+ "<input type='text' name='ContactDate' value='" + ContactDate + "' data-title='Invalid' />" 
-							+ "</div>"
-						+ "</div>"
-						+ "<div class='control-group'>"
-							+ "<label class='control-label'>Type: </label>"
-							+ "<div class='controls'>"
-								+ "<select name='ContactType' >"
+
+		var html = 
+		"<div class='modal fade' id='editDiv' tabindex='-1' role='dialog' aria-labelledby='editFormLabel' aria-hidden='true'>" +
+		"<div class='modal-dialog'>" +
+			"<div class='modal-content'>" +
+				"<form id='editForm" + id + "' class='form-horizontal'>" +
+				"<div class='modal-header' style='text-align: left'>" +
+					"<button type='button' class='close' data-dismiss='modal' aria-hidden='true' onclick='hideEdit();'>&times;</button>" +
+					"<div class='row'>" +
+						"<div class='control-group'>" +
+							"<div class='col-sm-2' style='text-align: right'>" +
+								"<label class='control-label' for='ContactDate'>Date </label>" +
+							"</div>" +
+							"<div class='col-sm-9'>" +
+								"<input type='text' name='ContactDate' class='form-control' style='border: 0' value='" + ContactDate + "'>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+					"<div class='row'>" +
+						"<div class='control-group'>" +
+		"<div class='col-sm-2' style='text-align: right'>" +
+								"<label class='control-label' for='ContactType'>Type </label>" +
+							"</div>" +
+							"<div class='col-sm-9'>" +
+								 "<select name='ContactType' class='form-control' value='" + ContactType + "'>"
 									+ "<?php echo htmlOptions($contact_types) ?>"
-								+ "</select>"
-							+ "</div>"
-						+ "</div>"
-						+ LastEdit 
-					+ "</div>"
-					+ "<div class='col-md-6'>"
-						+ "<textarea class='field col-md-5' rows='6' name='ContactSummary' style='font-size: 12px'>"+ContactSummary+"</textarea>"
-					+ "</div>"
-				+ "</div>"
-				+ "<br />"
-				+ "<div class='row'>"
-					+ "<div class='col-md-2'></div>"
-					+ "<div class='col-md-3'>"
-						+ "<button type='button' id='contact-edit-row-update"+id+"' class='btn' onclick='updateContact("+id+")'>Save</button>"
-					+ "</div>"
-					+ "<div class='col-md-2'>"
-						+ "<button type='button' id='contact-edit-row-undo" +id+"' class='btn' onclick='undoContact("+id+")'>Undo</button>"
-					+ "</div>"
-					+ "<div class='col-md-3'>"
-						+ "<button type='button' id='contact-edit-row-delete" + id + "' class='btn' "
-							+ (id == 0 ? "disabled" : "onclick='deleteContact("+id+")'")
-							+ ">Delete</button>"
-					+ "</div>"
-					+ "<div class='col-md-2'></div>"
-				+ "</div>" 			
-			+ "</div>"
-		+ "</form>"; 		
+								+ "</select>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+				"</div>" +
+				"<div class='modal-body'>" + 
+						"<textarea name='editor' class='mceEditor' rows='6' style='width: 100%; height: 100%; font-size: 13px; border: 0;' placeholder='Type summary here...'></textarea>" + 
+
+				"</div>" +
+				"<div class='modal-footer'>" +
+						"<div id='progressBar'></div>" +
+						"<button class='btn btn-primary' data-action='save' id='save' type='button' data-id='" + id + "'" + 
+							"onclick='updateContact(" + id + ");' ><span class='glyphicon glyphicon-send'/> Save</button>" + 
+						"<button class='btn btn-default' data-dismiss='modal' id='cancel' data-action='cancel' id='cancel' type='button' aria-hidden='true' onclick='hideEdit();' data-id='" + id + "'>Cancel</button>" + 
+						"<button class='btn btn-danger pull-left' data-action='delete' id='delete' type='button' aria-hidden='true' onclick='deleteContact(" + id + ");' data-id='" + id + "'>Delete</button>" + 
+				"</div>" + 
+			"</form>" +
+		"</div>" + // content
+		"</div>" + // dialog
+		"</div>" +  // modal
+		"<script type='text/javascript'>" +
+			"tinymce.init({" +
+				"mode: 'specific_textareas'," +
+				"editor_selector: 'mceEditor'," +
+				"plugins: [" +
+					"'advlist autolink lists link image charmap print preview anchor'," +
+					"'searchreplace visualblocks code fullscreen'," +
+					"'insertdatetime media table contextmenu paste'" +
+				"]," +
+				"toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'," +
+				"setup : function(ed) {" +
+					"ed.on('keydown', function(event) {" +
+						"if (event.keyCode == 9) {" +
+							"if (event.shiftKey) {ed.execCommand('Outdent');}" +
+							"else {ed.execCommand('mceInsertContent', false, '&emsp;&emsp;');}" +
+							"event.preventDefault();" +
+							"return false;" +
+						"}" +
+					"});" +
+					
+				"}" +
+			"});" +
+		"</sc" + "ript>"; // editor buggy problems 	
+
 		
 		return html; 
 	}
@@ -134,15 +145,34 @@
 		assert(id != 0); 	
 		var contact = getContact(id); 
 		
-		$("#Contact" + id).after(contactEditHTML(contact)); 
-		selectOption($("#EditContact" + id)
-			.find("select[name='ContactType']"), contact.ContactType);
-		$("#Contact" + id).hide(); 
-		$("#EditContact" + id).show(); 
+		$("#PutContactsHere").after(contactEditHTML(contact)); 
+		$("#editDiv").modal('show');
+	
+		setTimeout(
+			function() {
+			selectOption($("#editDiv")
+				.find("select[name='ContactType']"), contact.ContactType);
+			tinymce.get('editor').setContent(contact.ContactSummary);
+	
+			}, 500
+		);
+
 	}
 
-	function myReset (id) {
-		$("#EditContact" + id).find("[name='ContactDate']").popover('hide'); 
+
+
+	function hideEdit() {
+		$("#editDiv").modal('hide'); 
+
+		// after .3 seconds, remove edit Form
+		// allow time for form to animate/hide
+		setTimeout(
+			function() {
+				$("#editDiv").remove();		
+	
+			}, 500
+		);
+
 	}
 
 	function undoContact (id) {
@@ -159,20 +189,46 @@
 	}
 
 	function newContact() {
-		if(!state.newContactShown) {
-			$("#PutContactsHere").prepend(contactEditHTML()); 
-			state.newContactShown = true; 
-			$("#EditContact0").show(); 
-		}
+		$("#PutContactsHere").after(contactEditHTML()); 
+		state.newContactShown = true; 
+
+		$("#editDiv").modal('show');
 	}
 
 	function deleteContact(id) {
+	
+		// if "deleting" a new contact just cancel
+		if (id == 0) {
+			hideEdit();
+			return;
+		}
+
 		var shouldDelete = confirm("Are you sure you want to wipe " + 
 			getContact(id).UserName.Added + "'s masterpiece?"); 
 		
 		if(!shouldDelete) {
 			return; 
 		} else {
+			// disable buttons 
+			$("#delete").prop("disabled", true);
+			$("#save").prop("disabled", true);
+			$("#cancel").prop("disabled", true);
+
+			$("#delete").html("Deleting");
+			
+			// create progress bar
+			var barHtml = "<div class='progress progress-striped active'>" 
+							+ "<div class='progress-bar' id='progress' role='progressbar'" 
+							+ "aria-valuemin='0' aria-valuemax='100' style='width: 0%'>"
+						  + "</div>"
+						  + "</div>";
+			
+			// add to html
+			$("#progressBar").html(barHtml);
+
+			// make it 80%
+			$("#progress").width("80%");
+
 			data = {}; 
 			data.Action = "Delete"; 
 			data.Contact = {}; 
@@ -193,6 +249,7 @@
 						contacts.splice(getContactIndex(id), 1); 
 						display(); 
 						updatePriority(); 
+						hideEdit();
 					}
 				}, 
 				error : function(e) {
@@ -204,7 +261,27 @@
 
 	function updateContact(id) {
 		if(checkDateInput(id)) {
-			var editDiv = $("#EditContact" + id); 
+			// disable save button
+			$("#save").prop("disabled", true);
+			$("#delete").prop("disabled", true);
+			$("#cancel").prop("disabled", true);
+
+			$("#save").html("Saving");
+			
+			// create progress bar
+			var barHtml = "<div class='progress progress-striped active'>" 
+		  					+ "<div class='progress-bar' id='progress' role='progressbar'" 
+							+ "aria-valuemin='0' aria-valuemax='100' style='width: 0%'>"
+						  + "</div>"
+						  + "</div>";
+			
+			// add to html
+			$("#progressBar").html(barHtml);
+
+			// make it 80%
+			$("#progress").width("80%");
+
+			var editDiv = $("#editDiv"); 
 			var index = getContactIndex(id); 
 		
 			var data = {}; 
@@ -226,14 +303,15 @@
 			newContact.ContactEditDate = currentSqlDate(); 
 			newContact.ContactDate = editDiv.find("[name='ContactDate']").val(); 
 			newContact.ContactTypeID = editDiv.find("[name='ContactType']").val(); 
-			newContact.ContactSummary = editDiv.find("[name='ContactSummary']").val(); 
+			newContact.ContactSummary = tinymce.get('editor').getContent();
 
 			data = {}; 
 		
 			data.ID = constants.userId;  
 			data.Contact = newContact; 
 			data.Action = (id == 0 ? "Insert" : "Update"); 
-			
+		
+	
 			ajaxBot.sendAjax({
 				data : data, 
 				REQ : "contact", 
@@ -254,8 +332,11 @@
 						} else {
 							contacts[index] = newContact; 
 						}
+						
 						display();	
 						updatePriority();
+						hideEdit();
+
 					} else {
 						throw "Error: server response unsuccessful"; 
 					}
@@ -265,12 +346,13 @@
 				}
 			}); 
 
+
 			return; 
 		}
 	}
 	
 	function checkDateInput(id) {
-		var dateInput = $("#EditContact" + id).find("[name='ContactDate']");		
+		var dateInput = $("#editDiv").find("[name='ContactDate']");		
 		
 		if(isValidDate(dateInput.val())) {
 			var date_inputted = myDate(dateInput.val()); 
@@ -376,15 +458,42 @@
 	function display() {		
 		state.newContactShown = false; 
 		$("#PutContactsHere").html(""); 
-		
+
+		var htmlOutput = "<table class='table table-bordered table-hover'>" 
+						+ "<thead>"
+							+ "<tr>"
+								+ "<th>Contact Date</th>"
+								+ "<th>Type</th>"
+								+ "<th>Summary</th>"
+								+ "<th>Added by</th>"
+							+ "</tr>"
+						+ "</thead>"
+						+ "<tbody>";	
+
+
 		contacts.sort(function(a, b) {
 			return (myDate(b.ContactDate)) - (myDate(a.ContactDate)); 
 		}); 
 
 		for(n in contacts) {
 			var html = contactDisplayHTML(contacts[n]); 
-			$("#PutContactsHere").append(html); 
+			htmlOutput += html;
 		}
+
+
+		if (contacts.length == 0)
+		{
+			htmlOutput += "<tr>"
+							+ "<td><i>No contacts</i></td>"
+							+ "<td></td>"
+							+ "<td></td>"
+							+ "<td></td>"
+						+ "</tr>";
+		}
+
+		htmlOutput += "</tbody></table>";
+	
+		$("#PutContactsHere").append(htmlOutput);
 	}
 		
 	$(document).ready(function() {

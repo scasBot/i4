@@ -1,7 +1,7 @@
 <div id="find">
 	<section class="top">
 		<div class="row"> 
-			<form class="form-inline" style="padding-left: 5px">
+			<form class="form-inline" style="padding-left: 10px">
 				<div class="form-group"> 
 					<label class="sr-only" for="ClientId">Client ID</label>
 					<input type="text" class="form-control" id="ClientId" name="ClientId" placeholder="Client ID" />
@@ -41,18 +41,22 @@
 	<section class="bottom">
 		<div class="row">
 			<table id="results" class="table table-bordered table-hover">
-				<tr>
-					<th>Name</th>
-					<th>Phone Number</th>
-					<th>Email</th>
-					<th>Priority</th>
-				</tr>
-				<tr>
-					<td><i>None selected</i></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Phone Number</th>
+						<th>Email</th>
+						<th>Priority</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><i>None selected</i></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</section>
@@ -108,14 +112,15 @@
 						
 						// create new html for table
 						var tableHtml = "";
-						tableHtml = "<tr>"
+						tableHtml = "<thead><tr>"
 									 +	"<th>Name</th>"
 									 +	"<th>Phone Number</th>"
 									 +	"<th>Email</th>"
 									 +	"<th>Priority</th>"
-								  +	"</tr>";
+								  +	"</tr></thead>";
 
 						// iterate through rows
+						tableHtml += "<tbody>";
 						var i = 0;
 						while (r[i])
 						{
@@ -126,7 +131,8 @@
 										 +	"<td>" + r[i].Priority  + "</td>"
 									  +	"</tr>";
 							i++;
-						}								
+						}					
+						tableHtml += "</tbody>";			
 				
 						// if no results, indicate
 						if (!r[0])
