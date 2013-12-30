@@ -10,7 +10,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet"/>
 		<link href="css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet"/>
         <link href="css/styles.css" rel="stylesheet"/>
-		<link href='http://fonts.googleapis.com/css?family=Julius+Sans+One|Lato|Playfair+Display|Balthazar' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Lato|Playfair+Display|Balthazar' rel='stylesheet' type='text/css'>
 
 		<link rel="icon" type="image/ico" href="img/favicon.ico">
 		

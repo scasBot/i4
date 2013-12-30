@@ -1,6 +1,6 @@
 <div id="addDiv">
 	<button id="addButton" onclick="newContact();" class="btn btn-success btn-block">
-		Add New Contact
+		<i class="glyphicon glyphicon-edit"></i> New Contact
 	</button>
 </div>
 <div id="PutContactsHere">
@@ -105,7 +105,7 @@
 				"<div class='modal-footer'>" +
 						"<div id='progressBar'></div>" +
 						"<button class='btn btn-primary' data-action='save' id='save' type='button' data-id='" + id + "'" + 
-							"onclick='updateContact(" + id + ");' ><span class='glyphicon glyphicon-send'/> Save</button>" + 
+							"onclick='updateContact(" + id + ");' ><span class='glyphicon glyphicon-floppy-disk'/> Save</button>" + 
 						"<button class='btn btn-default' data-dismiss='modal' id='cancel' data-action='cancel' id='cancel' type='button' aria-hidden='true' onclick='hideEdit();' data-id='" + id + "'>Cancel</button>" + 
 						"<button class='btn btn-danger pull-left' data-action='delete' id='delete' type='button' aria-hidden='true' onclick='deleteContact(" + id + ");' data-id='" + id + "'>Delete</button>" + 
 				"</div>" + 

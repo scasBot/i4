@@ -18,8 +18,7 @@
 			<?php require("client_form_geniusBar.php") ?>
 		</div>
 	</section>
-	<section class="main">
-		<form id="clientForm" class="form-horizontal" action="client.php" method="post">
+	<section id="clientForm" class="main">
 		<div id="info" class="info-primary">
 			<table class="table table-bordered">
 				<tr>
@@ -35,6 +34,7 @@
 			</table>
 		</div>
 		<div class="info-basic">
+			<h1 style="margin-top: 0">Client Information</h1>
 			<table class="table table-bordered">
 				<tr>
 					<td>First Name</td>
@@ -105,17 +105,20 @@
 					</td>
 			</table>
 				<br />
+				<div id="progressBar_update"></div>
 				<button id="updateClient" class="btn btn-default" onclick="updateClient()"><i class="glyphicon glyphicon-floppy-disk"></i> Update Client Info</button>
-				<?php if(!COMPER) : ?>
-					<button class="btn btn-danger actions" data-action="del"><i class="glyphicon glyphicon-trash"></i> Delete Client</button>
-					<button class="btn btn-primary actions" data-action="merge"><i class="glyphicon glyphicon-retweet"></i> Merge Client</button>
-				<?php endif; ?>
-			</form>
 		</div> <!-- info -->
 		<div id="contacts" class="contacts">
+			<h1>Contacts</h1>
 			<?php require("contact_form.php");?> 
 			<?php //if($i3_contacts["exists"]) require("old_contact_form.php") ?>
 		</div>
+		<?php if(!COMPER) : ?>
+			<div id="menu" class="menu">
+				<button class="btn btn-danger btn-lg actions" data-action="del"><i class="glyphicon glyphicon-trash"></i> Delete Client</button>
+				<button class="btn btn-primary btn-lg actions" data-action="merge"><i class="glyphicon glyphicon-retweet"></i> Merge Client</button>
+			</div>
+		<?php endif; ?>
 	</section> <!-- main section -->
 </div> <!-- wrapper -->
 
@@ -137,17 +140,38 @@
 	}); 	
 	var updatedClient = 0; 
 	function updateClient() {
+		// disable buttons 
+		$("#updateClient").prop("disabled", true);
+
+		$("#updateClient").html("Updating");
+		
+		// create progress bar
+		var barHtml = "<div class='progress progress-striped active'>" 
+						+ "<div class='progress-bar' id='progress' role='progressbar'" 
+						+ "aria-valuemin='0' aria-valuemax='100' style='width: 0%'>"
+					  + "</div>"
+					  + "</div>";
+		
+		// add to html
+		$("#progressBar_update").html(barHtml);
+
+		// make it 50%
+		$("#progress").width("50%");
+
 		var inputTypes = ["input", "select", "textarea[name='ClientNotes']"]; 
 		var fields = [];  
+
 		for(type in inputTypes) {
 			$("#clientForm").find(inputTypes[type]).each(function() {
 				fields.push($(this)); 
 			});
 		}
+
 		var data = {}; 
 		for(field in fields) {
 			data[fields[field].attr("name")] = fields[field].val(); 
 		}
+
 		ajaxBot.sendAjax({
 			REQ : "updateClient", 
 			data : data, 
@@ -157,11 +181,32 @@
 					if(!r.Success) {
 						throw "Server response unsuccessful " + r.Message; 
 					} else {
-						updatedClient++; 
+						//updatedClient++; 
 						//$("#updateClient").before("<div id='updated" + updatedClient + 
 						//"' class='alert'>Client successfully updated at " + toSqlDate(myDate()) +"!</div>");
-						var x = updatedClient; 
-						setTimeout(function(){$("#updated" + x).remove()}, 5000); 
+						//var x = updatedClient; 
+						//setTimeout(function(){$("#updated" + x).remove()}, 5000); 
+
+						// indicate completion
+						$("#progress").width("100%");
+
+						// after 1 second, delete bar, reset progress bar to 0
+						setTimeout(
+							function() {
+								$(".progress").remove();						
+
+								// re-enable button and set text again
+								$("#updateClient").prop("disabled", false);
+
+								$("#updateClient").html("<i class='glyphicon glyphicon-floppy-disk'></i> Update Client Info");
+			
+								// update first and last names
+								$(".lastname").html("<h3>" + $("#LastName").val() + ",</h3>");
+								$(".firstname").html("<h3>" + $("#FirstName").val() + "</h3>");
+	
+							}, 1000
+						);
+
 					}
 				} catch(e) {
 					alert("Error updating client" + e); 
