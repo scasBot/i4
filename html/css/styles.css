@@ -311,6 +311,8 @@ form.hidden {
 	.client-wrapper > section.bar .geniusbar {
 		position: absolute;
 		bottom: 80px;
+		margin-left: -15px;
+		margin-right: auto;
 	}
 	
 	.client-wrapper > section.bar .navitem {

@@ -26,7 +26,7 @@
 					<td><input id="ClientID" class="form-control" name="ClientID" type="text" value="<?php echo $client["ClientID"] ?>" readonly /> </td>
 					<td>Priority</td>
 					<td>			
-						<select name="CaseTypeID" class="form-control">
+						<select id="CaseTypeID" name="CaseTypeID" class="form-control">
 							<?php echo htmlOptions($priorities, $priority) ?>
 						</select>
 					</td>
@@ -138,25 +138,28 @@
 	constants.addConstants({
 		clientId : <?php echo $client["ClientID"] ?>, 
 	}); 	
-	var updatedClient = 0; 
+	var updatedClient = 0;
+	var updatingPriority = false; 
 	function updateClient() {
-		// disable buttons 
-		$("#updateClient").prop("disabled", true);
+		if (!updatingPriority) {
+			// disable buttons 
+			$("#updateClient").prop("disabled", true);
 
-		$("#updateClient").html("Updating");
-		
-		// create progress bar
-		var barHtml = "<div class='progress progress-striped active'>" 
-						+ "<div class='progress-bar' id='progress' role='progressbar'" 
-						+ "aria-valuemin='0' aria-valuemax='100' style='width: 0%'>"
-					  + "</div>"
-					  + "</div>";
-		
-		// add to html
-		$("#progressBar_update").html(barHtml);
+			$("#updateClient").html("Updating");
+			
+			// create progress bar
+			var barHtml = "<div class='progress progress-striped active'>" 
+							+ "<div class='progress-bar' id='progress' role='progressbar'" 
+							+ "aria-valuemin='0' aria-valuemax='100' style='width: 0%'>"
+						  + "</div>"
+						  + "</div>";
+			
+			// add to html
+			$("#progressBar_update").html(barHtml);
 
-		// make it 50%
-		$("#progress").width("50%");
+			// make it 50%
+			$("#progress").width("50%");
+		}
 
 		var inputTypes = ["input", "select", "textarea[name='ClientNotes']"]; 
 		var fields = [];  
@@ -187,26 +190,27 @@
 						//var x = updatedClient; 
 						//setTimeout(function(){$("#updated" + x).remove()}, 5000); 
 
-						// indicate completion
-						$("#progress").width("100%");
+						if (!updatingPriority) {
+							// indicate completion
+							$("#progress").width("100%");
 
-						// after 1 second, delete bar, reset progress bar to 0
-						setTimeout(
-							function() {
-								$(".progress").remove();						
+							// after 1 second, delete bar, reset progress bar to 0
+							setTimeout(
+								function() {
+									$(".progress").remove();						
 
-								// re-enable button and set text again
-								$("#updateClient").prop("disabled", false);
+									// re-enable button and set text again
+									$("#updateClient").prop("disabled", false);
 
-								$("#updateClient").html("<i class='glyphicon glyphicon-floppy-disk'></i> Update Client Info");
-			
-								// update first and last names
-								$(".lastname").html("<h3>" + $("#LastName").val() + ",</h3>");
-								$(".firstname").html("<h3>" + $("#FirstName").val() + "</h3>");
-	
-							}, 1000
-						);
-
+									$("#updateClient").html("<i class='glyphicon glyphicon-floppy-disk'></i> Update Client Info");
+				
+									// update first and last names
+									$(".lastname").html("<h3>" + $("#LastName").val() + ",</h3>");
+									$(".firstname").html("<h3>" + $("#FirstName").val() + "</h3>");
+		
+								}, 1000
+							);
+						}
 					}
 				} catch(e) {
 					alert("Error updating client" + e); 
@@ -216,5 +220,14 @@
 				alert(e); 
 			}
 		});
+		
+		// variables
+		updatingPriority = false;
 	}
+
+	$("#CaseTypeID").change( function() {
+		updatingPriority = true;
+		updateClient();
+	});
+
 </script>

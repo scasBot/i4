@@ -379,11 +379,14 @@
 		if(selectObj.val() == priorityID) {
 			return; 
 		} else {
+			updatingPriority = true;
 			selectOption(selectObj, priorityID); 
 			updateClient(); 
 //			$("#updateClient").click(); 
 		}
 	}
+
+	
 	
 	function calculatePriority(arr) {
 		if(!arr || arr.length < 1) {
