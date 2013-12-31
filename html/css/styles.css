@@ -321,6 +321,7 @@ form.hidden {
 		margin-right: 20px;
 		cursor: pointer;
 	}
+
 	.client-wrapper > section.bar .navitem a{
 		color: #CCCCCC;
 	}
@@ -333,7 +334,6 @@ form.hidden {
 		margin-bottom: 5px;
 		border-width: 0;
 	}
-
 		
 	.client-wrapper > section.bar .geniusbar .btn-default {
 		color: #4D4D4D;
@@ -413,7 +413,83 @@ form.hidden {
 		color: #474747;
 		font-variant:small-caps;
 		font-family: "Lato", sans-serif;
-		mask-image: url('../img/overlay2.png');
+	}
+
+/* leaderboard */
+
+.leaderboard-wrapper {
+	padding-top: 20px;
+	margin-top: -20px;
+	background: url('../img/overlay2.png');
+	background-size: 128px 128px;
+	padding-left: 40px;
+	padding-right: 40px;
+	
+}
+	.leaderboard-wrapper h1 {
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+	}
+
+	.leaderboard-wrapper table {
+		background-color: white;
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+		width: 90%;
+	}
+
+	.leaderboard-wrapper td, th {
+		text-align: center;
+	}
+
+	.leaderboard-wrapper .table1 {
+		width: 33%;
+		float: left;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.leaderboard-wrapper .table2 {
+		width: 33%;
+		float: middle;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.leaderboard-wrapper .table3 {
+		width: 33%;
+		float: right;
+		text-align: center;
+		display: inline-block;
+	}
+
+/* profile & add user */
+.profile-wrapper {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: -20px;
+	background: url('../img/overlay2.png');
+	background-size: 128px 128px;
+}
+
+	.profile-wrapper table {
+		background-color: white;
+		font-family: "Lato", sans-serif;
+		width: 60%;
+		display: inline-display;
+		text-align: center;
+	}
+
+	.profile-wrapper table tr td {
+		vertical-align: middle;
+	}
+
+	.profile-wrapper h1 {
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
 	}
 
 
