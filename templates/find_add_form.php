@@ -26,10 +26,8 @@
 				<div class="form-group">
 					<input type="hidden" name="SHOW_LIST" value="true" hidden>
 					<button id="search" type="button" class="btn btn-primary" onclick="submitQuery();">Search</button>
+					<button type="button" style="margin-left: 0px" class="btn btn-success" onclick="addClient();">Add</button>
 					<!-- input type="submit" value="Submit" / --> 
-				</div>
-				<div class="form-group">
-					<button type="button" class="btn btn-success" onclick="addClient();">Add</button>
 				</div>
 			</form>
 		</div>
