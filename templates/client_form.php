@@ -111,7 +111,7 @@
 		<div id="contacts" class="contacts">
 			<h1>Contacts</h1>
 			<?php require("contact_form.php");?> 
-			<?php //if($i3_contacts["exists"]) require("old_contact_form.php") ?>
+			<?php if($i3_contacts["exists"]) require("old_contact_form.php") ?>
 		</div>
 		<?php if(!COMPER) : ?>
 			<div id="menu" class="menu">
