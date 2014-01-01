@@ -62,7 +62,7 @@
 			easing: 'swing',
 			callback: undefined,
 			durationMode: 'each',
-			offsetTop: 0,
+			offsetTop: 40,
 			offsetLeft: 0
 		},
 
