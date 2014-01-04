@@ -2,8 +2,12 @@
 	require("server_config.php"); 
 	define("LIMIT", 20); 
 		
-	$contacts = query("SELECT * FROM `dbi4_Contacts` JOIN `i3_Users` ON dbi4_Contacts.UserAddedID=i3_Users.UserID WHERE " . 
-		"ContactDate>=" . date("Y")); 
+	$contacts = query(
+		"SELECT * " 
+		. "FROM `dbi4_Contacts` "
+		. "JOIN `i3_Users` "
+		. "ON dbi4_Contacts.UserAddedID=i3_Users.UserID "
+		. "WHERE ContactDate >= " . date("Y")); 
 
 	$users = array(); 
 	$total = array("big"=>0, "medium"=>0, "small"=>0); 
