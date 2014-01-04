@@ -7,8 +7,8 @@
 		. "FROM `dbi4_Contacts` "
 		. "JOIN `i3_Users` "
 		. "ON dbi4_Contacts.UserAddedID=i3_Users.UserID "
-		. "WHERE ContactDate >= " . date("Y")); 
-
+		. "WHERE YEAR(ContactDate) >= YEAR(CURRENT_DATE)"); 
+	
 	$users = array(); 
 	$total = array("big"=>0, "medium"=>0, "small"=>0); 
 	
