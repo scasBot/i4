@@ -45,6 +45,18 @@ if($data["Contact"]["ContactID"] == 0) {
 	assert2($contact->push(), "Failure to update mysql");  
 	$contact_type = get_contacttype($contact->get("ContactTypeID")); 
 
+	// if assigning email then do other stuff
+	if (isset($data["emailId"]))
+	{
+		$clientID = $data["Contact"]["ClientID"];
+		$emailId = $data["emailId"];
+
+		// first, set isAssigned and clientId
+		$query = "UPDATE db_Emails SET isAssigned=1, ClientID=$clientID WHERE id=$emailId";
+		query($query);
+
+	}
+
 	echo json_encode(array("Success" => true, 
 		"data" => array("ContactID" => $contact->get("ContactID"), "ContactType" => $contact_type))); 
 	
