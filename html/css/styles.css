@@ -493,6 +493,39 @@ form.hidden {
 	}
 
 
+/* inbox */
+.inbox-wrapper {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: -20px;
+	background: url('../img/overlay2.png');
+	background-size: 128px 128px;
+}
+
+	.inbox-wrapper table {
+		background-color: white;
+		font-family: "Lato", sans-serif;
+		width: 80%;
+		display: inline-display;
+		text-align: center;
+	}
+
+	.inbox-wrapper table tr td {
+		vertical-align: middle;
+		cursor: pointer;
+	}
+
+	.inbox-wrapper label {
+		vertical-align: middle;
+		text-align: right;
+	}
+
+	.inbox-wrapper h1 {
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+	}
+
 /* bottom */
 #bottom {
 	margin-top: 0;

@@ -73,7 +73,7 @@ $(document).ready(function() {
 		}, 
 		emailClient : function() {
 			addEmailHandler(function(emailForm) {
-				emailForm.from("donotreply@masmallclaims.org"); 
+				emailForm.from("masmallclaims@gmail.com"); 
 				emailForm.senderName("MA Small Claims");
 				emailForm.to("<? echo $client['Email'] ?>"); 
 				// emailForm.inputFieldObj("to").prop("disabled", true); 
@@ -166,12 +166,10 @@ $(document).ready(function() {
 						r = $.parseJSON(r); 					
 						if(r.Success) {
 							var id = emailForm.getId(); 
-							$("#geniusBar").after("<div id='emailSent" + 
-								id + "' class='alert'>Email sent successfully at " + toSqlDate(myDate()) + "!</div>"); 
 							setTimeout(function() {$("#emailSent" + id).remove()}, 5000);
 
 							// if email sent to Client, add contacts
-							if (data.from == "donotreply@masmallclaims.org")
+							if (data.from == "masmallclaims@gmail.com")
 							{
 								addEmailContact(data.subject, data.message);	
 							}		

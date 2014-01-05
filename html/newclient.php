@@ -38,8 +38,16 @@ else if($_SERVER["REQUEST_METHOD"] == "POST") {
 	assert2($info->push(), "Failed to insert into server in newclient.php"); 
 	$client_id = $info->get("ClientID"); 
 	
-	// redirects to the client's contact page
-	redirect("client.php?ClientID=" . $client_id); 
+	// if there's an emailId, add it as a new contact
+	if (isset($_POST["emailId"]))
+	{
+		redirect("assignEmail.php?ClientID=" . $client_id . "&id=" . $_POST["emailId"]);
+	}	
+	else
+	{
+		// redirects to the client's contact page
+		redirect("client.php?ClientID=" . $client_id); 
+	}
 }
 	
 ?>
