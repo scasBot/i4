@@ -47,7 +47,7 @@ require("magic_quotes_emulate.php");
 session_start();
 
 // require authentication for most pages
-if (!preg_match("{(?:login|logout|register|email)\.php$}", $_SERVER["PHP_SELF"])) {
+if (!preg_match("{(?:login|logout|register|email|processEmail)\.php$}", $_SERVER["PHP_SELF"])) {
 
 	// id shows whether or not a user has been logged in 
 	if (empty($_SESSION["id"])) {

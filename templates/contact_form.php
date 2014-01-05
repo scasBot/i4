@@ -159,7 +159,7 @@
 	function hideEdit() {
 		$("#editDiv").modal('hide'); 
 
-		// after .3 seconds, remove edit Form
+		// after .5 seconds, remove edit Form
 		// allow time for form to animate/hide
 		setTimeout(
 			function() {

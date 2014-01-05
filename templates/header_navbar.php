@@ -2,6 +2,7 @@
 	<div class="navbar-inner">  
 		<ul class="nav navbar-nav">
 			<li><a class="navbar-brand" href="index.php">SCASi4</a></li>
+			<li><a href="inbox.php">Inbox</a></li>
 			<li class="dropdown">
 				<a href="cases.php?type=priority" 
 					class="dropdown-toggle"
