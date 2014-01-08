@@ -19,7 +19,7 @@ Description :
 	constants etc., 
 ***********************************/
 // because the included files aren't in the same folder anymore
-define("INCLUDE_ROOT", "../includes/");
+define("INCLUDE_ROOT", "../../includes/");
 function require2($str) {
 	require(INCLUDE_ROOT . $str); 
 }
