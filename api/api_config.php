@@ -24,8 +24,6 @@ function require2($str) {
 	require(INCLUDE_ROOT . $str); 
 }
 
-define("API_HASH", "HtiSCASwstcw20d"); 
-
 function error($msg = NULL) {
 	if ($msg) {
 		echo "Error: " . $msg; 

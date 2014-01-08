@@ -2,7 +2,7 @@
 
 require("api_config.php"); 
 
-if($data["API_HASH"] != API_HASH) {
+if(!isset($data["API_READ_AUTH"]) || $data["API_READ_AUTH"] != API_READ_AUTH) {
 	error("Unauthorized access."); 
 }
 
