@@ -1,32 +1,29 @@
-<h3 style='border-bottom: 1px solid black'>Search for client.</h3>
-<div class='row'>
-	<div class='span4 mergeCenter'>
-		<form>
-			<div class="control-group">
-				<label class="control-label" for="ClientID">Client ID</label>
-				<input type="text" id="searchClientID" name="ClientID" />
-			</div>
-			<!-- div class="control-group">
-				<label class="control-label" for="FirstName">First Name</label>
-				<input type="text" id="searchFirstName" name="FirstName" />
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="LastName">Last Name</label>
-				<input type="text" id="searchLastName" name="LastName" />
-			</div>
-
-			<div class="control-group">
-				<label class="control-label" for="PhoneNumber">Phone Number</label>
-				<input type="tel" id="searchPhoneNumber" name="PhoneNumber" />
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="Email">Email</label>
-				<input type="email" id="searchEmail" name="Email" />
-			</div -->
-		</form>
-		<button class='btn' type='button' onclick='searchForMerger()'>Search</button>
+<h1>Search for client</h1>
+<form>
+	<div class="control-group">
+		<label class="control-label" for="ClientID">Client ID</label>
+		<input type="text" class="form-control" id="searchClientID" name="ClientID" />
 	</div>
-</div>
+	<!-- div class="control-group">
+		<label class="control-label" for="FirstName">First Name</label>
+		<input type="text" id="searchFirstName" name="FirstName" />
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="LastName">Last Name</label>
+		<input type="text" id="searchLastName" name="LastName" />
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="PhoneNumber">Phone Number</label>
+		<input type="tel" id="searchPhoneNumber" name="PhoneNumber" />
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="Email">Email</label>
+		<input type="email" id="searchEmail" name="Email" />
+	</div -->
+</form>
+<button class='btn btn-primary' style="margin-top: 10px;" onclick='searchForMerger()'>Search</button>
+
 <script>
 	function searchForMerger() {
 		//var elements = ["FirstName", "LastName", "PhoneNumber", "Email"]; 

@@ -65,7 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		try {
 			query("UPDATE ? SET ClientID=? WHERE ClientID=? LIMIT " . LIMIT_NUMBER, 
 				$table, 
-				$_POST["ClientID1"}, 
+				$_POST["ClientID1"], 
 				$_POST["ClientID2"]); 				
 		} catch (Exception $e) {
 			apologize("Something broke: " . $e); 

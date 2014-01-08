@@ -1,4 +1,4 @@
-<h3 style='border-bottom: 1px solid black'><?php echo "Client " . $client->get_id(); ?></h3>
+<h1><?php echo "Client " . $client->get_id(); ?></h1>
 <?php
     if(!function_exists("createId")) {
         function createId($str) {
@@ -22,22 +22,14 @@
     ); 
 ?>
 
-<div class='merge-form-fillable' data-clientNumber='<?php echo $clientNumber ?>' >    
+<table class="table table-bordered">
     <?php foreach($fields as $field) : ?>
-        <div class='well well-small merginfo'>
-            <div class='row'>
-                <div class='span3'>
-                    <p style='text-align: left; font-weigh: bold'><?php echo $field[0] ?></p>
-                </div>
-            </div>
-            <div class='row'>
-                <div class='span3'>
-                    <p id="<?php echo createId($field[1]) ?>" style='text-align: left'><?php echo $field[2] ?></p>
-                </div>
-            </div>
-        </div>
+		<tr>
+             <td><?php echo $field[0] ?></td>
+             <td id="<?php echo createId($field[1]) ?>"><?php echo $field[2] ?></td>
+        </tr>
     <?php endforeach ?>
-</div>
+</table>
 <script type="text/javascript">
 	var ClientID<?php echo $clientNumber ?> = <?php echo $client->get_id() ?>; 
 </script>

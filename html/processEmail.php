@@ -12,7 +12,7 @@
 	{
 		$sender = $_POST["sender"];
 		$subject = $_POST["subject"];
-		$message = $_POST"message"];
+		$message = $_POST["message"];
 
 		$query = "INSERT INTO db_Emails (sender, subject, message) VALUES ('$sender', '$subject', '$message')";
 

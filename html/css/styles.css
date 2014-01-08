@@ -1,9 +1,6 @@
 /****************************************************************************
  * styles.css
  *
- * Computer Science 50
- * Problem Set 7
- *
  * Global CSS.
  ***************************************************************************/
 
@@ -109,7 +106,7 @@ form.hidden {
 
 
 #login img {
-	margin-top: -100px;
+	margin-top: -25px;
 	width: 500px;
 	display: inline-block;
 	text-align: center;
@@ -465,6 +462,71 @@ form.hidden {
 		display: inline-block;
 	}
 
+/* merge client */
+
+.merge-wrapper {
+	padding-top: 20px;
+	margin-top: -20px;
+	background: url('../img/overlay2.png');
+	background-size: 128px 128px;
+	padding-left: 40px;
+	padding-right: 40px;
+	
+}
+	.merge-wrapper h1 {
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+	}
+
+	.merge-wrapper table {
+		background-color: white;
+		color: #474747;
+		font-family: "Lato", sans-serif;
+		width: 90%;
+	}
+
+	.merge-wrapper td, th {
+		text-align: center;
+	}
+
+	.merge-wrapper input {
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+		
+	}
+	
+	.merge-wrapper button {
+		width: 30%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.merge-wrapper .table1 {
+		width: 33%;
+		float: left;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.merge-wrapper .table2 {
+		width: 33%;
+		float: middle;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.merge-wrapper .table3 {
+		width: 33%;
+		float: right;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.merge-wrapper form {
+	}
+
 /* profile & add user */
 .profile-wrapper {
 	padding-top: 20px;
@@ -480,6 +542,8 @@ form.hidden {
 		width: 60%;
 		display: inline-display;
 		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	.profile-wrapper table tr td {
@@ -492,6 +556,12 @@ form.hidden {
 		font-family: "Lato", sans-serif;
 	}
 
+	.profile-wrapper .well {
+		width: 60%;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: white;
+	}
 
 /* inbox */
 .inbox-wrapper {
