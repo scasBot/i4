@@ -28,12 +28,14 @@
 				<ul class="dropdown-menu">							
 					<li><a href="leaderboard.php">Leaderboard</a></li>
 					<li><a href="profile.php">Profile</a></li>
+
+					<li><a href="users.php">List All Users</a></li>					
+					<?php if(!COMPER) : ?>
+						<li><a href="add_user.php">Add User</a></li>
+					<?php endif; ?>
 					<?php if(ADMIN) : ?>
 						<li><a href="manage.php?type=users">Manage Users</a></li>
-					<?php endif; ?>
-					<?php if(!COMPER) : ?>
-						<li><a href="add_user.php">Add Users</a></li>
-					<?php endif; ?>
+					<?php endif; ?>					
 				</ul>
 			</li>
 			<li class="dropdown">
