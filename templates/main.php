@@ -12,3 +12,4 @@
 <h3 class="quote"><?php echo $quote ?></h3>
 <p> - <?php echo $person;?> </p>
 </div>
+<hr />

@@ -2,8 +2,8 @@
 	$client1 = new Client($ClientID); 	
 	global $clientNumber; 
 ?>
-<div class='row'>
-	<div id='clientOne' class='span4 merge-form-side'>
+<div class='merge-wrapper'>
+	<div id='clientOne' class='table1'>
 		<?php
 			$clientNumber = 1; 
 		
@@ -15,10 +15,10 @@
 			}
 		?>
 	</div>
-	<div id='clientMerged' class='span4'>
+	<div id='clientMerged' class='table2'>
 		<?php require("merge_form_merger.php"); ?>
 	</div>
-	<div id='clientTwo' class='span4 merge-form-side'>
+	<div id='clientTwo' class='table3'>
 		<?php
 			$clientNumber = 2; 		
 			
