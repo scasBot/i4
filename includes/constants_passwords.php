@@ -30,7 +30,8 @@ define("AJAX_HASH", $pw_json["AJAX_HASH"]);
 define("DATABASE", $pw_json["MYSQL"]["DATABASE"]); 
 define("PASSWORD", $pw_json["MYSQL"]["PASSWORD"]); 
 define("SERVER", $pw_json["MYSQL"]["SERVER"]); 
-define("USERNAME", $pw_json["MYSQL"]["USERNAME"]); 
+define("USERNAME", $pw_json["MYSQL"]["USERNAME"]);
+define("API_READ_AUTH", $pw_json["API_READ_AUTH"]);  
 
 $pw_string = null; 
 $pw_json = null; 
