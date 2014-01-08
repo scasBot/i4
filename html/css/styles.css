@@ -542,6 +542,8 @@ form.hidden {
 		width: 60%;
 		display: inline-display;
 		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	.profile-wrapper table tr td {
@@ -554,6 +556,12 @@ form.hidden {
 		font-family: "Lato", sans-serif;
 	}
 
+	.profile-wrapper .well {
+		width: 60%;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: white;
+	}
 
 /* inbox */
 .inbox-wrapper {
