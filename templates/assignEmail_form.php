@@ -38,6 +38,7 @@
 		  </div>
 		</div>
 	<section class="bottom">
+		<h1 style="padding-top: 20px">Click to Assign</h1>
 		<div class="row">
 			<table id="results" class="table table-bordered table-hover">
 				<thead>
