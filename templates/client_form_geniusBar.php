@@ -153,11 +153,13 @@ $(document).ready(function() {
 
 			// transfer data from editor to message
 			$("#message").val(tinymce.get('editor').getContent());
-			console.log($("#message").val());
 
 			var data = emailForm.getInputs(); 
 			data.clientId = constants.clientId; 
-		
+	
+			// store plaintext as well
+			data.plaintext = tinymce.activeEditor.getContent({format : 'text'});
+	
 			ajaxBot.sendAjax({
 				REQ : "emailForm", 
 				data : emailForm.getInputs(), 
@@ -171,7 +173,8 @@ $(document).ready(function() {
 							// if email sent to Client, add contacts
 							if (data.from == "masmallclaims@gmail.com")
 							{
-								addEmailContact(data.subject, data.message);	
+								// log the plaintext version
+								addEmailContact(data.subject, data.plaintext);	
 							}		
 
 							emailForm.onCancel(); 
