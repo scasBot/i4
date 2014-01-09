@@ -1,7 +1,8 @@
-<div class="navbar">  
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">  
 	<div class="navbar-inner">  
-		<ul class="nav">
-			<li><a href="index.php">SCASi4</a></li>
+		<ul class="nav navbar-nav">
+			<li><a class="navbar-brand" href="index.php">SCASi4</a></li>
+			<li><a href="inbox.php">Inbox</a></li>
 			<li class="dropdown">
 				<a href="cases.php?type=priority" 
 					class="dropdown-toggle"
@@ -48,8 +49,8 @@
 				</ul>
 			</li>
 		</ul>
-		<ul class="nav pull-right">
+		<ul class="nav navbar-nav pull-right">
 			<li><a href="logout.php">Logout</a></li>
 		</ul>
 	</div>  
-</div>
+</nav>

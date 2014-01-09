@@ -1,31 +1,35 @@
-<div class="row">
-	<div class="span3"></div>
-	<div class="span6">
-		<form class="form-horizontal" action="add_user.php" method="POST"> 
-			<legend>Welcome to the SCAS Family!</legend>
-			<div class="control-group">
-				<label for="UserName" class="control-label">User Name: </label>
-				<input id="UserName" type="text" name="UserName" />
-			</div>
-			<div class="control-group">
-				<label for="Email" class="control-label">Email: </label>
-				<input id="Email" type="email" name="Email" />
-			</div>
-			<div class="control-group">
-				<label for="YOG" class="control-label">Graduation Year: </label>
-				<select id="YOG" name="YOG">
-					<?php 
-						for($i = (date("Y") - 1); $i < (date("Y") + 5); $i++) {
-							echo htmlOption($i, $i, $i == $user["YOG"]); 
-						}						
-					?>
-				</select>
-			</div>
+<div class="profile-wrapper">
+	<h1>Add User</h1>
+	<form class="form-horizontal" action="add_user.php" method="POST"> 
+		<table class="table table-bordered" align="center">
+			<tr>
+				<td>User Name</td>
+				<td>
+					<input id="UserName" class="form-control" type="text" name="UserName" />
+				</td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td>
+					<input id="Email" class="form-control" type="email" name="Email" />
+				</td>
+			</tr>
+			<tr>
+				<td>Graduation Year</td>
+				<td>
+					<select id="YOG" name="YOG" class="form-control">
+						<?php 
+							for($i = (date("Y") - 1); $i < (date("Y") + 5); $i++) {
+								echo htmlOption($i, $i, $i == $user["YOG"]); 
+							}						
+						?>
+					</select>
+				</td>
+			</tr>
+		</table>
 			<div class="control-group">
 				<button class="btn btn-block btn-primary" 
-					type="submit" style='height: 40px'>Create User</button>
+					type="submit" style='height: 40px; width: 40%; margin-left: auto; margin-right: auto'>Create User</button>
 			</div>
-		</form>
-	</div>
-	<div class="span3"></div>
+	</form>
 </div>

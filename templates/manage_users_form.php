@@ -14,20 +14,19 @@ Willy at the above emails.
 August 2013
 ***********************************/
 ?>
-<div class="row">
-	<div class="span3"></div>
-	<div class="span6">
-		<form id="searchForm" class='form-horizontal' >
-		<div class='control-group'>
-			<label for="userSearchForm" class="control-label">Search:</label>
-			<div class='controls'>
-				<input id="userSearchForm" type="text" placeholder="Search for users here..." />
-			</div>
-		</div>
-		<div class='control-group'>
-			<label for="YOG" class="control-label">Year of Graduation:</label>
-			<div class='controls'>
-				<select id="YOG">
+<div class="profile-wrapper">
+	<h1>Manage Users</h1>
+	<table class="table table-bordered">
+	<form id="searchForm" class='form-horizontal' >
+		<tr>
+			<td>Search</td>
+			<td><input id="userSearchForm" class="form-control" type="text" 
+					placeholder="Search for users here..." /></td>
+		</tr>
+		<tr>
+			<td>Year of Graduation</td>
+			<td>
+				<select id="YOG" class="form-control">
 					<option value="0"></option>
 					<?php 
 						echo htmlOption('Before ' . (date("Y") - 1), 1);  
@@ -36,27 +35,18 @@ August 2013
 						}					
 					?>
 				</select>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<label for="userHidden" class='checkbox' >
-					<input id="userHidden" type="checkbox" />Include hidden users?
-				</label>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<label for="onlyCompers" class='checkbox' >
-					<input id="onlyCompers" type="checkbox" />Include only compers?
-				</label>
-			</div>
-		</div>
-		</form>
-	</div>
-	<div class="span3"></div>
-</div>
-<div id="putUsersHere">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input id="userHidden" type="checkbox" /> Include hidden users?
+				&nbsp;&nbsp;
+				<input id="onlyCompers" type="checkbox" /> Include only compers?
+			</td>
+		</tr>
+	</form>
+	</table>
+	<div id="putUsersHere"></div>
 </div>
 <script type="text/javascript" >
 	var handler = (function($) {
@@ -76,10 +66,10 @@ August 2013
 			space.html(str); 		
 			if(showButtons) {
 				space.append(
-					"<button id='graduate' class='btn action-btn'>Graduate</button>"
-					+ "<button id='ungraduate' class='btn action-btn'>Ungraduate</button>"
-					+ "<button id='hide' class='btn action-btn'>Hide</button>"
-					+ "<button id='unhide' class='btn action-btn'>Unhide</button>"); 
+					"<button id='graduate' class='btn btn-default action-btn'>Graduate</button>"
+					+ "<button id='ungraduate' class='btn btn-default action-btn'>Ungraduate</button>"
+					+ "<button id='hide' class='btn btn-default action-btn'>Hide</button>"
+					+ "<button id='unhide' class='btn btn-default action-btn'>Unhide</button>"); 
 					
 					$(".action-btn").on("click", update); 
 			}				
@@ -191,7 +181,7 @@ August 2013
 
 		
 		function displayUsers(r) {
-			var html = "<table class='table table-striped'><thead><tr>"
+			var html = "<table class='table table-bordered table-striped'><thead><tr>"
 				+ "<th><input name='select_all' type='checkbox'></input></th>"
 				+ "<th>User Name</th>"
 				+ "<th>Email</th>"
@@ -219,8 +209,10 @@ August 2013
 		function makeHtml(user) {
 			var html = "<tr id='" + user.UserID + "' class='user_row'>"; 
 			html += "<td><input name='select_user' type='checkbox'></input></td>"; 
-			html += "<td class='user_name' onclick='document.location=\"manage_user.php?UserID=" + user.UserID + "\"' >" + user.UserName + "</td>"; 
-			html += "<td class='user_email' onclick='document.location=\"manage_user.php?UserID=" + user.UserID + "\"' >" + user.Email + "</td>";
+			html += "<td class='user_name' onclick='document.location=\"manage.php?type=user&UserID=" 
+				+ user.UserID + "\"' >" + user.UserName + "</td>"; 
+			html += "<td class='user_email' onclick='document.location=\"manage.php?type=user&UserID=" 
+				+ user.UserID + "\"' >" + user.Email + "</td>";
 			html += "</tr>"; 
 			return html; 
 		}

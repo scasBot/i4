@@ -1,29 +1,7 @@
-<div class="row">
-	<div class="span12">
-		<div id="geniusBar">
-			<!-- p><?php echo byi4("Actions") ?></p-->
-			<div class="row">
-				<div class="span12">
-					<?php if(!COMPER) : ?>
-						<div class='btn-group'>
-							<button class="btn btn-danger actions" data-action="del">Delete Client</button>
-						</div>
-					<?php endif; ?>
-					<div class="btn-group">
-						<?php if(!COMPER) : ?>
-							<button class="btn btn-primary actions" data-action="merge">Merge Client</button>
-						<?php endif; ?>
-						<!-- button class="btn btn-inverse actions" data-action="email">Email Client</button -->
-					</div>
-					<div class="btn-group">
-						<button class="btn btn-success actions" data-action="emaili4">Email i4 Users</button>
-						<button class="btn btn-inverse actions" data-action="emailLegalResearch">Email LegalResearch</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+	<button class="btn btn-default actions" style="height: 50px;" data-action="emaili4">Email i4 Users</button>
+	<button class="btn btn-default actions" style="height: 50px; ;" data-action="emailLegalResearch">Email LegalResearch</button>
+	<button class="btn btn-success actions" style="height: 100px;" data-action="emailClient"><i class="glyphicon glyphicon-envelope"></i> Email Client</button>
+	<!-- button class="btn btn-inverse actions" data-action="email">Email Client</button -->
 <script>
 $(document).ready(function() {
 	$(".actions").on("click", function() {
@@ -93,6 +71,16 @@ $(document).ready(function() {
 				emailForm.inputFieldObj("message").focus(); 
 			}); 
 		}, 
+		emailClient : function() {
+			addEmailHandler(function(emailForm) {
+				emailForm.from("masmallclaims@gmail.com"); 
+				emailForm.senderName("MA Small Claims");
+				emailForm.to("<? echo $client['Email'] ?>"); 
+				// emailForm.inputFieldObj("to").prop("disabled", true); 
+				emailForm.subject(""); 
+				emailForm.inputFieldObj("subject").focus();
+			}); 
+		}, 
 	}
 
 	var state = {
@@ -115,19 +103,58 @@ $(document).ready(function() {
 	}
 	
 	function addEmailForm() {
+
 		var emailForm = emailBot.newEmailForm(); 
-		$("#geniusBar").after(
-			"<div class='row'>" + 
-				"<div class='span2'></div>" + 
-					emailForm.form() +
-				"<div class='span2'></div>" + 
-			"</div>"
+		$(".client-wrapper").after(
+			emailForm.form()
+
 		);
+
+		// show modal
+		$("#emailForm").modal('show');
+		
+		// disable hide when clicked outside modal
+		$("#emailForm").modal({backdrop : 'static' });
+
 		emailForm.onCancel = function() {
-			emailForm.getOnCancelDefault()(); 
+			// hide w/ form animation
+			$("#emailForm").modal('hide');
+
+			// after .5 seconds, remove email Form
+			// allow time for form to animate/hide
+			setTimeout(
+				function() {
+					emailForm.getOnCancelDefault()(); 
+				
+				}, 500 
+			);
 			state.emailShowing = false; 
 		}
+
 		emailForm.onSend = function() {
+			// disable buttons
+			$("#send").prop("disabled", true);
+			$("#cancel").prop("disabled", true);
+
+			$("#send").html("Sending");
+			
+			// create progress bar
+			var barHtml = "<div class='progress progress-striped active'>" 
+		  					+ "<div class='progress-bar' id='progress' role='progressbar'" 
+							+ "aria-valuemin='0' aria-valuemax='100' style='width: 0%'>"
+						  + "</div>"
+						  + "</div>";
+			
+			// add to html
+			$("#progressBar").html(barHtml);
+
+			// make it 80%
+			$("#progress").width("80%");
+
+			// transfer data from editor to message
+			$("#message").val(tinymce.get('editor').getContent());
+			console.log($("#message").val());
+
 			var data = emailForm.getInputs(); 
 			data.clientId = constants.clientId; 
 		
@@ -139,10 +166,16 @@ $(document).ready(function() {
 						r = $.parseJSON(r); 					
 						if(r.Success) {
 							var id = emailForm.getId(); 
+							setTimeout(function() {$("#emailSent" + id).remove()}, 5000);
+
+							// if email sent to Client, add contacts
+							if (data.from == "masmallclaims@gmail.com")
+							{
+								addEmailContact(data.subject, data.message);	
+							}		
+
 							emailForm.onCancel(); 
-							$("#geniusBar").after("<div id='emailSent" + 
-								id + "' class='alert'>Email sent successfully at " + toSqlDate(myDate()) + "!</div>"); 
-							setTimeout(function() {$("#emailSent" + id).remove()}, 5000); 
+
 						} else {
 							alert("Something went wrong!" + r); 
 						}
@@ -160,4 +193,60 @@ $(document).ready(function() {
 		return emailForm; 
 	}
 });
+	
+function addEmailContact(subject, message) {
+	
+	var data = {}; 
+	var newContact = {}; 
+	newContact.UserName = {};
+	newContact.Email = {}; 
+
+	newContact.ContactID = 0; 
+	newContact.UserName.Added = constants.userName;
+	newContact.Email.Added = constants.userEmail; 
+	newContact.ClientID = constants.clientId; 
+	
+	newContact.UserName.Edit = constants.userName; 
+	newContact.Email.Edit = constants.userEmail; 
+	newContact.ContactEditDate = currentSqlDate(); 
+	newContact.ContactDate = currentSqlDate();
+	newContact.ContactTypeID = 16; // 16 is "Email, Response Sent" 
+	newContact.ContactSummary = message; 
+
+	data = {}; 
+
+	data.ID = constants.userId;  
+	data.Contact = newContact; 
+	data.Action = "Insert"; 
+	
+	ajaxBot.sendAjax({
+		data : data, 
+		REQ : "contact", 
+		success : function(r) {
+			try {
+				var response = $.parseJSON(r); 
+			}
+			catch (e) {
+				throw "Error: server repsonse invalid."; 
+			}
+
+			if(response.Success) {
+				newContact.ContactType = response.data.ContactType; 
+
+				newContact.ContactID = response.data.ContactID; 
+				contacts.push(newContact); 
+				
+				display();	
+				updatePriority();
+			} else {
+				throw "Error: server response unsuccessful"; 
+			}
+		}, 
+		error : function(e) {
+			alert(e);  
+		}
+	}); 
+
+	return; 
+}
 </script>

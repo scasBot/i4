@@ -1,12 +1,12 @@
 <?php if(empty($cases) && empty($addnew)) : ?>
 	<a href="http://thecatapi.com"><img src="http://thecatapi.com/api/images/get?format=src&type=gif"></a>
 <?php else : ?>
-<div class="row">
-	<div class="span12">
-		<div class="row">
-			<div class="span12">
-				<input id="instantSearch" type="text" placeholder="<?php echo "  " . byi4("Instant Search") ?>" />
-			</div>
+<div id="find">
+	<section class="top">
+		<form class="form-inline" style="padding-left: 10px">
+			<input id="instantSearch" style="width: 40%" class="form-control" type="text" placeholder="<?php echo "  " . byi4("Instant Search") ?>" />
+		</form>
+	</section>
 			<script>
 				$(document).ready(function() {
 					$("#instantSearch").focus(); 
@@ -38,45 +38,54 @@
 				$("#instantSearch").on("keyup", instantHandler);
 				$("#instantSearch").on("click", instantHandler); 		
 			</script>
+	<section class="bottom" style="margin-top: 0">
+		<div class="row">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Phone Number</th>
+						<th>Email</th>
+						<th>Priority</th>
+					</tr>
+				</thead>
+				<tbody>			
+					<?php
+						foreach($cases as $case) {
+							echo "<tr name='client' id='" . $case["ClientID"] . "' style='cursor : pointer'>"; 
+							echo "<td>" . $case["LastName"]. ", " . $case["FirstName"] . "</td>"; 
+							echo "<td>(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] . "</td>"; 
+							echo "<td>" . $case["Email"] . "</td>";
+							echo "<td>" . $case["Priority"] . "</td>"; 
+							echo "</tr>"; 
+						}
+						
+						if(!empty($addnew)) {
+							echo "<tr name='newclient' style='cursor : pointer'>"; 
+							echo "<td><b>Add New: </b></td>"; 
+							echo "<td id='NewName'>" . $addnew["LastName"] . ", " . $addnew["FirstName"] . "</td>";
+							echo "<td id='NewPhoneNumber'>" . $addnew["PhoneNumber"] . "</td>"; 
+							echo "<td id='NewEmail' >" . $addnew["Email"] . "</td>"; 
+							echo "</tr>"; 
+						}
+					?>
+				</tbody>
+			</table>
+			<form id='javascript-form' method='post' style='display: none'>
+			</form>
 		</div>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th/>
-					<th>Name</th>
-					<th>Phone Number</th>
-					<th>Email</th>
-					<th>Priority</th>
-				</tr>
-			</thead>
-			<tbody>			
-				<?php
-					foreach($cases as $case) {
-						echo "<tr name='client' id='" . $case["ClientID"] . "' style='cursor : pointer'>"; 
-						echo "<td/>"; 
-						echo "<td>" . $case["LastName"]. ", " . $case["FirstName"] . "</td>"; 
-						echo "<td>(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] . "</td>"; 
-						echo "<td>" . $case["Email"] . "</td>";
-						echo "<td>" . $case["Priority"] . "</td>"; 
-						echo "</tr>"; 
-					}
-					
-					if(!empty($addnew)) {
-						echo "<tr name='newclient' style='cursor : pointer'>"; 
-						echo "<td><b>Add New: </b></td>"; 
-						echo "<td id='NewName'>" . $addnew["LastName"] . ", " . $addnew["FirstName"] . "</td>";
-						echo "<td id='NewPhoneNumber'>" . $addnew["PhoneNumber"] . "</td>"; 
-						echo "<td id='NewEmail' >" . $addnew["Email"] . "</td>"; 
-						echo "</tr>"; 
-					}
-				?>
-			</tbody>
-		</table>
-		<form id='javascript-form' method='post' style='display: none'>
-		</form>
-	</div>
+	</section>
 </div>
 <script>
+	// disable enter
+	$("input").keypress(function (evt) {
+		//Deterime where our character code is coming from within the event
+		var charCode = evt.charCode || evt.keyCode;
+		if (charCode  == 13) { //Enter key's keycode
+			return false;
+		}
+	});
+
 	// for the clients now
 	$("tr[name='client']").click(function () {		
 		window.location.href = "client.php?ClientID=" + $(this).attr('id')

@@ -25,7 +25,7 @@ define("ROOT_PUBLIC", $_SERVER["HTTP_HOST"]. ROOT_FROM_DOMAIN . basename(ROOT));
 define("LEADERBOARD_STATS_FILE", ROOT . "/data/" . "data_leaderboard.php"); 
 
 define("SCAS_EMAIL", "masmallclaims@gmail.com"); 
-define("ADMIN_EMAIL", "wxiao@college.harvard.edu"); 
+define("ADMIN_EMAIL", "klim01@college.harvard.edu"); 
 define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com"); 
 
 // idling on website for over 10 minutes is a log-out

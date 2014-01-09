@@ -1,9 +1,6 @@
 /****************************************************************************
  * styles.css
  *
- * Computer Science 50
- * Problem Set 7
- *
  * Global CSS.
  ***************************************************************************/
 
@@ -31,7 +28,6 @@
     margin-bottom: 20px;
 	margin-top: 10px; 
 
-	border-top: 1px dotted black; 
 }
 
 #geniusBar {
@@ -65,53 +61,6 @@
 	border: 2px solid black; 
 }
 
-.contact-form-header
-{
-	padding-bottom: 10px; 
-	font-size: 20px; 
-	font-family: inherit;
-}
-.contact-form-row
-{
-	padding-top: 10px; 
-	padding-bottom: 10px; 
-	min-height: 50px; 
-	font-family: inherit; 
-	border-bottom: 1px dotted black; 
-}
-
-.contact-form-row:hover
-{
-	background-color: #DDDDDD; 
-	cursor: pointer; 
-}
-
-.contact-form-row .contact-form-summary
-{
-	text-align: left; 
-}
-
-.contact-form-new
-{
-	background-color: #DDDDEE; 
-	height: 20px; 
-	padding-bottom: 10px;
-	padding-top: 10px; 
-}
-
-.contact-form-new:hover
-{
-	background-color: #FFDDFF;
-	cursor: pointer; 
-}
-
-.contact-edit-row
-{
-	padding-top: 10px; 
-	padding-bottom: 10px; 
-	min-height: 70px; 
-	border: 1px dotted black; 
-}
 
 .email-form {
 	border: 1px dotted black; 
@@ -126,4 +75,530 @@
 
 .user_row:hover {
 	cursor: pointer; 
+}
+
+/*  GLOBAL CHANGES */
+
+p, h1, h2, h3, h4, h5, h6 {
+	font-family: 'Lato', serif;
+}
+
+body {
+	padding-top: 30px;
+	margin-right: 0;
+}
+
+form.hidden {
+	height : 1px;
+	width: 1px;
+	margin: 0 0;
+	padding: 0 0;
+	position: absolute;
+	background: rgba(0, 0, 0, 0);
+
+}
+
+.row {
+	margin-right: 0;
+}
+
+/* login page */
+
+
+#login img {
+	margin-top: -25px;
+	width: 500px;
+	display: inline-block;
+	text-align: center;
+	margin-bottom: 0;
+}
+
+#login form {
+	margin-top: -225px;	
+}
+
+#login input, button{
+	margin-left: 15px;	
+}
+
+
+#login .bg {
+	position: absolute;
+	background: url('../img/overlay.png'),
+				linear-gradient(45deg, #5f796b, #3a4e59, #2f394e) no-repeat center center;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	
+}
+
+/*  Banners and Gradients */
+
+.banner {
+	width: 100%;
+	top: 0;
+	left: 0;
+	display: inline-block;
+	position: absolute;
+	z-index: -2;
+	
+}
+
+	.banner.home {
+		background: url('../img/overlay.png'),
+					linear-gradient(45deg, #5f796b, #3a4e59, #2f394e) no-repeat center center;
+		height: 550px;
+	}
+
+	.banner.small {
+		position: relative;
+		background: url('../img/overlay.png'),
+					linear-gradient(45deg, #5f796b, #3a4e59, #2f394e) no-repeat center center;
+		height: 200px;
+		font-family: 'Julius Sans One', sans-serif;	
+	}
+
+	.banner.small img {
+		width: 40%;
+	}
+	
+	.banner.small h3 {
+		font-family: 'Julius Sans One', sans-serif;	
+		font-weight: bold;
+		font-size: 50px;
+		margin-top: -70px;
+	}
+
+	.banner.full {
+		background: url('../img/overlay2.png');
+		background-size: 128px 128px;
+		height: 100%;
+	}
+
+.banner-after {
+	margin-top: 570px;
+	margin-bottom: 40px;
+}
+
+.banner-small-after {
+	margin-top: 250px;
+	margin-bottom: 40px;
+}
+
+.shadow.text {
+	text-shadow: 1px 1px rgba(0,0,0,0.75);
+
+}
+
+.quote {
+	font-size: 30px;
+	font-family: 'Playfair Display', serif;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+}
+
+/* finding client */
+
+#find {
+	background-image: url('../img/overlay2.png');
+	background-size: 128px 128px;
+}
+
+#find input {
+	width: 130px;
+}
+
+#find > section {
+	box-shadow: inset 0 1px 0 0 rgba(0,0,0,0.05), inset 0 0.1em 0.1em 0 rgba(0,0,0,0.025);
+	background-image: url('../img/overlay2.png');
+	background-size: 128px 128px;
+	position: relative;
+}
+
+	#find form {
+		width: 90%;
+		display: inline-block;
+		text-align: center;
+		margin-top: 20px;
+		/*box-shadow: 1px 1px 50px 0px rgba(0,0,0,0.15); */
+
+	}	
+	
+	#find > section.top {
+		width: 100%;
+		padding-bottom: 20px;
+		line-height: 20px;
+		background-color: #f5fafa;
+		float: top;
+
+	}
+
+
+	#find > section.bottom {
+		margin-top: -20px;
+		height: 70%;
+		float: bottom;
+		z-index: 2;
+	}
+
+	#find > section.bottom table {
+		margin-top: 20px;
+		font-family: "Lato", sans-serif;	
+		background-color: white;
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;	
+	}
+
+	#find > section.bottom tr:first-child { 
+	}
+	
+	#find > section.bottom th {
+		text-align: center;
+	}
+
+	#find > .progress {
+		background-image: url('../img/overlay2.png');
+		background-size: 128px 128px;
+		border-radius: 0;
+	}
+
+/* client management */
+
+.client-wrapper {
+	position: relative;
+	margin-right: 0;
+	padding: 0 0;
+}
+	.client-wrapper > section.bar {
+		width: 20%;
+		height: 100%;
+		position: fixed;
+		float: left;
+		background: #222729 url('../img/overlay2.png');
+		background-size: 128px 128px;
+		box-shadow: inset -0.25em 0 0.25em 0 rgba(0,0,0,0.125);
+	}
+
+	.client-wrapper > section.bar .lastname{
+		color: white;
+		text-align: right;
+		margin-top: 50px;
+		margin-right: 20px;
+	}
+
+	.client-wrapper > section.bar .firstname{
+		color: white;
+		text-align: right;
+		margin-top: -15px;
+		margin-bottom: 50px;
+		margin-right: 20px;
+	}
+
+	.client-wrapper > section.bar .firstname{
+		color: white;
+		text-align: right;
+		margin-top: -15px;
+		margin-right: 20px;
+	}
+
+	.client-wrapper > section.bar .geniusbar {
+		position: absolute;
+		bottom: 80px;
+		margin-left: -15px;
+		margin-right: auto;
+	}
+	
+	.client-wrapper > section.bar .navitem {
+		color: #CCCCCC;
+		text-align: right;
+		margin-right: 20px;
+		cursor: pointer;
+	}
+
+	.client-wrapper > section.bar .navitem a{
+		color: #CCCCCC;
+	}
+	
+
+	.client-wrapper > section.bar .geniusbar button {
+		display: inline-block;
+		text-align: center;
+		width: 80%;
+		margin-bottom: 5px;
+		border-width: 0;
+	}
+		
+	.client-wrapper > section.bar .geniusbar .btn-default {
+		color: #4D4D4D;
+		font-weight: 500;
+	}	
+
+	.client-wrapper > section.main {
+		margin-top: 0;
+		box-shadow: inset 0 1px 0 0 rgba(0,0,0,0.05), inset 0 0.1em 0.1em 0 rgba(0,0,0,0.025);
+		width: 80%;
+		float: right;
+	}
+	
+	.client-wrapper table {
+		margin: 0 0;
+		font-family: "Lato", sans-serif;	
+		background-color: white;
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;	
+	}
+
+	.client-wrapper table tr td {
+		vertical-align: middle;
+	}
+
+	.client-wrapper > section.main .info-primary {
+		background: url('../img/overlay2.png');
+		background-size: 128px 128px;
+		box-shadow: inset 0 1px 0 0 rgba(0,0,0,0.05), inset 0 0.1em 0.1em 0 rgba(0,0,0,0.025);
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+
+	.client-wrapper > section.main .info-basic {
+		background: url('../img/overlay2.png'), #f5fafa;
+		background-size: 128px 128px;
+		box-shadow: inset 0 1px 0 0 rgba(0,0,0,0.05), inset 0 0.1em 0.1em 0 rgba(0,0,0,0.025);
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+
+	.client-wrapper > section.main .info-other {
+		background: url('../img/overlay2.png'), #e8edec;
+		background-size: 128px 128px;
+		box-shadow: inset 0 1px 0 0 rgba(0,0,0,0.05), inset 0 0.1em 0.1em 0 rgba(0,0,0,0.025);
+		z-index: 2;
+	}
+	
+
+	.client-wrapper > section.main .contacts {
+		width: 100%;
+		background: url('../img/overlay2.png'), #e8edec;
+		background-size: 128px 128px;
+		box-shadow: inset 0 0px 0.1em 0 rgba(0,0,0,0.05), inset 0 0em 0.2em 0 rgba(0,0,0,0.025);
+		display: inline-block;
+		text-align: center;
+	}
+
+	.client-wrapper > section.main .contacts #addButton {
+		width: 50%;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	.client-wrapper > section.main .menu {
+		background: url('../img/overlay2.png');
+		background-size: 128px 128px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+
+	}	
+	
+	.client-wrapper > section.main h1 {
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+	}
+
+/* leaderboard */
+
+.leaderboard-wrapper {
+	padding-top: 20px;
+	margin-top: -20px;
+	background: url('../img/overlay2.png');
+	background-size: 128px 128px;
+	padding-left: 40px;
+	padding-right: 40px;
+	
+}
+	.leaderboard-wrapper h1 {
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+	}
+
+	.leaderboard-wrapper table {
+		background-color: white;
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+		width: 90%;
+	}
+
+	.leaderboard-wrapper td, th {
+		text-align: center;
+	}
+
+	.leaderboard-wrapper .table1 {
+		width: 33%;
+		float: left;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.leaderboard-wrapper .table2 {
+		width: 33%;
+		float: middle;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.leaderboard-wrapper .table3 {
+		width: 33%;
+		float: right;
+		text-align: center;
+		display: inline-block;
+	}
+
+/* merge client */
+
+.merge-wrapper {
+	padding-top: 20px;
+	margin-top: -20px;
+	background: url('../img/overlay2.png');
+	background-size: 128px 128px;
+	padding-left: 40px;
+	padding-right: 40px;
+	
+}
+	.merge-wrapper h1 {
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+	}
+
+	.merge-wrapper table {
+		background-color: white;
+		color: #474747;
+		font-family: "Lato", sans-serif;
+		width: 90%;
+	}
+
+	.merge-wrapper td, th {
+		text-align: center;
+	}
+
+	.merge-wrapper input {
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+		
+	}
+	
+	.merge-wrapper button {
+		width: 30%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.merge-wrapper .table1 {
+		width: 33%;
+		float: left;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.merge-wrapper .table2 {
+		width: 33%;
+		float: middle;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.merge-wrapper .table3 {
+		width: 33%;
+		float: right;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.merge-wrapper form {
+	}
+
+/* profile & add user */
+.profile-wrapper {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: -20px;
+	background: url('../img/overlay2.png');
+	background-size: 128px 128px;
+}
+
+	.profile-wrapper table {
+		background-color: white;
+		font-family: "Lato", sans-serif;
+		width: 60%;
+		display: inline-display;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.profile-wrapper table tr td {
+		vertical-align: middle;
+	}
+
+	.profile-wrapper h1 {
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+	}
+
+	.profile-wrapper .well {
+		width: 60%;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: white;
+	}
+
+/* inbox */
+.inbox-wrapper {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: -20px;
+	background: url('../img/overlay2.png');
+	background-size: 128px 128px;
+}
+
+	.inbox-wrapper table {
+		background-color: white;
+		font-family: "Lato", sans-serif;
+		width: 80%;
+		display: inline-display;
+		text-align: center;
+	}
+
+	.inbox-wrapper table tr td {
+		vertical-align: middle;
+		cursor: pointer;
+	}
+
+	.inbox-wrapper label {
+		vertical-align: middle;
+		text-align: right;
+	}
+
+	.inbox-wrapper h1 {
+		color: #474747;
+		font-variant:small-caps;
+		font-family: "Lato", sans-serif;
+	}
+
+/* bottom */
+#bottom {
+	margin-top: 0;
+	margin-left: 40px;
+	margin-right: 40px;
 }

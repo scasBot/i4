@@ -1,4 +1,4 @@
-<h3 style='border-bottom: 1px solid black' >Merged Client</h3>
+<h1>Merged Client</h1>
 <?php
     $info_field = array(
         array("First Name", "text", "FirstName"),
@@ -20,26 +20,28 @@
         return isset($arr[2]); 
     }
 ?>
-<div class='row'>
-	<div class='span4 mergeCenter'>
-		<form id="merge_form_merger" method="post" action="merge.php">
-			<input name="ClientID1" type="hidden" hidden />
-			<input name="ClientID2" type="hidden" hidden />
+<form id="merge_form_merger" method="post" action="merge.php">
+	<input name="ClientID1" type="hidden" hidden />
+	<input name="ClientID2" type="hidden" hidden />
+	<table class="table table-bordered">
+		<tbody>
 			<?php foreach($info_field as $field) : ?>
-                <div class='well' style='padding: 4px' >
-                    <p style='font-weight: bold'><?php echo $field[0] ?></p>
-                    <?php if(isLevelTwo($field)): ?>
-                        <input id="<?php echo $field[2] ?>" type="<?php echo $field[1] ?>" 
-                            name="<?php echo $field[2] ?>" class='merger-input' />
-                    <?php else : ?>
-                        <?php echo $field[1] ?>
-                    <?php endif; ?>  
-                </div>
-            <?php endforeach ?>
-		</form>
-	</div>
-</div>
-<button class="btn" type="button" onclick="submitMerger()">Merge</button>
+					<tr>
+						<td><?php echo $field[0] ?></td>
+						<td>
+						<?php if(isLevelTwo($field)): ?>
+							<input id="<?php echo $field[2] ?>" type="<?php echo $field[1] ?>" 
+								name="<?php echo $field[2] ?>" class='form-control merger-input' />
+						<?php else : ?>
+							<?php echo $field[1] ?>
+						<?php endif; ?>  
+						</td>
+					</tr>
+			<?php endforeach ?>
+		</tbody>
+	</table>
+</form>
+<button class="btn btn-primary" style="margin-bottom: 20px" onclick="submitMerger()">Merge</button>
 <script>
 function submitMerger() {
 	if(confirm("By merging the clients, the old clients will be deleted. Please confirm.")) {
