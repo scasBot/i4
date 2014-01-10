@@ -17,6 +17,9 @@ chmod 711 html/
 chmod 711 html/*.php
 chmod 711 html/api/*.php
 
+# configuration file for api
+chmod 700 html/api/api_config.php
+
 # all these directories publicly accessible, not readable
 chmod 711 html/js/
 chmod 711 html/css/
