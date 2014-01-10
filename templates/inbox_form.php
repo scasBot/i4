@@ -2,7 +2,12 @@
 	function show_inbox($arr) {
 		$i = 0;
 		foreach($arr as $msg) {
-			echo "<tr onclick='showMessage(" . $i . ");'><td id='timestamp'>" . $msg["timestamp"] . "</td><td id='sender'>" . $msg["sender"] . "</td><td id='subject'>" . $msg["subject"] . "</td></tr>"; 
+			echo "<tr id='row" . $i . "'onclick='showMessage(" . $i . ");'>" .
+					"<td id='timestamp'>" . $msg["timestamp"] . "</td>" .
+					"<td id='sender'>" . $msg["sender"] . "</td>" . 
+					 "<td id='subject'>" . $msg["subject"] . 
+					"<button class='close pull-right' onclick='deleteMessage(" . $i . ")'>&times;</button></td>" .
+				  "</tr>"; 
 			$i = $i + 1;
 		}	
 		// if empty, show it
@@ -22,7 +27,7 @@
 			<th>Subject</th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody id="inboxBody">
 		<?php show_inbox($mail) ?>
 	</tbody>
 	</table>
@@ -33,8 +38,8 @@
 
 	var mail_json = <? echo json_encode($mail) ?>;
 	
-	function showMessage(id) {
-		var mail = mail_json[id];
+	function showMessage(arrayId) {
+		var mail = mail_json[arrayId];
 		var html = modalHtml(mail);
 		
 		$("#modalHtml").html(html);
@@ -58,6 +63,46 @@
 		window.location = "assignEmail.php?id=" + id;
 	}
 	
+	function deleteMessage(arrayId) {
+		// onclick ONLY for delete click, not row click
+		event.stopPropagation();
+
+		// get correct mail from id
+		var mail = mail_json[arrayId];
+
+		// set up data
+		var data = {
+			id : mail["id"],
+			Action : "Delete"
+		}
+
+		// send ajax request
+		ajaxBot.sendAjax({
+			REQ : "updateEmail", 
+			data : data, 
+			success : function(r) {
+				try {
+					var response = $.parseJSON(r); 
+				}
+				catch (e) {
+					throw "Error : Server response invalid."; 
+				}
+				
+				if(response.Success) {
+					// delete the row
+					$("#row" + arrayId).remove();
+				}
+				else
+				{
+					throw "Error in ajax!";	
+				}
+			}, 
+			error : function(e) {
+				return; 
+			}
+		}); 
+	}
+
 	function modalHtml(mail) {
 		var html = 
 		"<div class='modal fade' id='messageDiv' tabindex='-1' role='dialog' aria-labelledby='messageViewLabel' aria-hidden='true'>" +
