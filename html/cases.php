@@ -33,14 +33,25 @@ switch ($_GET["type"]) {
 
 		// gets all information from clients with CaseTypeID = $id
 		function get_by_priority_id($id) {
-			return query(
-				"SELECT * "
+			$query =
+				"(SELECT db_Clients.*, Priority "
 				. "FROM db_Clients "
 				. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
 					. "FROM db_CaseTypes "
 					. "WHERE Deprecated=0) AS t1) "
 				. "ON t1.CaseTypeID=db_Clients.CaseTypeID "
-				. "WHERE db_Clients.CaseTypeID=?", $id); 
+				. "WHERE db_Clients.CaseTypeID=?) Clients"; 
+
+			$query = 
+				"SELECT *, ContactTypeID FROM $query "
+				. "INNER JOIN ( "
+					. "SELECT MAX(ContactID), ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
+					. "GROUP BY ClientID "
+				. ") Contacts "
+				. "ON Clients.ClientID = Contacts.ClientID "
+				. "ORDER BY ContactDate DESC";
+	
+			return query($query, $id);
 		}
 		
 		// these can be changed easily to reflect different ordering of priorities
@@ -59,7 +70,7 @@ switch ($_GET["type"]) {
 		// get the clients with most recent 100 contacts added
 		$clients = 
 			"((SELECT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, "
-				. "Phone1Number, Email, CaseTypeID, ContactDate "
+				. "Phone1Number, Email, CaseTypeID, ContactDate, ContactTypeID "
 			. "FROM db_Clients "
 			. "INNER JOIN (dbi4_Contacts AS contacts) " 
 			. "ON contacts.ClientID=db_Clients.ClientID "
@@ -69,13 +80,14 @@ switch ($_GET["type"]) {
 		// get their priority information too
 		$cases = query(
 			"SELECT DISTINCT clients.ClientID, FirstName, LastName, "
-			. "Phone1AreaCode, Phone1Number, Email, Priority "
+			. "Phone1AreaCode, Phone1Number, Email, Priority, ContactTypeID "
 			. "FROM $clients "
 			. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
 				. "FROM db_CaseTypes "
 				. "WHERE Deprecated=0) AS priority) "
 			. "ON clients.CaseTypeID=priority.CaseTypeID " 
 			. "ORDER BY clients.ContactDate DESC"); 
+
 
 		break; 
 	
@@ -92,16 +104,18 @@ switch ($_GET["type"]) {
 		// get the last clients touched by user
 		$clients = 
 			"((SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, "
-				. "Phone1AreaCode, Phone1Number, Email, CaseTypeID "  
-			. "FROM dbi4_Contacts "
+				. "Phone1AreaCode, Phone1Number, Email, CaseTypeID, ContactTypeID "  
+			. "FROM ("
+				. "SELECT MAX(ContactID), dbi4_Contacts.* FROM dbi4_Contacts "
+				. "WHERE UserAddedID=? OR UserEditID=? GROUP BY ClientID"
+			. ") Contacts "
 			. "INNER JOIN db_Clients "
-			. "ON db_Clients.ClientID=dbi4_Contacts.ClientID "
-			. "WHERE UserAddedID=? " 
-			. "OR UserEditID=? "
+			. "ON db_Clients.ClientID=Contacts.ClientID "
 			. "ORDER BY ContactDate DESC "
 			. "LIMIT " . LIMITING_NUMBER . ") "
 			. "AS clients)"; 
-		
+
+
 		// get their information
 		$cases = query(
 			"SELECT clients.*, Description AS Priority "
