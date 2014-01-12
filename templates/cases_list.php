@@ -54,20 +54,15 @@
 				<tbody>		
 					<?php foreach($cases as $case) : ?>
 						<tr name='client' id='<?php echo $case["ClientID"] ?>' style='cursor : pointer'> 
-						<td><?php echo $case["LastName"] . ", " . $case["FirstName"] ?></td>
+						<td><?php echo $case["LastName"] . ", " . $case["FirstName"] ?>
+							<?php if ($case["ContactTypeID"] == 15 && $case["CaseTypeID"] != 61) echo "&nbsp<span class='label label-primary'>New Email</span>"?>
+							<?php if ($case["ContactTypeID"] == 21 && $case["CaseTypeID"] != 61) echo "&nbsp<span class='label label-info'>New Voicemail</span>"?>
+						</td>
 						<td><?php echo "(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] ?></td> 
 						<td><?php echo $case["Email"] ?></td>
 						<td><?php echo $case["Priority"] ?></td>
 						</tr> 					
 					<?php endforeach; ?>
-					<?php if (!empty($addnew)) : ?>
-						<tr name='newclient' style='cursor : pointer'> 
-						<td><b>Add New: </b></td> 
-						<td id='NewName'><?php echo $addnew["LastName"] . ", " . $addnew["FirstName"] ?></td>
-						<td id='NewPhoneNumber'><?php echo $addnew["PhoneNumber"] ?></td>
-						<td id='NewEmail' ><?php echo $addnew["Email"] ?></td>
-						</tr>
-					<?php endif; ?>
 				</tbody>
 			</table>
 			<form id='javascript-form' method='post' style='display: none'>
