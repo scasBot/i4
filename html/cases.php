@@ -70,23 +70,36 @@ switch ($_GET["type"]) {
 		// get the clients with most recent 100 contacts added
 		$clients = 
 			"((SELECT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, "
-				. "Phone1Number, Email, CaseTypeID, ContactDate, ContactTypeID "
+				. "Phone1Number, Email, CaseTypeID, ContactDate "
 			. "FROM db_Clients "
 			. "INNER JOIN (dbi4_Contacts AS contacts) " 
 			. "ON contacts.ClientID=db_Clients.ClientID "
 			. "ORDER BY contacts.ContactDate DESC LIMIT " . LIMITING_NUMBER . ") "
 			. "AS clients)"; 
 
+		// NOTE: This code is unreliable for some reason...
+		//		it sometimes returns the wrong ContactTypeID. 
+		// 		Should be investigated
+
 		// get their priority information too
 		$cases = query(
-			"SELECT DISTINCT clients.ClientID, FirstName, LastName, "
-			. "Phone1AreaCode, Phone1Number, Email, Priority, ContactTypeID "
+			"SELECT clients_pre.*, Contacts.ContactTypeID FROM " 
+			. "(SELECT DISTINCT clients.ClientID, FirstName, LastName, "
+			. "Phone1AreaCode, Phone1Number, Email, clients.CaseTypeID, Priority "
 			. "FROM $clients "
 			. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
 				. "FROM db_CaseTypes "
 				. "WHERE Deprecated=0) AS priority) "
-			. "ON clients.CaseTypeID=priority.CaseTypeID " 
-			. "ORDER BY clients.ContactDate DESC"); 
+			. "ON clients.CaseTypeID=priority.CaseTypeID) clients_pre " 
+			. "INNER JOIN ("
+					. "SELECT dbi4_Contacts.ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
+					. "INNER JOIN ("
+						. "SELECT MAX(ContactID) AS ContactID FROM dbi4_Contacts "
+						. "GROUP BY ClientID) max_contact "
+					. "ON dbi4_Contacts.ContactID = max_contact.ContactID"
+				. ") Contacts "
+			. "ON clients_pre.ClientID = Contacts.ClientID "
+			. "ORDER BY ContactDate DESC"); 
 
 
 		break; 
@@ -103,17 +116,23 @@ switch ($_GET["type"]) {
 
 		// get the last clients touched by user
 		$clients = 
-			"((SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, "
-				. "Phone1AreaCode, Phone1Number, Email, CaseTypeID, ContactTypeID "  
-			. "FROM ("
-				. "SELECT MAX(ContactID), dbi4_Contacts.* FROM dbi4_Contacts "
-				. "WHERE UserAddedID=? OR UserEditID=? GROUP BY ClientID"
-			. ") Contacts "
+			"(SELECT clients_pre.*, Contacts.ContactTypeID FROM " 
+			. "(SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, "
+				. "Phone1AreaCode, Phone1Number, Email, CaseTypeID "  
+			. "FROM dbi4_Contacts "
 			. "INNER JOIN db_Clients "
-			. "ON db_Clients.ClientID=Contacts.ClientID "
-			. "ORDER BY ContactDate DESC "
-			. "LIMIT " . LIMITING_NUMBER . ") "
-			. "AS clients)"; 
+			. "ON db_Clients.ClientID=dbi4_Contacts.ClientID "
+			. "WHERE UserAddedID=? OR UserEditID=? "
+			. "LIMIT " . LIMITING_NUMBER . ")  clients_pre "
+			. "INNER JOIN ("
+					. "SELECT dbi4_Contacts.ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
+					. "INNER JOIN ("
+						. "SELECT MAX(ContactID) AS ContactID FROM dbi4_Contacts "
+						. "GROUP BY ClientID) max_contact "
+					. "ON dbi4_Contacts.ContactID = max_contact.ContactID"
+				. ") Contacts "
+			. "ON clients_pre.ClientID = Contacts.ClientID "
+			. "ORDER BY ContactDate DESC) clients "; 
 
 
 		// get their information

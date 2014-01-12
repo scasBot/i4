@@ -55,7 +55,8 @@
 					<?php foreach($cases as $case) : ?>
 						<tr name='client' id='<?php echo $case["ClientID"] ?>' style='cursor : pointer'> 
 						<td><?php echo $case["LastName"] . ", " . $case["FirstName"] ?>
-							<?php if ($case["ContactTypeID"] == 15) echo "&nbsp<span class='label label-primary'>New Email</span>"?>
+							<?php if ($case["ContactTypeID"] == 15 && $case["CaseTypeID"] != 61) echo "&nbsp<span class='label label-primary'>New Email</span>"?>
+							<?php if ($case["ContactTypeID"] == 21 && $case["CaseTypeID"] != 61) echo "&nbsp<span class='label label-info'>New Voicemail</span>"?>
 						</td>
 						<td><?php echo "(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] ?></td> 
 						<td><?php echo $case["Email"] ?></td>
