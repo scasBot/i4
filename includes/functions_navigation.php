@@ -18,6 +18,7 @@ Description :
 	web page to web page
 ***********************************/
 require_once("constants.php");
+require_once("functions_navigation.php");
 
 /**
  * Apologizes to user with message.
@@ -132,6 +133,11 @@ function render($template, $values = array())
 	{
 		// extract variables into local scope
 		extract($values);
+
+		// include inbox count for header
+		$query = "SELECT * FROM db_Emails WHERE isAssigned=0";
+		$results = query($query);
+		$inboxCount = count($results);
 
 		// render header
 		require("../templates/header.php");
