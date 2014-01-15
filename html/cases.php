@@ -33,14 +33,25 @@ switch ($_GET["type"]) {
 
 		// gets all information from clients with CaseTypeID = $id
 		function get_by_priority_id($id) {
-			return query(
-				"SELECT * "
+			$query =
+				"(SELECT db_Clients.*, Priority "
 				. "FROM db_Clients "
 				. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
 					. "FROM db_CaseTypes "
 					. "WHERE Deprecated=0) AS t1) "
 				. "ON t1.CaseTypeID=db_Clients.CaseTypeID "
-				. "WHERE db_Clients.CaseTypeID=?", $id); 
+				. "WHERE db_Clients.CaseTypeID=?) Clients"; 
+
+			$query = 
+				"SELECT *, ContactTypeID FROM $query "
+				. "INNER JOIN ( "
+					. "SELECT MAX(ContactID), ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
+					. "GROUP BY ClientID "
+				. ") Contacts "
+				. "ON Clients.ClientID = Contacts.ClientID "
+				. "ORDER BY ContactDate DESC";
+	
+			return query($query, $id);
 		}
 		
 		// these can be changed easily to reflect different ordering of priorities
@@ -66,16 +77,30 @@ switch ($_GET["type"]) {
 			. "ORDER BY contacts.ContactDate DESC LIMIT " . LIMITING_NUMBER . ") "
 			. "AS clients)"; 
 
+		// NOTE: This code is unreliable for some reason...
+		//		it sometimes returns the wrong ContactTypeID. 
+		// 		Should be investigated
+
 		// get their priority information too
 		$cases = query(
-			"SELECT DISTINCT clients.ClientID, FirstName, LastName, "
-			. "Phone1AreaCode, Phone1Number, Email, Priority "
+			"SELECT clients_pre.*, Contacts.ContactTypeID FROM " 
+			. "(SELECT DISTINCT clients.ClientID, FirstName, LastName, "
+			. "Phone1AreaCode, Phone1Number, Email, clients.CaseTypeID, Priority "
 			. "FROM $clients "
 			. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
 				. "FROM db_CaseTypes "
 				. "WHERE Deprecated=0) AS priority) "
-			. "ON clients.CaseTypeID=priority.CaseTypeID " 
-			. "ORDER BY clients.ContactDate DESC"); 
+			. "ON clients.CaseTypeID=priority.CaseTypeID) clients_pre " 
+			. "INNER JOIN ("
+					. "SELECT dbi4_Contacts.ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
+					. "INNER JOIN ("
+						. "SELECT MAX(ContactID) AS ContactID FROM dbi4_Contacts "
+						. "GROUP BY ClientID) max_contact "
+					. "ON dbi4_Contacts.ContactID = max_contact.ContactID"
+				. ") Contacts "
+			. "ON clients_pre.ClientID = Contacts.ClientID "
+			. "ORDER BY ContactDate DESC"); 
+
 
 		break; 
 	
@@ -91,17 +116,25 @@ switch ($_GET["type"]) {
 
 		// get the last clients touched by user
 		$clients = 
-			"((SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, "
+			"(SELECT clients_pre.*, Contacts.ContactTypeID FROM " 
+			. "(SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, "
 				. "Phone1AreaCode, Phone1Number, Email, CaseTypeID "  
 			. "FROM dbi4_Contacts "
 			. "INNER JOIN db_Clients "
 			. "ON db_Clients.ClientID=dbi4_Contacts.ClientID "
-			. "WHERE UserAddedID=? " 
-			. "OR UserEditID=? "
-			. "ORDER BY ContactDate DESC "
-			. "LIMIT " . LIMITING_NUMBER . ") "
-			. "AS clients)"; 
-		
+			. "WHERE UserAddedID=? OR UserEditID=? "
+			. "LIMIT " . LIMITING_NUMBER . ")  clients_pre "
+			. "INNER JOIN ("
+					. "SELECT dbi4_Contacts.ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
+					. "INNER JOIN ("
+						. "SELECT MAX(ContactID) AS ContactID FROM dbi4_Contacts "
+						. "GROUP BY ClientID) max_contact "
+					. "ON dbi4_Contacts.ContactID = max_contact.ContactID"
+				. ") Contacts "
+			. "ON clients_pre.ClientID = Contacts.ClientID "
+			. "ORDER BY ContactDate DESC) clients "; 
+
+
 		// get their information
 		$cases = query(
 			"SELECT clients.*, Description AS Priority "
