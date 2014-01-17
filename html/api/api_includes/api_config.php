@@ -19,7 +19,7 @@ Description :
 	constants etc., 
 ***********************************/
 
-require("api_includes/api_functions.php"); 
+require("api_functions.php"); 
 
 // allow CORS
 cors(); 
@@ -47,10 +47,10 @@ switch($_SERVER["REQUEST_METHOD"]) {
 		break; 
 	case "GET" : 
 		$data = $_GET; 
-		break
+		break; 
 	default : 
 		error("Bad request method."); 
 }
 
-require("api_includes/authorization.php"); 
+require("authorization.php"); 
 ?>
