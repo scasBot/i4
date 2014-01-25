@@ -62,6 +62,9 @@ Structure of the i4 code:
 > SERVER:
 >	+ The server/ directory does not interact with browser accesses by the user. Instead, the server (which includes its own server_config.php file) runs periodic updates and other back-end tasks. To call these scripts, you should be able to use "php SOME_TASK_HERE.php" to run it. It would be best to automate these using a CRON job, but since August 2013 that has been down from HCS.
 >	+ Likewise the data/ directory has cached data from server/*.php calls and other methods.
+> 
+> API: 
+>	+ The html/api directory is a RESTful API. Look at READ_AUTH, WRITE_AUTH, and ACCESS_AUTH for what to provide. The api_config.php file should be included for all of the api uses.
 		
 Other things to keep in mind: 
 -----
