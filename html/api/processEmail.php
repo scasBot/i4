@@ -5,7 +5,7 @@
 	**  for "inbox"
 	*/
 
-	require("api_config.php"); 
+	require("api_includes/api_config.php"); 
 
 	if (WRITE_AUTH)
 	{
