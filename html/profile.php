@@ -61,7 +61,8 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	$profile = new Profile($_SESSION["id"]); 
 	render("profile_form.php", array("title" => "Profile", 
 		"user" => $profile->get_array(), 
-		"user_is_admin" => ADMIN));		
+		"user_is_admin" => ADMIN, 
+		"user_is_comper" => COMPER));		
 } else if($_SERVER["REQUEST_METHOD"] == "POST") {	
 	if(ADMIN) {
 		if(!isset($_POST["UserID"]))

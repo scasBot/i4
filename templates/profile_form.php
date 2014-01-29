@@ -4,6 +4,10 @@
 		<div style="margin-bottom: 10px;">
 			<span class="label label-info">Admin</span>
 		</div>
+	<?php elseif($user_is_comper) : ?>
+		<div style="margin-bottom: 10px;">
+			<span class="label label-success">Comper</span>
+		</div>
 	<?php endif; ?>
 	<form id='profile-form' class="form-horizontal" action="profile.php" method="POST"> 
 	<table class="table table-bordered" align="center">
