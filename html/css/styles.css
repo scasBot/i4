@@ -83,6 +83,11 @@ p, h1, h2, h3, h4, h5, h6 {
 	font-family: 'Lato', serif;
 }
 
+h1 {
+	color: #474747;
+	font-variant:small-caps;
+}
+
 body {
 	padding-top: 30px;
 	margin-right: 0;
@@ -101,6 +106,8 @@ form.hidden {
 .row {
 	margin-right: 0;
 }
+
+
 
 /* login page */
 
@@ -130,6 +137,8 @@ form.hidden {
 	height: 100%;
 	left: 0;
 	top: 0;
+	margin: 0;
+	min-height: 600px;
 	
 }
 
@@ -406,11 +415,6 @@ form.hidden {
 
 	}	
 	
-	.client-wrapper > section.main h1 {
-		color: #474747;
-		font-variant:small-caps;
-		font-family: "Lato", sans-serif;
-	}
 
 /* leaderboard */
 
@@ -423,11 +427,6 @@ form.hidden {
 	padding-right: 40px;
 	
 }
-	.leaderboard-wrapper h1 {
-		color: #474747;
-		font-variant:small-caps;
-		font-family: "Lato", sans-serif;
-	}
 
 	.leaderboard-wrapper table {
 		background-color: white;
@@ -473,11 +472,6 @@ form.hidden {
 	padding-right: 40px;
 	
 }
-	.merge-wrapper h1 {
-		color: #474747;
-		font-variant:small-caps;
-		font-family: "Lato", sans-serif;
-	}
 
 	.merge-wrapper table {
 		background-color: white;
@@ -550,12 +544,6 @@ form.hidden {
 		vertical-align: middle;
 	}
 
-	.profile-wrapper h1 {
-		color: #474747;
-		font-variant:small-caps;
-		font-family: "Lato", sans-serif;
-	}
-
 	.profile-wrapper .well {
 		width: 60%;
 		margin-left: auto;
@@ -588,12 +576,6 @@ form.hidden {
 	.inbox-wrapper label {
 		vertical-align: middle;
 		text-align: right;
-	}
-
-	.inbox-wrapper h1 {
-		color: #474747;
-		font-variant:small-caps;
-		font-family: "Lato", sans-serif;
 	}
 
 /* bottom */

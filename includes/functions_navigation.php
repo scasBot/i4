@@ -18,6 +18,7 @@ Description :
 	web page to web page
 ***********************************/
 require_once("constants.php");
+require_once("functions_navigation.php");
 
 /**
  * Apologizes to user with message.
@@ -84,6 +85,25 @@ function logout() {
 	// destroy session
 	session_destroy();
 }
+
+/**
+ * Returns the data from MYSQL database based on the access
+ * from i4/model. Very similar in structure to render, 
+ * pass in parameters as values. 
+ *
+ * Repreents the "model" in MVC
+ **/ 
+ function model($model, $values = array()) {
+	
+	if(file_exists("../models/$model")) {
+		extract($values); 
+		
+		require("../models/$model"); 
+		return $data; 
+	} else {
+		trigger_error("Invalid model: $model", E_USER_ERROR);		
+	}
+ }
 	
 /**
  * Redirects user to destination, which can be
@@ -132,6 +152,12 @@ function render($template, $values = array())
 	{
 		// extract variables into local scope
 		extract($values);
+		
+// EDIT - willy xiao (this needs to be changed to not be here...)
+		// include inbox count for header
+		$query = "SELECT * FROM db_Emails WHERE isAssigned=0";
+		$results = query($query);
+		$inboxCount = count($results);
 
 		// render header
 		require("../templates/header.php");

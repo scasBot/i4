@@ -4,7 +4,11 @@
 <div id="find">
 	<section class="top">
 		<form class="form-inline" style="padding-left: 10px">
-			<input id="instantSearch" style="width: 40%" class="form-control" type="text" placeholder="<?php echo "  " . byi4("Instant Search") ?>" />
+			<input id="instantSearch" 
+				style="width: 40%" 
+				class="form-control" 
+				type="text" 
+				placeholder="<?php echo "  " . byi4("Instant Search") ?>" />
 		</form>
 	</section>
 			<script>
@@ -17,8 +21,7 @@
 						$("tr[name='client']").each(function() {
 							$(this).show(); 
 						}); 
-					}
-					else {
+					} else {
 						showRows($(this).val()); 
 					}
 				}
@@ -27,8 +30,7 @@
 					$("tr[name='client']").each(function() {
 						if($(this).html().toUpperCase().indexOf(val.toUpperCase()) > -1) {
 							$(this).show(); 
-						}
-						else {
+						} else {
 							$(this).hide(); 
 						}
 					}); 
@@ -49,26 +51,18 @@
 						<th>Priority</th>
 					</tr>
 				</thead>
-				<tbody>			
-					<?php
-						foreach($cases as $case) {
-							echo "<tr name='client' id='" . $case["ClientID"] . "' style='cursor : pointer'>"; 
-							echo "<td>" . $case["LastName"]. ", " . $case["FirstName"] . "</td>"; 
-							echo "<td>(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] . "</td>"; 
-							echo "<td>" . $case["Email"] . "</td>";
-							echo "<td>" . $case["Priority"] . "</td>"; 
-							echo "</tr>"; 
-						}
-						
-						if(!empty($addnew)) {
-							echo "<tr name='newclient' style='cursor : pointer'>"; 
-							echo "<td><b>Add New: </b></td>"; 
-							echo "<td id='NewName'>" . $addnew["LastName"] . ", " . $addnew["FirstName"] . "</td>";
-							echo "<td id='NewPhoneNumber'>" . $addnew["PhoneNumber"] . "</td>"; 
-							echo "<td id='NewEmail' >" . $addnew["Email"] . "</td>"; 
-							echo "</tr>"; 
-						}
-					?>
+				<tbody>		
+					<?php foreach($cases as $case) : ?>
+						<tr name='client' id='<?php echo $case["ClientID"] ?>' style='cursor : pointer'> 
+						<td><?php echo $case["LastName"] . ", " . $case["FirstName"] ?>
+							<?php if ($case["ContactTypeID"] == 15 && $case["CaseTypeID"] != 61) echo "&nbsp<span class='label label-primary'>New Email</span>"?>
+							<?php if ($case["ContactTypeID"] == 21 && $case["CaseTypeID"] != 61) echo "&nbsp<span class='label label-info'>New Voicemail</span>"?>
+						</td>
+						<td><?php echo "(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] ?></td> 
+						<td><?php echo $case["Email"] ?></td>
+						<td><?php echo $case["Priority"] ?></td>
+						</tr> 					
+					<?php endforeach; ?>
 				</tbody>
 			</table>
 			<form id='javascript-form' method='post' style='display: none'>
@@ -90,7 +84,8 @@
 	$("tr[name='client']").click(function () {		
 		window.location.href = "client.php?ClientID=" + $(this).attr('id')
 	}); 
-	
+
+	<?php if(!empty($addnew)): ?>
 	// for adding a new client
 	$("tr[name='newclient']").click(function () {
 		$("#javascript-form").attr("action", "newclient.php"); 
@@ -103,5 +98,6 @@
 		$("#javascript-form").append(lastName + firstName + phoneNumber + email); 
 		$("#javascript-form").submit(); 
 	}); 
+	<?php endif; ?>
 </script>
 <?php endif; ?>
