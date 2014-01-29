@@ -39,8 +39,13 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 			}
 			try {
 				$user = new Profile($_GET["UserID"]); 
+				$cases = model("cases_by_user.php", array("UserID" => $_GET["UserID"]));
+				$stats = model("user_stats.php", array("UserID" => $_GET["UserID"]));  				
+				
 				render("profile_form.php", array("title" => "Manage", 
 					"user" => $user->get_array(), 
+					"cases" => $cases, 
+					"stats" => $stats, 
 					"ADMIN_EDIT" => true, 
 					"user_is_admin" => is_admin($_GET["UserID"]), 
 					"user_is_comper" => is_comper($_GET["UserID"]))); 

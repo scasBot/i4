@@ -137,4 +137,4 @@
 		}
 	}); 
 </script>
-<?php if(isset($render_stats)) {require("profile_stats_form.php");} ?>
+<?php if(!isset($void_stats)) {require("profile_stats_form.php");} ?>

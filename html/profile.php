@@ -59,10 +59,16 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	}
 
 	$profile = new Profile($_SESSION["id"]); 
+	$cases = model("cases_by_user.php", array("UserID" => $_SESSION["id"])); 
+	$stats = model("user_stats.php", array("UserID" => $_SESSION["id"])); 
+	
 	render("profile_form.php", array("title" => "Profile", 
 		"user" => $profile->get_array(), 
+		"cases" => $cases, 
+		"stats" => $stats, 
 		"user_is_admin" => ADMIN, 
-		"user_is_comper" => COMPER));		
+		"user_is_comper" => COMPER));
+		
 } else if($_SERVER["REQUEST_METHOD"] == "POST") {	
 	if(ADMIN) {
 		if(!isset($_POST["UserID"]))
