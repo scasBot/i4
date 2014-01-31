@@ -84,7 +84,8 @@
 	$("tr[name='client']").click(function () {		
 		window.location.href = "client.php?ClientID=" + $(this).attr('id')
 	}); 
-	
+
+	<?php if(!empty($addnew)): ?>
 	// for adding a new client
 	$("tr[name='newclient']").click(function () {
 		$("#javascript-form").attr("action", "newclient.php"); 
@@ -97,5 +98,6 @@
 		$("#javascript-form").append(lastName + firstName + phoneNumber + email); 
 		$("#javascript-form").submit(); 
 	}); 
+	<?php endif; ?>
 </script>
 <?php endif; ?>

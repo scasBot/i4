@@ -101,6 +101,9 @@ switch ($_GET["type"]) {
 			. "ON clients_pre.ClientID = Contacts.ClientID "
 			. "ORDER BY ContactDate DESC"); 
 
+		render("cases_list.php", array("title" => "By " . $_GET["type"], 
+			"cases" => $cases, 
+			"addnew" => null)); // addnew shouldn't be shown, can change template to use isset to avoid this.
 
 		break; 
 	
@@ -113,42 +116,16 @@ switch ($_GET["type"]) {
 		if(!isset($UserID)) {
 			$UserID = $_SESSION["id"]; 
 		}
-
-		// get the last clients touched by user
-		$clients = 
-			"(SELECT clients_pre.*, Contacts.ContactTypeID FROM " 
-			. "(SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, "
-				. "Phone1AreaCode, Phone1Number, Email, CaseTypeID "  
-			. "FROM dbi4_Contacts "
-			. "INNER JOIN db_Clients "
-			. "ON db_Clients.ClientID=dbi4_Contacts.ClientID "
-			. "WHERE UserAddedID=? OR UserEditID=? "
-			. "LIMIT " . LIMITING_NUMBER . ")  clients_pre "
-			. "INNER JOIN ("
-					. "SELECT dbi4_Contacts.ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
-					. "INNER JOIN ("
-						. "SELECT MAX(ContactID) AS ContactID FROM dbi4_Contacts "
-						. "GROUP BY ClientID) max_contact "
-					. "ON dbi4_Contacts.ContactID = max_contact.ContactID"
-				. ") Contacts "
-			. "ON clients_pre.ClientID = Contacts.ClientID "
-			. "ORDER BY ContactDate DESC) clients "; 
-
-
-		// get their information
-		$cases = query(
-			"SELECT clients.*, Description AS Priority "
-			. "FROM $clients INNER JOIN db_CaseTypes " 
-			. "ON clients.CaseTypeID=db_CaseTypes.CaseTypeID", 
-				$UserID, $UserID); 	
 		
+		$cases = model("cases_by_user.php", array("UserID" => $UserID)); 
+		$stats = model("user_stats.php", array("UserID" => $UserID)); 
+		
+		render("profile_stats_form.php", array("title" => "Stats", 
+			"cases" => $cases, 
+			"stats" => $stats)); 
 		break; 
 			
 	default: 
 		apologize("Can't access cases like that."); 
 }
-
-render("cases_list.php", array("title" => "By " . $_GET["type"], 
-	"cases" => $cases, 
-	"addnew" => null)); // addnew shouldn't be shown, can change template to use isset to avoid this.
 ?>
