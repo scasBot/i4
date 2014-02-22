@@ -88,6 +88,7 @@ SELECT COUNT(*) FROM db_Appointments WHERE MetWith = 1
 // Appointments by year
 SELECT COUNT(*), YEAR(Date) AS year FROM db_Appointments WHERE MetWith = 1 GROUP BY year
 */
+
 echo json_encode($stats); 
 
 ?>
