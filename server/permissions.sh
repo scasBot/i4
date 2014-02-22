@@ -15,10 +15,11 @@ chmod 700 templates/*
 # html is publicly accessible, not readable
 chmod 711 html/ 
 chmod 711 html/*.php
-chmod 711 html/api/*.php
 
 # configuration file for api
-chmod 700 html/api/api_config.php
+chmod 711 html/api/*.php
+chmod 700 html/api/api_includes/
+chmod 700 html/api/api_includes/*.php
 
 # all these directories publicly accessible, not readable
 chmod 711 html/js/

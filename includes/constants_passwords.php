@@ -31,6 +31,7 @@ define("DATABASE", $pw_json["MYSQL"]["DATABASE"]);
 define("PASSWORD", $pw_json["MYSQL"]["PASSWORD"]); 
 define("SERVER", $pw_json["MYSQL"]["SERVER"]); 
 define("USERNAME", $pw_json["MYSQL"]["USERNAME"]);
+
 define("API_READ_AUTH", $pw_json["API_READ_AUTH"]);
 define("API_WRITE_AUTH", $pw_json["API_WRITE_AUTH"]); 
 define("API_ACCESS_AUTH", $pw_json["API_ACCESS_AUTH"]); // this should be hidden to public

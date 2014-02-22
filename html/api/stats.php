@@ -1,6 +1,6 @@
 <?php
 
-require("api_config.php"); 
+require("api_includes/api_config.php"); 
 
 if(!READ_AUTH) {
 	error("Unauthorized access."); 
