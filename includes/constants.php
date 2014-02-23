@@ -19,8 +19,12 @@ define("LOCAL_HOST",  strstr(php_uname("n"), SERVER_NAME) === false);
 
 // ROOT_ can be used to create public links or to run scripts
 define("ROOT", dirname(dirname((__FILE__)))); 	
-define("ROOT_FROM_DOMAIN", (LOCAL_HOST ? "/" : "/~scas/")); 
-define("ROOT_PUBLIC", $_SERVER["HTTP_HOST"]. ROOT_FROM_DOMAIN . basename(ROOT)); 
+if (LOCAL_HOST) {
+	define("ROOT_FROM_DOMAIN", (LOCAL_HOST ? "/" : "/~scas/")); 
+	define("ROOT_PUBLIC", "http://" . $_SERVER["HTTP_HOST"]. ROOT_FROM_DOMAIN . basename(ROOT)); 
+} else {
+	define("ROOT_PUBLIC", "http://i4.scas.info"); 
+}
 
 define("LEADERBOARD_STATS_FILE", ROOT . "/data/" . "data_leaderboard.php"); 
 
