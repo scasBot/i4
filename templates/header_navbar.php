@@ -2,7 +2,7 @@
 	<div class="navbar-inner">  
 		<ul class="nav navbar-nav">
 			<li><a class="navbar-brand" href="index.php">SCASi4</a></li>
-			<li><a href="inbox.php">Inbox</a></li>
+			<!-- li><a href="inbox.php">Inbox <?php if($inboxCount > 0) echo "($inboxCount)"?></a></li -->
 			<li class="dropdown">
 				<a href="cases.php?type=priority" 
 					class="dropdown-toggle"
@@ -28,12 +28,14 @@
 				<ul class="dropdown-menu">							
 					<li><a href="leaderboard.php">Leaderboard</a></li>
 					<li><a href="profile.php">Profile</a></li>
+
+					<li><a href="users.php">List All Users</a></li>					
+					<?php if(!COMPER) : ?>
+						<li><a href="add_user.php">Add User</a></li>
+					<?php endif; ?>
 					<?php if(ADMIN) : ?>
 						<li><a href="manage.php?type=users">Manage Users</a></li>
-					<?php endif; ?>
-					<?php if(!COMPER) : ?>
-						<li><a href="add_user.php">Add Users</a></li>
-					<?php endif; ?>
+					<?php endif; ?>					
 				</ul>
 			</li>
 			<li class="dropdown">

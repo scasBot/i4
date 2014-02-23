@@ -1,8 +1,8 @@
 <?php
 
-require("api_config.php"); 
+require("api_includes/api_config.php"); 
 
-if(!isset($data["API_READ_AUTH"]) || $data["API_READ_AUTH"] != API_READ_AUTH) {
+if(!READ_AUTH) {
 	error("Unauthorized access."); 
 }
 
@@ -88,6 +88,7 @@ SELECT COUNT(*) FROM db_Appointments WHERE MetWith = 1
 // Appointments by year
 SELECT COUNT(*), YEAR(Date) AS year FROM db_Appointments WHERE MetWith = 1 GROUP BY year
 */
+
 echo json_encode($stats); 
 
 ?>

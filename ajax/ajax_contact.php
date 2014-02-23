@@ -55,6 +55,10 @@ if($data["Contact"]["ContactID"] == 0) {
 		$query = "UPDATE db_Emails SET isAssigned=1, ClientID=$clientID WHERE id=$emailId";
 		query($query);
 
+		// second, update case type to "never been contacted"
+		$query = "UPDATE db_Clients SET ContactTypeID=21 WHERE ClientID=$clientID";
+		query($query);
+
 	}
 
 	echo json_encode(array("Success" => true, 

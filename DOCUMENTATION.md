@@ -23,6 +23,10 @@ How to edit the server and the domain:
 
 > GODADDY ACCOUNT: 
 >*	SCAS also has a GoDaddy.com account which registers our domain name: masmallclaims.org. This is where forwarding (such as i4.masmallclaims.org) is set-up and where you can edit those. The login information should also be received by word-of-mouth.
+>*	We now also own scas.info, which we should be making more use of by the time you read this!
+
+> NOTE: 
+>*	Oftentimes, the HCS servers will fail and load time will be slow. This is not your fault! It is HCS' fault :( Sorry. You can often check by looking at some other HCS hosted websites too.
 
 Version control and Github:
 -----
@@ -62,6 +66,9 @@ Structure of the i4 code:
 > SERVER:
 >	+ The server/ directory does not interact with browser accesses by the user. Instead, the server (which includes its own server_config.php file) runs periodic updates and other back-end tasks. To call these scripts, you should be able to use "php SOME_TASK_HERE.php" to run it. It would be best to automate these using a CRON job, but since August 2013 that has been down from HCS.
 >	+ Likewise the data/ directory has cached data from server/*.php calls and other methods.
+> 
+> API: 
+>	+ The html/api directory is a RESTful API. Look at READ_AUTH, WRITE_AUTH, and ACCESS_AUTH for what to provide. The api_config.php file should be included for all of the api uses.
 		
 Other things to keep in mind: 
 -----
@@ -83,5 +90,6 @@ Other things to keep in mind:
 History:  
 -----
 > For your reference, here is a history of the lead developers of the SCAS i4 project, and their releases.
+>	+ Chris Lim     klim01@college.harvard.edu January 2014 - Present	i4.2.0 - i4.2.1
 >	+ Willy Xiao	willy@chenxiao.us	May 2013 - December 2013	v4.1.0 - i4.1.1
 	

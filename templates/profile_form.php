@@ -1,10 +1,16 @@
 <div class="profile-wrapper">
 	<h1>Profile</h1>
+	<?php if(isset($user_is_admin) && $user_is_admin) : ?>
+		<div style="margin-bottom: 10px;">
+			<span class="label label-info">Admin</span>
+		</div>
+	<?php elseif($user_is_comper) : ?>
+		<div style="margin-bottom: 10px;">
+			<span class="label label-success">Comper</span>
+		</div>
+	<?php endif; ?>
 	<form id='profile-form' class="form-horizontal" action="profile.php" method="POST"> 
 	<table class="table table-bordered" align="center">
-		<?php if(isset($user_is_admin) && $user_is_admin) : ?>
-			<span class="label label-info" style="margin-bottom: 10px">Admin</span>
-		<?php endif; ?>
 		<tr>
 			<td>User ID</td>
 			<td>
@@ -131,4 +137,4 @@
 		}
 	}); 
 </script>
-<?php if(isset($render_stats)) {require("profile_stats_form.php");} ?>
+<?php if(!isset($void_stats)) {require("profile_stats_form.php");} ?>

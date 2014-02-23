@@ -47,7 +47,7 @@
 				+ " style='cursor: pointer'>"  
 				+ "<td>" + contact.ContactDate + "</td>" 
 				+ "<td>" + contact.ContactType + "</td>" 
-				+ "<td>" + contactSummary + "</td>" 
+				+ "<td style='text-align: left'>" + contactSummary + "</td>" 
 				+ "<td>" + contact.UserName.Added + "</td>" 
 			+ "</tr>";
 		
@@ -99,7 +99,7 @@
 					"</div>" +
 				"</div>" +
 				"<div class='modal-body'>" + 
-						"<textarea name='editor' class='mceEditor' rows='6' style='width: 100%; height: 100%; font-size: 13px; border: 0;' placeholder='Type summary here...'></textarea>" + 
+						"<textarea name='editor' id='editor' class='mceEditor' rows='6' style='width: 100%; height: 100%; font-size: 13px; border: 0;' placeholder='Type summary here...'></textarea>" + 
 
 				"</div>" +
 				"<div class='modal-footer'>" +
@@ -298,7 +298,7 @@
 			newContact.ContactEditDate = currentSqlDate(); 
 			newContact.ContactDate = editDiv.find("[name='ContactDate']").val(); 
 			newContact.ContactTypeID = editDiv.find("[name='ContactType']").val(); 
-			newContact.ContactSummary = tinymce.get('editor').getContent();
+			newContact.ContactSummary = tinymce.activeEditor.getContent({format: 'text'});
 
 			data = {}; 
 		
