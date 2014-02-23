@@ -59,9 +59,14 @@ switch ($_GET["type"]) {
 		$no_contacted = get_by_priority_id(21); 
 		$undefined = get_by_priority_id(0); 
 		$phone_tag = get_by_priority_id(11); 
-		
+	
 		// this might be a source of the slowness
 		$cases = array_merge($undefined, $urgent, $no_contacted, $phone_tag);
+
+		render("cases_list.php", array("title" => "By " . $_GET["type"], 
+			"cases" => $cases, 
+			"addnew" => null)); // addnew shouldn't be shown, can change template to use isset to avoid this.
+
 		break; 
 
 	// date orders the cases by the last contact date added in dbi4_contacts
