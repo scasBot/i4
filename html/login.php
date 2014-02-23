@@ -50,8 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$_SESSION["useremail"] = $user[0]["Email"]; 
 			$_SESSION["logid"] = set_i3_log(); 
 
-			// redirect to portfolio
-			redirect("../html");
+			// redirect to home
+			redirect(ROOT_PUBLIC);
 		}
 	}
 
