@@ -116,6 +116,20 @@ $(document).ready(function() {
 		// disable hide when clicked outside modal
 		$("#emailForm").modal({backdrop : 'static' });
 
+		// set disclaimer html
+		var disclaimer = "<br /><br /><b>--</b><br />" 
+			+ "<b>The Small Claims Advisory Service</b><br />"
+			+ "Phillips Brooks House, Harvard Yard, Cambridge, MA 02138<br />"
+			+ "(617) 497-5690<br />"
+			+ "<a href='http://www.masmallclaims.org'>http://www.masmallciams.org</a><br /><br />"
+			+ "<i><b>Disclaimer:</b>  Members of the Small Claims Advisory Service are <b><u>neither lawyers nor law students.</u></b>  We are volunteer undergraduates who have studied the small claims law in Massachusetts. The information included in this email is only information <b><u>and should not be considered legal advice,</u></b> which you can only receive from a lawyer.</i>"
+
+		setTimeout(
+			function() {
+			tinymce.get('editor').setContent(disclaimer);
+			}, 500
+		);
+
 		emailForm.onCancel = function() {
 			// hide w/ form animation
 			$("#emailForm").modal('hide');
