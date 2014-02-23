@@ -31,5 +31,9 @@ $results = query("SELECT COUNT(*) AS res FROM (SELECT DISTINCT ClientID FROM db_
 	. "UNION SELECT DISTINCT ClientID FROM dbi4_Contacts WHERE ContactTypeID = 30 AND UserAddedID=$UserID) AS tmp");
 $stats["clients_assisted_by_appointment"] = $results[0]["res"]; 
 
+// Clients assisted by month
+$results = query("SELECT COUNT(*) AS clients, month FROM (SELECT DISTINCT ClientID, MONTH(Date) AS month FROM db_Contact WHERE UserID=$UserID UNION SELECT DISTINCT ClientID, MONTH(ContactDate) AS month FROM dbi4_Contacts WHERE UserAddedID=$UserID) AS tmp GROUP BY month");
+$stats["clients_by_month"] = $results; 
+
 $data = $stats; 
 ?>
