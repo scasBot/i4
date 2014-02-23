@@ -14,6 +14,7 @@ $clients =
 	. "INNER JOIN db_Clients "
 	. "ON db_Clients.ClientID=dbi4_Contacts.ClientID "
 	. "WHERE UserAddedID=? OR UserEditID=? "
+	. "ORDER BY ContactDate DESC "
 	. "LIMIT " . $limit . ")  clients_pre "
 	. "INNER JOIN ("
 			. "SELECT dbi4_Contacts.ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
