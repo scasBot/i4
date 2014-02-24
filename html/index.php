@@ -18,5 +18,5 @@ Description : Welcome to our website!
 require("../includes/config.php"); 
 
 // render explanation can be found in "i4/includes/functions.php"
-render("main.php", array("title" => "Main Menu", "quote" => $filler->random_quote()));
+render("main.php", array("quote" => $filler->random_quote()));
 ?>
