@@ -47,7 +47,7 @@
 				+ " style='cursor: pointer'>"  
 				+ "<td>" + contact.ContactDate + "</td>" 
 				+ "<td>" + contact.ContactType + "</td>" 
-				+ "<td>" + contactSummary + "</td>" 
+				+ "<td style='text-align: left'>" + contactSummary + "</td>" 
 				+ "<td>" + contact.UserName.Added + "</td>" 
 			+ "</tr>";
 		
