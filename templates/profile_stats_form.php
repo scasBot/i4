@@ -2,7 +2,7 @@
 	<div class="title">
 		<h1><?php echo byi4("Stats") ?></h1>
 	</div>
-	<div class="left" style="margin-top: -50px; padding-left: 5%">
+	<div class="left" style="margin-top: 20px; padding-left: 5%">
 		<div id="chart_div" style="display: inline-block"></div>
 	</div>
 	<div class="right" style="margin-top: -50px">
