@@ -23,5 +23,5 @@ require("../includes/config.php");
 logout();
 
 // redirect user
-redirect("../html");
+redirect(ROOT_PUBLIC);
 ?>
