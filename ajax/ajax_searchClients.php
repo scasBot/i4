@@ -20,9 +20,16 @@ require("../includes/config.php");
 require("../includes/client_class.php"); 
 ***********************************/
 
-
-$result = searchClient($data);
-$result["Success"] = true;
+// first, check if session timed out
+if (!isset($_SESSION['id']))
+{
+    $result["Success"] = false;
+}
+else
+{
+    $result = searchClient($data);
+    $result["Success"] = true;
+}
 echo json_encode($result); 
 die(); 
 
