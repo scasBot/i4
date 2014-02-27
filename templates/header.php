@@ -18,7 +18,7 @@
 			<?php if (isset($title)): ?>
 				<title><?php echo htmlspecialchars($title) ?></title>
 			<?php else: ?>
-				<title>SCASi4</title>
+				<title>SCAS i4</title>
 			<?php endif ?>
 		<?php else : ?> 
 			<?php if (isset($title)): ?>
