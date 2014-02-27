@@ -166,8 +166,8 @@
 					} else {
 						// failure occurs when session timed out
 						alert("Session timed out! Please login again.");
-						window.location = <? echo "'". ROOT_PUBLIC . "'"?>;
-					
+						window.location = <? echo '"'. ROOT_PUBLIC . '"'?>;
+					}
 				} catch(e) {
 					alert("Something went wrong as error!" + r); 
 				}
