@@ -2,6 +2,9 @@
 if (!defined("LIMITING_NUMBERXX")) {
 	define("LIMITING_NUMBERXX", 100); 
 }
+if (!isset($id)) {
+	trigger_error("Need to set priority ID"); 
+}
 
 $query =
 	"(SELECT db_Clients.*, Priority "
