@@ -21,6 +21,7 @@ require("../includes/client_class.php");
 
 // limit the number of cases
 define("LIMITING_NUMBER", 100);
+define("LIMITING_NUMBER_FOR_ONE_MESSAGE_LEFT", 20); 
 
 // check usage
 if($_SERVER["REQUEST_METHOD"] !== "GET" || !isset($_GET["type"])) {
@@ -30,38 +31,25 @@ if($_SERVER["REQUEST_METHOD"] !== "GET" || !isset($_GET["type"])) {
 switch ($_GET["type"]) {
 	// list of cases by priority
 	case "priority": 
-
+		
 		// gets all information from clients with CaseTypeID = $id
 		function get_by_priority_id($id) {
-			$query =
-				"(SELECT db_Clients.*, Priority "
-				. "FROM db_Clients "
-				. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
-					. "FROM db_CaseTypes "
-					. "WHERE Deprecated=0) AS t1) "
-				. "ON t1.CaseTypeID=db_Clients.CaseTypeID "
-				. "WHERE db_Clients.CaseTypeID=?) Clients"; 
-
-			$query = 
-				"SELECT *, ContactTypeID FROM $query "
-				. "INNER JOIN ( "
-					. "SELECT MAX(ContactID), ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
-					. "GROUP BY ClientID "
-				. ") Contacts "
-				. "ON Clients.ClientID = Contacts.ClientID "
-				. "ORDER BY ContactDate DESC";
-	
-			return query($query, $id);
+			return model("cases_by_priority_id.php", array("id" => $id)); 			
 		}
 		
 		// these can be changed easily to reflect different ordering of priorities
 		$urgent = get_by_priority_id(1); 
 		$no_contacted = get_by_priority_id(21); 
 		$undefined = get_by_priority_id(0); 
-		$phone_tag = get_by_priority_id(11); 
-	
-		// this might be a source of the slowness
-		$cases = array_merge($undefined, $urgent, $no_contacted, $phone_tag);
+		$phone_tag = get_by_priority_id(11);
+		$one_message_left = get_by_priority_id(22); 
+
+		if ((count($urgent) + count($no_contacted) + count($undefined) + count($phone_tag)) < LIMITING_NUMBER_FOR_ONE_MESSAGE_LEFT) {
+			$one_message_left = get_by_priority_id(22);
+			$cases = array_merge($undefined, $urgent, $no_contacted, $phone_tag, $one_message_left);
+		} else {
+			$cases = array_merge($undefined, $urgent, $no_contacted, $phone_tag);
+		}
 
 		render("cases_list.php", array("title" => "By " . $_GET["type"], 
 			"cases" => $cases, 
