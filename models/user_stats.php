@@ -35,5 +35,8 @@ $stats["clients_assisted_by_appointment"] = $results[0]["res"];
 $results = query("SELECT COUNT(*) AS clients, month FROM (SELECT DISTINCT ClientID, MONTH(Date) AS month FROM db_Contact WHERE UserID=$UserID UNION SELECT DISTINCT ClientID, MONTH(ContactDate) AS month FROM dbi4_Contacts WHERE UserAddedID=$UserID) AS tmp GROUP BY month");
 $stats["clients_by_month"] = $results; 
 
+$results = query("SELECT Y, M, D, COUNT( * ) AS Logins, SUM( seconds ) AS seconds FROM (SELECT YEAR( Login ) AS Y, MONTH( Login ) AS M, DAY( Login ) AS D, TIME_TO_SEC( TIMEDIFF( LastAction, Login ) ) AS seconds FROM i3_Log WHERE UserID=$UserID AND LastAction IS NOT NULL AND LastAction <>0 AND LastAction >= Login) AS tmp GROUP BY Y, M, D"); 
+$stats["logins"] = $results; 
+
 $data = $stats; 
 ?>

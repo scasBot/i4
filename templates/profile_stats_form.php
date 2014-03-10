@@ -8,11 +8,14 @@
 	<div class="right" style="margin-top: -50px">
 		<div id="chart_month_div"></div>
 	</div>
+	<div style="position: relative; top: 300px; left: 50px" >
+		<div id="punchcard_div"></div>
+	</div>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
 	  // Load the Visualization API and the piechart package.
-	  google.load('visualization', '1.0', {'packages':['corechart']});
-
+	  google.load('visualization', '1.1', {'packages':['corechart']});
+	  google.load("visualization", "1.1", {packages:["calendar"]}); // this isn't loading!
 	  // Set a callback to run when the Google Visualization API is loaded.
 	  google.setOnLoadCallback(drawChart);
 
@@ -20,7 +23,28 @@
 	  // instantiates the pie chart, passes in the data and
 	  // draws it.
 	  function drawChart() {
+		   var dataTable = new google.visualization.DataTable();
+		   dataTable.addColumn({ type: 'date', id: 'Date' });
+		   dataTable.addColumn({ type: 'number', id: 'Minutes' });
+		   dataTable.addRows([
+			<?php foreach($stats["logins"] as $login): ?>
+				<?php echo "[ new Date(" 
+					. $login["Y"] . ", " 
+					. ((int) $login["M"] - 1) . ", " 
+					. $login["D"] . "), " 
+					. round($login["seconds"] / 60) . "]," 
+				?>
+			<?php endforeach; ?>
+			]);
 
+		   var chart = new google.visualization.Calendar(document.getElementById('punchcard_div'));
+		   var options = {
+			 title: "SCAS Punchcard, Minutes",
+			 height: 350,
+		   };
+
+		   chart.draw(dataTable, options);
+		   
 		// Create the data table.
 		var data = new google.visualization.DataTable();
 		data.addColumn('string', 'Type');
