@@ -570,7 +570,6 @@ form.hidden {
 	.stats-wrapper .left {
 		float: left;
 		width: 30%;
-		display: inline-block;
 		margin-left: auto;
 		margin-right: auto;
 	}
@@ -578,7 +577,6 @@ form.hidden {
 	.stats-wrapper .right {
 		float: right;
 		width: 70%;
-		display: inline-block;
 		margin-left: auto;
 		margin-right: auto;
 
