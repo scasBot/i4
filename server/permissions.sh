@@ -17,6 +17,7 @@ chmod 700 models/*
 # html is publicly accessible, not readable
 chmod 711 html/ 
 chmod 711 html/*.php
+chmod 711 html/fonts/
 
 # configuration file for api
 chmod 711 html/api/*.php
@@ -28,8 +29,11 @@ chmod 711 html/js/
 chmod 711 html/css/
 chmod 711 html/img/
 chmod 711 html/api/
+chmod 711 html/resources/
 
 # these files are globally readable
 chmod 644 html/js/*.js
 chmod 644 html/css/*.css
 chmod 644 html/img/*
+chmod 644 html/resources/*
+chmod 644 html/fonts/*
