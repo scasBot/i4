@@ -2,6 +2,8 @@
 
 require("api_includes/api_config.php"); 
 
+header("Content Type: text/json"); 
+
 if(!READ_AUTH) {
 	error("Unauthorized access."); 
 }
@@ -89,6 +91,6 @@ SELECT COUNT(*) FROM db_Appointments WHERE MetWith = 1
 SELECT COUNT(*), YEAR(Date) AS year FROM db_Appointments WHERE MetWith = 1 GROUP BY year
 */
 
-echo json_encode($stats); 
+echo pretty_json(json_encode($stats)); 
 
 ?>

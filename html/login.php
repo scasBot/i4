@@ -63,6 +63,6 @@ else { // must be a $_GET request
 	// get all the users to display in dropdown and render form
 	$rows = query("SELECT `UserName` " . 
 		"FROM `i3_Users` WHERE `hidden`=0 ORDER BY `UserName` DESC"); 
-	render("login_form.php", array("title" => "Log In", "users" => $rows));
+	render("login_form.php", array("users" => $rows));
 }
 ?>

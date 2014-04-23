@@ -94,11 +94,10 @@ function logout() {
  * Repreents the "model" in MVC
  **/ 
  function model($model, $values = array()) {
-	
-	if(file_exists("../models/$model")) {
+	if(file_exists(realpath(dirname(__FILE__) . "/../models/$model"))) {
 		extract($values); 
 		
-		require("../models/$model"); 
+		require(realpath(dirname(__FILE__) . "/../models/$model")); 
 		return $data; 
 	} else {
 		trigger_error("Invalid model: $model", E_USER_ERROR);		

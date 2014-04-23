@@ -18,7 +18,6 @@ Description: Implements the iDataObjects
 	database. These include ClientInfo, 
 	Contacts, and Old i3 Contacts.
 ***********************************/
-
 // client info
 class ClientInfo extends aDataObject implements iDataObject {
 	protected $database_name = "db_Clients"; 

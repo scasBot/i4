@@ -39,6 +39,7 @@ if(LOCAL_HOST) {
 require_from_main("constants_passwords.php"); 
 require_from_main("libraries/ALL.php");
 require_from_main("functions_database.php"); 
+require_from_main("functions_navigation.php"); 
 require_from_main("magic_quotes_emulate.php");
 
 switch($_SERVER["REQUEST_METHOD"]) {
