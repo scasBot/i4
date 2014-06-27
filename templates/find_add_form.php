@@ -124,9 +124,14 @@
 						{
 							tableHtml = tableHtml + "<tr name='client' id='" + r[i].ClientID +  "' style='cursor : pointer'>"
 										 +	"<td>" + r[i].FirstName + " " + r[i].LastName  + "</td>"
-										 +	"<td>" + r[i].PhoneNumber  + "</td>"
-										 +	"<td>" + r[i].Email  + "</td>"
-										 +	"<td>" + r[i].Priority  + "</td>"
+                                         +	"<td>(" + r[i].Phone1AreaCode + ") " + r[i].Phone1Number  + "</td>";
+
+                            if (r[i].Email != null)
+                                tableHtml += "<td>" + r[i].Email  + "</td>";
+                            else
+                                tableHtml += "<td></td>";
+
+										tableHtml += "<td>" + r[i].Priority  + "</td>"
 									  +	"</tr>";
 							i++;
 						}					
