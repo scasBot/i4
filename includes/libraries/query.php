@@ -42,6 +42,9 @@ function query(/* $sql [, ... ] */) {
 	// execute SQL statement
 	$results = $statement->execute($parameters);
 
+    // end connection to prevent 1040 error
+    $handle = null;
+
 	// return result set's rows, if any
 	if ($results !== false) {
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
