@@ -157,6 +157,7 @@ form.hidden {
 	.banner.home {
 		background: url('../img/overlay.png'),
 					linear-gradient(45deg, #5f796b, #3a4e59, #2f394e) no-repeat center center;
+
 		height: 550px;
 	}
 
