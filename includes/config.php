@@ -27,6 +27,9 @@ require("constants.php");
 
 // error reporting
 ini_set("display_errors", true);
+error_reporting(E_ALL | E_STRICT); 
+
+/*
 if(LOCAL_HOST) {
 	// everything displayed
 	error_reporting(E_ALL | E_STRICT);
@@ -34,6 +37,7 @@ if(LOCAL_HOST) {
 	// fatal errors and parse errors
 	error_reporting(E_ERROR | E_PARSE);
 }
+*/
 
 // requirements
 require("constants_passwords.php"); 

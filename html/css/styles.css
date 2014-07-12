@@ -157,6 +157,7 @@ form.hidden {
 	.banner.home {
 		background: url('../img/overlay.png'),
 					linear-gradient(45deg, #5f796b, #3a4e59, #2f394e) no-repeat center center;
+
 		height: 550px;
 	}
 
@@ -570,7 +571,6 @@ form.hidden {
 	.stats-wrapper .left {
 		float: left;
 		width: 30%;
-		display: inline-block;
 		margin-left: auto;
 		margin-right: auto;
 	}
@@ -578,7 +578,6 @@ form.hidden {
 	.stats-wrapper .right {
 		float: right;
 		width: 70%;
-		display: inline-block;
 		margin-left: auto;
 		margin-right: auto;
 

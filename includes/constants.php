@@ -36,4 +36,6 @@ define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com");
 define("IDLE_TIME_LIMIT", 3600);
 
 define("PASSWORDS_FILE", ROOT . "/server/hash.json"); 
+
+
 ?>
