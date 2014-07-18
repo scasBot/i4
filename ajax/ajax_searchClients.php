@@ -64,6 +64,9 @@ function searchClient($info) { // $info is all items in a $_GET or $_POST reques
             $value = only_numbers($info[$key]); 
             $phone_query = "(`Phone1AreaCode`='" . substr($info[$key], 0, 3) . 
                 "' AND `Phone1Number` LIKE '" . insert_between_each_char(substr($info[$key], 3), "%") . "')";           
+            // Also look up secondary number
+            $phone_query .= "OR (`Phone2AreaCode`='" . substr($info[$key], 0, 3) . 
+                "' AND `Phone2Number` LIKE '" . insert_between_each_char(substr($info[$key], 3), "%") . "')";           
         }
     }
     
