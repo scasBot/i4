@@ -18,9 +18,11 @@ $query =
 $query = 
 	"SELECT *, ContactTypeID FROM $query "
 	. "INNER JOIN ( "
-		. "SELECT MAX(ContactID), ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
-		. "GROUP BY ClientID "
-	. ") Contacts "
+        . "SELECT dbi4_Contacts.* FROM dbi4_Contacts "
+            . "INNER JOIN ((SELECT MAX(ContactID) AS ContactID "
+            . "FROM dbi4_Contacts GROUP BY ClientID) AS MaxContacts) "
+        . "ON dbi4_Contacts.ContactID = MaxContacts.ContactID "
+    . ") Contacts "
 	. "ON Clients.ClientID = Contacts.ClientID "
 	. "ORDER BY ContactDate DESC "
 	. "LIMIT " . LIMITING_NUMBERXX;
