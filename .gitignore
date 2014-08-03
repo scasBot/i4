@@ -2,3 +2,4 @@ data/*
 i4FakeEmails.txt
 hash.json
 *.swp
+server/error_log

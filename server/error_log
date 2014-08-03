@@ -1,8 +1,0 @@
-[12-Jul-2014 08:17:41 America/Denver] PHP Notice:  Use of undefined constant display_errors - assumed 'display_errors' in /home1/masmallc/public_html/i4/server/server_config.php on line 3
-[12-Jul-2014 10:17:41 America/New_York] PHP Fatal error:  require(): Failed opening required '~/public_html/i4/includes/constants.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/masmallc/public_html/i4/server/server_config.php on line 9
-[12-Jul-2014 08:21:13 America/Denver] PHP Notice:  Use of undefined constant display_errors - assumed 'display_errors' in /home1/masmallc/public_html/i4/server/server_config.php on line 3
-[12-Jul-2014 10:21:13 America/New_York] PHP Fatal error:  require(): Failed opening required '~/www/i4/includes/constants.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/masmallc/public_html/i4/server/server_config.php on line 9
-[12-Jul-2014 08:25:26 America/Denver] PHP Notice:  Use of undefined constant display_errors - assumed 'display_errors' in /home1/masmallc/public_html/i4/server/server_config.php on line 3
-[12-Jul-2014 10:25:26 America/New_York] PHP Fatal error:  require(): Failed opening required 'includes/constants.php' (include_path='.:/usr/php/54/usr/lib64:/usr/php/54/usr/share/pear') in /home1/masmallc/public_html/i4/server/server_config.php on line 9
-[12-Jul-2014 08:26:21 America/Denver] PHP Notice:  Use of undefined constant display_errors - assumed 'display_errors' in /home1/masmallc/public_html/i4/server/server_config.php on line 3
-[12-Jul-2014 10:26:21 America/New_York] PHP Notice:  Undefined index: HTTP_HOST in /home1/masmallc/public_html/i4/includes/constants.php on line 24
