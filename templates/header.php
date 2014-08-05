@@ -10,6 +10,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet"/>
 		<link href="css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet"/>
         <link href="css/styles.css" rel="stylesheet"/>
+        <link href="css/animate.min.css" rel="stylesheet"/>
 		<link href='http://fonts.googleapis.com/css?family=Lato|Playfair+Display|Balthazar' rel='stylesheet' type='text/css'>
 
 		<link rel="icon" type="image/ico" href="img/favicon.ico">
@@ -46,6 +47,18 @@
 			</script>
 		<?php endif; ?>
 		<?php require("header_javascript.php") ?>
+
+
+        <script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-6751081-1', 'auto');
+              ga('send', 'pageview');
+
+        </script>
     </head>
     <body>
 		<div class="container">
