@@ -1,4 +1,9 @@
 <div class="row">
+  <div class="col-md-12">
+    Hi all! Issue right now with timezone being off. These times are 2 hours back from EST!
+  </div>
+</div>
+<div class="row">
   <div class="col-md-4"></div>
   <div class="col-md-4">
     <ul class="list-group">
