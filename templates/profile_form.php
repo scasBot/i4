@@ -76,24 +76,25 @@
 				type='button' style='margin-bottom: 10px'
 				onclick='$("#EditPassword").show(); $(this).hide(); $("#CurrentPassword").focus()'>Click to Edit Password</button> 
 			<div id='EditPassword' style='display: none' hidden> 
-			<table class="table table-bordered" align="center">
-				<tr>	
-					<td>Current Password</td>
-					<td><input id="CurrentPassword" name="CurrentPassword" class="form-control" type="password" /></td>
-				</tr>
-				<tr>
-					<td>New Password</td>
-					<td><input id="NewPassword" name="NewPassword" class="form-control" type="password" /></td>
-				</tr>
-				<tr>
-					<td>Confirm Password</td>
-					<td><input id="ConfirmPassword" name="ConfirmPassword" class="form-control" type="password" /></td>
-				</tr>			
-			</table>
-			<button class='btn btn-success'
-				type='button' style='margin-bottom: 10px'
-				onclick='$("#EditPassword").find("input").val(""); $("#EditPassword-btn").show(); $("#EditPassword").hide()'>Cancel</button>
-			</div>
+                <div id='alert_div' style='margin-left: auto; margin-right: auto'></div>
+                <table class="table table-bordered" align="center">
+                    <tr>	
+                        <td>Current Password</td>
+                        <td><input id="CurrentPassword" name="CurrentPassword" class="form-control" type="password" /></td>
+                    </tr>
+                    <tr>
+                        <td>New Password</td>
+                        <td><input id="NewPassword" name="NewPassword" class="form-control" type="password" /></td>
+                    </tr>
+                    <tr>
+                        <td>Confirm Password</td>
+                        <td><input id="ConfirmPassword" name="ConfirmPassword" class="form-control" type="password" /></td>
+                    </tr>			
+                </table>
+                <button class='btn btn-success'
+                    type='button' id='cancel_btn' style='margin-bottom: 10px;'
+                    onclick='$("#EditPassword").find("input").val(""); $("#EditPassword-btn").show(); $("#EditPassword").hide()'>Cancel</button>
+            </div>
 		<?php endif; ?>
 		<div class="control-group">
 			<button id='profile-form-submit' class="btn btn-block btn-primary" 
@@ -102,21 +103,22 @@
 	</form>
 </div>
 <script>
+    $( document ).load(function() {
+        $("#cancel_btn").hide();
+    });
 	$("#profile-form-submit").click(function() {
 		var userNameTrimmed = $.trim($("#UserName").val()); 
 		$("#UserName").val(userNameTrimmed); 
 
 		function addAlert(id, message) {
-			$("#" + id).parent().addClass("warning"); 
+            $('#alert_div').append('<div class="alert alert-danger" role="alert">' + message + '</div>');
 		}
-		function removeAlert(id) {
-			$("#" + id).parent().removeClass("warning"); 
+		function resetAlerts() {
+            $('#alert_div').html("");
 		}
 		function checkForm(predicate, id, message) {
 			if(predicate) {
 				addAlert(id, message);  
-			} else {
-				removeAlert(id); 
 			}
 			return !predicate; 
 		}
@@ -126,6 +128,9 @@
 		correct = checkForm(!isValidEmail($("#Email").val()), 
 				"Email", "Invalid email.") && correct; 
 		var newPassword = $("#NewPassword").val(); 
+
+        // before instating alerts, reset current ones
+        resetAlerts();
 		if(newPassword) {
 			correct = checkForm(newPassword != $("#ConfirmPassword").val(), "ConfirmPassword", 
 					"Passwords don't match.") && correct;
