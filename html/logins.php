@@ -23,7 +23,7 @@ if($_SESSION["id"] != 1718 && !ADMIN){
   redirect("/");
 }
 
-$query = "SELECT * FROM i3_Log INNER JOIN i3_Users ON i3_Log.UserID=i3_Users.UserID ORDER BY LogID DESC LIMIT " . LIMIT;
+$query = "SELECT * FROM i3_Log INNER JOIN i3_Users ON i3_Log.UserID=i3_Users.UserID ORDER BY LastAction DESC LIMIT " . LIMIT;
 
 $results = query($query);
 
