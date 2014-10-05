@@ -77,22 +77,22 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		$self = true; 
 	} else {
 		$id = $_SESSION["id"]; 
-		if($_POST["NewPassword"]) {
-			$password = new Password($id); 
-			$user = $password->get_array();	
-		
-			if(crypt($_POST["CurrentPassword"], $user["hash"]) != $user["hash"]) {
-				apologize("Incorrect current password. Password not changed, all other " . 
-					"profile stats updated."); 
-			} else if($_POST["NewPassword"] != $_POST["ConfirmPassword"]) {
-				apologize("Sorry, new password and confirmation don't match. " . 
-					"Password not changed, all other profile stats updated."); 
-			} else {
-				$password->set("hash", crypt($_POST["NewPassword"])); 
-				$password->push(); 
-			}
-		}		
 	}
+    if($_POST["NewPassword"]) {
+        $password = new Password($id); 
+        $user = $password->get_array();	
+    
+        if(crypt($_POST["CurrentPassword"], $user["hash"]) != $user["hash"]) {
+            apologize("Incorrect current password. Password not changed, all other " . 
+                "profile stats updated."); 
+        } else if($_POST["NewPassword"] != $_POST["ConfirmPassword"]) {
+            apologize("Sorry, new password and confirmation don't match. " . 
+                "Password not changed, all other profile stats updated."); 
+        } else {
+            $password->set("hash", crypt($_POST["NewPassword"])); 
+            $password->push(); 
+        }
+    }		
 
 	// if POSTing, then edit the profile and push
 	$profile = new Profile($id);	
