@@ -1,5 +1,5 @@
 	<button class="btn btn-default actions" style="height: 50px;" data-action="emaili4">Email i4 Users</button>
-	<button class="btn btn-default actions" style="height: 50px; ;" data-action="emailLegalResearch">Email LegalResearch</button>
+    <!--<button class="btn btn-default actions" style="height: 50px; ;" data-action="emailLegalResearch">Email LegalResearch</button> -->
 	<button class="btn btn-success actions" style="height: 100px;" data-action="emailClient"><i class="glyphicon glyphicon-envelope"></i> Email Client</button>
 	<!-- button class="btn btn-inverse actions" data-action="email">Email Client</button -->
 <script>
