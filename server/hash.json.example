@@ -1,0 +1,12 @@
+{
+	"AJAX_HASH" : "", 
+	"MYSQL" : {
+			"DATABASE" : "", 
+			"PASSWORD" : "", 
+			"SERVER" : "", 
+			"USERNAME" : ""
+	}, 
+	"API_READ_AUTH" : "", 
+	"API_WRITE_AUTH" : "", 
+	"API_ACCESS_AUTH" : ""
+}
