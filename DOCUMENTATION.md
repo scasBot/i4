@@ -9,24 +9,20 @@ Intro:
 How to edit the server and the domain:
 -----
 > URL: 
->*	i4.masmallclaims.org -> hcs.harvard.edu/~scas/i4
->*	The server is managed by the Harvard Computer Society. To access the server and edit files, you have to first ask HCS to give your fas.harvard.edu account permission to access the SCAS user. Then ssh into your fas.harvard.edu account (this requires an ssh client such as putty on Windows). Once you log into your fas account you can run "ssh scas@hcs.harvard.edu" to edit the server. 
->* The location of the website is at ~/web/i4
+>*	i4.masmallclaims.org
+>*	The server is managed by Bluehost. To access the server and edit files on the server, you can ask the old executive directors or the old tech directors for the username and password. You should be able to run: "ssh USERNAME@masmallclaims.org" and type the password they give you when prompted. To learn about Bluehost, you can also login with the same credentials on bluehost.com and learn about managing things like the mysql database and the domain name.
+>* The location of the website is at ~/publich_html/i4
 
 > HOW TO PUSH/PULL: 
 >*	You have a number of options to push and pull from the server. 
 >*	Currently the server is set up as a local repository to https://github.com/scasBot/i4.git (look at github section for more info). To update you can simply run "git pull" in the i4 directory. 
->*	Alternatively you can use scp/pscp to push and pull through ssh clients. 
 
 > MYSQL: 
->*	The mysql database, likewise, is managed by the Harvard Computer Society. To edit, you can go to http://hcs.harvard.edu/phpmyadmin. The login and password information should be received by word-of-mouth from previous developers of the project. Passwords, username, database name etc., should be kept in a file called hash.json inside of /server. It should be included in .gitignore. 
+>*	The mysql database, likewise, is managed by bluehost. Passwords, username, database name etc., should be kept in a file called hash.json inside of /server, you can find an example of the structure of hash.json in server/hash.json.example. This file should be included in .gitignore. 
 
 > GODADDY ACCOUNT: 
 >*	SCAS also has a GoDaddy.com account which registers our domain name: masmallclaims.org. This is where forwarding (such as i4.masmallclaims.org) is set-up and where you can edit those. The login information should also be received by word-of-mouth.
 >*	We now also own scas.info, which we should be making more use of by the time you read this!
-
-> NOTE: 
->*	Oftentimes, the HCS servers will fail and load time will be slow. This is not your fault! It is HCS' fault :( Sorry. You can often check by looking at some other HCS hosted websites too.
 
 Version control and Github:
 -----
@@ -34,12 +30,10 @@ Version control and Github:
 >*	The current code for the SCAS website is at https://github.com/scasBot/i4.git. You can go to that public repository. To become a collaborator, ask the current tech director!
 
 > INVARIANTS/RULES: 
->*	Releases: 
->	+ At the end of every semester, the tech director should issue a new "release" of the SCAS i4 by creating a git tag. The current method is for the fall semester to be release v4.x.0 and the spring to be release v4.x.1. In these releases, the "x" represents an incremented variable from the previous year; so in year 1, the release is i4.1.0, i4.1.1. Then the next year, the releases will be i4.2.0 and i4.2.1. 
 >*	Branches: 
->	+ There are two main branches to the git repository: beta and master. All development should occur on new development branches, this branch never synchronizes to hcs servers and is used solely for code development. The beta branch should be pushed to for beta testing. On the hcs server, doing a "git checkout beta" will deploy beta branch. Master should always be stable, tested code. 
+>	+ There are two main branches to the git repository: beta and master. All development should occur on new development branches, this branch never synchronizes to bluehost servers and is used solely for code development. The beta branch should be pushed to for beta testing. On bluehost, doing a "git checkout beta" will deploy beta branch. Master should always be stable, tested code. After testing beta for a while, you can go back to the master branch and "git merge beta && git push origin master" to synchronize master with beta.
 >*	Necessary files that are ignored:
->	+ server/hash.json does not appear in the git repository. Do NOT add or commit this and keep it in the .gitignore file. These include database and server passwords which should not be made public.
+>	+ server/hash.json does not appear in the git repository. Do NOT add or commit this and DO keep it in the .gitignore file. These include database and server passwords which should not be made public.
 
 > NOTE: 
 >*	If you haven't used git before, you should really learn to use it! Google for information about it, but this will decrease development time significantly!
@@ -64,7 +58,7 @@ Structure of the i4 code:
 >	+ This file structure is taken from CS50's 2012 Problem Set 7. For more information, go to cs50.net. 
 >	
 > SERVER:
->	+ The server/ directory does not interact with browser accesses by the user. Instead, the server (which includes its own server_config.php file) runs periodic updates and other back-end tasks. To call these scripts, you should be able to use "php SOME_TASK_HERE.php" to run it. It would be best to automate these using a CRON job, but since August 2013 that has been down from HCS.
+>	+ The server/ directory does not interact with browser accesses by the user. Instead, the server (which includes its own server_config.php file) runs periodic updates and other back-end tasks. To call these scripts, you should be able to use "php SOME_TASK_HERE.php" to run it.
 >	+ Likewise the data/ directory has cached data from server/*.php calls and other methods.
 > 
 > API: 
@@ -90,6 +84,7 @@ Other things to keep in mind:
 History:  
 -----
 > For your reference, here is a history of the lead developers of the SCAS i4 project, and their releases.
->	+ Chris Lim     klim01@college.harvard.edu January 2014 - Present	i4.2.0 - i4.2.1
->	+ Willy Xiao	willy@chenxiao.us	May 2013 - December 2013	v4.1.0 - i4.1.1
-	
+>	+ David Xu	davidxu@college.harvard.edu	January 2016 - Present
+>	+ Elton Lossner	eltonlossner@college.harvard.edu	January 2016 - Present
+>	+ Chris Lim    	klim01@college.harvard.edu	January 2014 - December 2015	i4.2.0 - i4.2.1
+>	+ Willy Xiao	wxiao@college.harvard.edu	May 2013 - December 2013	v4.1.0 - i4.1.1
