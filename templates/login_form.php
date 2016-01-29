@@ -6,7 +6,7 @@
 		<fieldset>
 			<div class="row">
 				<div class="control-group" style="width: 30%; display: inline-block; text-align: center;">
-					<input type="text" class="form-control" name="UserName" placeholder="Enter your name..." autocomplete="off" autofocus />
+					<input type="text" class="form-control" name="UserName" placeholder="Enter name..." autocomplete="off" autofocus />
 				</div>
 			</div>
 			<script>
