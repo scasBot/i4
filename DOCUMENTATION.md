@@ -8,7 +8,7 @@ Intro:
 
 Getting Started:
 -----
-> This will teach you to get started working on the i4 on a Cloud9 server.
+> This will teach you to get started working on the i4 on a Cloud9 server. Before getting started you should make accounts for both c9.io and github.com, you should also talk to the previous tech director to add you as a collaborater on github.com/scasbot/i4 and to transfer the username and password for the bluehost.com account to you. Once those are done, follow these steps to make your first change to the i4!
 
 1. If you don't already have accounts, make them for both c9.io and github.com.
 2. Go to c9.io and make a new workspace with the Php/Apache configuration and cloning this repository (https://github.com/scasbot/i4).
