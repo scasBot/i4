@@ -3,8 +3,54 @@ Documentation
 
 Intro: 
 -----
-> Welcome new head, tech director, or developer to the SCASi4 project! Started in May 2013, the i4 replaces the SCAS i3 and is used to log client contacts for the Small Claims Advisory Service. 
+> Welcome new head, tech director, or developer to the SCASi4 project! Started in May 2013, the i4 replaces the SCAS i3 and is used to log client contacts for the Small Claims Advisory Service.
 > This documentation is to serve as guidance for you to continue contributing to the project. Thanks for your service!
+
+Getting Started:
+-----
+> This will teach you to get started working on the i4 on a Cloud9 server.
+
+1. If you don't already have accounts, make them for both c9.io and github.com.
+2. Go to c9.io and make a new workspace with the Php/Apache configuration and cloning this repository (https://github.com/scasbot/i4).
+3. Run the following commands on the C9 terminal:
+
+	git checkout beta
+	
+	git pull origin beta
+	
+	mysql-ctl cli
+	
+	create database masmallc_scas;
+
+	source server/structure.sql
+	
+	exit
+	
+4. Copy server/hash.json.example to server/hash.json. Edit hash.json so that database is masmallc_scas, username is your c9 username, and leave both password and server empty.
+5. Hit 'run code'! And the website should be running at the url listed in the terminal! If you change anything in your code on the cloud9 server, it will change on this page.
+6. Open templates/login_form.php and change something that appears on the page. For example, you can change the placeholder for the login input to "Enter monkey's name..." or something like that. Verify the change on your cloud9 url.
+7. Run in the terminal:
+
+	git status
+	
+	git commit -am "[YOUR NAME]'s first commit"
+	
+	git push origin beta
+	
+8. SSH into the webserver, see the URL tab under "How to edit the server and the domain:" to see how to do that. Go to public_html/i4 and run the following:
+
+	git checkout beta
+	
+	git pull origin beta
+	
+9. Now if you head to i4.masmallclaims.org, you will see your changes! Woohoo!
+
+10. So now you've made your first commit :) To make further changes to the i4, you should do the following:
+
+* Read the rest of this documentation! This is serious!
+* In order to be able to login in the cloud9 version of your website, you must 'seed' the development database with information. You can either copy a sample of the data from the actual server (google how to copy mysql database) or you can just insert fake values into the development server. Remember the way to access mysql in your c9 server is "mysql-ctl cli" and then "use masmallc_scas". From there you will be able to use mysql commands as you learned in basic CS courses. Alternatively you can connect your development website to the real database on Bluehost (left up to you to figure out how - involves editing bluehost.com and hash.json in your development account).
+* Learn about git and github, reading specifically about the commands: status, log, commit, push, pull, and checkout.
+* If you ever need help, feel free to reach out to any of the previous tech directors; they will be happy to assist you (especially Willy)!
 
 How to edit the server and the domain:
 -----
@@ -87,4 +133,4 @@ History:
 >	+ David Xu	davidxu@college.harvard.edu	January 2016 - Present
 >	+ Elton Lossner	eltonlossner@college.harvard.edu	January 2016 - Present
 >	+ Chris Lim    	klim01@college.harvard.edu	January 2014 - December 2015	i4.2.0 - i4.2.1
->	+ Willy Xiao	wxiao@college.harvard.edu	May 2013 - December 2013	v4.1.0 - i4.1.1
+>	+ Willy Xiao	willyxiao@gmail.com	May 2013 - December 2013	v4.1.0 - i4.1.1
