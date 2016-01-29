@@ -1,4 +1,4 @@
-<?
+<?php
 /*******************************
 constants_passwords.php
 
