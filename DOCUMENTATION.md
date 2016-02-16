@@ -21,6 +21,8 @@ Getting Started:
 	mysql-ctl cli
 	
 	create database masmallc_scas;
+	
+	use masmallc_scas;
 
 	source server/structure.sql
 	
