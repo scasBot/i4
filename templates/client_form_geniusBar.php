@@ -1,5 +1,7 @@
 	<button class="btn btn-default actions" style="height: 50px;" data-action="emaili4">Email i4 Users</button>
-    <!--<button class="btn btn-default actions" style="height: 50px; ;" data-action="emailLegalResearch">Email LegalResearch</button> -->
+    <!--<button class="btn btn-default actions" style="height: 50px; ;" data-action="emaili4">Email i4 Users</button> -->
+    <button class="btn btn-primary actions" style="height: 50px;" data-action="emailLegalResearch">Email Legal Research</button>
+    <!--<button class="btn btn-primary actions" style="height: 50px; ;" data-action="emailLegalResearch">Email Legal Research</button> -->
 	<button class="btn btn-success actions" style="height: 100px;" data-action="emailClient"><i class="glyphicon glyphicon-envelope"></i> Email Client</button>
 	<!-- button class="btn btn-inverse actions" data-action="email">Email Client</button -->
 <script>
@@ -65,7 +67,7 @@ $(document).ready(function() {
 		emailLegalResearch : function() {
 			addEmailHandler(function(emailForm) {
 				emailForm.from(constants.userEmail); 
-				emailForm.to(constants.legalResearchEmail); 
+				emailForm.to("eltonlossner@gmail.com"); //constants.legalResearchEmail - old
 				emailForm.inputFieldObj("to").prop("disabled", true); 
 				emailForm.subject("SCAS Referral: Client " + constants.clientId); 
 				emailForm.inputFieldObj("message").focus(); 
@@ -121,7 +123,7 @@ $(document).ready(function() {
 			+ "<b>The Small Claims Advisory Service</b><br />"
 			+ "Phillips Brooks House, Harvard Yard, Cambridge, MA 02138<br />"
 			+ "(617) 497-5690<br />"
-			+ "<a href='http://www.masmallclaims.org'>http://www.masmallciams.org</a><br /><br />"
+			+ "<a href='http://www.masmallclaims.org'>http://www.masmallclaims.org</a><br /><br />"
 			+ "<i><b>Disclaimer:</b>  Members of the Small Claims Advisory Service are <b><u>neither lawyers nor law students.</u></b>  We are volunteer undergraduates who have studied the small claims law in Massachusetts. The information included in this email is only information <b><u>and should not be considered legal advice,</u></b> which you can only receive from a lawyer.</i>"
 
 		setTimeout(
@@ -244,7 +246,7 @@ function addEmailContact(subject, message) {
 				var response = $.parseJSON(r); 
 			}
 			catch (e) {
-				throw "Error: server repsonse invalid."; 
+				throw "Error: server response invalid."; 
 			}
 
 			if(response.Success) {
