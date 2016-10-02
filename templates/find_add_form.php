@@ -24,10 +24,6 @@
 					<input type="email" class="form-control" id="Email" name="Email" placeholder="Email Address" />
 				</div>
 				<div class="form-group">
-					<label class="sr-only" for="Language">Language</label>
-					<input type="language" class="form-control" id="Language" name="Language" placeholder="Language" />
-				</div>
-				<div class="form-group">
 					<input type="hidden" name="SHOW_LIST" value="true" hidden>
 					<button id="search" type="button" class="btn btn-primary" onclick="submitQuery();">Search</button>
 					<button type="button" style="margin-left: 0px" class="btn btn-success" onclick="addClient();">Add</button>
@@ -49,7 +45,6 @@
 						<th>Phone Number</th>
 						<th>Email</th>
 						<th>Priority</th>
-						<th>Language</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -68,7 +63,6 @@
 </div>
 
 <script>
-
 	// enter for submit	
 	$("input").keyup(function(event) {
 		if(event.keyCode == 13){
@@ -76,7 +70,6 @@
 		}
 	});
 	
-
 	function submitQuery() {
 		// pull input
 		var clientId = $("#ClientId").val();
@@ -84,17 +77,14 @@
 		var lastName = $("#LastName").val();
 		var phoneNumber = $("#PhoneNumber").val();
 		var email = $("#Email").val();
-		var language = $("#Language").val();
 		
 		// check input
 		if (removeSpace(clientId) == "" &
 				removeSpace(firstName) == "" &
 				removeSpace(lastName) == "" &
 				removeSpace(phoneNumber) == "" &
-				removeSpace(email) == "" &
-				removeSpace(language) == "")
+				removeSpace(email) == "")
 			return false; 	
-
 		// store input
         var input = {};
 		input["ClientId"] = clientId;
@@ -102,11 +92,8 @@
 		input["LastName"] = lastName;
 		input["PhoneNumber"] = phoneNumber;
 		input["Email"] = email;
-		input["Language"] = language;
-
 		// deal with progressbar
 		$("#progress").width("50%");	
-
 		// send ajax
 		ajaxBot.sendAjax({
 			REQ : "searchClients", 
@@ -123,9 +110,7 @@
 									 +	"<th>Phone Number</th>"
 									 +	"<th>Email</th>"
 									 +	"<th>Priority</th>"
-									 +  "<th>Language</th>"
 								  +	"</tr></thead>";
-
 						// iterate through rows
 						tableHtml += "<tbody>";
 						var i = 0;
@@ -134,20 +119,10 @@
 							tableHtml = tableHtml + "<tr name='client' id='" + r[i].ClientID +  "' style='cursor : pointer'>"
 										 +	"<td>" + r[i].FirstName + " " + r[i].LastName  + "</td>"
                                          +	"<td>(" + r[i].Phone1AreaCode + ") " + r[i].Phone1Number  + "</td>";
-
                             if (r[i].Email != null)
                                 tableHtml += "<td>" + r[i].Email  + "</td>";
                             else
                                 tableHtml += "<td></td>";
-
-										tableHtml += "<td>" + r[i].Priority  + "</td>"
-									  +	"</tr>";
-									  
-							if (r[i].Language != null)
-                                tableHtml += "<td>" + r[i].Language  + "</td>";
-                            else
-                                tableHtml += "<td></td>";
-
 										tableHtml += "<td>" + r[i].Priority  + "</td>"
 									  +	"</tr>";
 							i++;
@@ -161,18 +136,14 @@
 										 +	"<td><i>No Result<i></td>"
 										 +	"<td></td>"
 										 +	"<td></td>"
-										 +	"<td></td>
-										 +  "<td></td>"
+										 +	"<td></td>"
 									  +	"</tr>";
 						
 						}
-
 						// set html
 						$("#results").html(tableHtml);
-
 						// indicate completion
 						$("#progress").width("100%");
-
 						// after 1 second, reset progress bar to 0
 						setTimeout(
 							function() {
@@ -185,7 +156,6 @@
 						$("tr[name='client']").click(function () {		
 							window.location.href = "client.php?ClientID=" + $(this).attr('id')
 						}); 
-
 					} else {
 						// failure occurs when session timed out
 						alert("Session timed out! Please login again.");
@@ -201,42 +171,30 @@
 		}); 
 	
 	}
-
 	function addClient() {
 		// pull input
 		var firstName = $("#FirstName").val();
 		var lastName = $("#LastName").val();
 		var phoneNumber = $("#PhoneNumber").val();
 		var email = $("#Email").val();
-		var language = $("#Language").val();
 		
 		// check input
 		if (removeSpace(firstName) == "" &
 				removeSpace(lastName) == "" &
 				removeSpace(phoneNumber) == "" &
-				removeSpace(email) == "" &
-				removeSpace(language) == "")
+				removeSpace(email) == "")
 			return false; 	
-
-
 		var header = "<form class='hidden' id='addclient-form' action='newclient.php' method='post'>";
 		var lastNameString = "<input type='hidden' name='LastName' value='" + lastName + "' />"; 
 		var firstNameString = "<input type='hidden' name='FirstName' value='" + firstName + "' />"; 
 		var phoneNumberString = "<input type='hidden' name='Phone1Number' value='" + phoneNumber + "' />"; 
 		var emailString = "<input type='hidden' name='Email' value='" + email + "' />"; 
-		var languageString = "<input type ='hidden' name='Language' value='" + language + "' />";
 		var footer = "</form>";		
-
-		$("#addclient-wrapper").append(header + lastNameString + firstNameString + phoneNumberString + emailString + languageString +footer); 
+		$("#addclient-wrapper").append(header + lastNameString + firstNameString + phoneNumberString + emailString + footer); 
 		$("#addclient-form").submit(); 
-
-
-
 	}
 	
 	function removeSpace(str) {
 		return str.replace(/\s/g, '');
 	}
-
 </script>
-
