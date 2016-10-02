@@ -24,7 +24,7 @@
 					<input type="email" class="form-control" id="Email" name="Email" placeholder="Email Address" />
 				</div>
 				<div class="form-group">
-					<label class="sr-only" for="Email">Email</label>
+					<label class="sr-only" for="Language">Language</label>
 					<input type="language" class="form-control" id="Language" name="Language" placeholder="Language" />
 				</div>
 				<div class="form-group">
