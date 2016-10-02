@@ -24,6 +24,10 @@
 					<input type="email" class="form-control" id="Email" name="Email" placeholder="Email Address" />
 				</div>
 				<div class="form-group">
+					<label class="sr-only" for="Email">Email</label>
+					<input type="language" class="form-control" id="Language" name="Language" placeholder="Language" />
+				</div>
+				<div class="form-group">
 					<input type="hidden" name="SHOW_LIST" value="true" hidden>
 					<button id="search" type="button" class="btn btn-primary" onclick="submitQuery();">Search</button>
 					<button type="button" style="margin-left: 0px" class="btn btn-success" onclick="addClient();">Add</button>
@@ -45,6 +49,7 @@
 						<th>Phone Number</th>
 						<th>Email</th>
 						<th>Priority</th>
+						<th>Language</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -79,13 +84,15 @@
 		var lastName = $("#LastName").val();
 		var phoneNumber = $("#PhoneNumber").val();
 		var email = $("#Email").val();
+		var language = $("#Language").val();
 		
 		// check input
 		if (removeSpace(clientId) == "" &
 				removeSpace(firstName) == "" &
 				removeSpace(lastName) == "" &
 				removeSpace(phoneNumber) == "" &
-				removeSpace(email) == "")
+				removeSpace(email) == "" &
+				removeSpace(language) == "")
 			return false; 	
 
 		// store input
@@ -95,6 +102,7 @@
 		input["LastName"] = lastName;
 		input["PhoneNumber"] = phoneNumber;
 		input["Email"] = email;
+		input["Language"] = language;
 
 		// deal with progressbar
 		$("#progress").width("50%");	
@@ -115,6 +123,7 @@
 									 +	"<th>Phone Number</th>"
 									 +	"<th>Email</th>"
 									 +	"<th>Priority</th>"
+									 +  "<th>Language</th>"
 								  +	"</tr></thead>";
 
 						// iterate through rows
@@ -133,6 +142,14 @@
 
 										tableHtml += "<td>" + r[i].Priority  + "</td>"
 									  +	"</tr>";
+									  
+							if (r[i].Language != null)
+                                tableHtml += "<td>" + r[i].Language  + "</td>";
+                            else
+                                tableHtml += "<td></td>";
+
+										tableHtml += "<td>" + r[i].Priority  + "</td>"
+									  +	"</tr>";
 							i++;
 						}					
 						tableHtml += "</tbody>";			
@@ -144,7 +161,8 @@
 										 +	"<td><i>No Result<i></td>"
 										 +	"<td></td>"
 										 +	"<td></td>"
-										 +	"<td></td>"
+										 +	"<td></td>
+										 +  "<td></td>"
 									  +	"</tr>";
 						
 						}
@@ -190,12 +208,14 @@
 		var lastName = $("#LastName").val();
 		var phoneNumber = $("#PhoneNumber").val();
 		var email = $("#Email").val();
+		var language = $("#Language").val();
 		
 		// check input
 		if (removeSpace(firstName) == "" &
 				removeSpace(lastName) == "" &
 				removeSpace(phoneNumber) == "" &
-				removeSpace(email) == "")
+				removeSpace(email) == "" &
+				removeSpace(language) == "")
 			return false; 	
 
 
@@ -204,9 +224,10 @@
 		var firstNameString = "<input type='hidden' name='FirstName' value='" + firstName + "' />"; 
 		var phoneNumberString = "<input type='hidden' name='Phone1Number' value='" + phoneNumber + "' />"; 
 		var emailString = "<input type='hidden' name='Email' value='" + email + "' />"; 
+		var languageString = "<input type ='hidden' name='Language' value='" + language + "' />";
 		var footer = "</form>";		
 
-		$("#addclient-wrapper").append(header + lastNameString + firstNameString + phoneNumberString + emailString + footer); 
+		$("#addclient-wrapper").append(header + lastNameString + firstNameString + phoneNumberString + emailString + languageString +footer); 
 		$("#addclient-form").submit(); 
 
 
