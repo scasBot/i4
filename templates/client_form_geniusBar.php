@@ -67,6 +67,7 @@ $(document).ready(function() {
 		emailLegalResearch : function() {
 			addEmailHandler(function(emailForm) {
 				emailForm.from(constants.userEmail); 
+				emailForm.senderName(constants.userName);
 				emailForm.to("masmallclaims@gmail.com"); //constants.legalResearchEmail - old
 				emailForm.inputFieldObj("to").prop("disabled", true); 
 				emailForm.subject("SCAS Referral: Client " + constants.clientId); 
