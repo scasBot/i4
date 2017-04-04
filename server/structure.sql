@@ -68,7 +68,7 @@ CREATE TABLE `db_Clients` (
   `Language` varchar(16) DEFAULT 'English',
   `Notes` longtext,
   `DemosOK` char(1) NOT NULL DEFAULT '0',
-  `ReferralSource` text NOT NULL,
+  `ReferralSource` text DEFAULT NULL,
   `ReferralSpecify` text NOT NULL,
   `Email` varchar(100) DEFAULT NULL,
   `CaseTypeID` int(11) NOT NULL DEFAULT '0',
