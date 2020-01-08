@@ -24,8 +24,13 @@ class ClientInfo extends aDataObject implements iDataObject {
 	protected $elements = array(
 		"ClientID", "FirstName", "LastName", "Phone1Number", 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		"Phone2Number", "Email", "Address", "City", "State", "ReferralSource", 
 		"Zip", "Language", "ClientNotes", "CaseTypeID", "CategoryID"); 
+=======
+		"Phone2Number", "Email", "Address", "City", "State", 
+		"Zip", "Language", "ClientNotes", "CaseTypeID", "CategoryID", "ReferralSource"); 
+>>>>>>> Stashed changes
 =======
 		"Phone2Number", "Email", "Address", "City", "State", 
 		"Zip", "Language", "ClientNotes", "CaseTypeID", "CategoryID", "ReferralSource"); 
