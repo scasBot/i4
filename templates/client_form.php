@@ -99,12 +99,15 @@ function dele()
 				</tr>
 				<tr>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 					<td>Referral Source</td>
 					<td>
 						<input id="ReferralSource" class="form-control" name="ReferralSource" type="text" value="<?php echo $client["ReferralSource"] ?>" />
 					</td>
 					<td>Zip</td>
 =======
+=======
+>>>>>>> Stashed changes
 					<td>How did they hear about SCAS?</td>
 					<td>
                         <select name="ReferralSource" class="form-control" id="ReferralSource">
@@ -112,6 +115,9 @@ function dele()
                         </select>
 					</td>
 					<td><p><span class="important-field">Zip Code *</span></p></td>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 					<td>
 						<input autocomplete="no" id="Zip" class="form-control" name="Zip" type="text" value="<?php echo $client["Zip"] ?>" />
