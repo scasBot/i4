@@ -71,8 +71,10 @@
 					</td>
 				</tr>
 				<tr>
-					<td></td>
-					<td></td>
+					<td>Referral Source</td>
+					<td>
+						<input id="ReferralSource" class="form-control" name="ReferralSource" type="text" value="<?php echo $client["ReferralSource"] ?>" />
+					</td>
 					<td>Zip</td>
 					<td>
 						<input id="Zip" class="form-control" name="Zip" type="text" value="<?php echo $client["Zip"] ?>" />
