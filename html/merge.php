@@ -26,9 +26,9 @@ require("../includes/client_class.php");
 define("LIMIT_NUMBER", 40); 
 
 // compers not allowed to access
-if(COMPER) {
-	apologize("Sorry, compers can't access this option."); 
-}
+// if(COMPER) {
+// 	apologize("Sorry, compers can't access this option."); 
+// }
 
 // requesting the merge page
 if($_SERVER["REQUEST_METHOD"] == "GET") {

@@ -8,7 +8,7 @@
 				style="width: 40%" 
 				class="form-control" 
 				type="text" 
-				placeholder="<?php echo "  " . byi4("Instant Search") ?>" />
+				placeholder="Search clients..." />
 		</form>
 	</section>
 			<script>
@@ -42,7 +42,7 @@
 			</script>
 	<section class="bottom" style="margin-top: 0">
 		<div class="row">
-			<table class="table table-bordered table-hover">
+			<table class="table table-bordered table-hover table-striped">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -56,11 +56,13 @@
 					<?php foreach($cases as $case) : ?>
 						<tr name='client' id='<?php echo $case["ClientID"] ?>' style='cursor : pointer'> 
 						<td><?php echo $case["LastName"] . ", " . $case["FirstName"] ?>
-							<?php if ($case["ContactTypeID"] == 15 && $case["CaseTypeID"] != 61) echo "&nbsp<span class='label label-primary'>New Email</span>"?>
-							<?php if ($case["ContactTypeID"] == 21 && $case["CaseTypeID"] != 61
-								&& $case["CaseTypeID"] != 11 && $case["CaseTypeID"] != 22) echo "&nbsp<span class='label label-info'>New Voicemail</span>"?>
+							<?php if ($case["CaseTypeID"] == 12) echo "&nbsp<span class='label label-primary'>New Email</span>"?>
+							<?php if ($case["CaseTypeID"] == 21) echo "&nbsp<span class='label label-info'>Voicemail</span>"?>
+                                                        <?php if ($case["CaseTypeID"] == 10) echo "&nbsp<span class='label label-warning'>Appointment</span>"?>
+                                                        <?php if ($case["CaseTypeID"] == 52) echo "&nbsp<span class='label label-default'>LR</span>"?>
+                                                        <?php if ($case["CaseTypeID"] == 100) echo "&nbsp<span class='label label-danger'>" . $case["Language"] . "</span>"?>
 						</td>
-						<td><?php echo "(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] ?></td> 
+						<td><?php echo $case["Phone1AreaCode"] . "-" . $case["Phone1Number"] ?></td> 
 						<td><?php echo $case["Email"] ?></td>
 						<td><?php echo $case["Priority"] ?></td>
 						<td><?php echo $case["Language"] ?></td>

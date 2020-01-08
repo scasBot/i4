@@ -54,7 +54,10 @@ function get_username($user_id) {
 }
 function get_contacttype($contacttype_id) {
 	$result = unique_lookup("db_ContactTypes", $contacttype_id, "ContactTypeID", "Description"); 
-	assert2(count($result) == 1, $contacttype_id . " did not match 1 result."); 
+	/* this throws a warning for some reason:
+	    Warning: count(): Parameter must be an array or an object that implements Countable in /home4/masmallc/public_html/i4/includes/functions_database.php on line 57
+	    */
+    assert2(!is_null($result), $contacttype_id . " did not match 1 result."); 
 	return $result; 
 }
 	
@@ -117,6 +120,21 @@ function get_categories() {
 	}
 	
 	return $categories; 
+}
+
+function get_referral_sources() {
+	static $rows; 
+	
+	if(!isset($rows)) {
+		$rows = query("SELECT * FROM db_ReferralSources ORDER BY SortKey ASC"); 
+	}
+	
+	$referral_sources = array(); 
+	foreach($rows as $row) {
+		$referral_sources[$row["ReferralSourceID"]] = $row["Description"]; 
+	}
+	
+	return $referral_sources; 
 }
 
 // returns a random word with $len

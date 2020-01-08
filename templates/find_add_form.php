@@ -1,23 +1,23 @@
 <div id="find">
 	<section class="top">
 		<div class="row"> 
-			<form class="form-inline" style="padding-left: 10px">
+			<form autocomplete="off" class="form-inline" style="padding-left: 10px">
 				<div class="form-group"> 
 					<label class="sr-only" for="ClientId">Client ID</label>
 					<input type="text" class="form-control" id="ClientId" name="ClientId" placeholder="Client ID" />
 				</div>
 				<div class="form-group">
 					<label class="sr-only" for="FirstName">First Name</label>
-					<input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First Name" />
+					<input autocomplete="no" type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First Name" />
 				</div>
 				<div class="form-group">
 					<label class="sr-only" for="LastName">Last Name</label>
-					<input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last Name" />
+					<input autocomplete="no" type="text" class="form-control" id="LastName" name="LastName" placeholder="Last Name" />
 				</div>
 
 				<div class="form-group">
 					<label class="sr-only" for="PhoneNumber">Phone Number</label>
-					<input type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Phone Number" />
+					<input autocomplete="no" type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Phone Number" />
 				</div>
 				<div class="form-group">
 					<label class="sr-only" for="Email">Email</label>
@@ -38,7 +38,7 @@
 		</div>
 	<section class="bottom">
 		<div class="row">
-			<table id="results" class="table table-bordered table-hover">
+			<table id="results" class="table table-bordered table-hover table-striped">
 				<thead>
 					<tr>
 						<th>Name</th>

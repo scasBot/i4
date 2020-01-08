@@ -23,7 +23,10 @@ Description :
 // can be used to emulate the SCAS hcs.harvard.edu server which runs php 5.2.4
 function process_global_strings($func) {
 	$process = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
-	while (list($key, $val) = each($process)) {
+	
+	/* each() has been DEPRECATED
+	while (list($key, $val) = each($process)) { */
+    foreach($process as $key => $val) {
 		foreach ($val as $k => $v) {
 			unset($process[$key][$k]);
 			if (is_array($v)) {

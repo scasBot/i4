@@ -30,8 +30,8 @@ if (LOCAL_HOST) {
 define("LEADERBOARD_STATS_FILE", ROOT . "/data/" . "data_leaderboard.php"); 
 
 define("SCAS_EMAIL", "masmallclaims@gmail.com"); 
-define("ADMIN_EMAIL", "klim01@college.harvard.edu"); 
-define("LEGAL_RESEARCH_EMAIL", "SCASlegalresearch@gmail.com"); 
+define("ADMIN_EMAIL", "omidiran@college.harvard.edu"); 
+define("LEGAL_RESEARCH_EMAIL", "masmallclaims@gmail.com"); 
 
 // idling on website for over 30 minutes is a log-out
 define("IDLE_TIME_LIMIT", 3600);

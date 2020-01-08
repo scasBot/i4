@@ -66,9 +66,10 @@ function query_delete($q_arr) {
 		return null; 
 	}
 	
-	$where_maker = create_function("\$k,\$v", 
-		"return \"`\" . \$k . \"`\" . \$v[0] . \"'\" . \$v[1] . \"'\";"); 
-			
+	$where_maker = function($k, $v) {
+	    return "`" . $k . "`" . $v[0] . "'" . $v[1] . "'";
+	};
+	
 	$query .= "WHERE " . arr_to_str($where_maker, "AND ", " ", $q_arr["WHERE"]);	
 	
 	return $query; 
@@ -89,9 +90,10 @@ function query_insert($q_arr) {
 		return NULL; 
 	}	
 
-	$insert_maker = create_function("\$k,\$v", " 
-		return \"`\" . \$k . \"`='\" . \$v .\"'\";"); 
-			
+	$insert_maker = function($k, $v) {
+	    return "`" . $k . "`='" . $v . "'";
+	};
+	
 	$query .= arr_to_str($insert_maker, ", ", " ", $q_arr["INSERT"]);
 
 	return $query; 
@@ -108,8 +110,9 @@ function query_update($q_arr) {
 		$query = "UPDATE " . $q_arr["TABLE"] . " "; 
 		
 		if(isset($q_arr["UPDATE"])) {
-			$update_maker = create_function("\$k,\$v", "
-				return \"`\" . \$k . \"`='\" . \$v . \"'\";"); 
+			$update_maker = function($k, $v) {
+			    return "`" . $k . "`='" . $v . "'";
+			};
 
 			$query .= "SET " . arr_to_str($update_maker, ", ", " ", $q_arr["UPDATE"]); 
 		}
@@ -118,8 +121,9 @@ function query_update($q_arr) {
 		}
 		
 		if(isset($q_arr["WHERE"])) {
-			$where_maker = create_function("\$k,\$v", " 
-				return \"`\" . \$k . \"`\" . \$v[0] . \"'\" . \$v[1] . \"'\";"); 
+			$where_maker = function($k, $v) {
+			    return "`" . $k . "`" . $v[0] . "'" . $v[1] . "'";
+			};
 			
 			$query .= "WHERE " . arr_to_str($where_maker, "AND ", " ", $q_arr["WHERE"]); 
 		}			
@@ -141,8 +145,9 @@ function query_select($q_arr) {
 		$query = "SELECT "; 
 
 		if (isset($q_arr["TO_SELECT"])) {
-			$select_maker = create_function("\$k,\$v", 
-			"return \"`\" . \$v . \"`\";");  
+			$select_maker = function($k, $v) {
+			    return "`" . $v . "`";
+			};
 
 			$query .= arr_to_str($select_maker, ", ", " ", $q_arr["TO_SELECT"]); 
 		}
@@ -155,16 +160,18 @@ function query_select($q_arr) {
 		
 		// WHERE clause
 		if (isset($q_arr["WHERE"])) {
-			$where_maker = create_function("\$k,\$v", 
-				"return \"`\" . \$k . \"` \" . \$v[0] . \" '\" . \$v[1] . \"'\";"); 
+			$where_maker = function($k, $v) {
+			    return "`" . $k . "` " . $v[0] . " '" . $v[1] . "'";
+			};
 			
 			$query .= "WHERE " . arr_to_str($where_maker, "AND ", " ", $q_arr["WHERE"]); 
 		}
 		
 		// ORDER BY clause
 		if (isset($q_arr["ORDER"])) {
-			$order_maker = create_function("\$k, \$v", 
-				"return \"`\" . \$k . \"` \" . \$v; "); 
+			$order_maker = function($k, $v) {
+			    return "`" . $k . "` " . $v;
+			};
 
 			$query .= "ORDER BY " . arr_to_str($order_maker, ", ", " ", $q_arr["ORDER"]); 
 		}

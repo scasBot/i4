@@ -36,19 +36,53 @@ switch ($_GET["type"]) {
 		function get_by_priority_id($id) {
 			return model("cases_by_priority_id.php", array("id" => $id)); 			
 		}
-		
-		// these can be changed easily to reflect different ordering of priorities
-		$urgent = get_by_priority_id(1); 
-		$no_contacted = get_by_priority_id(21); 
-		$undefined = get_by_priority_id(0); 
-		$phone_tag = get_by_priority_id(11);
-		$one_message_left = get_by_priority_id(22); 
 
-		if ((count($urgent) + count($no_contacted) + count($undefined) + count($phone_tag)) < LIMITING_NUMBER_FOR_ONE_MESSAGE_LEFT) {
+		// connect
+	$dbh = new PDO('mysql:host=localhost;dbname=masmallc_scas', 'masmallc_scas', "LWn-tmX-ETv-N7M");
+	$dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+	// prepare and execute
+	$phone_tag = $dbh->prepare('SELECT db_Clients.*, db_CaseTypes.Description AS Priority FROM db_Clients, db_CaseTypes WHERE db_Clients.CaseTypeID = 11 AND db_CaseTypes.CaseTypeID = 11 AND db_Clients.LastEditTime > "2018-03-01"');
+	$phone_tag->execute();
+	$phone_tag = $phone_tag->fetchAll(\PDO::FETCH_ASSOC);
+
+	$urgent_language = $dbh->prepare('SELECT db_Clients.*, db_CaseTypes.Description AS Priority FROM db_Clients, db_CaseTypes WHERE db_Clients.CaseTypeID = 100 AND db_CaseTypes.CaseTypeID = 100 AND db_Clients.LastEditTime > "2018-03-01"');
+	$urgent_language->execute();
+	$urgent_language = $urgent_language->fetchAll(\PDO::FETCH_ASSOC);
+
+	$urgent_time = $dbh->prepare('SELECT db_Clients.*, db_CaseTypes.Description AS Priority FROM db_Clients, db_CaseTypes WHERE db_Clients.CaseTypeID = 101 AND db_CaseTypes.CaseTypeID = 101 AND db_Clients.LastEditTime > "2018-03-01"');
+	$urgent_time->execute();
+	$urgent_time = $urgent_time->fetchAll(\PDO::FETCH_ASSOC);	
+
+	$urgent_court = $dbh->prepare('SELECT db_Clients.*, db_CaseTypes.Description AS Priority FROM db_Clients, db_CaseTypes WHERE db_Clients.CaseTypeID = 102 AND db_CaseTypes.CaseTypeID = 102 AND db_Clients.LastEditTime > "2018-03-01"');
+	$urgent_court->execute();
+	$urgent_court = $urgent_court->fetchAll(\PDO::FETCH_ASSOC);	
+
+	$no_contacted = $dbh->prepare('SELECT db_Clients.*, db_CaseTypes.Description AS Priority FROM db_Clients, db_CaseTypes WHERE db_Clients.CaseTypeID = 21 AND db_CaseTypes.CaseTypeID = 21 AND db_Clients.LastEditTime > "2018-03-01"');
+	$no_contacted->execute();
+	$no_contacted = $no_contacted->fetchAll(\PDO::FETCH_ASSOC);	
+
+	$one_message_left = $dbh->prepare('SELECT db_Clients.*, db_CaseTypes.Description AS Priority FROM db_Clients, db_CaseTypes WHERE db_Clients.CaseTypeID = 22 AND db_CaseTypes.CaseTypeID = 22 AND db_Clients.LastEditTime > "2018-03-01"');
+	$one_message_left->execute();
+	$one_message_left = $one_message_left->fetchAll(\PDO::FETCH_ASSOC); 
+
+	$undefined = $dbh->prepare('SELECT db_Clients.*, db_CaseTypes.Description AS Priority FROM db_Clients, db_CaseTypes WHERE db_Clients.CaseTypeID = 0 AND db_CaseTypes.CaseTypeID = 0 AND db_Clients.LastEditTime > "2018-03-01"');
+	$undefined->execute();
+	$undefined = $undefined->fetchAll(\PDO::FETCH_ASSOC); 
+
+	$upcoming_appt = $dbh->prepare('SELECT db_Clients.*, db_CaseTypes.Description AS Priority FROM db_Clients, db_CaseTypes WHERE db_Clients.CaseTypeID = 10 AND db_CaseTypes.CaseTypeID = 10 AND db_Clients.LastEditTime > "2019-06-01"');
+	$upcoming_appt->execute();
+	$upcoming_appt = $upcoming_appt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	$legal_research = $dbh->prepare('SELECT db_Clients.*, db_CaseTypes.Description AS Priority FROM db_Clients, db_CaseTypes WHERE db_Clients.CaseTypeID = 52 AND db_CaseTypes.CaseTypeID = 52 AND db_Clients.LastEditTime > "2019-06-01"');
+	$legal_research->execute();
+	$legal_research = $legal_research->fetchAll(\PDO::FETCH_ASSOC);	
+
+		if ((count($urgent_language) + count($urgent_time)+ count($urgent_court) + count($no_contacted) + count($undefined) + count($phone_tag)) < LIMITING_NUMBER_FOR_ONE_MESSAGE_LEFT) {
 			$one_message_left = get_by_priority_id(22);
-			$cases = array_merge($undefined, $urgent, $no_contacted, $phone_tag, $one_message_left);
+			$cases = array_merge($undefined, $urgent_language, $urgent_court, $urgent_time, $upcoming_appt, $no_contacted, $phone_tag, $one_message_left, $legal_research);
 		} else {
-			$cases = array_merge($undefined, $urgent, $no_contacted, $phone_tag);
+			$cases = array_merge($undefined, $urgent_language, $urgent_court, $urgent_time, $upcoming_appt, $no_contacted, $phone_tag, $legal_research);
 		}
 
 		render("cases_list.php", array("title" => "By " . $_GET["type"], 
@@ -63,7 +97,7 @@ switch ($_GET["type"]) {
 		// get the clients with most recent 100 contacts added
 		$clients = 
 			"((SELECT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, "
-				. "Phone1Number, Email, CaseTypeID, ContactDate "
+				. "Phone1Number, Email, CaseTypeID, Language, ContactDate "
 			. "FROM db_Clients "
 			. "INNER JOIN (dbi4_Contacts AS contacts) " 
 			. "ON contacts.ClientID=db_Clients.ClientID "
@@ -78,7 +112,7 @@ switch ($_GET["type"]) {
 		$cases = query(
 			"SELECT clients_pre.*, Contacts.ContactTypeID FROM " 
 			. "(SELECT DISTINCT clients.ClientID, FirstName, LastName, "
-			. "Phone1AreaCode, Phone1Number, Email, clients.CaseTypeID, Priority "
+			. "Phone1AreaCode, Phone1Number, Email, clients.CaseTypeID, Language, Priority "
 			. "FROM $clients "
 			. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
 				. "FROM db_CaseTypes "

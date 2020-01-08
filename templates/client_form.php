@@ -1,3 +1,13 @@
+<script>
+function dele()
+{
+	if(confirm("Are you sure you want to delete this client and all data " + 
+					"associated with them?")) {
+					window.location = "client.php?DELETE&ClientID=" + <?php echo $client['ClientID']; ?>; 
+	}
+}
+</script>
+
 <div class="client-wrapper">
 	<section class="bar">
 		<div class="navigation">
@@ -13,6 +23,23 @@
 			<div class="navitem">
 				<h5><a id="contacts_button">Contacts <i class="glyphicon glyphicon-earphone"></i></a></h5>
 			</div>
+			<br><br>
+			<div class="navitem">
+				<h5><a id="contacts_button" href="mailto:masmallclaims@gmail.com">Legal Research <i class="glyphicon glyphicon-new-window"></i></a></h5>
+			</div>
+			<div class="navitem">
+				<h5><a id="contacts_button" href="mailto:regina_fairfax@college.harvard.edu,poconnor@college.harvard.edu">Office <i class="glyphicon glyphicon-new-window"></i></a></h5>
+			</div>
+			<?php
+				if (isset($client["Email"]) && $client["Email"] != "")
+				{
+			?>
+			<div class="navitem">
+				<h5><a id="contacts_button" href="mailto:<?php echo $client["Email"]; ?>">Client <i class="glyphicon glyphicon-new-window"></i></a></h5>
+			</div>
+			<?php
+				}
+			?>
 		</div>
 		<div class="geniusbar">
 			<?php require("client_form_geniusBar.php") ?>
@@ -39,25 +66,25 @@
 				<tr>
 					<td>First Name</td>
 					<td>
-						<input id="FirstName" class="form-control" name="FirstName" type="text" value="<?php echo $client["FirstName"] ?>" />
+						<input autocomplete="no" id="FirstName" class="form-control" name="FirstName" type="text" value="<?php echo $client["FirstName"] ?>" />
 					</td>
 					<td>Address</td>
 					<td>
-						<input id="Address" class="form-control" name="Address" type="text" value="<?php echo $client["Address"] ?>" />
+						<input autocomplete="no" id="Address" class="form-control" name="Address" type="text" value="<?php echo $client["Address"] ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>Last Name</td>
 					<td>
-						<input id="LastName" class="form-control" name="LastName" type="text" value="<?php echo $client["LastName"] ?>" />
+						<input autocomplete="no" id="LastName" class="form-control" name="LastName" type="text" value="<?php echo $client["LastName"] ?>" />
 					</td>
 					<td>City</td>
 					<td>
-						<input id="City" class="form-control" name="City" type="text" value="<?php echo $client["City"] ?>" />
+						<input autocomplete="no" id="City" class="form-control" name="City" type="text" value="<?php echo $client["City"] ?>" />
 					</td>
 				</tr>
 				<tr>
-					<td>Category</td>
+					<td><p><span class="important-field">Category *</span></p></td>
 					<td>
 						<select name="CategoryID" class="form-control">
 							<?php echo htmlOptions($categories, $category) ?>
@@ -71,29 +98,39 @@
 					</td>
 				</tr>
 				<tr>
+<<<<<<< Updated upstream
 					<td>Referral Source</td>
 					<td>
 						<input id="ReferralSource" class="form-control" name="ReferralSource" type="text" value="<?php echo $client["ReferralSource"] ?>" />
 					</td>
 					<td>Zip</td>
+=======
+					<td>How did they hear about SCAS?</td>
 					<td>
-						<input id="Zip" class="form-control" name="Zip" type="text" value="<?php echo $client["Zip"] ?>" />
+                        <select name="ReferralSource" class="form-control" id="ReferralSource">
+                            <?php echo htmlOptions($referral_sources, $referral_source) ?>
+                        </select>
+					</td>
+					<td><p><span class="important-field">Zip Code *</span></p></td>
+>>>>>>> Stashed changes
+					<td>
+						<input autocomplete="no" id="Zip" class="form-control" name="Zip" type="text" value="<?php echo $client["Zip"] ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>Primary Phone</td>
 					<td>
-						<input id="Phone1Number" class="form-control" name="Phone1Number" type="tel" value="<?php echo $client["Phone1Number"] ?>" />
+						<input autocomplete="no" id="Phone1Number" class="form-control" name="Phone1Number" type="tel" value="<?php echo substr_replace(substr_replace($client["Phone1Number"], "-", 3, 0), "-", 7, 0) ?>" />
 					</td>
 					<td>Language</td>
 					<td>
-						<input id="Language" class="form-control" name="Language" type="text" value="<?php echo $client["Language"] ?>" />
+						<input autocomplete="no" id="Language" class="form-control" name="Language" type="text" value="<?php echo $client["Language"] ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>Secondary Phone</td>
 					<td>
-						<input id="Phone2Number" class="form-control" name="Phone2Number" type="tel" value="<?php echo $client["Phone2Number"] ?>" />
+						<input autocomplete="no" id="Phone2Number" class="form-control" name="Phone2Number" type="tel" value="<?php echo $client["Phone2Number"] ?>" />
 					</td>
 					<td rowspan="2">Notes</td>
 					<td rowspan="2">
@@ -103,7 +140,7 @@
 				<tr>
 					<td>Email</td>
 					<td>
-						<input id="Email" class="form-control" name="Email" type="email" value="<?php echo $client["Email"] ?>" />
+						<input autocomplete="no" id="Email" class="form-control" name="Email" type="email" value="<?php echo $client["Email"] ?>" />
 					</td>
 			</table>
 				<br />
@@ -115,12 +152,10 @@
 			<?php require("contact_form.php");?> 
 			<?php if($i3_contacts["exists"]) require("old_contact_form.php") ?>
 		</div>
-		<?php if(!COMPER) : ?>
 			<div id="menu" class="menu">
-				<button class="btn btn-danger btn-lg actions" data-action="del"><i class="glyphicon glyphicon-trash"></i> Delete Client</button>
-				<button class="btn btn-primary btn-lg actions" data-action="merge"><i class="glyphicon glyphicon-retweet"></i> Merge Client</button>
+				<a href="#" onclick="dele();"><button class="btn btn-danger btn-lg actions" data-action="del"><i class="glyphicon glyphicon-trash"></i> Delete Client</button></a>
+				<a href="/merge.php?Client1=<?php echo $client["ClientID"]; ?>"><button class="btn btn-primary btn-lg actions" data-action="merge"><i class="glyphicon glyphicon-retweet"></i> Merge Client</button></a>
 			</div>
-		<?php endif; ?>
 	</section> <!-- main section -->
 </div> <!-- wrapper -->
 
@@ -174,7 +209,7 @@
 
 		var data = {}; 
 		for(field in fields) {
-			data[fields[field].attr("name")] = fields[field].val(); 
+			data[fields[field].attr("name")] = fields[field].val().replace(/'/g, "’"); 
 		}
 
 		ajaxBot.sendAjax({
