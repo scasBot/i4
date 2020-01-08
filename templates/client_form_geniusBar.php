@@ -1,9 +1,9 @@
-	<button class="btn btn-default actions" style="height: 50px;" data-action="emaili4">Email i4 Users</button>
-    <!--<button class="btn btn-default actions" style="height: 50px; ;" data-action="emaili4">Email i4 Users</button> -->
+	<!-- <button class="btn btn-default actions" style="height: 50px;" data-action="emaili4">Email i4 Users</button>
+    <button class="btn btn-default actions" style="height: 50px; ;" data-action="emaili4">Email i4 Users</button>
     <button class="btn btn-primary actions" style="height: 50px;" data-action="emailLegalResearch">Email Legal Research</button>
-    <!--<button class="btn btn-primary actions" style="height: 50px; ;" data-action="emailLegalResearch">Email Legal Research</button> -->
+    <button class="btn btn-primary actions" style="height: 50px; ;" data-action="emailLegalResearch">Email Legal Research</button>
 	<button class="btn btn-success actions" style="height: 100px;" data-action="emailClient"><i class="glyphicon glyphicon-envelope"></i> Email Client</button>
-	<!-- button class="btn btn-inverse actions" data-action="email">Email Client</button -->
+	<button class="btn btn-inverse actions" data-action="email">Email Client</button --> 
 <script>
 $(document).ready(function() {
 	$(".actions").on("click", function() {
@@ -67,6 +67,7 @@ $(document).ready(function() {
 		emailLegalResearch : function() {
 			addEmailHandler(function(emailForm) {
 				emailForm.from(constants.userEmail); 
+				emailForm.senderName(constants.userName);
 				emailForm.to("masmallclaims@gmail.com"); //constants.legalResearchEmail - old
 				emailForm.inputFieldObj("to").prop("disabled", true); 
 				emailForm.subject("SCAS Referral: Client " + constants.clientId); 

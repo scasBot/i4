@@ -1,23 +1,23 @@
 <div id="find">
 	<section class="top">
 		<div class="row"> 
-			<form class="form-inline" style="padding-left: 10px">
+			<form autocomplete="off" class="form-inline" style="padding-left: 10px">
 				<div class="form-group"> 
 					<label class="sr-only" for="ClientId">Client ID</label>
 					<input type="text" class="form-control" id="ClientId" name="ClientId" placeholder="Client ID" />
 				</div>
 				<div class="form-group">
 					<label class="sr-only" for="FirstName">First Name</label>
-					<input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First Name" />
+					<input autocomplete="no" type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First Name" />
 				</div>
 				<div class="form-group">
 					<label class="sr-only" for="LastName">Last Name</label>
-					<input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last Name" />
+					<input autocomplete="no" type="text" class="form-control" id="LastName" name="LastName" placeholder="Last Name" />
 				</div>
 
 				<div class="form-group">
 					<label class="sr-only" for="PhoneNumber">Phone Number</label>
-					<input type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Phone Number" />
+					<input autocomplete="no" type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Phone Number" />
 				</div>
 				<div class="form-group">
 					<label class="sr-only" for="Email">Email</label>
@@ -38,7 +38,7 @@
 		</div>
 	<section class="bottom">
 		<div class="row">
-			<table id="results" class="table table-bordered table-hover">
+			<table id="results" class="table table-bordered table-hover table-striped">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -63,7 +63,6 @@
 </div>
 
 <script>
-
 	// enter for submit	
 	$("input").keyup(function(event) {
 		if(event.keyCode == 13){
@@ -71,7 +70,6 @@
 		}
 	});
 	
-
 	function submitQuery() {
 		// pull input
 		var clientId = $("#ClientId").val();
@@ -87,7 +85,6 @@
 				removeSpace(phoneNumber) == "" &
 				removeSpace(email) == "")
 			return false; 	
-
 		// store input
         var input = {};
 		input["ClientId"] = clientId;
@@ -95,10 +92,8 @@
 		input["LastName"] = lastName;
 		input["PhoneNumber"] = phoneNumber;
 		input["Email"] = email;
-
 		// deal with progressbar
 		$("#progress").width("50%");	
-
 		// send ajax
 		ajaxBot.sendAjax({
 			REQ : "searchClients", 
@@ -116,7 +111,6 @@
 									 +	"<th>Email</th>"
 									 +	"<th>Priority</th>"
 								  +	"</tr></thead>";
-
 						// iterate through rows
 						tableHtml += "<tbody>";
 						var i = 0;
@@ -125,12 +119,10 @@
 							tableHtml = tableHtml + "<tr name='client' id='" + r[i].ClientID +  "' style='cursor : pointer'>"
 										 +	"<td>" + r[i].FirstName + " " + r[i].LastName  + "</td>"
                                          +	"<td>(" + r[i].Phone1AreaCode + ") " + r[i].Phone1Number  + "</td>";
-
                             if (r[i].Email != null)
                                 tableHtml += "<td>" + r[i].Email  + "</td>";
                             else
                                 tableHtml += "<td></td>";
-
 										tableHtml += "<td>" + r[i].Priority  + "</td>"
 									  +	"</tr>";
 							i++;
@@ -148,13 +140,10 @@
 									  +	"</tr>";
 						
 						}
-
 						// set html
 						$("#results").html(tableHtml);
-
 						// indicate completion
 						$("#progress").width("100%");
-
 						// after 1 second, reset progress bar to 0
 						setTimeout(
 							function() {
@@ -167,7 +156,6 @@
 						$("tr[name='client']").click(function () {		
 							window.location.href = "client.php?ClientID=" + $(this).attr('id')
 						}); 
-
 					} else {
 						// failure occurs when session timed out
 						alert("Session timed out! Please login again.");
@@ -183,7 +171,6 @@
 		}); 
 	
 	}
-
 	function addClient() {
 		// pull input
 		var firstName = $("#FirstName").val();
@@ -197,25 +184,17 @@
 				removeSpace(phoneNumber) == "" &
 				removeSpace(email) == "")
 			return false; 	
-
-
 		var header = "<form class='hidden' id='addclient-form' action='newclient.php' method='post'>";
 		var lastNameString = "<input type='hidden' name='LastName' value='" + lastName + "' />"; 
 		var firstNameString = "<input type='hidden' name='FirstName' value='" + firstName + "' />"; 
 		var phoneNumberString = "<input type='hidden' name='Phone1Number' value='" + phoneNumber + "' />"; 
 		var emailString = "<input type='hidden' name='Email' value='" + email + "' />"; 
 		var footer = "</form>";		
-
 		$("#addclient-wrapper").append(header + lastNameString + firstNameString + phoneNumberString + emailString + footer); 
 		$("#addclient-form").submit(); 
-
-
-
 	}
 	
 	function removeSpace(str) {
 		return str.replace(/\s/g, '');
 	}
-
 </script>
-

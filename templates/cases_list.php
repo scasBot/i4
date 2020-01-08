@@ -8,7 +8,7 @@
 				style="width: 40%" 
 				class="form-control" 
 				type="text" 
-				placeholder="<?php echo "  " . byi4("Instant Search") ?>" />
+				placeholder="Search clients..." />
 		</form>
 	</section>
 			<script>
@@ -42,26 +42,30 @@
 			</script>
 	<section class="bottom" style="margin-top: 0">
 		<div class="row">
-			<table class="table table-bordered table-hover">
+			<table class="table table-bordered table-hover table-striped">
 				<thead>
 					<tr>
 						<th>Name</th>
 						<th>Phone Number</th>
 						<th>Email</th>
 						<th>Priority</th>
+						<th>Language</th>
 					</tr>
 				</thead>
 				<tbody>		
 					<?php foreach($cases as $case) : ?>
 						<tr name='client' id='<?php echo $case["ClientID"] ?>' style='cursor : pointer'> 
 						<td><?php echo $case["LastName"] . ", " . $case["FirstName"] ?>
-							<?php if ($case["ContactTypeID"] == 15 && $case["CaseTypeID"] != 61) echo "&nbsp<span class='label label-primary'>New Email</span>"?>
-							<?php if ($case["ContactTypeID"] == 21 && $case["CaseTypeID"] != 61
-								&& $case["CaseTypeID"] != 11 && $case["CaseTypeID"] != 22) echo "&nbsp<span class='label label-info'>New Voicemail</span>"?>
+							<?php if ($case["CaseTypeID"] == 12) echo "&nbsp<span class='label label-primary'>New Email</span>"?>
+							<?php if ($case["CaseTypeID"] == 21) echo "&nbsp<span class='label label-info'>Voicemail</span>"?>
+                                                        <?php if ($case["CaseTypeID"] == 10) echo "&nbsp<span class='label label-warning'>Appointment</span>"?>
+                                                        <?php if ($case["CaseTypeID"] == 52) echo "&nbsp<span class='label label-default'>LR</span>"?>
+                                                        <?php if ($case["CaseTypeID"] == 100) echo "&nbsp<span class='label label-danger'>" . $case["Language"] . "</span>"?>
 						</td>
-						<td><?php echo "(" . $case["Phone1AreaCode"] . ") ". $case["Phone1Number"] ?></td> 
+						<td><?php echo $case["Phone1AreaCode"] . "-" . $case["Phone1Number"] ?></td> 
 						<td><?php echo $case["Email"] ?></td>
 						<td><?php echo $case["Priority"] ?></td>
+						<td><?php echo $case["Language"] ?></td>
 						</tr> 					
 					<?php endforeach; ?>
 				</tbody>
@@ -74,7 +78,7 @@
 <script>
 	// disable enter
 	$("input").keypress(function (evt) {
-		//Deterime where our character code is coming from within the event
+		//Determine where our character code is coming from within the event
 		var charCode = evt.charCode || evt.keyCode;
 		if (charCode  == 13) { //Enter key's keycode
 			return false;
@@ -94,9 +98,10 @@
 		var lastName = "<input type='hidden' name='LastName' value='<?php echo $addnew["LastName"] ?>' />"; 
 		var firstName = "<input type='hidden' name='FirstName' value='<?php echo $addnew["FirstName"] ?>' />"; 
 		var phoneNumber = "<input type='hidden' name='Phone1Number' value='<?php echo $addnew["PhoneNumber"] ?>' />"; 
-		var email = "<input type='hidden' name='Email' value='<?php echo $addnew["Email"] ?>' />"; 
+		var email = "<input type='hidden' name='Email' value='<?php echo $addnew["Email"] ?>' />";
+		var language = "<input type='hidden' name='Language' value='<?php echo $addnew["Language"] ?>' />";
 		
-		$("#javascript-form").append(lastName + firstName + phoneNumber + email); 
+		$("#javascript-form").append(lastName + firstName + phoneNumber + email + language); 
 		$("#javascript-form").submit(); 
 	}); 
 	<?php endif; ?>

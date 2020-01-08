@@ -53,30 +53,55 @@ function kv_fun($key, $value) {
 function searchClient($info) { // $info is all items in a $_GET or $_POST request
     $table = "db_Clients"; 
     $keys = array("ClientId", "FirstName", "LastName", "PhoneNumber", "Email"); 
+    $set = array();
     $query_arr = array(); 
     $phone_query = ""; 
     $rows = array(); // will hold all the cases in the end
 
-    foreach($keys as $key) {
-        if(!empty($info[$key]) && $key != "PhoneNumber")
-            $query_arr[$key] = $info[$key]; 
-        else if(!empty($info[$key]) && $key == "PhoneNumber") {
-            $value = only_numbers($info[$key]); 
-            $phone_query = "(`Phone1AreaCode`='" . substr($info[$key], 0, 3) . 
-                "' AND `Phone1Number` LIKE '" . insert_between_each_char(substr($info[$key], 3), "%") . "')";           
-            // Also look up secondary number
-            $phone_query .= "OR (`Phone2AreaCode`='" . substr($info[$key], 0, 3) . 
-                "' AND `Phone2Number` LIKE '" . insert_between_each_char(substr($info[$key], 3), "%") . "')";           
+    // find which ones are set
+    foreach ($keys as $key) {
+        if(!empty($info[$key]))
+        {
+            array_push($set, $key);
         }
     }
-    
-    // query string
-    $query = "SELECT $table.*, db_CaseTypes.Description as Priority "
-        . "FROM $table INNER JOIN db_CaseTypes ON db_CaseTypes.CaseTypeID=db_Clients.CaseTypeID WHERE "; 
-    
-    $query .= arr_to_str("kv_fun", " OR ", "", $query_arr) 
-        . (count($query_arr) > 0 && $phone_query != "" ? " OR " : "" ). $phone_query; 
-    
+
+    $notset = array_diff($keys, $set);
+
+    $query = "SELECT db_Clients.*, db_CaseTypes.Description as Priority FROM db_Clients INNER JOIN db_CaseTypes ON db_CaseTypes.CaseTypeID=db_Clients.CaseTypeID WHERE ";
+
+    $c = 0;
+
+    // generate query
+    foreach ($set as $key) {
+        if ($c != 0)
+        {
+            $query .= "AND ";
+        }
+
+        if ($key == "PhoneNumber")
+        {
+            $areacode = substr($info[$key], 0, 3);
+            $info[$key] = str_replace("(", "", $info[$key]);
+            $info[$key] = str_replace(")", "", $info[$key]);
+            $info[$key] = str_replace("-", "", $info[$key]);
+            $phonenum = substr($info[$key], 3, 7);
+            $phonenum = substr_replace($phonenum, "-", 3, 0);
+
+            $query .= "Phone1AreaCode = '".$areacode."' AND Phone1Number = '".$phonenum."' ";
+        }
+        else
+        {
+            $query .= $key . " = '" . $info[$key] . "' ";
+        }
+
+        $c++;
+    }
+
+    $query .= "ORDER BY ClientID";
+
+    //echo "<script>".$query."</script>";
+
     $rows = query($query); 
     
 	return $rows;

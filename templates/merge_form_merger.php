@@ -10,6 +10,7 @@
         array("City", "text", "City"),
         array("State", 
             "<select id='State' name='State' class='merger-input'>" . htmlOptionsStates() . "</select>"),
+        array("Referral Source", "text", "ReferralSource"),
         array("Zip", "text", "Zip"),
         array("Language", "text", "Language"), 	
         array("Notes",

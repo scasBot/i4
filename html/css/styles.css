@@ -57,6 +57,11 @@
 	padding-top: 4px; 
 }
 
+.navbar .navbar-header button.navbar-toggle {
+        color: #999;
+        border-color: #999;
+}
+
 #grabEmails {
 	border: 2px solid black; 
 }
@@ -415,6 +420,10 @@ form.hidden {
 		padding-bottom: 20px;
 
 	}	
+	
+	.important-field {
+	    background-color: yellow;
+	}
 	
 
 /* leaderboard */

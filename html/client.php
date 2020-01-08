@@ -33,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 	}
 
 	// if asking to delete, assert the correct code and delete the client
-	if(isset($_GET["DELETE"]) && !COMPER) { 
+	if(isset($_GET["DELETE"])) { 
 		try {
 			$client = new Client($_GET["ClientID"]); 		
 
@@ -87,6 +87,7 @@ if($correct_req_method) {
 	$client_info = $client->get("info")->get_array();
 	$priority = $client->get("info")->get_priority(); 
 	$category = $client->get("info")->get_category(); 
+	$referral_source = $client->get("info")->get_referral_source(); 
 	
 	// check deprecated
 	if (unique_lookup("db_CaseTypes", $priority, "Description", "Deprecated") == 1) {
@@ -98,8 +99,12 @@ if($correct_req_method) {
 		$i3_contacts["contacts"] = $client->get("old_contacts")->get_contacts(); 
 		
 		// sort old contacts by date
-		$compare = create_function("\$a,\$b", 
-			"return \$b['ContactDate'] - \$a['ContactDate'];"); 
+		$compare = function($a, $b) {
+		    return strtotime($b['ContactDate']) - strtotime($a['ContactDate']);
+		};
+		
+		/*$compare = create_function("\$a,\$b", 
+			"return \$b['ContactDate'] - \$a['ContactDate'];"); */
 		usort($i3_contacts["contacts"], $compare);
 	}		 
 	
@@ -110,7 +115,8 @@ if($correct_req_method) {
 	// display it!
 	render("client_form.php", array("title" => "Client", "client" => $client_info, "contacts" => $contacts,
 		"contact_types" => get_contact_types(), "i3_contacts" => $i3_contacts, "random_quote" => $filler->random_quote(), 
-		"priorities" => get_priorities(), "priority" => $priority, "categories" => get_categories(), "category" => $category
+		"priorities" => get_priorities(), "priority" => $priority, "categories" => get_categories(), "category" => $category, 
+		"referral_sources" => get_referral_sources(), "referral_source" => $referral_source
 	)); 		
 }
 else { // handler for incorrect request method

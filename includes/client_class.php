@@ -23,8 +23,13 @@ class ClientInfo extends aDataObject implements iDataObject {
 	protected $database_name = "db_Clients"; 
 	protected $elements = array(
 		"ClientID", "FirstName", "LastName", "Phone1Number", 
-		"Phone2Number", "Email", "Address", "City", "State", 
+<<<<<<< Updated upstream
+		"Phone2Number", "Email", "Address", "City", "State", "ReferralSource", 
 		"Zip", "Language", "ClientNotes", "CaseTypeID", "CategoryID"); 
+=======
+		"Phone2Number", "Email", "Address", "City", "State", 
+		"Zip", "Language", "ClientNotes", "CaseTypeID", "CategoryID", "ReferralSource"); 
+>>>>>>> Stashed changes
 	protected $primary_key = "ClientID"; 
 	
 	// return the priority description of the client
@@ -37,6 +42,12 @@ class ClientInfo extends aDataObject implements iDataObject {
 	public function get_category() {
 		return unique_lookup("db_Categories", $this->get("CategoryID"),
 			"CategoryID", "Description"); 
+	}
+	
+	// return the referral source of the client
+	public function get_referral_source() {
+		return unique_lookup("db_ReferralSources", $this->get("ReferralSource"),
+			"ReferralSourceID", "Description"); 
 	}
 	
 	// wrapper function because it has to check the phone numbers
@@ -66,7 +77,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		)); 
 		$cq = $client_queried[0]; 
 
-		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language", "CaseTypeID", "CategoryID"); 
+		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language", "CaseTypeID", "CategoryID", "ReferralSource"); 
 
 		$client = array(); 
 		foreach($cq as $key => $value) {
@@ -76,7 +87,8 @@ class ClientInfo extends aDataObject implements iDataObject {
 		}
 		$client["Phone1Number"] = only_numbers($cq["Phone1AreaCode"] . $cq["Phone1Number"]); 
 		$client["Phone2Number"] = only_numbers($cq["Phone2AreaCode"] . $cq["Phone2Number"]); 
-		$client["Address"] = $cq["Address1"]; 		
+		$client["Address"] = $cq["Address1"];
+		$client["ReferralSource"] = $cq["ReferralSource"];
 		$client["Zip"] = $cq["ZIP"]; 
 		$client["ClientNotes"] = $cq["Notes"]; 
 		
@@ -106,15 +118,28 @@ class ClientInfo extends aDataObject implements iDataObject {
 			}
 		}
 		
-		$to_update["Phone1AreaCode"] = substr($current["Phone1Number"], 0, 3); 
-		$to_update["Phone1Number"] = substr($current["Phone1Number"], 3, 3) . "-" . substr($current["Phone1Number"], 6); 
+		 
+		
+		if (strlen($current["Phone1Number"]) == 11)
+		{
+			$to_update["Phone1AreaCode"] = substr($current["Phone1Number"], 1, 3); 
+			$to_update["Phone1Number"] = substr($current["Phone1Number"], 4, 3) . "-" . substr($current["Phone1Number"], 7);
+		}
+		else
+		{
+			$to_update["Phone1AreaCode"] = substr($current["Phone1Number"], 0, 3); 
+			$to_update["Phone1Number"] = substr($current["Phone1Number"], 3, 3) . "-" . substr($current["Phone1Number"], 6);
+		}
+
 		$to_update["Phone2AreaCode"] = substr($current["Phone2Number"], 0, 3); 
-		$to_update["Phone2Number"] = substr($current["Phone2Number"], 3, 3) . "-" . substr($current["Phone2Number"], 6); 
+		$to_update["Phone2Number"] = substr($current["Phone2Number"], 3, 3) . "-" . substr($current["Phone2Number"], 6);
+		$to_update["ReferralSource"] = $current["ReferralSource"];
 		$to_update["ZIP"] = $current["Zip"]; 
 		$to_update["Address1"] = $current["Address"]; 
 		$to_update["Notes"] = $current["ClientNotes"];
 		$to_update["CaseTypeID"] = $current["CaseTypeID"]; 
 		$to_update["CategoryID"] = $current["CategoryID"]; 
+		$to_update["ReferralSource"] = $current["ReferralSource"]; 
 		
 		return $to_update; 
 	}

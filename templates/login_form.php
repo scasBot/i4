@@ -6,7 +6,7 @@
 		<fieldset>
 			<div class="row">
 				<div class="control-group" style="width: 30%; display: inline-block; text-align: center;">
-					<input type="text" class="form-control" name="UserName" placeholder="Enter name..." autocomplete="off" autofocus />
+					<input type="text" class="form-control" name="UserName" placeholder="Enter your name..." autocomplete="off" autofocus />
 				</div>
 			</div>
 			<script>
@@ -29,6 +29,7 @@
 			<br />
 			<div class="control-group">
 				<button type="submit" class="btn btn-default">Log In</button>
+				<a href="mailto:vojtech_drmota@college.harvard.edu?subject=I forgot my SCAS password&body=[Please include your name in the email]"><button type="button" class="btn btn-default">Forgot Password</button></a>
 			</div>
 		</fieldset>
 	</form>

@@ -61,7 +61,7 @@
 		var id = (isNew ? 0 : contact.ContactID); 
 		var ContactDate = (isNew ? currentSqlDate() : contact.ContactDate); 
 		var ContactSummary = (isNew ? "" : contact.ContactSummary); 
-		var ContactType = (isNew ? "Appointment scheduled" : contact.ContactType);
+		var ContactType = (isNew ? "Voicemail received" : contact.ContactType);
 		var LastEdit = (isNew? "" : 
 				"<div class='control-group'>"
 					+"<label class='control-label'>Last Edit: </label>"
@@ -92,7 +92,7 @@
 							"</div>" +
 							"<div class='col-sm-9'>" +
 								 "<select name='ContactType' class='form-control' value='" + ContactType + "'>"
-									+ "<?php echo htmlOptions($contact_types) ?>"
+									+ "<?php echo htmlOptions($contact_types, "Voicemail received") ?>"
 								+ "</select>" +
 							"</div>" +
 						"</div>" +
@@ -128,7 +128,8 @@
 						"}" +
 					"});" +
 					
-				"}" +
+				"}," +
+				"apply_source_formatting: true" +
 			"});" +
 		"</sc" + "ript>"; // editor buggy problems 	
 
@@ -298,7 +299,8 @@
 			newContact.ContactEditDate = currentSqlDate(); 
 			newContact.ContactDate = editDiv.find("[name='ContactDate']").val(); 
 			newContact.ContactTypeID = editDiv.find("[name='ContactType']").val(); 
-			newContact.ContactSummary = tinymce.activeEditor.getContent({format: 'text'});
+			newContact.ContactSummary = tinymce.activeEditor.getContent({format: 'html'}).replace(/'/g, "’");
+			//newContact.ContactSummary = tinymce.activeEditor.getContent({format: 'text'}).replace(/'/g, "’");
 
 			data = {}; 
 		
@@ -376,12 +378,46 @@
 		} else {
 			updatingPriority = true;
 			selectOption(selectObj, priorityID); 
+			
+			/*if (priorityID == 52) {
+			    sendMail();
+			}*/
 			updateClient(); 
+			
 //			$("#updateClient").click(); 
 		}
 	}
-
 	
+	/*function sendMail() {
+	    var lastContact = $("#PutContactsHere tbody tr td[style='text-align: left']").first();
+	    var msg = lastContact? lastContact.html() : "See i4 for details.";
+	    var cid = $("#ClientID").first().val();
+	    var data = {
+	        'message': msg,
+	        'cid': cid
+	    };
+	    
+	    ajaxBot.sendAjax({ 
+            url: 'mail.php',
+            data: data,
+            type: 'POST',
+            success: function (data) {
+                // fallback if error
+    			if (data.error) {
+    			    window.open("mailto:masmallclaims@gmail.com?subject=" 
+    			                + encodeURIComponent("LR - Client " + cid) 
+    			                + "&body="
+    			                + encodeURIComponent(msg));
+    			}
+            },
+            error: function (data) {
+                window.open("mailto:masmallclaims@gmail.com?subject=" 
+    			                + encodeURIComponent("LR - Client " + cid) 
+    			                + "&body="
+    			                + encodeURIComponent(msg));
+            }
+        });
+	}*/
 	
 	function calculatePriority(arr) {
 		if(!arr || arr.length < 1) {
@@ -470,7 +506,7 @@
 
 
 		contacts.sort(function(a, b) {
-			return (myDate(b.ContactDate)) - (myDate(a.ContactDate)); 
+			return b.ContactID - a.ContactID; 
 		}); 
 
 		for(n in contacts) {
