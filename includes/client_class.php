@@ -23,7 +23,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 	protected $database_name = "db_Clients"; 
 	protected $elements = array(
 		"ClientID", "FirstName", "LastName", "Phone1Number", 
-		"Phone2Number", "Email", "Address", "City", "State", "ReferralSource", 
+		"Phone2Number", "Email", "Address", "City", "State", "ReferralSource", "CourtDate",
 		"Zip", "Language", "ClientNotes", "CaseTypeID", "CategoryID"); 
 
 	protected $primary_key = "ClientID"; 
@@ -73,7 +73,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		)); 
 		$cq = $client_queried[0]; 
 
-		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language", "CaseTypeID", "CategoryID", "ReferralSource"); 
+		$to_copy = array("ClientID", "FirstName", "LastName", "Email", "City", "State", "Language", "CaseTypeID", "CategoryID", "ReferralSource", "CourtDate"); 
 
 		$client = array(); 
 		foreach($cq as $key => $value) {
@@ -85,6 +85,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		$client["Phone2Number"] = only_numbers($cq["Phone2AreaCode"] . $cq["Phone2Number"]); 
 		$client["Address"] = $cq["Address1"];
 		$client["ReferralSource"] = $cq["ReferralSource"];
+		$client["CourtDate"] = $cq["CourtDate"];
 		$client["Zip"] = $cq["ZIP"]; 
 		$client["ClientNotes"] = $cq["Notes"]; 
 		
@@ -104,7 +105,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 	
 	// array needed to update
 	private function to_update_array() {
-		$dif = array("Phone1Number", "Phone2Number", "Zip", "Address", "ClientNotes");
+		$dif = array("Phone1Number", "Phone2Number", "Zip", "Address", "ClientNotes", "CourtDate");
 		$to_update = array();
 		$current = $this->get_array(); 
 		
@@ -135,7 +136,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 		$to_update["Notes"] = $current["ClientNotes"];
 		$to_update["CaseTypeID"] = $current["CaseTypeID"]; 
 		$to_update["CategoryID"] = $current["CategoryID"]; 
-		$to_update["ReferralSource"] = $current["ReferralSource"]; 
+		$to_update["CourtDate"] = $current["CourtDate"]; 
 		
 		return $to_update; 
 	}

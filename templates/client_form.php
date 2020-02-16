@@ -57,6 +57,10 @@ function dele()
 							<?php echo htmlOptions($priorities, $priority) ?>
 						</select>
 					</td>
+					<td>Court Date</td>
+					<td>			
+						<input id="CourtDate" name="CourtDate" class="form-control" type="date" value="<?php echo $client["CourtDate"] ?>" />
+					</td>
 				</tr>
 			</table>
 		</div>
