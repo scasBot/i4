@@ -132,7 +132,8 @@ Other things to keep in mind:
 History:  
 -----
 > For your reference, here is a history of the lead developers of the SCAS i4 project, and their releases.
->	+ David Xu	davidxu@college.harvard.edu	January 2016 - Present
->	+ Elton Lossner	eltonlossner@college.harvard.edu	January 2016 - Present
+>       + Ife Omidiran  omidiran@college January 2019 - Present
+>	+ David Xu	davidxu@college.harvard.edu	January 2016 - December 2016
+>	+ Elton Lossner	eltonlossner@college.harvard.edu	January 2016 - December 2017
 >	+ Chris Lim    	klim01@college.harvard.edu	January 2014 - December 2015	i4.2.0 - i4.2.1
 >	+ Willy Xiao	willyxiao@gmail.com	May 2013 - December 2013	v4.1.0 - i4.1.1
