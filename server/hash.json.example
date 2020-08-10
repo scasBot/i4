@@ -8,5 +8,11 @@
 	}, 
 	"API_READ_AUTH" : "", 
 	"API_WRITE_AUTH" : "", 
-	"API_ACCESS_AUTH" : ""
+	"API_ACCESS_AUTH" : "",
+	"TWILIO": {
+		"ACCOUNT_SID": "",
+		"AUTH_TOKEN": "",
+		"FROM_NUMBER": "",
+		"TO_NUMBER": ""
+	}
 }
