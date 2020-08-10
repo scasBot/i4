@@ -36,6 +36,11 @@ define("API_READ_AUTH", $pw_json["API_READ_AUTH"]);
 define("API_WRITE_AUTH", $pw_json["API_WRITE_AUTH"]); 
 define("API_ACCESS_AUTH", $pw_json["API_ACCESS_AUTH"]); // this should be hidden to public
 
+define("TWILIO_ACCOUNT_SID", $pw_json["TWILIO"]["ACCOUNT_SID"]);
+define("TWILIO_AUTH_TOKEN", $pw_json["TWILIO"]["AUTH_TOKEN"]);
+define("TWILIO_FROM_NUMBER", $pw_json["TWILIO"]["FROM_NUMBER"]);
+define("TWILIO_TO_NUMBER", $pw_json["TWILIO"]["TO_NUMBER"]);
+
 $pw_string = null; 
 $pw_json = null; 
 ?>
