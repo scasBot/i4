@@ -74,6 +74,7 @@ CREATE TABLE `db_Clients` (
   `CaseTypeID` int(11) NOT NULL DEFAULT '0',
   `CategoryID` int(11) NOT NULL DEFAULT '10',
   `LastEditTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Time of Last Edit, Auto-MYSQL Updated',
+  `CourtDate` date DEFAULT NULL,
   PRIMARY KEY (`ClientID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19067 DEFAULT CHARSET=latin1 PACK_KEYS=1;
 /*!40101 SET character_set_client = @saved_cs_client */;
