@@ -35,19 +35,14 @@ class Filler {
 	public function random_quote($seed_number = NULL) {
 		try {
 			$quote = query("SELECT * FROM i3_Quotes ORDER BY RAND() LIMIT 1"); 
-			return $quote[0]["quote"]; 
+			if (count($quote) > 0) {
+				return $quote[0]["quote"]; 
+			} else {
+				return "\"Make each day your masterpiece.\" - John Wooden";
+			}
 		} catch (Exception $e) {
-			return "\"Make each day your masterpiece.\" - John Wooden";
+			trigger_error($e->getMessage(), E_USER_ERROR);
 		}
-		
-/*		$quotes = query(query_select(array(
-			"TABLE" => "i3_Quotes"))); 
-		$tmp = array(); 
-		foreach($quotes as $quote) {
-			$tmp[] = $quote["quote"]; 
-		}
-		return $this->random($tmp, $seed_number); 
-*/
 	}
 
 	private $celebs = array(
