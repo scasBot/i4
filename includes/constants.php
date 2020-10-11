@@ -14,8 +14,7 @@ Willy at the above emails.
 August 2013
 ***********************************/
  /* some functions differ based on LOCAL_HOST or server. */
-define("SERVER_NAME", "masmallclaims.org"); 
-define("LOCAL_HOST",  strstr(php_uname("n"), SERVER_NAME) === false);
+define("LOCAL_HOST",  strpos($_SERVER["SERVER_NAME"], "localhost") !== false);
 
 // ROOT_ can be used to create public links or to run scripts
 define("ROOT", dirname(dirname((__FILE__)))); 	
