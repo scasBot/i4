@@ -592,6 +592,10 @@ form.hidden {
 
 	}
 
+/* remote office hours guide */
+.embed {
+	max-width: 100%;
+}
 
 /* inbox */
 .inbox-wrapper {

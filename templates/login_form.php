@@ -28,7 +28,7 @@
 			</div>
 			<br />
 			<div class="control-group">
-				<button type="submit" class="btn btn-default">Log Me In!</button>
+				<button type="submit" class="btn btn-default">Log In!</button>
 				<a href="mailto:omidiran@college.harvard.edu?subject=I forgot my SCAS password&body=[Please include your name in the email]"><button type="button" class="btn btn-default">Forgot Password</button></a>
 			</div>
 		</fieldset>
