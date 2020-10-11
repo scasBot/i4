@@ -58,6 +58,7 @@
 
 				</ul>
 			</li>
+			<li><a href="remote_guide.php">Remote Office Hours Guide</a></li>
 		</ul>
 		<ul class="nav navbar-nav pull-right">
 			<li><a href="profile.php#top">My Profile</a></li>
