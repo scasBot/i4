@@ -38,7 +38,8 @@ switch ($_GET["type"]) {
 		}
 
 		// connect
-	$dbh = new PDO('mysql:host=localhost;dbname=masmallc_scas', 'masmallc_scas', "LWn-tmX-ETv-N7M");
+	$dbh = new PDO("mysql:dbname=" . QUERY_DATABASE . ";host=" . QUERY_SERVER, QUERY_USERNAME, QUERY_PASSWORD);
+	// $dbh = new PDO('mysql:host=localhost;dbname=masmallc_scas', 'masmallc_scas', "LWn-tmX-ETv-N7M");
 	$dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 	// prepare and execute
@@ -96,13 +97,13 @@ switch ($_GET["type"]) {
 
 		// get the clients with most recent 100 contacts added
 		$clients = 
-			"((SELECT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, "
+			"(SELECT db_Clients.ClientID, FirstName, LastName, Phone1AreaCode, "
 				. "Phone1Number, Email, CaseTypeID, Language, ContactDate "
 			. "FROM db_Clients "
 			. "INNER JOIN (dbi4_Contacts AS contacts) " 
 			. "ON contacts.ClientID=db_Clients.ClientID "
 			. "ORDER BY contacts.ContactDate DESC LIMIT " . LIMITING_NUMBER . ") "
-			. "AS clients)"; 
+			. "clients"; 
 
 		// NOTE: This code is unreliable for some reason...
 		//		it sometimes returns the wrong ContactTypeID. 
@@ -114,9 +115,9 @@ switch ($_GET["type"]) {
 			. "(SELECT DISTINCT clients.ClientID, FirstName, LastName, "
 			. "Phone1AreaCode, Phone1Number, Email, clients.CaseTypeID, Language, Priority "
 			. "FROM $clients "
-			. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
+			. "INNER JOIN (SELECT CaseTypeID, `Description` AS Priority "
 				. "FROM db_CaseTypes "
-				. "WHERE Deprecated=0) AS priority) "
+				. "WHERE Deprecated=0) priority "
 			. "ON clients.CaseTypeID=priority.CaseTypeID) clients_pre " 
 			. "INNER JOIN ("
 					. "SELECT dbi4_Contacts.ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
