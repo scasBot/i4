@@ -9,9 +9,9 @@ if (!isset($id)) {
 $query =
 	"(SELECT db_Clients.*, Priority "
 	. "FROM db_Clients "
-	. "INNER JOIN ((SELECT CaseTypeID, `Description` AS Priority "
+	. "INNER JOIN (SELECT CaseTypeID, `Description` AS Priority "
 		. "FROM db_CaseTypes "
-		. "WHERE Deprecated=0) AS t1) "
+		. "WHERE Deprecated=0) t1 "
 	. "ON t1.CaseTypeID=db_Clients.CaseTypeID "
 	. "WHERE db_Clients.CaseTypeID=?) Clients"; 
 
@@ -19,8 +19,8 @@ $query =
 	"SELECT *, ContactTypeID FROM $query "
 	. "INNER JOIN ( "
         . "SELECT dbi4_Contacts.* FROM dbi4_Contacts "
-            . "INNER JOIN ((SELECT MAX(ContactID) AS ContactID "
-            . "FROM dbi4_Contacts GROUP BY ClientID) AS MaxContacts) "
+            . "INNER JOIN (SELECT MAX(ContactID) AS ContactID "
+            . "FROM dbi4_Contacts GROUP BY ClientID) MaxContacts "
         . "ON dbi4_Contacts.ContactID = MaxContacts.ContactID "
     . ") Contacts "
 	. "ON Clients.ClientID = Contacts.ClientID "
