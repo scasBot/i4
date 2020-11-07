@@ -39,7 +39,6 @@ switch ($_GET["type"]) {
 
 		// connect
 	$dbh = new PDO("mysql:dbname=" . QUERY_DATABASE . ";host=" . QUERY_SERVER, QUERY_USERNAME, QUERY_PASSWORD);
-	// $dbh = new PDO('mysql:host=localhost;dbname=masmallc_scas', 'masmallc_scas', "LWn-tmX-ETv-N7M");
 	$dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 	// prepare and execute
