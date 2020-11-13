@@ -9,7 +9,7 @@ if(!isset($UserID))
 $clients = 
 	"(SELECT clients_pre.*, Contacts.ContactTypeID FROM " 
 	. "(SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, "
-		. "Phone1AreaCode, Phone1Number, Email, CaseTypeID, Language "  
+		. "Phone1AreaCode, Phone1Number, Email, CaseTypeID, ContactDate, Language "  
 	. "FROM dbi4_Contacts "
 	. "INNER JOIN db_Clients "
 	. "ON db_Clients.ClientID=dbi4_Contacts.ClientID "
