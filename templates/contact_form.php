@@ -1,3 +1,9 @@
+<?php
+	/* set contact type to default to email received
+	instead of voicemail received */
+	$defaultContactType = $contact_types[15];
+?>
+
 <div id="addDiv">
 	<button id="addButton" onclick="newContact();" class="btn btn-success btn-block">
 		<i class="glyphicon glyphicon-edit"></i> New Contact
@@ -61,7 +67,7 @@
 		var id = (isNew ? 0 : contact.ContactID); 
 		var ContactDate = (isNew ? currentSqlDate() : contact.ContactDate); 
 		var ContactSummary = (isNew ? "" : contact.ContactSummary); 
-		var ContactType = (isNew ? "Voicemail received" : contact.ContactType);
+		var ContactType = (isNew ? <?php echo "\"" . $defaultContactType . "\"" ?> : contact.ContactType);
 		var LastEdit = (isNew? "" : 
 				"<div class='control-group'>"
 					+"<label class='control-label'>Last Edit: </label>"
@@ -92,7 +98,7 @@
 							"</div>" +
 							"<div class='col-sm-9'>" +
 								 "<select name='ContactType' class='form-control' value='" + ContactType + "'>"
-									+ "<?php echo htmlOptions($contact_types, "Voicemail received") ?>"
+									+ "<?php echo htmlOptions($contact_types, $defaultContactType) ?>"
 								+ "</select>" +
 							"</div>" +
 						"</div>" +
