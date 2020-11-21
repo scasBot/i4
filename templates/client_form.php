@@ -205,7 +205,9 @@ function dele()
 
 		var data = {}; 
 		for(field in fields) {
-			data[fields[field].attr("name")] = fields[field].val().replace(/'/g, "’"); 
+			if (fields[field].val() !== null) {
+				data[fields[field].attr("name")] = fields[field].val().replace(/'/g, "’"); 
+			}
 		}
 
 		ajaxBot.sendAjax({
