@@ -25,10 +25,11 @@ function dele()
 			</div>
 			<br><br>
 			<div class="navitem">
-				<h5><a id="contacts_button" href="mailto:masmallclaims@gmail.com">Legal Research <i class="glyphicon glyphicon-new-window"></i></a></h5>
+				<h5><a id="lr_button" href="mailto:masmallclaims@gmail.com">Legal Research <i class="glyphicon glyphicon-new-window"></i></a></h5>
 			</div>
 			<div class="navitem">
-				<h5><a id="contacts_button" href="mailto:regina_fairfax@college.harvard.edu,poconnor@college.harvard.edu">Office <i class="glyphicon glyphicon-new-window"></i></a></h5>
+				<!-- todo: change this to be a constant and update with new office director -->
+				<h5><a id="office_button" href="mailto:regina_fairfax@college.harvard.edu,poconnor@college.harvard.edu">Office <i class="glyphicon glyphicon-new-window"></i></a></h5>
 			</div>
 			<?php
 				if (isset($client["Email"]) && $client["Email"] != "")
@@ -170,7 +171,9 @@ function dele()
 	
 	constants.addConstants({
 		clientId : <?php echo $client["ClientID"] ?>, 
-	}); 	
+	});
+
+	let clientEmail = "<?php echo $client["Email"] ?>";
 	var updatedClient = 0;
 	var updatingPriority = false; 
 	function updateClient() {
@@ -224,7 +227,8 @@ function dele()
 						//"' class='alert'>Client successfully updated at " + toSqlDate(myDate()) +"!</div>");
 						//var x = updatedClient; 
 						//setTimeout(function(){$("#updated" + x).remove()}, 5000); 
-
+						clientEmail = data.Email;
+						updateLRButton(clientEmail, contacts); // contacts array is defined in contact_form.php
 						if (!updatingPriority) {
 							// indicate completion
 							$("#progress").width("100%");

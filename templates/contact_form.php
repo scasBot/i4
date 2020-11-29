@@ -261,6 +261,39 @@
 		}
 	}
 
+
+	/**
+	 * Generate the subject and body for a referral email to LR.
+	 * Updates the mailto address with a string that sets subject
+	 * to contain the client ID and body to contain the client email
+	 * and text of last contact.
+	 *
+	 * @param {string} clientEmail - email of client, can be undefined or empty
+	 * @param {string[]} contacts - sorted array of contacts
+	 */
+
+	function updateLRButton(clientEmail, contacts) {
+		const subject = `LR Referral for Client ID ${constants.clientId}`;
+		let body = "";
+		const newline = "%0D%0A";
+
+		if (!clientEmail || clientEmail === "") { // email is undefined or empty
+			body += `No email for client.${newline.repeat(2)}`;
+		} else {
+			body += `Client email: ${clientEmail} ${newline.repeat(2)}`;
+		}
+
+		if (contacts.length > 0) {
+			const lastContact = contacts[0];
+			// pretty string with html tags removed
+			const summary = lastContact.ContactSummary.replace(/(<([^>]+)>)/gi, "");
+			body += `Summary of last contact, added by ${lastContact.UserName.Added}:
+					${newline}${summary}`;
+		}
+
+		$("#lr_button").attr("href", `mailto:masmallclaims@gmail.com?Subject=${subject}&Body=${body}`);
+	}
+
 	function updateContact(id) {
 		if(checkDateInput(id)) {
 			// disable save button
@@ -335,8 +368,9 @@
 						} else {
 							contacts[index] = newContact; 
 						}
-						
-						display();	
+
+						display();
+
 						updatePriority();
 						hideEdit();
 
@@ -532,8 +566,9 @@
 		}
 
 		htmlOutput += "</tbody></table>";
-	
 		$("#PutContactsHere").append(htmlOutput);
+
+		updateLRButton(clientEmail, contacts);
 	}
 		
 	$(document).ready(function() {
