@@ -122,10 +122,19 @@ function dele()
 					<td>Language</td>
 					<td>
 						<select id="Language" name="Language" class="form-control">
-							<option>English</option>
-							<option>Spanish</option>
+							<?php
+								// TODO: Create language options table.
+								$languages = [
+									"Korean" => "Korean",
+									"English" => "English",
+									"Portuguese" => "Portuguese",
+									"other" => "Other (put in notes)",
+								];
+
+								// TODO: If language doesn't match, default to other and put in notes.
+								echo htmlOptions($languages, $client["Language"]);
+							?>
 						</select>
-						<!-- <input autocomplete="no" id="Language" class="form-control" name="Language" type="text" value="<?php echo $client["Language"] ?>" /> -->
 					</td>
 				</tr>
 				<tr>
