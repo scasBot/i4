@@ -121,7 +121,11 @@ function dele()
 					</td>
 					<td>Language</td>
 					<td>
-						<input autocomplete="no" id="Language" class="form-control" name="Language" type="text" value="<?php echo $client["Language"] ?>" />
+						<select id="Language" name="Language" class="form-control">
+							<option>English</option>
+							<option>Spanish</option>
+						</select>
+						<!-- <input autocomplete="no" id="Language" class="form-control" name="Language" type="text" value="<?php echo $client["Language"] ?>" /> -->
 					</td>
 				</tr>
 				<tr>
