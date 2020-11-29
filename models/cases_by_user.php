@@ -8,13 +8,14 @@ if(!isset($UserID))
 // get the last clients touched by user
 $clients = 
 	"(SELECT clients_pre.*, Contacts.ContactTypeID FROM " 
-	. "(SELECT DISTINCT db_Clients.ClientID, FirstName, LastName, "
-		. "Phone1AreaCode, Phone1Number, Email, CaseTypeID, ContactDate, Language "  
+	. "(SELECT db_Clients.ClientID, FirstName, LastName, "
+		. "Phone1AreaCode, Phone1Number, Email, CaseTypeID, Language "  
 	. "FROM dbi4_Contacts "
 	. "INNER JOIN db_Clients "
 	. "ON db_Clients.ClientID=dbi4_Contacts.ClientID "
 	. "WHERE UserAddedID=? OR UserEditID=? "
-	. "ORDER BY ContactDate DESC "
+	. "GROUP BY db_Clients.ClientID "
+	. "ORDER BY MAX(ContactDate) DESC "
 	. "LIMIT " . $limit . ")  clients_pre "
 	. "INNER JOIN ("
 			. "SELECT dbi4_Contacts.ClientID, ContactTypeID, ContactDate FROM dbi4_Contacts "
