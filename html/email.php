@@ -2,13 +2,14 @@
 // configuration
 require("../includes/config.php"); 
 
-// for the captcha
-require("../includes/recaptchalib.php");
- 
-$public_key = "6LedVuUSAAAAAOndq0FREOZhLogrL1S1b1WdSBXD"; 
-$private_key = "6LedVuUSAAAAAJSkG6kZpKLfQyTQhtRhQhcSolz8"; 
+// PHP Mailer library
+require("../vendor/php-mailer/src/Exception.php");
+require("../vendor/php-mailer/src/PHPMailer.php");
+require("../vendor/php-mailer/src/SMTP.php");
 
-$captcha = recaptcha_get_html($public_key); 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 								
 if($_SERVER["REQUEST_METHOD"] == "GET") {
 	$warning = ""; 
@@ -29,10 +30,6 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 		$Contacted = ""; 
 	}
 	
-	$resp = recaptcha_check_answer ($private_key,
-                                $_SERVER["REMOTE_ADDR"],
-                                $_POST["recaptcha_challenge_field"],
-                                $_POST["recaptcha_response_field"]);			
 	try {
 		if(empty($FirstName)) {
 			throw new Exception("First Name was empty."); 
@@ -44,25 +41,44 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 			throw new Exception("Message was empty."); 
 		} else if (!filter_var($Email, FILTER_VALIDATE_EMAIL)) {
 			throw new Exception("Email was invalid."); 
-		} else if(!$resp->is_valid) {
-			throw new Exception("Captcha was incorrect."); 
 		}
 		
 		$warning = ""; 
 	} catch(Exception $e) {
 		$warning = $e->getMessage() . " Please try again."; 
 	}
+
 	//** DO STUFF WITH EMAIL **//
-	
-	
-/*
-	function display($page_name) {
-		require(ROOT . "/templates/static_" . $page_name); 
+	$mail = new PHPMailer();
+	// configure an SMTP
+	$mail->isSMTP();
+	if (LOCAL_HOST) {
+		$mail->SMTPDebug = SMTP::DEBUG_SERVER;
+	} else {
+		$mail->SMTPDebug = SMTP::DEBUG_OFF;
 	}
-	
-	display("email_thanks.php"); 
-*/	
-//	require(ROOT . "/templates/" . "); 
+
+	$mail->Host = "smtp.gmail.com";
+	$mail->SMTPAuth = true;
+	$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+	$mail->Username = GMAIL_USERNAME;
+	$mail->Password = GMAIL_PASSWORD;
+	$mail->Port = 587;
+
+	$mail->setFrom(GMAIL_USERNAME, "MA Small Claims Advisory Service");
+	$mail->addAddress($Email, $FirstName . " " . $LastName);
+	$mail->Subject = $Subject;
+	// Set HTML
+	// $mail->isHTML(TRUE);
+	$mail->Body = $Message;
+	// $mail->AltBody = "Testing testing 123";
+	// send the message
+	if(!$mail->send()){
+		echo "Message could not be sent.";
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message has been sent";
+	}
 }
 
 render("email_form.php", 
@@ -75,6 +91,5 @@ array("title" => "Email",
 	"Phone" => $Phone, 
 	"Zip" => $Zip, 
 	"Contacted" => $Contacted, 
-	"warning" => $warning, 
-	"captcha" => $captcha));
+	"warning" => $warning));
 ?>

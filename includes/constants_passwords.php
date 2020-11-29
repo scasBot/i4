@@ -41,6 +41,9 @@ define("TWILIO_AUTH_TOKEN", $pw_json["TWILIO"]["AUTH_TOKEN"]);
 define("TWILIO_FROM_NUMBER", $pw_json["TWILIO"]["FROM_NUMBER"]);
 define("TWILIO_TO_NUMBER", $pw_json["TWILIO"]["TO_NUMBER"]);
 
+define("GMAIL_USERNAME", $pw_json["GMAIL"]["USERNAME"]);
+define("GMAIL_PASSWORD", $pw_json["GMAIL"]["PASSWORD"]);
+
 $pw_string = null; 
 $pw_json = null; 
 ?>

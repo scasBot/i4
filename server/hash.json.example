@@ -14,5 +14,9 @@
 		"AUTH_TOKEN": "",
 		"FROM_NUMBER": "",
 		"TO_NUMBER": ""
+	},
+	"GMAIL": {
+		"USERNAME": "",
+		"PASSWORD": ""
 	}
 }

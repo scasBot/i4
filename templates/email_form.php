@@ -109,7 +109,7 @@ function htmlInputField($name, $type, $class = null,
 				</div>
 			</div>
 			<!-- a verification code needs to be inserted here-->
-			<?php echo $captcha ?>
+			<!-- <?php echo $captcha ?> -->
 			<br />
 			<button id="emailFormSubmit" class="btn btn-primary">Submit</button>
 		</form>
