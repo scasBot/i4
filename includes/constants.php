@@ -20,7 +20,7 @@ define("LOCAL_HOST",  strpos($_SERVER["SERVER_NAME"], "localhost") !== false);
 define("ROOT", dirname(dirname((__FILE__)))); 	
 if (LOCAL_HOST) {
 	define("ROOT_FROM_DOMAIN", (LOCAL_HOST ? "/" : "/~masmallc/")); 
-	define("ROOT_PUBLIC", "http://" . $_SERVER["HTTP_HOST"]. ROOT_FROM_DOMAIN . basename(ROOT)); 
+	define("ROOT_PUBLIC", "http://" . $_SERVER["HTTP_HOST"]. ROOT_FROM_DOMAIN); # http://localhost/ for docker
 } else {
 	define("ROOT_PUBLIC", "http://i4.masmallclaims.org"); 
 }

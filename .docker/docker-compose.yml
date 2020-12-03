@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ../html:/var/www/html/
+      - ../includes:/var/www/includes/
+      - ../server:/var/www/server/
+      - ../templates:/var/www/templates/
+      - ../models:/var/www/models/
+      - ../ajax:/var/www/ajax/
+      - ../vendor:/var/www/vendor/
+
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    # login with username root, password password
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    # persist data using a volume
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  mysql-data:
