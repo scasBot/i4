@@ -91,7 +91,17 @@ function query_insert($q_arr) {
 	}	
 
 	$insert_maker = function($k, $v) {
-	    return "`" . $k . "`='" . $v . "'";
+		$insert_values = "`" . $k . "`=";
+
+		// PHP converts NULL to empty string, but we want it to
+		// be the keyword NULL for the SQL statement.
+		if (is_null($v)) {
+			$insert_values .= "NULL";
+		} else {
+			$insert_values .= "'" . $v . "'";
+		}
+
+	    return $insert_values;
 	};
 	
 	$query .= arr_to_str($insert_maker, ", ", " ", $q_arr["INSERT"]);
