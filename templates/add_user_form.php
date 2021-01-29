@@ -1,6 +1,9 @@
 <div class="profile-wrapper">
 	<h1>Add User</h1>
 	<form class="form-horizontal" action="add_user.php" method="POST"> 
+		<label for="BatchData">Add Users from CSV, or add a single user</label>
+		<textarea id="BatchData" class="form-control" name="BatchData" placeholder="UserName,Email,YOG,Comper Name1, Email1, YOG1, 0..."></textarea>
+
 		<table class="table table-bordered" align="center">
 			<tr>
 				<td>User Name</td>
@@ -24,6 +27,15 @@
 							}						
 						?>
 					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Comper?</td>
+				<td>
+					<input id="yes" name="Comper" class="form-control" type="radio" value="1">
+					<label for="yes">Yes</label>
+					<input id="no" name="Comper" class="form-control" type="radio" value="0">
+					<label for="no">No</label>
 				</td>
 			</tr>
 		</table>

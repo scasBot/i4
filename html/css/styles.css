@@ -560,6 +560,12 @@ form.hidden {
 		background-color: white;
 	}
 
+#BatchData {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px;
+	width: 60%;
+}
 
 /* wrapper for stats */
 /* stats are divided into two components: pie chart and bar graphs */
