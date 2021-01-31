@@ -24,7 +24,7 @@ class ClientInfo extends aDataObject implements iDataObject {
 	protected $elements = array(
 		"ClientID", "FirstName", "LastName", "Phone1Number", 
 		"Phone2Number", "Email", "Address", "City", "State", "ReferralSource", "CourtDate",
-		"Zip", "Language", "ClientNotes", "CaseTypeID", "CategoryID"); 
+		"ReferralSpecify", "Zip", "Language", "ClientNotes", "CaseTypeID", "CategoryID"); 
 
 	protected $primary_key = "ClientID"; 
 	
