@@ -13,6 +13,7 @@ function add_user_from_array($arr) {
 	if ($user->get("Comper") == null) {
 		$user->set("Comper", 0);
 	}
+	$user->push();
 
 	$password = new Password();
 	$password->set("UserID", $user->get_id());
