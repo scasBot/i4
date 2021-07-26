@@ -50,6 +50,9 @@ function query(/* $sql [, ... ] */) {
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	else {
+		echo "\nPDOStatement::errorInfo():\n";
+		$arr = $statement->errorInfo();
+		print_r($arr);
 		return "FAIL";
 	}
 }
