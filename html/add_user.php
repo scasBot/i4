@@ -7,19 +7,25 @@ if (COMPER) {
 }
 
 function add_user_from_array($arr) {
-	$comper = new Profile();
-	$comper->from_array($arr);
-	$comper->set("Hidden", 0);
-	$comper->push();
+	$user = new Profile();
+	$user->from_array($arr);
+	$user->set("Hidden", 0);
+	if ($user->get("Comper") == null) {
+		$user->set("Comper", 0);
+	}
 
 	$password = new Password();
-	$password->set("UserID", $comper->get_id());
+	$password->set("UserID", $user->get_id());
 	$password->set("hash", crypt("comper"));
 	$password->push();
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	// Now supports batch adding users.
+	// Format should be a CSV with a header field that matches db fields
+	// (i.e. UserName, Email, YOG, Comper) and each row should be separated by
+	// newlines.
 	if (!empty($_POST["BatchData"])) {
 		// split string into array of strings separated by newlines using str_getcsv
 		// because str_csv does not recognize newlines as delimiting a row.
@@ -55,5 +61,5 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 }
 
 render("add_user_form.php", array(
-	"title" => "New Comper",
+	"title" => "New User",
 ));
